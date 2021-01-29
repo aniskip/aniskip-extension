@@ -1,6 +1,7 @@
-const { merge } = require("webpack-merge");
-const base = require("./webpack.config");
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { merge } = require('webpack-merge');
+const base = require('./webpack.config');
 
 module.exports = merge(base, {
-  devtool: "cheap-module-source-map",
+  devtool: 'cheap-module-source-map',
 });
