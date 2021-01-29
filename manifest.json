@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+  "name": "Opening and Ending Skipper",
+  "version": "0.1.1",
+  "description": "An extension which gives the option to skip opening and endings of media on various streaming sites",
+  "content_scripts": [
+    {
+      "matches": ["*://aniwatch.me/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "options_page": "options.html",
+  "browser_action": {
+    "default_popup": "popup.html"
+  }
+}
