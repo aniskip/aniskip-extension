@@ -5,7 +5,9 @@ function AniwatchSkipOpEd(
   OP: GetResponseTypeFromSkipTimes,
   ED: GetResponseTypeFromSkipTimes
 ) {
-  const player: HTMLVideoElement | null = document.querySelector('#player');
+  const player: HTMLVideoElement | null = document.querySelector(
+    '.jw-video.jw-reset'
+  );
   if (player) return skipOpEd(OP, ED, player);
 }
 
