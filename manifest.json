@@ -5,7 +5,8 @@
   "description": "An extension which gives the option to skip opening and endings of media on various streaming sites",
   "content_scripts": [
     {
-      "matches": ["*://aniwatch.me/*"],
+      "matches": ["*://*/*" ],
+      "include_globs":["*://aniwatch.me/anime/*","*://gogoanime.*/*","*://*9anime.*/*"],
       "js": ["content.js"]
     }
   ],
