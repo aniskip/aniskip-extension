@@ -21,6 +21,8 @@
     "default_popup": "popup.html"
   },
   "permissions": [
+    "*://api.malsync.moe/*",
+    "*://localhost/*",
     "*://aniwatch.me/anime/*",
     "*://gogoanime.so/*",
     "*://*.9anime.to/*"
