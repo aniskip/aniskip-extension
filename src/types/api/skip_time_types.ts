@@ -1,4 +1,4 @@
-type GetResponseTypeFromSkipTimes =
+export type GetResponseTypeFromSkipTimes =
   | {
       found: false;
     }
@@ -14,4 +14,9 @@ type GetResponseTypeFromSkipTimes =
       };
     };
 
-export default GetResponseTypeFromSkipTimes;
+export interface SuccessMessageType {
+  message: 'success';
+}
+
+export type PostResponseTypeFromSkipTimesVote = SuccessMessageType;
+export type PostResponseTypeFromSkipTimes = SuccessMessageType;
