@@ -1,4 +1,4 @@
-import GetResponseTypeFromSkipTimes from '../types/api/skip_time_types';
+import { GetResponseTypeFromSkipTimes } from '../types/api/skip_time_types';
 
 /** Generate time skips on player based on skip padded with margin
  * @param player Selector for media player with access to .currentTime and .duration
