@@ -1,5 +1,5 @@
-import { skipOpEd } from '../utils/on_page';
-import GetResponseTypeFromSkipTimes from '../types/api/skip_time_types';
+import { skipOpEd } from '../../utils/on_page';
+import GetResponseTypeFromSkipTimes from '../../types/api/skip_time_types';
 
 function AniwatchSkipOpEd(
   OP: GetResponseTypeFromSkipTimes,
@@ -9,4 +9,4 @@ function AniwatchSkipOpEd(
   if (player) return skipOpEd(OP, ED, player);
 }
 
-export = { AniwatchSkipOpEd };
+export default AniwatchSkipOpEd;

@@ -1,5 +1,6 @@
 {
   "name": "typescript-opening-skipper-frontend",
+  "extensionName": "Opening and Ending Skipper",
   "version": "0.1.1",
   "description": "An extension which gives the option to skip opening and endings of media on various streaming sites",
   "main": "content.ts",
@@ -8,8 +9,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "webpack --mode production --config ./webpack/webpack.config.js",
-    "dev": "webpack --mode development --config ./webpack/webpack.dev.config.js --watch"
+    "build": "webpack --env NODE_ENV=production --config ./webpack/webpack.prod.config.js",
+    "build:chrome": "webpack --env NODE_ENV=production --env BROWSER=chromium --config ./webpack/webpack.prod.config.js",
+    "build:firefox": "webpack --env NODE_ENV=production --env BROWSER=firefox --config ./webpack/webpack.prod.config.js",
+    "dev": "webpack --env NODE_ENV=development --config ./webpack/webpack.dev.config.js --watch",
+    "dev:chrome": "webpack --env NODE_ENV=development --env BROWSER=chromium --config ./webpack/webpack.dev.config.js --watch",
+    "dev:firefox": "webpack --env NODE_ENV=development --env BROWSER=firefox --config ./webpack/webpack.dev.config.js --watch"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.128",
@@ -28,6 +33,7 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "prettier": "^2.2.1",
+    "schema-utils": "^3.0.0",
     "ts-loader": "^8.0.14",
     "typescript": "^4.1.3",
     "webpack": "^5.18.0",
