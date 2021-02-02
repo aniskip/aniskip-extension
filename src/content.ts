@@ -1,21 +1,23 @@
-import {
-  skipOpEd,
-  getDataFromCurrentUrl,
-  getMALId,
-  getDataFromAPI,
-} from './utils/on_page';
+import MalsyncHttpClient from './api/malsync_http_client';
+import OpeningSkipperHttpClient from './api/opening_skipper_http_client';
+import { skipOpEd, getDataFromCurrentUrl } from './utils/on_page';
 
+const openingSkipperHttpClient = new OpeningSkipperHttpClient();
+const malsyncHttpClient = new MalsyncHttpClient();
 let intervals: NodeJS.Timeout[] = [];
 
 // Main function to drive data extraction and skip implementation
 async function main(): Promise<NodeJS.Timeout[] | null> {
   const webpageData = await getDataFromCurrentUrl();
   try {
-    const malId = await getMALId(webpageData.providerName, webpageData.animeId);
-    const { episodeNumber } = webpageData;
+    const malId = await malsyncHttpClient.getMalId(
+      webpageData.providerName,
+      webpageData.animeId
+    );
+    const episodeNumber = parseInt(webpageData.episodeNumber, 10);
     const [openingSkip, endingSkip] = await Promise.all([
-      getDataFromAPI(malId, episodeNumber, 'op'),
-      getDataFromAPI(malId, episodeNumber, 'ed'),
+      openingSkipperHttpClient.getSkipTimes(malId, episodeNumber, 'op'),
+      openingSkipperHttpClient.getSkipTimes(malId, episodeNumber, 'ed'),
     ]);
     const player: HTMLVideoElement | null = document.querySelector('#player');
     if (player) {

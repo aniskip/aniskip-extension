@@ -1,4 +1,4 @@
-import GetResponseTypeFromSkipTimes from '../types/pages/skip_time_types';
+import GetResponseTypeFromSkipTimes from '../types/api/skip_time_types';
 
 /** Generate time skips on player based on skip padded with margin
  * @param player Selector for media player with access to .currentTime and .duration
@@ -10,7 +10,10 @@ export function skipIntervals(
   player: HTMLVideoElement,
   skip: GetResponseTypeFromSkipTimes,
   margin: number
-): NodeJS.Timeout {
+): NodeJS.Timeout | null {
+  if (!skip.found) {
+    return null;
+  }
   const currentTotalLength = player.duration;
   const skipDiff = currentTotalLength - skip.result.episode_length;
   const startTime = skip.result.skip_times.start_time;
@@ -47,10 +50,17 @@ export function skipOpEd(
   ED: GetResponseTypeFromSkipTimes,
   player: HTMLVideoElement
 ): NodeJS.Timeout[] {
+  const result: NodeJS.Timeout[] = [];
   const margin = 0.3;
   const opSkipper = skipIntervals(player, OP, margin);
   const edSkipper = skipIntervals(player, ED, margin);
-  return [opSkipper, edSkipper];
+  if (opSkipper != null) {
+    result.push(opSkipper);
+  }
+  if (edSkipper != null) {
+    result.push(edSkipper);
+  }
+  return result;
 }
 
 // Helper function to capitalize the first letter
@@ -99,35 +109,4 @@ export async function getDataFromCurrentUrl() {
     episodeNumber,
   };
   return result;
-}
-
-/** Get MAL id from API with provided providerName and animeId
- * @param providerName Provider name, first letter must be capitalized if possible
- * @param animeId Anime id for the specified provider, no uniform format
- * @returns malId
- */
-export async function getMALId(providerName: string, animeId: string) {
-  const res = await fetch(
-    `https://api.malsync.moe/page/${providerName}/${animeId}`
-  );
-  if (!res.ok) throw new Error('MAL ID not found');
-  const json = await res.json();
-  return json.malId;
-}
-
-/** Get data from backend api
- * @param malId Index for the particular anime on MAL
- * @param episodeNumber Episode number of the particular anime
- * @param skipType Either `op` for opening or `ed` for endinge
- */
-export async function getDataFromAPI(
-  malId: string,
-  episodeNumber: string,
-  skipType: 'op' | 'ed'
-): Promise<GetResponseTypeFromSkipTimes> {
-  const res = await fetch(
-    `http://localhost:5000/api/v1/skip-times/${malId}/${episodeNumber}?type=${skipType}`
-  );
-  const json = await res.json();
-  return json;
 }
