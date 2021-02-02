@@ -5,5 +5,11 @@ const commonConfig = require('./webpack.common.config');
 
 module.exports = (env) =>
   merge(commonConfig(env), {
-    devtool: 'cheap-module-source-map',
+    devtool: 'inline-source-map',
+    optimization: {
+      minimize: false,
+      moduleIds: 'named',
+      chunkIds: 'named',
+      mangleExports: false,
+    },
   });
