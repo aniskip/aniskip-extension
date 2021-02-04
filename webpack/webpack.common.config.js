@@ -13,6 +13,7 @@ module.exports = (env) => {
       popup: './src/popup/index.tsx',
       background: './src/background.ts',
       content: './src/content.ts',
+      player: './src/player.ts',
     },
     output: {
       path: path.join(__dirname, '..', 'dist'),

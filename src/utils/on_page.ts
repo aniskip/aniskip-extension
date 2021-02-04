@@ -1,66 +1,35 @@
-import { GetResponseTypeFromSkipTimes } from '../types/api/skip_time_types';
+import { SkipTime } from '../types/api/skip_time_types';
 
-/** Generate time skips on player based on skip padded with margin
+/** Skips time on player based on skip intervals padded with margin
  * @param player Selector for media player with access to .currentTime and .duration
- * @param skip JSON object of SkipTimes type with information about skip times
+ * @param skipTime JSON object of SkipTimes type with information about skip times
  * @param margin Duration of padding to compensate for lack of skip time sensitivity
  * @returns Reference to skip interval if play
  */
-export function skipIntervals(
+export function skipInterval(
   player: HTMLVideoElement,
-  skip: GetResponseTypeFromSkipTimes,
+  skipTime: SkipTime,
   margin: number
-): NodeJS.Timeout | null {
-  if (!skip.found) {
-    return null;
-  }
+): void {
   const currentTotalLength = player.duration;
-  const skipDiff = currentTotalLength - skip.result.episode_length;
-  const startTime = skip.result.skip_times.start_time;
-  const endTime = skip.result.skip_times.end_time;
-  const skipper = setInterval(() => {
-    if (startTime > margin) {
-      if (
-        player.currentTime >= startTime + skipDiff + margin &&
-        player.currentTime <= endTime + skipDiff - margin
-      ) {
-        // eslint-disable-next-line no-param-reassign
-        player.currentTime = endTime + skipDiff - margin;
-        clearInterval(skipper);
-      }
-    } else if (
-      player.currentTime >= 0 &&
+  const skipDiff = currentTotalLength - skipTime.episode_length;
+  const startTime = skipTime.interval.start_time;
+  const endTime = skipTime.interval.end_time;
+  if (startTime > margin) {
+    if (
+      player.currentTime >= startTime + skipDiff + margin &&
       player.currentTime <= endTime + skipDiff - margin
     ) {
       // eslint-disable-next-line no-param-reassign
-      player.currentTime = endTime + skipDiff - margin;
-      clearInterval(skipper);
+      player.currentTime = endTime + skipDiff + margin;
     }
-  }, margin * 1000);
-  return skipper;
-}
-
-/** Generates interval for time skips (WIP -> Needs options feeding)
- * @param OP JSON object of SkipTimes type with information about OP skip times
- * @param ED JSON object of SkipTimes type with information about ED skip times
- * @param player Selector for media player with access to .currentTime and .duration
- */
-export function skipOpEd(
-  OP: GetResponseTypeFromSkipTimes,
-  ED: GetResponseTypeFromSkipTimes,
-  player: HTMLVideoElement
-): NodeJS.Timeout[] {
-  const result: NodeJS.Timeout[] = [];
-  const margin = 0.3;
-  const opSkipper = skipIntervals(player, OP, margin);
-  const edSkipper = skipIntervals(player, ED, margin);
-  if (opSkipper != null) {
-    result.push(opSkipper);
+  } else if (
+    player.currentTime >= 0 &&
+    player.currentTime <= endTime + skipDiff - margin
+  ) {
+    // eslint-disable-next-line no-param-reassign
+    player.currentTime = endTime + skipDiff - margin;
   }
-  if (edSkipper != null) {
-    result.push(edSkipper);
-  }
-  return result;
 }
 
 // Helper function to capitalize the first letter
@@ -71,8 +40,7 @@ export function capitalizeFirstLetter(str: string) {
 /**  Get provider name, provider anime id and anime episode number from current url
  * @returns A tuple of (providerName, animeId and episodeNumber)
  */
-export async function getDataFromCurrentUrl() {
-  const { pathname, hostname } = window.location;
+export function getProviderInformation(pathname: string, hostname: string) {
   let regex = /(?:[^.\n]*\.)?([^.\n]*)(\..*)/;
   const providerName = capitalizeFirstLetter(hostname.replace(regex, '$1'));
 
@@ -106,7 +74,7 @@ export async function getDataFromCurrentUrl() {
   const result = {
     providerName,
     identifier,
-    episodeNumber: parseInt(episodeNumber, 2),
+    episodeNumber: parseInt(episodeNumber, 10),
   };
   return result;
 }
