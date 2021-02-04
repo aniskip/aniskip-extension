@@ -4,10 +4,7 @@ const { validate } = require('schema-utils');
 const schema = {
   type: 'object',
   properties: {
-    output_filename: {
-      type: 'string',
-    },
-    dependencies: {
+    output: {
       type: 'string',
     },
     json: {
@@ -15,10 +12,13 @@ const schema = {
       additionalProperties: true,
     },
   },
+  additionalProperties: false,
 };
 
 class JsonBuilderPlugin {
   options;
+
+  json;
 
   constructor(options = {}) {
     validate(schema, options, { name: 'JsonBuilderPlugin' });
@@ -26,21 +26,17 @@ class JsonBuilderPlugin {
   }
 
   apply(compiler) {
-    compiler.hooks.emit.tapAsync(
-      'JsonBuilderPlugin',
-      (compilation, callback) => {
-        const json = JSON.stringify(this.options.json);
+    compiler.hooks.compilation.tap('JsonBuilderPlugin', (compilation) => {
+      const { output, json } = this.options;
 
-        compilation.fileDependencies.add(this.options.dependencies);
-        // eslint-disable-next-line no-param-reassign
-        compilation.assets[this.options.output_filename] = {
-          source: () => json,
-          size: () => json.length,
-        };
+      const jsonString = JSON.stringify(json);
 
-        callback();
-      }
-    );
+      // eslint-disable-next-line no-param-reassign
+      compilation.assets[output] = {
+        source: () => jsonString,
+        size: () => jsonString.length,
+      };
+    });
   }
 }
 
