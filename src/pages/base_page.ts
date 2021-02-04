@@ -1,4 +1,5 @@
 import Page from '../types/pages/page_type';
+import capitalizeFirstLetter from '../utils/string';
 
 abstract class BasePage implements Page {
   hostname: string;
@@ -13,7 +14,10 @@ abstract class BasePage implements Page {
     this.document = document;
   }
 
-  abstract getProviderName(): string;
+  getProviderName(): string {
+    const domain = this.hostname.replace(/(?:[^.\n]*\.)?([^.\n]*)(\..*)/, '$1');
+    return capitalizeFirstLetter(domain);
+  }
 
   abstract getIdentifier(): string;
 

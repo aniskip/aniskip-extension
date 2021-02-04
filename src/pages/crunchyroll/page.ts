@@ -1,11 +1,6 @@
-import capitalizeFirstLetter from '../../utils/string';
 import BasePage from '../base_page';
 
 class Crunchyroll extends BasePage {
-  getProviderName(): string {
-    return capitalizeFirstLetter(this.hostname.split('.')[1]);
-  }
-
   getIdentifier(): string {
     const title = Array.from(
       this.document.getElementsByTagName('title')
