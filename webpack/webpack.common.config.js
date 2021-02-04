@@ -42,7 +42,8 @@ module.exports = (env) => {
         ],
       }),
       new JsonBuilderPlugin({
-        filename: 'manifest.json',
+        output_filename: 'manifest.json',
+        dependencies: path.join(__dirname, 'manifest.js'),
         json: manifest,
       }),
     ],

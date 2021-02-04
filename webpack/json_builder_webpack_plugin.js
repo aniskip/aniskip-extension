@@ -4,7 +4,10 @@ const { validate } = require('schema-utils');
 const schema = {
   type: 'object',
   properties: {
-    filename: {
+    output_filename: {
+      type: 'string',
+    },
+    dependencies: {
       type: 'string',
     },
     json: {
@@ -28,8 +31,9 @@ class JsonBuilderPlugin {
       (compilation, callback) => {
         const json = JSON.stringify(this.options.json);
 
+        compilation.fileDependencies.add(this.options.dependencies);
         // eslint-disable-next-line no-param-reassign
-        compilation.assets[this.options.filename] = {
+        compilation.assets[this.options.output_filename] = {
           source: () => json,
           size: () => json.length,
         };
