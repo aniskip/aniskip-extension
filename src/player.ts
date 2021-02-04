@@ -5,7 +5,7 @@ import { skipInterval } from './utils/on_page';
 let players: HTMLCollectionOf<HTMLVideoElement>;
 let skipTimes: SkipTime[] = [];
 // Ensures player event handlers can be removed
-const functionReferences: Record<string, (event: Event) => void> = {};
+let functionReferences: Record<string, (event: Event) => void> = {};
 
 /**
  * Skips the time in the interval if it is within the interval range
@@ -51,6 +51,7 @@ const messageHandler = (
         );
       });
       skipTimes = [];
+      functionReferences = {};
       break;
     }
     default:
