@@ -5,7 +5,6 @@ const messageHandler = (
   sender: chrome.runtime.MessageSender,
   _sendResponse: (response?: Message) => void
 ) => {
-  console.log({ message });
   if (sender.tab?.id) {
     chrome.tabs.sendMessage(sender.tab.id, message);
   }
