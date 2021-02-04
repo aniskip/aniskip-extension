@@ -1,16 +1,7 @@
-import Page from '../../types/pages/page_type';
 import capitalizeFirstLetter from '../../utils/string';
+import BasePage from '../base_page';
 
-class Aniwatch implements Page {
-  hostname: string;
-
-  pathname: string;
-
-  constructor(hostname: string, pathname: string) {
-    this.hostname = hostname;
-    this.pathname = pathname;
-  }
-
+class Aniwatch extends BasePage {
   getProviderName(): string {
     return capitalizeFirstLetter(this.hostname.split('.')[0]);
   }

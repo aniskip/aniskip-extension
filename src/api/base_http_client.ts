@@ -1,6 +1,6 @@
 import HttpClient from '../types/api/http_client_type';
 
-class BaseHttpClient implements HttpClient {
+abstract class BaseHttpClient implements HttpClient {
   baseUrl: string;
 
   constructor(baseUrl: string) {

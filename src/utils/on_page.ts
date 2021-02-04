@@ -1,4 +1,5 @@
 import Aniwatch from '../pages/aniwatch/page';
+import Crunchyroll from '../pages/crunchyroll/page';
 import Gogoanime from '../pages/gogoanime/page';
 import Nineanime from '../pages/nineanime/page';
 import { SkipTime } from '../types/api/skip_time_types';
@@ -45,13 +46,16 @@ export function getProviderInformation(pathname: string, hostname: string) {
 
   switch (domainName) {
     case 'aniwatch':
-      page = new Aniwatch(hostname, pathname);
+      page = new Aniwatch(hostname, pathname, document);
       break;
     case 'gogoanime':
-      page = new Gogoanime(hostname, pathname);
+      page = new Gogoanime(hostname, pathname, document);
       break;
     case '9anime':
-      page = new Nineanime(hostname, pathname);
+      page = new Nineanime(hostname, pathname, document);
+      break;
+    case 'crunchyroll':
+      page = new Crunchyroll(hostname, pathname, document);
       break;
     default:
       throw new Error(`Page ${hostname} not supported`);
@@ -64,6 +68,5 @@ export function getProviderInformation(pathname: string, hostname: string) {
     identifier,
     episodeNumber,
   };
-  console.log({ result });
   return result;
 }
