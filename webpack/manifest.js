@@ -13,6 +13,9 @@ const manifest = {
   browser_action: {
     default_popup: 'popup.html',
   },
+  background: {
+    scripts: ['background.js'],
+  },
   permissions: ['*://api.malsync.moe/*'],
 };
 
@@ -38,6 +41,12 @@ module.exports = (env) => {
     {
       matches: urls,
       js: ['content.js'],
+    },
+    {
+      matches: ['<all_urls>'],
+      js: ['player.js'],
+      all_frames: true,
+      run_at: 'document_end',
     },
   ];
   manifest.optional_permissions = urls;
