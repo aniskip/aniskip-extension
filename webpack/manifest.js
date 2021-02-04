@@ -46,7 +46,7 @@ module.exports = (env) => {
       matches: ['<all_urls>'],
       js: ['player.js'],
       all_frames: true,
-      run_at: 'document_end',
+      run_at: 'document_start',
     },
   ];
   manifest.optional_permissions = urls;
