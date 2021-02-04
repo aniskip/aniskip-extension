@@ -1,7 +1,21 @@
 import MalsyncHttpClient from './api/malsync_http_client';
-import OpeningSkipperHttpClient from './api/opening_skipper_http_client';
 import Message from './types/message_type';
+import OpeningSkipperHttpClient from './api/opening_skipper_http_client';
+import { SkipTime } from './types/api/skip_time_types';
 import { getProviderInformation } from './utils/on_page';
+
+let skipTimes: SkipTime[] = [];
+
+/**
+ * Removes the skip times
+ */
+const clearSkipTimeIntervals = () => {
+  chrome.runtime.sendMessage({
+    type: 'player-clear-skip-intervals',
+    payload: skipTimes,
+  });
+  skipTimes = [];
+};
 
 /**
  * Adds the skip intervals to the player
@@ -22,6 +36,7 @@ const addSkipInterval = async (
     type
   );
   if (skipTimesResponse.found) {
+    skipTimes.push(skipTimesResponse.result);
     chrome.runtime.sendMessage({
       type: 'player-add-skip-interval',
       payload: skipTimesResponse.result,
@@ -70,11 +85,11 @@ chrome.runtime.onMessage.addListener(messageHandler);
 
 // Handles URL change in SPAs
 let lastUrl = window.location.href;
-new MutationObserver(async () => {
+new MutationObserver(() => {
   const url = window.location.href;
 
   if (url !== lastUrl) {
     lastUrl = url;
-    chrome.runtime.sendMessage({ type: 'player-clear-skip-intervals' });
+    clearSkipTimeIntervals();
   }
 }).observe(document, { subtree: true, childList: true });

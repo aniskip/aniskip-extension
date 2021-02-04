@@ -3,7 +3,6 @@ import { SkipTime } from './types/api/skip_time_types';
 import { skipInterval } from './utils/on_page';
 
 let players: HTMLCollectionOf<HTMLVideoElement>;
-let skipTimes: SkipTime[] = [];
 // Ensures player event handlers can be removed
 let functionReferences: Record<string, (event: Event) => void> = {};
 
@@ -39,18 +38,17 @@ const messageHandler = (
   switch (message.type) {
     case 'player-add-skip-interval': {
       const skipTime = message.payload as SkipTime;
-      skipTimes.push(skipTime);
       players[0].addEventListener('timeupdate', skipIfInInterval(skipTime));
       break;
     }
     case 'player-clear-skip-intervals': {
+      const skipTimes = message.payload as SkipTime[];
       skipTimes.forEach((skipTime) => {
         players[0].removeEventListener(
           'timeupdate',
           skipIfInInterval(skipTime)
         );
       });
-      skipTimes = [];
       functionReferences = {};
       break;
     }
