@@ -1,17 +1,20 @@
+export interface SkipTime {
+  interval: {
+    start_time: number;
+    end_time: number;
+  };
+  skip_type: 'op' | 'ed';
+  skip_id: string;
+  episode_length: number;
+}
+
 export type GetResponseTypeFromSkipTimes =
   | {
       found: false;
     }
   | {
       found: true;
-      result: {
-        skip_times: {
-          start_time: number;
-          end_time: number;
-        };
-        skip_id: string;
-        episode_length: number;
-      };
+      result: SkipTime;
     };
 
 export interface SuccessMessageType {
