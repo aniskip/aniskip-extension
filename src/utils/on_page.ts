@@ -9,12 +9,14 @@ import Page from '../types/pages/page_type';
  * @param player Selector for media player with access to .currentTime and .duration
  * @param skipTime JSON object of SkipTimes type with information about skip times
  * @param margin Duration of padding to compensate for lack of skip time sensitivity
+ * @param checkIntervalLength The interval length to check whether or not to skip
  * @returns Reference to skip interval if play
  */
 export function skipInterval(
   player: HTMLVideoElement,
   skipTime: SkipTime,
-  margin: number
+  margin: number,
+  checkIntervalLength: number
 ): void {
   const currentTotalLength = player.duration;
   const skipDiff = currentTotalLength - skipTime.episode_length;
@@ -23,14 +25,14 @@ export function skipInterval(
   if (startTime > margin) {
     if (
       player.currentTime >= startTime + skipDiff + margin &&
-      player.currentTime <= endTime + skipDiff - margin
+      player.currentTime <= startTime + skipDiff - margin + checkIntervalLength
     ) {
       // eslint-disable-next-line no-param-reassign
       player.currentTime = endTime + skipDiff + margin;
     }
   } else if (
     player.currentTime >= 0 &&
-    player.currentTime <= endTime + skipDiff - margin
+    player.currentTime <= startTime + skipDiff - margin + checkIntervalLength
   ) {
     // eslint-disable-next-line no-param-reassign
     player.currentTime = endTime + skipDiff - margin;

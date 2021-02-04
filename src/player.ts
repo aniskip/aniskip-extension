@@ -18,7 +18,9 @@ const skipIfInInterval = (skipTime: SkipTime) => {
     (functionReferences[skipTimeString] = (event: Event) => {
       const margin = 0.3;
       const player = event.currentTarget as HTMLVideoElement;
-      skipInterval(player, skipTime, margin);
+      const checkIntervalLength =
+        skipTime.interval.end_time - skipTime.interval.start_time;
+      skipInterval(player, skipTime, margin, checkIntervalLength);
     });
   return functionReference;
 };
