@@ -92,21 +92,21 @@ export async function getDataFromCurrentUrl() {
       regex = /-episode-/;
       idEpsNumber = cleansedPath.split(regex);
       break;
-    case '9Anime':
+    case '9anime':
       regex = /.*\./;
       cleansedPath = pathname.replace(regex, '');
-      regex = /\./;
+      regex = /\/ep-/;
       idEpsNumber = cleansedPath.split(regex);
       break;
     default:
       idEpsNumber = ['', ''];
       break;
   }
-  const [animeId, episodeNumber] = idEpsNumber;
+  const [identifier, episodeNumber] = idEpsNumber;
   const result = {
     providerName,
-    animeId,
-    episodeNumber,
+    identifier,
+    episodeNumber: parseInt(episodeNumber, 2),
   };
   return result;
 }
