@@ -4,6 +4,7 @@ import { skipInterval } from './utils/on_page';
 
 let players: HTMLCollectionOf<HTMLVideoElement>;
 let skipTimes: SkipTime[] = [];
+// Ensures player event handlers can be removed
 const functionReferences: Record<string, (event: Event) => void> = {};
 
 /**
