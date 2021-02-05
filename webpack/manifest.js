@@ -16,7 +16,7 @@ const manifest = {
   background: {
     scripts: ['background.js'],
   },
-  permissions: ['*://api.malsync.moe/*'],
+  permissions: ['storage', '*://api.malsync.moe/*'],
 };
 
 const getPageUrls = () => {
@@ -62,6 +62,11 @@ module.exports = (env) => {
     case 'firefox':
       manifest.options_ui.browser_style = true;
       manifest.browser_action.browser_style = true;
+      manifest.browser_specific_settings = {
+        gecko: {
+          id: '{c67645fa-ad86-4b2f-ab7a-67fc5f3e9f5a}',
+        },
+      };
       break;
     default:
       break;

@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import Message from './types/message_type';
 
 /**
@@ -17,3 +18,9 @@ const messageHandler = (
 };
 
 chrome.runtime.onMessage.addListener(messageHandler);
+
+chrome.runtime.onInstalled.addListener((details) => {
+  if (details.reason === 'install') {
+    chrome.storage.sync.set({ userId: uuidv4() });
+  }
+});
