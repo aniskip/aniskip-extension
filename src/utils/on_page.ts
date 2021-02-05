@@ -1,15 +1,22 @@
+import Aniwatch from '../pages/aniwatch/page';
+import Crunchyroll from '../pages/crunchyroll/page';
+import Gogoanime from '../pages/gogoanime/page';
+import Nineanime from '../pages/nineanime/page';
 import { SkipTime } from '../types/api/skip_time_types';
+import Page from '../types/pages/page_type';
 
 /** Skips time on player based on skip intervals padded with margin
  * @param player Selector for media player with access to .currentTime and .duration
  * @param skipTime JSON object of SkipTimes type with information about skip times
  * @param margin Duration of padding to compensate for lack of skip time sensitivity
+ * @param checkIntervalLength The interval length to check whether or not to skip
  * @returns Reference to skip interval if play
  */
 export function skipInterval(
   player: HTMLVideoElement,
   skipTime: SkipTime,
-  margin: number
+  margin: number,
+  checkIntervalLength: number
 ): void {
   const currentTotalLength = player.duration;
   const skipDiff = currentTotalLength - skipTime.episode_length;
@@ -18,63 +25,50 @@ export function skipInterval(
   if (startTime > margin) {
     if (
       player.currentTime >= startTime + skipDiff + margin &&
-      player.currentTime <= endTime + skipDiff - margin
+      player.currentTime <= startTime + skipDiff - margin + checkIntervalLength
     ) {
       // eslint-disable-next-line no-param-reassign
       player.currentTime = endTime + skipDiff + margin;
     }
   } else if (
     player.currentTime >= 0 &&
-    player.currentTime <= endTime + skipDiff - margin
+    player.currentTime <= startTime + skipDiff - margin + checkIntervalLength
   ) {
     // eslint-disable-next-line no-param-reassign
     player.currentTime = endTime + skipDiff - margin;
   }
 }
 
-// Helper function to capitalize the first letter
-export function capitalizeFirstLetter(str: string) {
-  return str[0].toUpperCase() + str.slice(1);
-}
-
 /**  Get provider name, provider anime id and anime episode number from current url
- * @returns A tuple of (providerName, animeId and episodeNumber)
+ * @returns A tuple of (providerName, identifier and episodeNumber)
  */
 export function getProviderInformation(pathname: string, hostname: string) {
-  let regex = /(?:[^.\n]*\.)?([^.\n]*)(\..*)/;
-  const providerName = capitalizeFirstLetter(hostname.replace(regex, '$1'));
+  const domainName = hostname.replace(/(?:[^.\n]*\.)?([^.\n]*)(\..*)/, '$1');
+  let page: Page;
 
-  let idEpsNumber: string[] = [];
-  let cleansedPath;
-
-  switch (providerName) {
-    case 'Aniwatch':
-      regex = /\/anime\//;
-      cleansedPath = pathname.replace(regex, '');
-      regex = /\//;
-      idEpsNumber = cleansedPath.split(regex);
+  switch (domainName) {
+    case 'aniwatch':
+      page = new Aniwatch(hostname, pathname, document);
       break;
-    case 'Gogoanime':
-      regex = /\//;
-      cleansedPath = pathname.replace(regex, '');
-      regex = /-episode-/;
-      idEpsNumber = cleansedPath.split(regex);
+    case 'gogoanime':
+      page = new Gogoanime(hostname, pathname, document);
       break;
     case '9anime':
-      regex = /.*\./;
-      cleansedPath = pathname.replace(regex, '');
-      regex = /\/ep-/;
-      idEpsNumber = cleansedPath.split(regex);
+      page = new Nineanime(hostname, pathname, document);
+      break;
+    case 'crunchyroll':
+      page = new Crunchyroll(hostname, pathname, document);
       break;
     default:
-      idEpsNumber = ['', ''];
-      break;
+      throw new Error(`Page ${hostname} not supported`);
   }
-  const [identifier, episodeNumber] = idEpsNumber;
+  const providerName = page.getProviderName();
+  const identifier = page.getIdentifier();
+  const episodeNumber = page.getEpisodeNumber();
   const result = {
     providerName,
     identifier,
-    episodeNumber: parseInt(episodeNumber, 10),
+    episodeNumber,
   };
   return result;
 }

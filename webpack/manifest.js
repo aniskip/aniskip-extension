@@ -21,7 +21,10 @@ const manifest = {
 
 const getPageUrls = () => {
   const pagesPath = path.join(__dirname, '..', 'src', 'pages');
-  const pageNames = fs.readdirSync(pagesPath);
+  const pageNames = fs
+    .readdirSync(pagesPath, { withFileTypes: true })
+    .filter((file) => file.isDirectory())
+    .map((file) => file.name);
 
   const pageUrls = pageNames
     .map(

@@ -3,8 +3,8 @@ import { SkipTime } from './types/api/skip_time_types';
 import { skipInterval } from './utils/on_page';
 
 let players: HTMLCollectionOf<HTMLVideoElement>;
-let skipTimes: SkipTime[] = [];
-const functionReferences: Record<string, (event: Event) => void> = {};
+// Ensures player event handlers can be removed
+let functionReferences: Record<string, (event: Event) => void> = {};
 
 /**
  * Skips the time in the interval if it is within the interval range
@@ -17,7 +17,9 @@ const skipIfInInterval = (skipTime: SkipTime) => {
     (functionReferences[skipTimeString] = (event: Event) => {
       const margin = 0.3;
       const player = event.currentTarget as HTMLVideoElement;
-      skipInterval(player, skipTime, margin);
+      const checkIntervalLength =
+        skipTime.interval.end_time - skipTime.interval.start_time;
+      skipInterval(player, skipTime, margin, checkIntervalLength);
     });
   return functionReference;
 };
@@ -36,18 +38,18 @@ const messageHandler = (
   switch (message.type) {
     case 'player-add-skip-interval': {
       const skipTime = message.payload as SkipTime;
-      skipTimes.push(skipTime);
       players[0].addEventListener('timeupdate', skipIfInInterval(skipTime));
       break;
     }
     case 'player-clear-skip-intervals': {
+      const skipTimes = message.payload as SkipTime[];
       skipTimes.forEach((skipTime) => {
         players[0].removeEventListener(
           'timeupdate',
           skipIfInInterval(skipTime)
         );
       });
-      skipTimes = [];
+      functionReferences = {};
       break;
     }
     default:
