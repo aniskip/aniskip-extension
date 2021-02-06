@@ -43,11 +43,11 @@ module.exports = (env) => {
   manifest.content_scripts = [
     {
       matches: urls,
-      js: ['content.js'],
+      js: ['content_script.js'],
     },
     {
       matches: ['<all_urls>'],
-      js: ['player.js'],
+      js: ['player_script.js'],
       all_frames: true,
       run_at: 'document_start',
     },

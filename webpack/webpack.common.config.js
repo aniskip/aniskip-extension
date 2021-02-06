@@ -10,8 +10,8 @@ module.exports = (env) => ({
     options: './src/options/index.tsx',
     popup: './src/popup/index.tsx',
     background: './src/background.ts',
-    content: './src/content.ts',
-    player: './src/player.ts',
+    content_script: './src/content_script.ts',
+    player_script: './src/player_script.ts',
   },
   output: {
     path: path.join(__dirname, '..', 'dist'),
