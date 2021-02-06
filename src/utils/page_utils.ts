@@ -5,7 +5,8 @@ import Nineanime from '../pages/nineanime/page';
 import { SkipTime } from '../types/api/skip_time_types';
 import Page from '../types/pages/page_type';
 
-/** Skips time on player based on skip intervals padded with margin
+/**
+ * Skips time on player based on skip intervals padded with margin
  * @param player Selector for media player with access to .currentTime and .duration
  * @param skipTime JSON object of SkipTimes type with information about skip times
  * @param margin Duration of padding to compensate for lack of skip time sensitivity
@@ -39,7 +40,10 @@ export function skipInterval(
   }
 }
 
-/**  Get provider name, provider anime id and anime episode number from current url
+/**
+ * Get provider name, provider anime id and anime episode number from current url
+ * @param pathname Provider's url path
+ * @param hostname Provider's host
  * @returns A tuple of (providerName, identifier and episodeNumber)
  */
 export function getProviderInformation(pathname: string, hostname: string) {

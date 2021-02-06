@@ -1,6 +1,6 @@
 import Message from './types/message_type';
 import { SkipTime } from './types/api/skip_time_types';
-import { skipInterval } from './utils/on_page';
+import { skipInterval } from './utils/page_utils';
 
 let videoElement: HTMLVideoElement;
 let functionReferences: Record<string, (event: Event) => void> = {};

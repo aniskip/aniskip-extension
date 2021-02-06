@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 const App: React.FC = () => {
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState<string>('');
 
   useEffect(() => {
     chrome.storage.sync.get(['userId'], (result) => setUserId(result.userId));

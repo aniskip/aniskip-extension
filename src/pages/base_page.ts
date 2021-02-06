@@ -1,5 +1,5 @@
 import Page from '../types/pages/page_type';
-import capitalizeFirstLetter from '../utils/string';
+import capitalizeFirstLetter from '../utils/string_utils';
 
 abstract class BasePage implements Page {
   hostname: string;

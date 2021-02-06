@@ -2,7 +2,7 @@ import MalsyncHttpClient from './api/malsync_http_client';
 import Message from './types/message_type';
 import OpeningSkipperHttpClient from './api/opening_skipper_http_client';
 import { SkipTime } from './types/api/skip_time_types';
-import { getProviderInformation } from './utils/on_page';
+import { getProviderInformation } from './utils/page_utils';
 
 let skipTimes: SkipTime[] = [];
 
