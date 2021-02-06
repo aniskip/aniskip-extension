@@ -85,11 +85,10 @@ chrome.runtime.onMessage.addListener(messageHandler);
 
 // Handles URL change in SPAs
 let lastUrl = window.location.href;
-new MutationObserver(() => {
+document.body.onclick = () => {
   const url = window.location.href;
-
   if (url !== lastUrl) {
     lastUrl = url;
     clearSkipTimeIntervals();
   }
-}).observe(document, { subtree: true, childList: true });
+};
