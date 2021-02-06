@@ -2,8 +2,7 @@ import Message from './types/message_type';
 import { SkipTime } from './types/api/skip_time_types';
 import { skipInterval } from './utils/on_page';
 
-let players: HTMLCollectionOf<HTMLVideoElement>;
-// Ensures player event handlers can be removed
+let videoElement: HTMLVideoElement;
 let functionReferences: Record<string, (event: Event) => void> = {};
 
 /**
@@ -12,6 +11,7 @@ let functionReferences: Record<string, (event: Event) => void> = {};
  */
 const skipIfInInterval = (skipTime: SkipTime) => {
   const skipTimeString = JSON.stringify(skipTime);
+  // Ensures player event handlers can be removed
   const functionReference =
     functionReferences[skipTimeString] ||
     (functionReferences[skipTimeString] = (event: Event) => {
@@ -38,13 +38,13 @@ const messageHandler = (
   switch (message.type) {
     case 'player-add-skip-interval': {
       const skipTime = message.payload as SkipTime;
-      players[0].addEventListener('timeupdate', skipIfInInterval(skipTime));
+      videoElement.addEventListener('timeupdate', skipIfInInterval(skipTime));
       break;
     }
     case 'player-clear-skip-intervals': {
       const skipTimes = message.payload as SkipTime[];
       skipTimes.forEach((skipTime) => {
-        players[0].removeEventListener(
+        videoElement.removeEventListener(
           'timeupdate',
           skipIfInInterval(skipTime)
         );
@@ -59,12 +59,12 @@ const messageHandler = (
 chrome.runtime.onMessage.addListener(messageHandler);
 
 // Notify content script when video DOM element has been added
-new MutationObserver((_, observer) => {
-  players = document.getElementsByTagName('video');
-  if (players.length > 0) {
+new MutationObserver(async (_mutations, observer) => {
+  // eslint-disable-next-line prefer-destructuring
+  videoElement = document.getElementsByTagName('video')[0];
+  if (videoElement) {
     observer.disconnect();
-    players[0].onloadedmetadata = () => {
+    videoElement.onloadedmetadata = () =>
       chrome.runtime.sendMessage({ type: 'player-ready' });
-    };
   }
 }).observe(document, { subtree: true, childList: true });
