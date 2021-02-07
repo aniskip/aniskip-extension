@@ -1,9 +1,13 @@
 import Message from './types/message_type';
 import { SkipTime } from './types/api/skip_time_types';
 import { skipInterval } from './utils/page_utils';
+import getPlayer from './utils/player_utils';
+import SettingsButton from './components/SettingsButton';
 
 let videoElement: HTMLVideoElement;
 let functionReferences: Record<string, (event: Event) => void> = {};
+const { hostname } = window.location;
+const player = getPlayer(hostname);
 
 /**
  * Skips the time in the interval if it is within the interval range
@@ -16,10 +20,10 @@ const skipIfInInterval = (skipTime: SkipTime) => {
     functionReferences[skipTimeString] ||
     (functionReferences[skipTimeString] = (event: Event) => {
       const margin = 0.3;
-      const player = event.currentTarget as HTMLVideoElement;
+      const video = event.currentTarget as HTMLVideoElement;
       const checkIntervalLength =
         skipTime.interval.end_time - skipTime.interval.start_time;
-      skipInterval(player, skipTime, margin, checkIntervalLength);
+      skipInterval(video, skipTime, margin, checkIntervalLength);
     });
   return functionReference;
 };
@@ -62,9 +66,12 @@ chrome.runtime.onMessage.addListener(messageHandler);
 new MutationObserver(async (_mutations, observer) => {
   // eslint-disable-next-line prefer-destructuring
   videoElement = document.getElementsByTagName('video')[0];
-  if (videoElement) {
+  const videoContainer = player.getVideoContainer();
+  if (videoElement && videoContainer) {
     observer.disconnect();
-    videoElement.onloadedmetadata = () =>
+    videoElement.onloadedmetadata = () => {
       chrome.runtime.sendMessage({ type: 'player-ready' });
+      player.injectSettingsButton(SettingsButton);
+    };
   }
 }).observe(document, { subtree: true, childList: true });
