@@ -1,5 +1,4 @@
 {
   "videoContainerSelectorString": "vilos",
-  "injectSettingsButtonReferenceNodeSelectorString": "settingsControl",
-  "buttonStyle": "display: flex; justify-content: center; align-items: center"
+  "injectSettingsButtonReferenceNodeSelectorString": "settingsControl"
 }

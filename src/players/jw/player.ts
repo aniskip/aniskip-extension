@@ -23,7 +23,6 @@ class Jw extends BasePlayer {
       return;
     }
     const settingsButtonContainerDiv = document.createElement('div');
-    settingsButtonContainerDiv.setAttribute('style', metadata.buttonStyle);
     settingsButtonContainerDiv.setAttribute('id', id);
     ReactDOM.render(
       React.createElement<SubmitButtonContainerProps>(settingsButton, {

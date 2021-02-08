@@ -1,5 +1,4 @@
 {
   "videoContainerSelectorString": "Video Player",
-  "injectSettingsButtonReferenceNodeSelectorString": "Settings",
-  "buttonStyle": "display: flex; justify-content: center; align-items: center"
+  "injectSettingsButtonReferenceNodeSelectorString": "Settings"
 }

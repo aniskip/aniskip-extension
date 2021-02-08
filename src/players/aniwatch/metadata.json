@@ -1,5 +1,4 @@
 {
   "videoContainerSelectorString": "plyr__video-wrapper",
-  "injectSettingsButtonReferenceNodeSelectorString": "plyr__controls__item plyr__menu",
-  "buttonStyle": "display: flex; justify-content: center; align-items: center; margin-right: -4px"
+  "injectSettingsButtonReferenceNodeSelectorString": "plyr__controls__item plyr__menu"
 }
