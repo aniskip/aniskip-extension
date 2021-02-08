@@ -69,9 +69,9 @@ new MutationObserver(async (_mutations, observer) => {
   const videoContainer = player.getVideoContainer();
   if (videoElement && videoContainer) {
     observer.disconnect();
-    videoElement.onloadedmetadata = () => {
+    videoElement.onloadedmetadata = () =>
       chrome.runtime.sendMessage({ type: 'player-ready' });
+    videoContainer.onmouseover = () =>
       player.injectSettingsButton(SettingsButton);
-    };
   }
 }).observe(document, { subtree: true, childList: true });

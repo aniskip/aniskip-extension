@@ -4,9 +4,11 @@ import SettingsButtonProps from '../../types/components/settings_button_types';
 import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
-class Crunchyroll extends BasePlayer {
+class Jw extends BasePlayer {
   getVideoContainer() {
-    return this.document.getElementById(metadata.videoContainerSelectorString);
+    return this.document.querySelector(
+      `[aria-label="${metadata.videoContainerSelectorString}"]`
+    ) as HTMLElement;
   }
 
   injectSettingsButton(settingsButton: React.FC<SettingsButtonProps>) {
@@ -14,8 +16,8 @@ class Crunchyroll extends BasePlayer {
     if (this.document.getElementById(id)) {
       return;
     }
-    const referenceNode = document.getElementById(
-      metadata.injectSettingsButtonReferenceNodeSelectorString
+    const referenceNode = document.querySelector(
+      `[aria-label="${metadata.injectSettingsButtonReferenceNodeSelectorString}"]`
     );
     if (!referenceNode) {
       return;
@@ -38,4 +40,4 @@ class Crunchyroll extends BasePlayer {
   }
 }
 
-export default Crunchyroll;
+export default Jw;

@@ -1,9 +1,10 @@
+import SettingsButtonProps from '../components/settings_button_types';
+
 interface Player {
   document: Document;
 
-  getSettingsContainer(): Element;
-  getVideoContainer(): HTMLElement;
-  injectSettingsButton(settingsButton: React.FC): void;
+  getVideoContainer(): HTMLElement | null;
+  injectSettingsButton(settingsButton: React.FC<SettingsButtonProps>): void;
 }
 
 export default Player;

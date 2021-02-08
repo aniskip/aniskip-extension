@@ -1,3 +1,4 @@
+import SettingsButtonProps from '../types/components/settings_button_types';
 import Player from '../types/players/player_type';
 
 abstract class BasePlayer implements Player {
@@ -7,24 +8,18 @@ abstract class BasePlayer implements Player {
     this.document = document;
   }
 
-  abstract getSettingsContainer(): Element;
+  abstract injectSettingsButton(
+    settingsButton: React.FC<SettingsButtonProps>
+  ): void;
 
-  abstract getVideoContainer(): HTMLElement;
+  abstract getVideoContainer(): HTMLElement | null;
 
-  abstract injectSettingsButton(settingsButton: React.FC): void;
-
-  getSettingsContainerHelper(selectorString: string): Element {
-    const settingsContainer = this.document.getElementsByClassName(
-      selectorString
-    )[0];
-    return settingsContainer;
-  }
-
-  getVideoContainerHelper(selectorString: string): HTMLElement {
-    const videoContainer = this.document.getElementsByClassName(
-      selectorString
-    )[0];
-    return videoContainer as HTMLElement;
+  getVideoContainerHelper(
+    selectorString: string,
+    index: number
+  ): HTMLElement | null {
+    const videoContainer = this.document.getElementsByClassName(selectorString);
+    return videoContainer[index] as HTMLElement;
   }
 }
 

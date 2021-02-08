@@ -1,5 +1,6 @@
 import Aniwatch from '../players/aniwatch/player';
-// import Crunchyroll from '../players/crunchyroll/player';
+import Crunchyroll from '../players/crunchyroll/player';
+import Jw from '../players/jw/player';
 import Player from '../types/players/player_type';
 
 /**
@@ -14,9 +15,14 @@ const getPlayer = (hostname: string) => {
     case 'aniwatch':
       player = new Aniwatch(document);
       break;
-    // case 'crunchyroll':
-    //   player = new Crunchyroll(document);
-    //   break;
+    case 'crunchyroll':
+      player = new Crunchyroll(document);
+      break;
+    case 'gogo-play':
+    case 'cloud9':
+    case 'fcdn':
+      player = new Jw(document);
+      break;
     default:
       throw new Error(`Player ${hostname} not supported`);
   }
