@@ -1,10 +1,12 @@
-import SettingsButtonProps from '../components/settings_button_types';
+import { SubmitButtonContainerProps } from '../components/submit_types';
 
 interface Player {
   document: Document;
 
   getVideoContainer(): HTMLElement | null;
-  injectSettingsButton(settingsButton: React.FC<SettingsButtonProps>): void;
+  injectSettingsButton(
+    submitButtonContainer: React.FC<SubmitButtonContainerProps>
+  ): void;
 }
 
 export default Player;

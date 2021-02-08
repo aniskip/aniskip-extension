@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SettingsButtonProps from '../../types/components/settings_button_types';
+import { SubmitButtonContainerProps } from '../../types/components/submit_types';
 import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
@@ -11,7 +11,7 @@ class Jw extends BasePlayer {
     ) as HTMLElement;
   }
 
-  injectSettingsButton(settingsButton: React.FC<SettingsButtonProps>) {
+  injectSettingsButton(settingsButton: React.FC<SubmitButtonContainerProps>) {
     const id = 'opening-skipper-player-settings-button';
     if (this.document.getElementById(id)) {
       return;
@@ -26,10 +26,12 @@ class Jw extends BasePlayer {
     settingsButtonContainerDiv.setAttribute('style', metadata.buttonStyle);
     settingsButtonContainerDiv.setAttribute('id', id);
     ReactDOM.render(
-      React.createElement<SettingsButtonProps>(settingsButton, {
-        width: '50%',
-        height: '50%',
-        color: 'white',
+      React.createElement<SubmitButtonContainerProps>(settingsButton, {
+        width: '32px',
+        height: '32px',
+        iconWidth: '50%',
+        iconHeight: '50%',
+        iconColour: 'white',
       }),
       settingsButtonContainerDiv
     );
