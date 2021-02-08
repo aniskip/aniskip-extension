@@ -72,6 +72,6 @@ new MutationObserver(async (_mutations, observer) => {
     videoElement.onloadedmetadata = () =>
       chrome.runtime.sendMessage({ type: 'player-ready' });
     videoContainer.onmouseover = () =>
-      player.injectSettingsButton(SubmitButtonContainer);
+      player.injectSubmitButton(SubmitButtonContainer);
   }
 }).observe(document, { subtree: true, childList: true });

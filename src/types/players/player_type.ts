@@ -4,7 +4,7 @@ interface Player {
   document: Document;
 
   getVideoContainer(): HTMLElement | null;
-  injectSettingsButton(
+  injectSubmitButton(
     submitButtonContainer: React.FC<SubmitButtonContainerProps>
   ): void;
 }

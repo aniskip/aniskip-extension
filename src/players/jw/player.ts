@@ -11,7 +11,7 @@ class Jw extends BasePlayer {
     ) as HTMLElement;
   }
 
-  injectSettingsButton(settingsButton: React.FC<SubmitButtonContainerProps>) {
+  injectSubmitButton(submitButton: React.FC<SubmitButtonContainerProps>) {
     const id = 'opening-skipper-player-settings-button';
     if (this.document.getElementById(id)) {
       return;
@@ -22,21 +22,21 @@ class Jw extends BasePlayer {
     if (!referenceNode) {
       return;
     }
-    const settingsButtonContainerDiv = document.createElement('div');
-    settingsButtonContainerDiv.setAttribute('id', id);
+    const submitButtonContainerDiv = document.createElement('div');
+    submitButtonContainerDiv.setAttribute('id', id);
     ReactDOM.render(
-      React.createElement<SubmitButtonContainerProps>(settingsButton, {
+      React.createElement<SubmitButtonContainerProps>(submitButton, {
         width: '32px',
         height: '32px',
         iconWidth: '50%',
         iconHeight: '50%',
         iconColour: 'white',
       }),
-      settingsButtonContainerDiv
+      submitButtonContainerDiv
     );
     referenceNode.insertAdjacentElement(
       'beforebegin',
-      settingsButtonContainerDiv
+      submitButtonContainerDiv
     );
   }
 }

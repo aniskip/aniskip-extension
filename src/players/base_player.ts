@@ -8,8 +8,8 @@ abstract class BasePlayer implements Player {
     this.document = document;
   }
 
-  abstract injectSettingsButton(
-    settingsButton: React.FC<SubmitButtonContainerProps>
+  abstract injectSubmitButton(
+    submitButton: React.FC<SubmitButtonContainerProps>
   ): void;
 
   abstract getVideoContainer(): HTMLElement | null;

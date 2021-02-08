@@ -44,6 +44,7 @@ module.exports = (env) => {
     {
       matches: urls,
       js: ['content_script.js'],
+      run_at: 'document_start',
     },
     {
       matches: ['<all_urls>'],
