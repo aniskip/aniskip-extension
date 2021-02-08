@@ -14,7 +14,7 @@ const manifest = {
     default_popup: 'popup.html',
   },
   background: {
-    scripts: ['background.js'],
+    scripts: ['background_script.js'],
   },
   permissions: ['storage', '*://api.malsync.moe/*'],
 };

@@ -9,7 +9,7 @@ module.exports = (env) => ({
   entry: {
     options: './src/options/index.tsx',
     popup: './src/popup/index.tsx',
-    background: './src/background.ts',
+    background_script: './src/background_script.ts',
     content_script: './src/content_script.ts',
     player_script: './src/player_script.ts',
   },
