@@ -8,6 +8,7 @@ const defaultStyle: React.CSSProperties = {
   justifyContent: 'center',
   alignItems: 'center',
   position: 'relative',
+  fontFamily: 'Lato, "Helvetica Neue", Helvetica, Arial, sans-serif',
 };
 
 const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
@@ -17,24 +18,31 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
   iconHeight,
   iconColour,
 }: SubmitButtonContainerProps) => {
-  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [clicked, setClicked] = useState<boolean>(false);
   const handleClick = (
     _event:
       | React.MouseEvent<HTMLDivElement, MouseEvent>
       | React.KeyboardEvent<HTMLDivElement>
   ) => {
-    setShowMenu((previous) => !previous);
+    setClicked((previous) => !previous);
   };
 
   return (
-    <div style={{ width, height, ...defaultStyle }}>
+    <div
+      style={{
+        width,
+        height,
+        ...(clicked && { background: '#141519' }),
+        ...defaultStyle,
+      }}
+    >
       <SubmitButton
         handleClick={handleClick}
         width={iconWidth}
         height={iconHeight}
         color={iconColour}
       />
-      {showMenu && <SubmitMenu />}
+      {clicked && <SubmitMenu submitButtonHeight={width} />}
     </div>
   );
 };

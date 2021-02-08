@@ -16,3 +16,7 @@ export interface SubmitButtonContainerProps {
   iconHeight: string;
   iconColour: string;
 }
+
+export interface SubmitMenuProps {
+  submitButtonHeight: string;
+}
