@@ -44,13 +44,11 @@ module.exports = (env) => {
     {
       matches: urls,
       js: ['content_script.js'],
-      run_at: 'document_start',
     },
     {
       matches: ['<all_urls>'],
       js: ['player_script.js'],
       all_frames: true,
-      run_at: 'document_start',
     },
   ];
   manifest.optional_permissions = urls;

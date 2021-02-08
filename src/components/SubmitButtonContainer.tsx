@@ -2,14 +2,7 @@ import React, { useState } from 'react';
 import { SubmitButtonContainerProps } from '../types/components/submit_types';
 import SubmitButton from './SubmitButton';
 import SubmitMenu from './SubmitMenu';
-
-const defaultStyle: React.CSSProperties = {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  position: 'relative',
-  fontFamily: 'Lato, "Helvetica Neue", Helvetica, Arial, sans-serif',
-};
+import '../players/player.scss';
 
 const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
   width,
@@ -29,11 +22,11 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
 
   return (
     <div
+      className="submit-button-container"
       style={{
         width,
         height,
         ...(clicked && { background: '#141519' }),
-        ...defaultStyle,
       }}
     >
       <SubmitButton

@@ -25,8 +25,18 @@ module.exports = (env) => ({
         exclude: /node_modules/,
       },
       {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        test: /\.((s[ac])?|c)ss$/i,
+        use: [
+          'style-loader',
+          'css-loader',
+          'resolve-url-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+        ],
       },
     ],
   },

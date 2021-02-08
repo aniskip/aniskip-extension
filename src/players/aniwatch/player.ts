@@ -13,7 +13,7 @@ class Aniwatch extends BasePlayer {
   }
 
   injectSubmitButton(submitButton: React.FC<SubmitButtonContainerProps>) {
-    const id = 'opening-skipper-player-settings-button';
+    const id = 'opening-skipper-player-submit-button';
     if (this.document.getElementById(id)) {
       return;
     }

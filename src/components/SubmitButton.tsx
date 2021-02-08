@@ -2,13 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAccessibleIcon } from '@fortawesome/free-brands-svg-icons';
 import { SubmitButtonProps } from '../types/components/submit_types';
-
-const defaultStyle: React.CSSProperties = {
-  cursor: 'pointer',
-  userSelect: 'none',
-  touchAction: 'manipulation',
-  outline: 'none',
-};
+import '../players/player.scss';
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
   handleClick,
@@ -17,13 +11,13 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
   color,
 }: SubmitButtonProps) => (
   <div
+    className="submit-button"
     role="button"
     tabIndex={0}
     style={{
       width,
       height,
       color,
-      ...defaultStyle,
     }}
     onClick={handleClick}
     onKeyDown={handleClick}

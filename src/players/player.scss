@@ -1,2 +1,27 @@
-aniwatch-submit-button {
+.submit-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-family: Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.submit-button {
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  outline: none;
+}
+
+.submit-menu {
+  position: absolute;
+  background: #141519;
+  color: white;
+  right: 0;
+  width: 400px;
+  height: 300px;
+  text-align: left;
+  padding-left: 15px;
+  padding-right: 15px;
+  user-select: none;
 }
