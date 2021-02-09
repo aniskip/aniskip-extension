@@ -1,6 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { SubmitButtonContainerProps } from '../../types/components/submit_types';
 import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
@@ -9,29 +6,18 @@ class Crunchyroll extends BasePlayer {
     return this.document.getElementById(metadata.videoContainerSelectorString);
   }
 
-  injectSubmitButton(submitButton: React.FC<SubmitButtonContainerProps>) {
-    const id = 'opening-skipper-player-submit-button';
-    if (this.document.getElementById(id)) {
-      return;
-    }
+  injectSubmitButton() {
     const referenceNode = document.getElementById(
       metadata.injectSettingsButtonReferenceNodeSelectorString
     );
-    if (!referenceNode) {
-      return;
+    if (referenceNode) {
+      this.injectSubmitButtonHelper(
+        referenceNode,
+        'crunchyroll'
+      )?.addEventListener('mouseup', (event: MouseEvent) =>
+        event.stopPropagation()
+      );
     }
-    const submitButtonContainerDiv = document.createElement('div');
-    submitButtonContainerDiv.setAttribute('id', id);
-    ReactDOM.render(
-      React.createElement<SubmitButtonContainerProps>(submitButton, {
-        variant: 'crunchyroll',
-      }),
-      submitButtonContainerDiv
-    );
-    referenceNode.insertAdjacentElement(
-      'beforebegin',
-      submitButtonContainerDiv
-    );
   }
 }
 

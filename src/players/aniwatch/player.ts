@@ -1,6 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { SubmitButtonContainerProps } from '../../types/components/submit_types';
 import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
@@ -12,29 +9,11 @@ class Aniwatch extends BasePlayer {
     );
   }
 
-  injectSubmitButton(submitButton: React.FC<SubmitButtonContainerProps>) {
-    const id = 'opening-skipper-player-submit-button';
-    if (this.document.getElementById(id)) {
-      return;
-    }
+  injectSubmitButton() {
     const referenceNode = document.getElementsByClassName(
       metadata.injectSettingsButtonReferenceNodeSelectorString
-    )[0];
-    if (!referenceNode) {
-      return;
-    }
-    const submitButtonContainerDiv = document.createElement('div');
-    submitButtonContainerDiv.setAttribute('id', id);
-    ReactDOM.render(
-      React.createElement<SubmitButtonContainerProps>(submitButton, {
-        variant: 'aniwatch',
-      }),
-      submitButtonContainerDiv
-    );
-    referenceNode.insertAdjacentElement(
-      'beforebegin',
-      submitButtonContainerDiv
-    );
+    )[0] as HTMLElement;
+    this.injectSubmitButtonHelper(referenceNode, 'aniwatch');
   }
 }
 
