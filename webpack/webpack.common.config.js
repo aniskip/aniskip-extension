@@ -27,7 +27,6 @@ module.exports = (env) => ({
       {
         test: /\.((s[ac])?|c)ss$/i,
         use: [
-          'cache-loader',
           'style-loader',
           'css-loader',
           'resolve-url-loader',
@@ -37,7 +36,14 @@ module.exports = (env) => ({
               sourceMap: true,
               postcssOptions: {
                 plugins: [
-                  ['tailwindcss', {}],
+                  ['postcss-import', {}],
+                  [
+                    'tailwindcss',
+                    {
+                      purge: ['./src/**/*.html', './src/**/*.js'],
+                      prefix: 'tw-',
+                    },
+                  ],
                   ['autoprefixer', {}],
                 ],
               },
