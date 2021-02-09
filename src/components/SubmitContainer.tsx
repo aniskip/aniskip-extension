@@ -40,10 +40,10 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
     <div
       ref={buttonContainerRef}
       className={classnames(
-        'submit-button-container',
-        `submit-button-container--${variant}`,
+        'submit-container',
+        `submit-container--${variant}`,
         {
-          'submit-button-container--clicked': clicked,
+          'submit-container--clicked': clicked,
         }
       )}
     >

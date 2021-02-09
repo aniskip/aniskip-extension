@@ -2,7 +2,7 @@ import Message from './types/message_type';
 import { SkipTime } from './types/api/skip_time_types';
 import { skipInterval } from './utils/page_utils';
 import getPlayer from './utils/player_utils';
-import SubmitButtonContainer from './components/SubmitButtonContainer';
+import SubmitContainer from './components/SubmitContainer';
 import 'tailwindcss/tailwind.css';
 
 let videoElement: HTMLVideoElement;
@@ -73,6 +73,6 @@ new MutationObserver(async (_mutations, observer) => {
     videoElement.onloadedmetadata = () =>
       chrome.runtime.sendMessage({ type: 'player-ready' });
     videoContainer.onmouseover = () =>
-      player.injectSubmitButton(SubmitButtonContainer);
+      player.injectSubmitButton(SubmitContainer);
   }
 }).observe(document, { subtree: true, childList: true });
