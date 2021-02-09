@@ -31,6 +31,18 @@ module.exports = (env) => ({
           'css-loader',
           'resolve-url-loader',
           {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+              postcssOptions: {
+                plugins: [
+                  ['tailwindcss', {}],
+                  ['autoprefixer', {}],
+                ],
+              },
+            },
+          },
+          {
             loader: 'sass-loader',
             options: {
               sourceMap: true,

@@ -3,6 +3,7 @@ import { SkipTime } from './types/api/skip_time_types';
 import { skipInterval } from './utils/page_utils';
 import getPlayer from './utils/player_utils';
 import SubmitButtonContainer from './components/SubmitButtonContainer';
+import 'tailwindcss/tailwind.css';
 
 let videoElement: HTMLVideoElement;
 let functionReferences: Record<string, (event: Event) => void> = {};
