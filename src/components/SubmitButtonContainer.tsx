@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SubmitButtonContainerProps } from '../types/components/submit_types';
 import SubmitButton from './SubmitButton';
 import SubmitMenu from './SubmitMenu';
@@ -12,6 +12,8 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
   iconColour,
 }: SubmitButtonContainerProps) => {
   const [clicked, setClicked] = useState<boolean>(false);
+  const buttonContainerRef = useRef<HTMLDivElement>(null);
+
   const handleClick = (
     _event:
       | React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -20,8 +22,26 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
     setClicked((previous) => !previous);
   };
 
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (
+      buttonContainerRef.current &&
+      !buttonContainerRef.current.contains(event.target as HTMLElement)
+    ) {
+      setClicked(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
   return (
     <div
+      ref={buttonContainerRef}
       className={`submit-button-container ${clicked ? 'clicked' : ''}`}
       style={{
         width,
