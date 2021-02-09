@@ -9,7 +9,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
     style={{ bottom: submitButtonHeight }}
     role="menu"
   >
-    <div style={{ marginTop: '10px' }}>Menu title</div>
+    <div className="tw-mt-2">Menu title</div>
     <div>Menu item</div>
   </div>
 );

@@ -33,15 +33,18 @@ module.exports = (env) => ({
           {
             loader: 'postcss-loader',
             options: {
-              sourceMap: true,
+              sourceMap: false,
               postcssOptions: {
                 plugins: [
                   ['postcss-import', {}],
                   [
                     'tailwindcss',
                     {
-                      purge: ['./src/**/*.html', './src/**/*.js'],
-                      prefix: 'tw-',
+                      config: path.join(
+                        __dirname,
+                        '..',
+                        './tailwind.config.js'
+                      ),
                     },
                   ],
                   ['autoprefixer', {}],
@@ -52,7 +55,7 @@ module.exports = (env) => ({
           {
             loader: 'sass-loader',
             options: {
-              sourceMap: true,
+              sourceMap: false,
             },
           },
         ],
