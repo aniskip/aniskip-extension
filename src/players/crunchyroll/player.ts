@@ -24,11 +24,7 @@ class Crunchyroll extends BasePlayer {
     submitButtonContainerDiv.setAttribute('id', id);
     ReactDOM.render(
       React.createElement<SubmitButtonContainerProps>(submitButton, {
-        width: '40px',
-        height: '40px',
-        iconWidth: '50%',
-        iconHeight: '50%',
-        iconColour: 'white',
+        variant: 'crunchyroll',
       }),
       submitButtonContainerDiv
     );

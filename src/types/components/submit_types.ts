@@ -4,19 +4,13 @@ export interface SubmitButtonProps {
       | React.MouseEvent<HTMLDivElement, MouseEvent>
       | React.KeyboardEvent<HTMLDivElement>
   ) => void;
-  width: string;
-  height: string;
-  color: string;
+  style: string;
 }
 
 export interface SubmitButtonContainerProps {
-  width: string;
-  height: string;
-  iconWidth: string;
-  iconHeight: string;
-  iconColour: string;
+  variant: string;
 }
 
 export interface SubmitMenuProps {
-  submitButtonHeight: string;
+  variant: string;
 }

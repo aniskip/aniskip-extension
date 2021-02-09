@@ -1,18 +1,67 @@
-$menu-colour: #141519;
+.submit {
+  $menu-colour: #141519;
+  $aniwatch-submit-button-size: 32px;
+  $crunchyroll-submit-button-size: 40px;
+  $jw-submit-button-size: 44px;
 
-.submit-button-container {
-  @apply tw-font-sans tw-relative tw-items-center tw-justify-center tw-flex tw-z-10;
+  &-button {
+    @apply tw-cursor-pointer tw-select-none tw-outline-none tw-flex tw-justify-center tw-items-center;
 
-  &--clicked {
-    background: $menu-colour;
+    &--aniwatch {
+      width: 75%;
+      height: 75%;
+    }
+
+    &--crunchyroll {
+      width: 50%;
+      height: 50%;
+    }
+
+    &--jw {
+      width: 75%;
+      height: 75%;
+    }
+
+    &-container {
+      @apply tw-font-sans tw-relative tw-items-center tw-justify-center tw-flex tw-z-10;
+      color: #fafafa;
+
+      &--aniwatch {
+        margin-right: -2px;
+        width: $aniwatch-submit-button-size;
+        height: $aniwatch-submit-button-size;
+      }
+
+      &--crunchyroll {
+        width: $crunchyroll-submit-button-size;
+        height: $crunchyroll-submit-button-size;
+      }
+
+      &--jw {
+        width: $jw-submit-button-size;
+        height: $jw-submit-button-size;
+      }
+
+      &--clicked {
+        background: $menu-colour;
+      }
+    }
   }
-}
 
-.submit-button {
-  @apply tw-cursor-pointer tw-select-none tw-outline-none tw-flex tw-justify-center tw-items-center;
-}
+  &-menu {
+    @apply tw-absolute tw-text-white tw-right-0 tw-w-96 tw-h-52 tw-text-left tw-select-none tw-px-4;
 
-.submit-menu {
-  background: $menu-colour;
-  @apply tw-absolute tw-text-white tw-right-0 tw-w-96 tw-h-52 tw-text-left tw-select-none tw-px-4;
+    background: $menu-colour;
+    &--aniwatch {
+      bottom: $aniwatch-submit-button-size;
+    }
+
+    &--crunchyroll {
+      bottom: $crunchyroll-submit-button-size;
+    }
+
+    &--jw {
+      bottom: $jw-submit-button-size;
+    }
+  }
 }

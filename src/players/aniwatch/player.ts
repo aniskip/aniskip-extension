@@ -27,11 +27,7 @@ class Aniwatch extends BasePlayer {
     submitButtonContainerDiv.setAttribute('id', id);
     ReactDOM.render(
       React.createElement<SubmitButtonContainerProps>(submitButton, {
-        width: '32px',
-        height: '32px',
-        iconWidth: '75%',
-        iconHeight: '75%',
-        iconColour: 'white',
+        variant: 'aniwatch',
       }),
       submitButtonContainerDiv
     );

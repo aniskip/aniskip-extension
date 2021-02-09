@@ -26,11 +26,7 @@ class Jw extends BasePlayer {
     submitButtonContainerDiv.setAttribute('id', id);
     ReactDOM.render(
       React.createElement<SubmitButtonContainerProps>(submitButton, {
-        width: '44px',
-        height: '44px',
-        iconWidth: '75%',
-        iconHeight: '75%',
-        iconColour: 'white',
+        variant: 'jw',
       }),
       submitButtonContainerDiv
     );

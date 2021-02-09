@@ -6,11 +6,7 @@ import SubmitMenu from './SubmitMenu';
 import '../players/player.scss';
 
 const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
-  width,
-  height,
-  iconWidth,
-  iconHeight,
-  iconColour,
+  variant,
 }: SubmitButtonContainerProps) => {
   const [clicked, setClicked] = useState<boolean>(false);
   const buttonContainerRef = useRef<HTMLDivElement>(null);
@@ -43,21 +39,16 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
   return (
     <div
       ref={buttonContainerRef}
-      className={classnames('submit-button-container', {
-        'submit-button-container--clicked': clicked,
-      })}
-      style={{
-        width,
-        height,
-      }}
+      className={classnames(
+        'submit-button-container',
+        `submit-button-container--${variant}`,
+        {
+          'submit-button-container--clicked': clicked,
+        }
+      )}
     >
-      <SubmitButton
-        handleClick={handleClick}
-        width={iconWidth}
-        height={iconHeight}
-        color={iconColour}
-      />
-      {clicked && <SubmitMenu submitButtonHeight={width} />}
+      <SubmitButton handleClick={handleClick} style={variant} />
+      {clicked && <SubmitMenu variant={variant} />}
     </div>
   );
 };

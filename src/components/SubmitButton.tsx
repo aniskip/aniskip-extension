@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAccessibleIcon } from '@fortawesome/free-brands-svg-icons';
 import { SubmitButtonProps } from '../types/components/submit_types';
@@ -6,19 +7,12 @@ import '../players/player.scss';
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
   handleClick,
-  width,
-  height,
-  color,
+  style,
 }: SubmitButtonProps) => (
   <div
-    className="submit-button"
+    className={classnames('submit-button', `submit-button--${style}`)}
     role="button"
     tabIndex={0}
-    style={{
-      width,
-      height,
-      color,
-    }}
     onClick={handleClick}
     onKeyDown={handleClick}
   >
