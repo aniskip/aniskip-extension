@@ -1,5 +1,11 @@
+$menu-colour: #141519;
+
 .submit-button-container {
   @apply tw-font-sans tw-relative tw-items-center tw-justify-center tw-flex;
+
+  &.clicked {
+    background: $menu-colour;
+  }
 }
 
 .submit-button {
@@ -7,6 +13,6 @@
 }
 
 .submit-menu {
-  background: #141519;
+  background: $menu-colour;
   @apply tw-absolute tw-text-white tw-right-0 tw-w-96 tw-h-52 tw-text-left tw-select-none tw-px-4;
 }

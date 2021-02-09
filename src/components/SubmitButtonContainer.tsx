@@ -22,11 +22,10 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
 
   return (
     <div
-      className="submit-button-container"
+      className={`submit-button-container ${clicked ? 'clicked' : ''}`}
       style={{
         width,
         height,
-        ...(clicked && { background: '#141519' }),
       }}
     >
       <SubmitButton
