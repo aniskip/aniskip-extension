@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import classnames from 'classnames';
 import { SubmitButtonContainerProps } from '../types/components/submit_types';
 import SubmitButton from './SubmitButton';
 import SubmitMenu from './SubmitMenu';
@@ -42,7 +43,9 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
   return (
     <div
       ref={buttonContainerRef}
-      className={`submit-button-container ${clicked ? 'clicked' : ''}`}
+      className={classnames('submit-button-container', {
+        'submit-button-container--clicked': clicked,
+      })}
       style={{
         width,
         height,

@@ -3,7 +3,7 @@ $menu-colour: #141519;
 .submit-button-container {
   @apply tw-font-sans tw-relative tw-items-center tw-justify-center tw-flex tw-z-10;
 
-  &.clicked {
+  &--clicked {
     background: $menu-colour;
   }
 }
