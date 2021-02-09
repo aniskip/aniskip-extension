@@ -27,6 +27,7 @@ module.exports = (env) => ({
       {
         test: /\.((s[ac])?|c)ss$/i,
         use: [
+          'cache-loader',
           'style-loader',
           'css-loader',
           'resolve-url-loader',
