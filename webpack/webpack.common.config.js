@@ -4,8 +4,8 @@ const path = require('path');
 const JsonBuilderPlugin = require('./json_builder_webpack_plugin');
 const getManifest = require('./manifest');
 
-module.exports = (env) => ({
-  mode: env.NODE_ENV,
+module.exports = {
+  mode: process.env.NODE_ENV,
   entry: {
     options: './src/options/index.tsx',
     popup: './src/popup/index.tsx',
@@ -78,7 +78,7 @@ module.exports = (env) => ({
     }),
     new JsonBuilderPlugin({
       output: 'manifest.json',
-      json: getManifest(env),
+      json: getManifest(),
     }),
   ],
-});
+};

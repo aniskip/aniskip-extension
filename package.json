@@ -9,12 +9,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "webpack --env NODE_ENV=production --config ./webpack/webpack.prod.config.js",
-    "build:chrome": "webpack --env NODE_ENV=production --env BROWSER=chromium --config ./webpack/webpack.prod.config.js",
-    "build:firefox": "webpack --env NODE_ENV=production --env BROWSER=firefox --config ./webpack/webpack.prod.config.js",
-    "dev": "webpack --env NODE_ENV=development --config ./webpack/webpack.dev.config.js --watch",
-    "dev:chrome": "webpack --env NODE_ENV=development --env BROWSER=chromium --config ./webpack/webpack.dev.config.js --watch",
-    "dev:firefox": "webpack --env NODE_ENV=development --env BROWSER=firefox --config ./webpack/webpack.dev.config.js --watch"
+    "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.config.js",
+    "build:chrome": "cross-env NODE_ENV=production BROWSER=chromium webpack --config ./webpack/webpack.prod.config.js",
+    "build:firefox": "cross-env NODE_ENV=production BROWSER=firefox webpack --config ./webpack/webpack.prod.config.js",
+    "dev": "cross-env NODE_ENV=development webpack --config ./webpack/webpack.dev.config.js --watch",
+    "dev:chrome": "cross-env NODE_ENV=development BROWSER=chromium webpack --config ./webpack/webpack.dev.config.js --watch",
+    "dev:firefox": "cross-env NODE_ENV=development BROWSER=firefox webpack --config ./webpack/webpack.dev.config.js --watch"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.128",
@@ -26,6 +26,7 @@
     "@typescript-eslint/parser": "^4.14.1",
     "autoprefixer": "^10.2.4",
     "copy-webpack-plugin": "^7.0.0",
+    "cross-env": "^7.0.3",
     "css-loader": "^5.0.2",
     "eslint": "^7.18.0",
     "eslint-config-airbnb-typescript": "^12.0.0",

@@ -1,10 +1,13 @@
 module.exports = {
-  purge: [
-    './src/**/*.html',
-    './src/**/*.js',
-    './src/**/*.ts',
-    './src/**/*.tsx',
-  ],
+  purge: {
+    enabled: process.env.NODE_ENV === 'production',
+    content: [
+      './src/**/*.html',
+      './src/**/*.js',
+      './src/**/*.ts',
+      './src/**/*.tsx',
+    ],
+  },
   prefix: 'tw-',
   darkMode: false, // or 'media' or 'class'
   theme: {

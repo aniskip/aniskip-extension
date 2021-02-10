@@ -38,7 +38,7 @@ const getPageUrls = () => {
   return pageUrls;
 };
 
-module.exports = (env) => {
+module.exports = () => {
   const urls = getPageUrls();
   manifest.content_scripts = [
     {
@@ -60,7 +60,7 @@ module.exports = (env) => {
   ];
   manifest.optional_permissions = urls;
 
-  switch (env.BROWSER) {
+  switch (process.env.BROWSER) {
     case 'chromium':
       manifest.options_ui.chrome_style = true;
       manifest.browser_action.chrome_style = true;
@@ -78,7 +78,7 @@ module.exports = (env) => {
       break;
   }
 
-  if (env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development') {
     manifest.permissions.push('*://localhost/*');
   }
   return manifest;
