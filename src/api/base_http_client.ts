@@ -22,10 +22,15 @@ abstract class BaseHttpClient implements HttpClient {
     Object.entries(params).forEach(([key, value]) => {
       url.searchParams.append(key, value);
     });
-    const options = {
+    const options: RequestInit = {
       method,
-      ...(method !== 'GET' && { body }),
     };
+    if (method === 'POST' && body) {
+      options.headers = {
+        'Content-Type': 'application/json',
+      };
+      options.body = body;
+    }
     return fetch(url.toString(), options);
   }
 }

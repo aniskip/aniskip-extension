@@ -1,3 +1,7 @@
+.defaults {
+  all: unset;
+}
+
 .submit {
   $aniwatch-submit-button-size: 32px;
   $crunchyroll-submit-button-size: 40px;
@@ -31,8 +35,8 @@
     @apply tw-cursor-pointer tw-select-none tw-outline-none tw-flex tw-justify-center tw-items-center;
 
     &--aniwatch {
-      width: 75%;
-      height: 75%;
+      width: 50%;
+      height: 50%;
     }
 
     &--crunchyroll {
@@ -41,13 +45,17 @@
     }
 
     &--jw {
-      width: 75%;
-      height: 75%;
+      width: 50%;
+      height: 50%;
     }
   }
 
   &-menu {
-    @apply tw-absolute tw-right-0 tw-w-96 tw-h-52 tw-text-left tw-select-none tw-px-4 tw-bg-gray-800;
+    @apply tw-absolute tw-right-0 tw-text-left tw-select-none tw-px-4 tw-bg-gray-800;
+
+    &--hidden {
+      @apply tw-hidden;
+    }
 
     &--aniwatch {
       bottom: $aniwatch-submit-button-size;

@@ -3,7 +3,6 @@ import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAccessibleIcon } from '@fortawesome/free-brands-svg-icons';
 import { SubmitButtonProps } from '../types/components/submit_types';
-import '../players/player.scss';
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
   handleClick,

@@ -12,7 +12,7 @@ class Jw extends BasePlayer {
     const referenceNode = document.querySelector(
       `[aria-label="${metadata.injectSettingsButtonReferenceNodeSelectorString}"]`
     ) as HTMLElement;
-    this.injectSubmitButtonHelper(referenceNode, 'jw');
+    this.injectSubmitButtonHelper(referenceNode, metadata.variant);
   }
 }
 

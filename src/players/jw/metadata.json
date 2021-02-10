@@ -1,4 +1,5 @@
 {
+  "variant": "jw",
   "videoContainerSelectorString": "Video Player",
   "injectSettingsButtonReferenceNodeSelectorString": "Settings"
 }

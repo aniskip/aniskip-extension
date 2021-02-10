@@ -10,11 +10,14 @@ import Message from './types/message_type';
 const messageHandler = (
   message: Message,
   sender: chrome.runtime.MessageSender,
-  _sendResponse: (response?: Message) => void
+  sendResponse: (response?: Message) => void
 ) => {
   if (sender.tab?.id) {
-    chrome.tabs.sendMessage(sender.tab.id, message);
+    chrome.tabs.sendMessage(sender.tab.id, message, (response: Message) => {
+      sendResponse(response);
+    });
   }
+  return true;
 };
 
 chrome.runtime.onMessage.addListener(messageHandler);

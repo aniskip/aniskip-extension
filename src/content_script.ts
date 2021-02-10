@@ -6,6 +6,22 @@ import { getProviderInformation } from './utils/page_utils';
 
 let skipTimes: SkipTime[] = [];
 
+const getEpisodeInformation = async () => {
+  const { pathname, hostname } = window.location;
+  const { providerName, identifier, episodeNumber } = getProviderInformation(
+    pathname,
+    hostname
+  );
+  const malsyncHttpClient = new MalsyncHttpClient();
+  const malId = await malsyncHttpClient.getMalId(providerName, identifier);
+
+  return {
+    malId,
+    episodeNumber,
+    providerName,
+  };
+};
+
 /**
  * Removes the skip times
  */
@@ -49,13 +65,7 @@ const addSkipInterval = async (
  */
 const addSkipIntervals = async () => {
   const openingSkipperHttpClient = new OpeningSkipperHttpClient();
-  const malsyncHttpClient = new MalsyncHttpClient();
-  const { pathname, hostname } = window.location;
-  const { providerName, identifier, episodeNumber } = getProviderInformation(
-    pathname,
-    hostname
-  );
-  const malId = await malsyncHttpClient.getMalId(providerName, identifier);
+  const { malId, episodeNumber } = await getEpisodeInformation();
   await addSkipInterval(openingSkipperHttpClient, malId, episodeNumber, 'op');
   await addSkipInterval(openingSkipperHttpClient, malId, episodeNumber, 'ed');
 };
@@ -64,16 +74,26 @@ const addSkipIntervals = async () => {
  * Handles messages between the player and the background script
  * @param message Message containing the type of action and the payload
  * @param _sender Sender of the message
- * @param _sendResponse Response to the sender of the message
+ * @param sendResponse Response to the sender of the message
  */
-const messageHandler = async (
+const messageHandler = (
   message: Message,
   _sender: chrome.runtime.MessageSender,
-  _sendResponse: (response?: Message) => void
+  sendResponse: (response?: Message) => void
 ) => {
   switch (message.type) {
     case 'player-ready': {
-      await addSkipIntervals();
+      addSkipIntervals();
+      break;
+    }
+    case 'get-episode-information': {
+      (async () => {
+        const episodeInformation = await getEpisodeInformation();
+        sendResponse({
+          type: 'response',
+          payload: episodeInformation,
+        });
+      })();
       break;
     }
     default:

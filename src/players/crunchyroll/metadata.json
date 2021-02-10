@@ -1,4 +1,5 @@
 {
+  "variant": "crunchyroll",
   "videoContainerSelectorString": "vilos",
   "injectSettingsButtonReferenceNodeSelectorString": "settingsControl"
 }

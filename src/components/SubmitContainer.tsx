@@ -3,7 +3,6 @@ import classnames from 'classnames';
 import { SubmitButtonContainerProps } from '../types/components/submit_types';
 import SubmitButton from './SubmitButton';
 import SubmitMenu from './SubmitMenu';
-import '../players/player.scss';
 
 const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
   variant,
@@ -48,7 +47,7 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
       )}
     >
       <SubmitButton handleClick={handleClick} style={variant} />
-      {clicked && <SubmitMenu variant={variant} />}
+      <SubmitMenu variant={variant} hidden={!clicked} />
     </div>
   );
 };

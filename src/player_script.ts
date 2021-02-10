@@ -2,7 +2,6 @@ import Message from './types/message_type';
 import { SkipTime } from './types/api/skip_time_types';
 import { skipInterval } from './utils/page_utils';
 import getPlayer from './utils/player_utils';
-import 'tailwindcss/tailwind.css';
 
 let videoElement: HTMLVideoElement;
 let functionReferences: Record<string, (event: Event) => void> = {};
@@ -37,7 +36,7 @@ const skipIfInInterval = (skipTime: SkipTime) => {
 const messageHandler = (
   message: Message,
   _sender: chrome.runtime.MessageSender,
-  _sendResponse: (response?: Message) => void
+  sendResponse: (response?: Message) => void
 ) => {
   switch (message.type) {
     case 'player-add-skip-interval': {
@@ -56,8 +55,16 @@ const messageHandler = (
       functionReferences = {};
       break;
     }
+    case 'player-get-video-duration': {
+      sendResponse({
+        type: 'response',
+        payload: videoElement.duration,
+      });
+      break;
+    }
     default:
   }
+  return true;
 };
 
 chrome.runtime.onMessage.addListener(messageHandler);
@@ -69,8 +76,9 @@ new MutationObserver(async (_mutations, observer) => {
   const videoContainer = player.getVideoContainer();
   if (videoElement && videoContainer) {
     observer.disconnect();
-    videoElement.onloadedmetadata = () =>
+    videoElement.onloadedmetadata = () => {
       chrome.runtime.sendMessage({ type: 'player-ready' });
+    };
     videoContainer.onmouseover = () => player.injectSubmitButton();
   }
 }).observe(document, { subtree: true, childList: true });

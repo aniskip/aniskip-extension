@@ -12,6 +12,7 @@ module.exports = (env) => ({
     background_script: './src/background_script.ts',
     content_script: './src/content_script.ts',
     player_script: './src/player_script.ts',
+    styles_script: './src/styles_script.ts',
   },
   output: {
     path: path.join(__dirname, '..', 'dist'),
