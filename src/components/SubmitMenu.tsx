@@ -50,16 +50,29 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
 
   return (
     <div
-      className={classnames('submit-menu', `submit-menu--${variant}`, {
-        'submit-menu--hidden': hidden,
-      })}
+      className={classnames(
+        'tw-absolute',
+        'tw-right-0',
+        'tw-text-left',
+        'tw-select-none',
+        'tw-mx-auto',
+        'tw-px-2',
+        'tw-bg-gray-800',
+        `submit-menu--${variant}`,
+        {
+          'tw-hidden': hidden,
+        }
+      )}
       role="menu"
     >
-      <form className="tw-block tw-mt-1" onSubmit={handleSubmit}>
-        <label className="tw-inline" htmlFor="skip-type">
+      <form className={classnames('tw-block')} onSubmit={handleSubmit}>
+        <label
+          className={classnames('tw-block', 'tw-text-white')}
+          htmlFor="skip-type"
+        >
           Type{' '}
           <select
-            className="tw-inline tw-appearance-none"
+            className={classnames('tw-block')}
             id="skip-type"
             value={skipType}
             onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -92,7 +105,16 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
           }}
         />
         <input
-          className="tw-bg-yellow-400 tw-text-white"
+          className={classnames(
+            'tw-border-none',
+            'tw-bg-yellow-600',
+            'tw-text-white',
+            'tw-py-2',
+            'tw-px-4',
+            'tw-rounded',
+            'tw-uppercase',
+            'tw-text-base'
+          )}
           type="submit"
           value="Submit"
         />

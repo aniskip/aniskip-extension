@@ -1,6 +1,6 @@
 import Message from './types/message_type';
 import { SkipTime } from './types/api/skip_time_types';
-import { skipInterval } from './utils/page_utils';
+import { defaultResponse, skipInterval } from './utils/page_utils';
 import getPlayer from './utils/player_utils';
 
 let videoElement: HTMLVideoElement;
@@ -42,6 +42,7 @@ const messageHandler = (
     case 'player-add-skip-interval': {
       const skipTime = message.payload as SkipTime;
       videoElement.addEventListener('timeupdate', skipIfInInterval(skipTime));
+      sendResponse(defaultResponse);
       break;
     }
     case 'player-clear-skip-intervals': {
@@ -53,6 +54,7 @@ const messageHandler = (
         );
       });
       functionReferences = {};
+      sendResponse(defaultResponse);
       break;
     }
     case 'player-get-video-duration': {

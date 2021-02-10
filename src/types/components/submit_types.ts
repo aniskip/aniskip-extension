@@ -4,7 +4,7 @@ export interface SubmitButtonProps {
       | React.MouseEvent<HTMLDivElement, MouseEvent>
       | React.KeyboardEvent<HTMLDivElement>
   ) => void;
-  style: string;
+  variant: string;
 }
 
 export interface SubmitButtonContainerProps {

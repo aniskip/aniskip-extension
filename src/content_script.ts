@@ -2,7 +2,7 @@ import MalsyncHttpClient from './api/malsync_http_client';
 import Message from './types/message_type';
 import OpeningSkipperHttpClient from './api/opening_skipper_http_client';
 import { SkipTime } from './types/api/skip_time_types';
-import { getProviderInformation } from './utils/page_utils';
+import { defaultResponse, getProviderInformation } from './utils/page_utils';
 
 let skipTimes: SkipTime[] = [];
 
@@ -84,6 +84,7 @@ const messageHandler = (
   switch (message.type) {
     case 'player-ready': {
       addSkipIntervals();
+      sendResponse(defaultResponse);
       break;
     }
     case 'get-episode-information': {

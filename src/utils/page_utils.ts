@@ -3,6 +3,7 @@ import Crunchyroll from '../pages/crunchyroll/page';
 import Gogoanime from '../pages/gogoanime/page';
 import Nineanime from '../pages/nineanime/page';
 import { SkipTime } from '../types/api/skip_time_types';
+import Message from '../types/message_type';
 import Page from '../types/pages/page_type';
 
 /**
@@ -76,3 +77,8 @@ export function getProviderInformation(pathname: string, hostname: string) {
   };
   return result;
 }
+
+/**
+ * Default message response
+ */
+export const defaultResponse: Message = { type: 'response' };

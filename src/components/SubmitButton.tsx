@@ -6,10 +6,18 @@ import { SubmitButtonProps } from '../types/components/submit_types';
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
   handleClick,
-  style,
+  variant: style,
 }: SubmitButtonProps) => (
   <div
-    className={classnames('submit-button', `submit-button--${style}`)}
+    className={classnames(
+      'tw-cursor-pointer',
+      'tw-select-none',
+      'tw-outline-none',
+      'tw-flex',
+      'tw-justify-center',
+      'tw-items-center',
+      `submit-button--${style}`
+    )}
     role="button"
     tabIndex={0}
     onClick={handleClick}
