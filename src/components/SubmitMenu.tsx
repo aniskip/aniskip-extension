@@ -8,6 +8,7 @@ import Message from '../types/message_type';
 const SubmitMenu: React.FC<SubmitMenuProps> = ({
   variant,
   hidden,
+  onSubmit,
 }: SubmitMenuProps) => {
   const [skipType, setSkipType] = useState<'op' | 'ed'>('op');
   const [startTime, setStartTime] = useState<string>('0:00');
@@ -18,6 +19,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    onSubmit();
     chrome.runtime.sendMessage(
       { type: 'get-episode-information' },
       (getEpisodeInfoResponse: Message) => {

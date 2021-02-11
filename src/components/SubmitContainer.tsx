@@ -25,13 +25,12 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
     );
 
     if (!settingsContainerClicked) {
-      setClicked(false);
+      // setClicked(false);
     }
   };
 
   useEffect(() => {
     document.addEventListener('mousedown', handleOutsideClick);
-
     return () => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
@@ -58,7 +57,11 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
       )}
     >
       <SubmitButton handleClick={handleClick} variant={variant} />
-      <SubmitMenu variant={variant} hidden={!clicked} />
+      <SubmitMenu
+        variant={variant}
+        hidden={!clicked}
+        onSubmit={() => setClicked(false)}
+      />
     </div>
   );
 };

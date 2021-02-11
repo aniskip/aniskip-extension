@@ -14,4 +14,5 @@ export interface SubmitButtonContainerProps {
 export interface SubmitMenuProps {
   variant: string;
   hidden: boolean;
+  onSubmit: CallableFunction;
 }
