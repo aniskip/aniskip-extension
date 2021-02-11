@@ -45,15 +45,18 @@
 
   &-menu {
     &--aniwatch {
-      bottom: $aniwatch-submit-button-size;
+      right: -8em;
+      bottom: 6em;
     }
 
     &--crunchyroll {
-      bottom: $crunchyroll-submit-button-size;
+      right: -5em;
+      bottom: 6em;
     }
 
     &--jw {
-      bottom: $jw-submit-button-size;
+      right: -5em;
+      bottom: 6em;
     }
   }
 }
