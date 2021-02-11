@@ -51,28 +51,28 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
   return (
     <div
       className={classnames(
-        'tw-absolute',
-        'tw-right-0',
-        'tw-text-left',
-        'tw-select-none',
-        'tw-mx-auto',
-        'tw-px-2',
-        'tw-text-center',
-        'tw-py-2',
-        'tw-bg-gray-800',
+        'absolute',
+        'right-0',
+        'text-left',
+        'select-none',
+        'mx-auto',
+        'px-2',
+        'text-center',
+        'py-2',
+        'bg-gray-800',
         `submit-menu--${variant}`,
         {
-          'tw-hidden': hidden,
+          hidden: hidden,
         }
       )}
       role="menu"
     >
       <form
-        className={classnames('tw-block', 'tw-space-y-2')}
+        className={classnames('block', 'space-y-2')}
         onSubmit={handleSubmit}
       >
         <input
-          className={classnames('tw-text-black', 'tw-w-full', 'tw-rounded')}
+          className={classnames('text-black', 'w-full', 'rounded')}
           type="text"
           id="start-time"
           value={startTime}
@@ -82,7 +82,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
           }}
         />
         <input
-          className={classnames('tw-text-black', 'tw-w-full', 'tw-rounded')}
+          className={classnames('text-black', 'w-full', 'rounded')}
           type="text"
           id="end-time"
           value={endTime}
@@ -93,10 +93,10 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
         />
         <select
           className={classnames(
-            'tw-inline',
-            'tw-text-black',
-            'tw-appearance-none',
-            'tw-mr-2'
+            'inline',
+            'text-black',
+            'appearance-none',
+            'mr-2'
           )}
           id="skip-type"
           value={skipType}
@@ -112,13 +112,13 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
         </select>
         <input
           className={classnames(
-            'tw-border-none',
-            'tw-bg-yellow-600',
-            'tw-text-white',
-            'tw-py-1',
-            'tw-px-5',
-            'tw-rounded',
-            'tw-text-base'
+            'border-none',
+            'bg-yellow-600',
+            'text-white',
+            'py-1',
+            'px-5',
+            'rounded',
+            'text-base'
           )}
           type="submit"
           value="Submit"

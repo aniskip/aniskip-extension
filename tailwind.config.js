@@ -8,7 +8,6 @@ module.exports = {
       './src/**/*.tsx',
     ],
   },
-  prefix: 'tw-',
   darkMode: false, // or 'media' or 'class'
   theme: {
     fontSize: {

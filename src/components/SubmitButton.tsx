@@ -10,12 +10,12 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
 }: SubmitButtonProps) => (
   <div
     className={classnames(
-      'tw-cursor-pointer',
-      'tw-select-none',
-      'tw-outline-none',
-      'tw-flex',
-      'tw-justify-center',
-      'tw-items-center',
+      'cursor-pointer',
+      'select-none',
+      'outline-none',
+      'flex',
+      'justify-center',
+      'items-center',
       `submit-button--${variant}`
     )}
     role="button"

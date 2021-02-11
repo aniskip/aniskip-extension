@@ -41,20 +41,20 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
     <div
       ref={buttonContainerRef}
       className={classnames(
-        'tw-text-white',
-        'tw-bg-gray-800',
-        'tw-font-sans',
-        'tw-relative',
-        'tw-items-center',
-        'tw-justify-center',
-        'tw-flex',
-        'tw-z-10',
-        'tw-bg-opacity-0',
-        'hover:tw-bg-opacity-75',
+        'text-white',
+        'bg-gray-800',
+        'font-sans',
+        'relative',
+        'items-center',
+        'justify-center',
+        'flex',
+        'z-10',
+        'bg-opacity-0',
+        'hover:bg-opacity-75',
         'submit-container',
         `submit-container--${variant}`,
         {
-          'hover:tw-bg-opacity-100 tw-bg-opacity-100': clicked,
+          'hover:bg-opacity-100 bg-opacity-100': clicked,
         }
       )}
     >
