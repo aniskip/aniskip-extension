@@ -29,7 +29,27 @@ module.exports = {
       {
         test: /\.((s[ac])?|c)ss$/i,
         use: [
-          'style-loader',
+          {
+            loader: 'style-loader',
+            options: {
+              insert: (styleTag) => {
+                new MutationObserver((_mutations, observer) => {
+                  // eslint-disable-next-line no-undef
+                  const root = document.getElementById(
+                    'opening-skipper-player-submit-button'
+                  );
+                  if (root) {
+                    observer.disconnect();
+                    root.shadowRoot.appendChild(styleTag);
+                  }
+                  // eslint-disable-next-line no-undef
+                }).observe(document, {
+                  subtree: true,
+                  childList: true,
+                });
+              },
+            },
+          },
           'css-loader',
           'resolve-url-loader',
           {

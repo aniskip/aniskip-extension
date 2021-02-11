@@ -19,10 +19,12 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
   };
 
   const handleOutsideClick = (event: MouseEvent) => {
-    if (
-      buttonContainerRef.current &&
-      !buttonContainerRef.current.contains(event.target as HTMLElement)
-    ) {
+    const target = event.target as HTMLElement;
+    const settingsContainerClicked = !!target.shadowRoot?.contains(
+      buttonContainerRef.current
+    );
+
+    if (!settingsContainerClicked) {
       setClicked(false);
     }
   };
@@ -39,15 +41,16 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
     <div
       ref={buttonContainerRef}
       className={classnames(
+        'tw-text-white',
+        'tw-bg-gray-800',
         'tw-font-sans',
         'tw-relative',
         'tw-items-center',
         'tw-justify-center',
         'tw-flex',
         'tw-z-10',
-        'tw-text-white',
+        'tw-bg-opacity-0',
         'hover:tw-bg-opacity-75',
-        'hover:tw-bg-gray-800',
         'submit-container',
         `submit-container--${variant}`,
         {

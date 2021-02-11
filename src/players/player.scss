@@ -1,11 +1,13 @@
+* {
+  font-size: 16px;
+}
+
 .submit {
   $aniwatch-submit-button-size: 32px;
   $crunchyroll-submit-button-size: 40px;
   $jw-submit-button-size: 44px;
 
   &-container {
-    font-size: 16px;
-
     &--aniwatch {
       margin-right: -2px;
       width: $aniwatch-submit-button-size;

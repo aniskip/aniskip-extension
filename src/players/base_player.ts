@@ -7,40 +7,55 @@ import { SubmitButtonContainerProps } from '../types/components/submit_types';
 abstract class BasePlayer implements Player {
   document: Document;
 
+  submitButtonContainer: HTMLDivElement;
+
   constructor(document: Document) {
     this.document = document;
+    this.submitButtonContainer = this.createSubmitButtonContainer();
   }
 
   abstract injectSubmitButton(): void;
 
   abstract getVideoContainer(): HTMLElement | null;
 
+  createSubmitButtonContainer() {
+    const id = 'opening-skipper-player-submit-button';
+
+    const submitButtonContainer = this.document.createElement('div');
+    submitButtonContainer.setAttribute('id', id);
+    submitButtonContainer.attachShadow({ mode: 'open' });
+
+    return submitButtonContainer;
+  }
+
   injectSubmitButtonHelper(
     referenceNode: HTMLElement,
     variant: string
   ): HTMLDivElement | null {
-    const id = 'opening-skipper-player-submit-button';
-
-    if (this.document.getElementById(id) || !referenceNode) {
+    const { id, shadowRoot } = this.submitButtonContainer;
+    if (this.document.getElementById(id) || !referenceNode || !shadowRoot) {
       return null;
     }
 
-    const submitButtonContainerDiv = document.createElement('div');
-    submitButtonContainerDiv.setAttribute('id', id);
-
-    ReactDOM.render(
-      React.createElement<SubmitButtonContainerProps>(SubmitContainer, {
+    const submitButton = React.createElement<SubmitButtonContainerProps>(
+      SubmitContainer,
+      {
         variant,
-      }),
-      submitButtonContainerDiv
+      }
     );
+
+    ReactDOM.render(submitButton, shadowRoot);
 
     referenceNode.insertAdjacentElement(
       'beforebegin',
-      submitButtonContainerDiv
+      this.submitButtonContainer
     );
 
-    return submitButtonContainerDiv;
+    shadowRoot.addEventListener('keydown', (event) => {
+      event.stopPropagation();
+    });
+
+    return this.submitButtonContainer;
   }
 
   getVideoContainerHelper(

@@ -6,7 +6,7 @@ import { SubmitButtonProps } from '../types/components/submit_types';
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
   handleClick,
-  variant: style,
+  variant,
 }: SubmitButtonProps) => (
   <div
     className={classnames(
@@ -16,7 +16,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
       'tw-flex',
       'tw-justify-center',
       'tw-items-center',
-      `submit-button--${style}`
+      `submit-button--${variant}`
     )}
     role="button"
     tabIndex={0}

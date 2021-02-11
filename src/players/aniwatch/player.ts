@@ -17,7 +17,7 @@ class Aniwatch extends BasePlayer {
       this.injectSubmitButtonHelper(
         referenceNode,
         metadata.variant
-      )?.addEventListener('mousedown', (event: MouseEvent) => {
+      )?.addEventListener('keydown', (event) => {
         event.stopPropagation();
       });
     }
