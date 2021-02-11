@@ -10,8 +10,8 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
   hidden,
 }: SubmitMenuProps) => {
   const [skipType, setSkipType] = useState<'op' | 'ed'>('op');
-  const [startTime, setStartTime] = useState<string>('00:00');
-  const [endTime, setEndTime] = useState<string>('01:30');
+  const [startTime, setStartTime] = useState<string>('0:00');
+  const [endTime, setEndTime] = useState<string>('1:30');
   const [openingSkipperHttpClient] = useState<OpeningSkipperHttpClient>(
     new OpeningSkipperHttpClient()
   );
@@ -51,19 +51,15 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
   return (
     <div
       className={classnames(
-        'absolute',
-        'right-0',
-        'text-left',
-        'select-none',
-        'mx-auto',
-        'px-2',
-        'text-center',
-        'py-2',
         'bg-gray-800',
+        'px-6',
+        'py-4',
+        'right-0',
+        'mx-auto',
+        'absolute',
+        'select-none',
         `submit-menu--${variant}`,
-        {
-          hidden: hidden,
-        }
+        { hidden }
       )}
       role="menu"
     >
@@ -71,58 +67,87 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
         className={classnames('block', 'space-y-2')}
         onSubmit={handleSubmit}
       >
-        <input
-          className={classnames('text-black', 'w-full', 'rounded')}
-          type="text"
-          id="start-time"
-          value={startTime}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            const timeString = event.currentTarget.value;
-            setStartTime(timeString);
-          }}
-        />
-        <input
-          className={classnames('text-black', 'w-full', 'rounded')}
-          type="text"
-          id="end-time"
-          value={endTime}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            const timeString = event.currentTarget.value;
-            setEndTime(timeString);
-          }}
-        />
-        <select
-          className={classnames(
-            'inline',
-            'text-black',
-            'appearance-none',
-            'mr-2'
-          )}
-          id="skip-type"
-          value={skipType}
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-            const type = event.currentTarget.value;
-            if (type === 'op' || type === 'ed') {
-              setSkipType(type);
-            }
-          }}
-        >
-          <option value="op">Opening</option>
-          <option value="ed">Ending</option>
-        </select>
-        <input
-          className={classnames(
-            'border-none',
-            'bg-yellow-600',
-            'text-white',
-            'py-1',
-            'px-5',
-            'rounded',
-            'text-base'
-          )}
-          type="submit"
-          value="Submit"
-        />
+        <div className={classnames('text-black', 'space-y-2')}>
+          <input
+            className={classnames(
+              'rounded',
+              'px-2',
+              'py-1',
+              'focus:outline-none',
+              'focus:ring-2',
+              'focus:ring-yellow-500'
+            )}
+            type="text"
+            id="start-time"
+            value={startTime}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              const timeString = event.currentTarget.value;
+              setStartTime(timeString);
+            }}
+          />
+          <input
+            className={classnames(
+              'rounded',
+              'px-2',
+              'py-1',
+              'focus:outline-none',
+              'focus:ring-2',
+              'focus:ring-yellow-500'
+            )}
+            type="text"
+            id="end-time"
+            value={endTime}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              const timeString = event.currentTarget.value;
+              setEndTime(timeString);
+            }}
+          />
+        </div>
+        <div className={classnames('flex', 'space-x-2')}>
+          <select
+            className={classnames(
+              'text-black',
+              'bg-white',
+              'appearance-none',
+              'inline',
+              'rounded',
+              'px-2',
+              'py-1',
+              'focus:outline-none',
+              'focus:ring-2',
+              'focus:ring-yellow-500'
+            )}
+            id="skip-type"
+            value={skipType}
+            onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+              const type = event.currentTarget.value;
+              if (type === 'op' || type === 'ed') {
+                setSkipType(type);
+              }
+            }}
+          >
+            <option value="op">Opening</option>
+            <option value="ed">Ending</option>
+          </select>
+          <input
+            className={classnames(
+              'flex-auto',
+              'inline',
+              'border-none',
+              'bg-yellow-600',
+              'text-white',
+              'py-1',
+              'px-5',
+              'rounded',
+              'text-base',
+              'focus:outline-none',
+              'focus:ring-2',
+              'focus:ring-yellow-100'
+            )}
+            type="submit"
+            value="Submit"
+          />
+        </div>
       </form>
     </div>
   );

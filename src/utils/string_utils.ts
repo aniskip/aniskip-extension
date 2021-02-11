@@ -10,7 +10,7 @@ export const timeStringToSeconds = (timeString: string) => {
 export const secondsToTimeString = (seconds: number) => {
   const minutes = Math.floor(seconds / 60)
     .toString()
-    .padStart(2, '0');
+    .padStart(1, '0');
   const remainder = Math.floor(seconds % 60)
     .toString()
     .padStart(2, '0');
