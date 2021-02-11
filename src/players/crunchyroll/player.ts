@@ -11,10 +11,7 @@ class Crunchyroll extends BasePlayer {
       metadata.injectSettingsButtonReferenceNodeSelectorString
     );
     if (referenceNode) {
-      this.injectSubmitButtonHelper(
-        referenceNode,
-        metadata.variant
-      )?.addEventListener('mouseup', (event) => event.stopPropagation());
+      this.injectSubmitButtonHelper(referenceNode, metadata.variant);
     }
   }
 }

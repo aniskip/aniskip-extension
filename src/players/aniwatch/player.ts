@@ -14,12 +14,7 @@ class Aniwatch extends BasePlayer {
       metadata.injectSettingsButtonReferenceNodeSelectorString
     )[0] as HTMLElement;
     if (referenceNode) {
-      this.injectSubmitButtonHelper(
-        referenceNode,
-        metadata.variant
-      )?.addEventListener('keydown', (event) => {
-        event.stopPropagation();
-      });
+      this.injectSubmitButtonHelper(referenceNode, metadata.variant);
     }
   }
 }

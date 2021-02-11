@@ -49,13 +49,13 @@ abstract class BasePlayer implements Player {
       this.submitButtonContainer
     );
 
-    shadowRoot.addEventListener(
-      'keydown',
-      (event) => {
+    const events = ['keydown', 'keyup', 'mousedown', 'mouseup'];
+
+    events.forEach((eventName) => {
+      this.submitButtonContainer.addEventListener(eventName, (event) => {
         event.stopPropagation();
-      },
-      { once: true }
-    );
+      });
+    });
 
     return this.submitButtonContainer;
   }

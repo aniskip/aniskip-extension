@@ -73,12 +73,14 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               'rounded',
               'px-2',
               'py-1',
+              'block',
               'focus:outline-none',
               'focus:ring-2',
               'focus:ring-yellow-500'
             )}
             type="text"
             id="start-time"
+            autoComplete="off"
             value={startTime}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               const timeString = event.currentTarget.value;
@@ -90,12 +92,14 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               'rounded',
               'px-2',
               'py-1',
+              'block',
               'focus:outline-none',
               'focus:ring-2',
               'focus:ring-yellow-500'
             )}
             type="text"
             id="end-time"
+            autoComplete="off"
             value={endTime}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               const timeString = event.currentTarget.value;
