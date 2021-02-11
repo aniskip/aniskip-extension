@@ -20,7 +20,7 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
 
   const handleOutsideClick = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
-    const settingsContainerClicked = !!target.shadowRoot?.contains(
+    const settingsContainerClicked = target.shadowRoot?.contains(
       buttonContainerRef.current
     );
 

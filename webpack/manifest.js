@@ -51,12 +51,6 @@ module.exports = () => {
       all_frames: true,
       run_at: 'document_start',
     },
-    {
-      matches: ['<all_urls>'],
-      js: ['styles_script.js'],
-      all_frames: true,
-      run_at: 'document_idle',
-    },
   ];
   manifest.optional_permissions = urls;
 

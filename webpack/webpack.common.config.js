@@ -13,7 +13,6 @@ module.exports = {
     background_script: './src/background_script.ts',
     content_script: './src/content_script.ts',
     player_script: './src/player_script.ts',
-    styles_script: './src/styles_script.ts',
   },
   output: {
     path: path.join(__dirname, '..', 'dist'),
@@ -34,14 +33,18 @@ module.exports = {
             options: {
               insert: (styleTag) => {
                 new MutationObserver((_mutations, observer) => {
-                  // eslint-disable-next-line no-undef
-                  const root = document.getElementById(
-                    'opening-skipper-player-submit-button'
-                  );
-                  if (root) {
-                    observer.disconnect();
-                    root.shadowRoot.appendChild(styleTag);
-                  }
+                  const rootIds = [
+                    'opening-skipper-player-submit-button',
+                    'opening-skipper-root',
+                  ];
+                  rootIds.forEach((rootId) => {
+                    // eslint-disable-next-line no-undef
+                    const root = document.getElementById(rootId);
+                    if (root) {
+                      observer.disconnect();
+                      root.shadowRoot.appendChild(styleTag);
+                    }
+                  });
                   // eslint-disable-next-line no-undef
                 }).observe(document, {
                   subtree: true,

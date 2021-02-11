@@ -2,6 +2,8 @@ import Message from './types/message_type';
 import { SkipTime } from './types/api/skip_time_types';
 import { defaultResponse, skipInterval } from './utils/page_utils';
 import getPlayer from './utils/player_utils';
+import 'tailwindcss/tailwind.css';
+import './players/player.scss';
 
 let videoElement: HTMLVideoElement;
 let functionReferences: Record<string, (event: Event) => void> = {};

@@ -39,9 +39,7 @@ abstract class BasePlayer implements Player {
 
     const submitButton = React.createElement<SubmitButtonContainerProps>(
       SubmitContainer,
-      {
-        variant,
-      }
+      { variant }
     );
 
     ReactDOM.render(submitButton, shadowRoot);
@@ -51,9 +49,13 @@ abstract class BasePlayer implements Player {
       this.submitButtonContainer
     );
 
-    shadowRoot.addEventListener('keydown', (event) => {
-      event.stopPropagation();
-    });
+    shadowRoot.addEventListener(
+      'keydown',
+      (event) => {
+        event.stopPropagation();
+      },
+      { once: true }
+    );
 
     return this.submitButtonContainer;
   }
