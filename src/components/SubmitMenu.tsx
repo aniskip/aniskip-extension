@@ -6,6 +6,13 @@ import { SubmitMenuProps } from '../types/components/submit_types';
 import { timeStringToSeconds } from '../utils/string_utils';
 import OpeningSkipperHttpClient from '../api/opening_skipper_http_client';
 import Message from '../types/message_type';
+import Dropdown from './Dropdown';
+import { Option } from '../types/components/dropdown_types';
+
+const dropdownOptions: Option[] = [
+  { value: 'op', label: 'Opening' },
+  { value: 'ed', label: 'Ending' },
+];
 
 const SubmitMenu: React.FC<SubmitMenuProps> = ({
   variant,
@@ -146,35 +153,15 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
             />
           </div>
           <div className={classnames('flex', 'space-x-2')}>
-            <select
-              className={classnames(
-                'text-black',
-                'bg-white',
-                'appearance-none',
-                'inline',
-                'rounded',
-                'px-2',
-                'py-1',
-                'text-xs',
-                'focus:outline-none',
-                'focus:ring-2',
-                'focus:ring-yellow-500'
-              )}
-              id="skip-type"
+            <Dropdown
+              className={classnames('text-xs', 'flex-1')}
               value={skipType}
-              onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-                const type = event.currentTarget.value;
-                if (type === 'op' || type === 'ed') {
-                  setSkipType(type);
-                }
-              }}
-            >
-              <option value="op">Opening</option>
-              <option value="ed">Ending</option>
-            </select>
+              onChange={setSkipType}
+              options={dropdownOptions}
+            />
             <input
               className={classnames(
-                'flex-auto',
+                'flex-1',
                 'inline',
                 'border-none',
                 'bg-yellow-600',
@@ -183,6 +170,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                 'px-5',
                 'rounded',
                 'text-sm',
+                'font-semibold',
                 'focus:outline-none',
                 'focus:ring-2',
                 'focus:ring-yellow-100'
