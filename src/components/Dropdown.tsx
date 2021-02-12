@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
 import { v4 as uuidv4 } from 'uuid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { FaCaretDown } from 'react-icons/fa';
 import { DropdownProps } from '../types/components/dropdown_types';
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -62,7 +61,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             'text-gray-500'
           )}
         >
-          <FontAwesomeIcon icon={faCaretDown} />
+          <FaCaretDown />
         </div>
       </button>
       <div

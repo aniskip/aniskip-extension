@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FaTimes } from 'react-icons/fa';
 import { SubmitMenuProps } from '../types/components/submit_types';
 import { timeStringToSeconds } from '../utils/string_utils';
 import OpeningSkipperHttpClient from '../api/opening_skipper_http_client';
@@ -104,7 +103,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
           )}
           onClick={() => onClose()}
         >
-          <FontAwesomeIcon icon={faTimes} />
+          <FaTimes />
         </button>
       </div>
       <div className={classnames('container', 'px-5', 'py-4', 'mx-auto')}>

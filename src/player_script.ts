@@ -64,7 +64,7 @@ const messageHandler = (
         type: 'response',
         payload: videoElement.duration,
       });
-      break;
+      return false;
     }
     default:
   }

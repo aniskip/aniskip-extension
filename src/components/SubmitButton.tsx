@@ -1,7 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
+import { FaCloudUploadAlt } from 'react-icons/fa';
 import { SubmitButtonProps } from '../types/components/submit_types';
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
@@ -23,7 +22,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
     onClick={handleClick}
     onKeyDown={handleClick}
   >
-    <FontAwesomeIcon icon={faCloudUploadAlt} />
+    <FaCloudUploadAlt />
   </div>
 );
 export default SubmitButton;
