@@ -1,11 +1,15 @@
+import { browser, Runtime } from 'webextension-polyfill-ts';
 import MalsyncHttpClient from './api/malsync_http_client';
 import Message from './types/message_type';
 import OpeningSkipperHttpClient from './api/opening_skipper_http_client';
 import { SkipTime } from './types/api/skip_time_types';
-import { defaultResponse, getProviderInformation } from './utils/page_utils';
+import { getProviderInformation } from './utils/page_utils';
 
 let skipTimes: SkipTime[] = [];
 
+/**
+ * Returns the MAL id, episode number and provider name
+ */
 const getEpisodeInformation = async () => {
   const { pathname, hostname } = window.location;
   const { providerName, identifier, episodeNumber } = getProviderInformation(
@@ -26,7 +30,7 @@ const getEpisodeInformation = async () => {
  * Removes the skip times
  */
 const clearSkipTimeIntervals = () => {
-  chrome.runtime.sendMessage({
+  browser.runtime.sendMessage({
     type: 'player-clear-skip-intervals',
     payload: skipTimes,
   });
@@ -53,7 +57,7 @@ const addSkipInterval = async (
   );
   if (skipTimesResponse.found) {
     skipTimes.push(skipTimesResponse.result);
-    chrome.runtime.sendMessage({
+    browser.runtime.sendMessage({
       type: 'player-add-skip-interval',
       payload: skipTimesResponse.result,
     });
@@ -74,35 +78,27 @@ const addSkipIntervals = async () => {
  * Handles messages between the player and the background script
  * @param message Message containing the type of action and the payload
  * @param _sender Sender of the message
- * @param sendResponse Response to the sender of the message
  */
-const messageHandler = (
-  message: Message,
-  _sender: chrome.runtime.MessageSender,
-  sendResponse: (response?: Message) => void
-) => {
+const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
   switch (message.type) {
     case 'player-ready': {
       addSkipIntervals();
-      sendResponse(defaultResponse);
       break;
     }
     case 'get-episode-information': {
-      (async () => {
-        const episodeInformation = await getEpisodeInformation();
-        sendResponse({
-          type: 'response',
+      getEpisodeInformation()
+        .then((episodeInformation) => ({
+          type: 'get-episode-information-response',
           payload: episodeInformation,
-        });
-      })();
+        }))
+        .then((response) => browser.runtime.sendMessage(response));
       break;
     }
     default:
   }
-  return true;
 };
 
-chrome.runtime.onMessage.addListener(messageHandler);
+browser.runtime.onMessage.addListener(messageHandler);
 
 // Handles URL change in SPAs
 let lastUrl = window.location.href;

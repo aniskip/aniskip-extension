@@ -1,6 +1,7 @@
+import { browser, Runtime } from 'webextension-polyfill-ts';
 import Message from './types/message_type';
 import { SkipTime } from './types/api/skip_time_types';
-import { defaultResponse, skipInterval } from './utils/page_utils';
+import { skipInterval } from './utils/page_utils';
 import getPlayer from './utils/player_utils';
 import 'tailwindcss/tailwind.css';
 import './players/player.scss';
@@ -33,18 +34,12 @@ const skipIfInInterval = (skipTime: SkipTime) => {
  * Handles messages between the player and the background script
  * @param message Message containing the type of action and the payload
  * @param _sender Sender of the message
- * @param _sendResponse Response to the sender of the message
  */
-const messageHandler = (
-  message: Message,
-  _sender: chrome.runtime.MessageSender,
-  sendResponse: (response?: Message) => void
-) => {
+const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
   switch (message.type) {
     case 'player-add-skip-interval': {
       const skipTime = message.payload as SkipTime;
       videoElement.addEventListener('timeupdate', skipIfInInterval(skipTime));
-      sendResponse(defaultResponse);
       break;
     }
     case 'player-clear-skip-intervals': {
@@ -56,32 +51,30 @@ const messageHandler = (
         );
       });
       functionReferences = {};
-      sendResponse(defaultResponse);
       break;
     }
     case 'player-get-video-duration': {
-      sendResponse({
-        type: 'response',
+      browser.runtime.sendMessage({
+        type: 'player-get-video-duration-response',
         payload: videoElement.duration,
       });
-      return false;
+      break;
     }
     default:
   }
-  return true;
 };
 
-chrome.runtime.onMessage.addListener(messageHandler);
+browser.runtime.onMessage.addListener(messageHandler);
 
 // Notify content script when video DOM element has been added
-new MutationObserver(async (_mutations, observer) => {
+new MutationObserver((_mutations, observer) => {
   // eslint-disable-next-line prefer-destructuring
   videoElement = document.getElementsByTagName('video')[0];
   const videoContainer = player.getVideoContainer();
   if (videoElement && videoContainer) {
     observer.disconnect();
     videoElement.onloadedmetadata = () => {
-      chrome.runtime.sendMessage({ type: 'player-ready' });
+      browser.runtime.sendMessage({ type: 'player-ready' });
     };
     videoContainer.onmouseover = () => player.injectSubmitButton();
   }

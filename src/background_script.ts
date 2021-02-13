@@ -1,29 +1,24 @@
+import { browser, Runtime } from 'webextension-polyfill-ts';
 import { v4 as uuidv4 } from 'uuid';
 import Message from './types/message_type';
 
 /**
  * Relay messages between content scripts
  * @param message Message containing the type of action and the payload
- * @param _sender Sender of the message
- * @param _sendResponse Response to the sender of the message
+ * @param sender Sender of the message
  */
-const messageHandler = (
-  message: Message,
-  sender: chrome.runtime.MessageSender,
-  sendResponse: (response?: Message) => void
-) => {
-  if (sender.tab?.id) {
-    chrome.tabs.sendMessage(sender.tab.id, message, (response: Message) => {
-      sendResponse(response);
-    });
+const messageHandler = (message: Message, sender: Runtime.MessageSender) => {
+  const tabId = sender.tab?.id;
+  if (tabId) {
+    return browser.tabs.sendMessage(tabId, message);
   }
-  return true;
+  return Promise.reject(new Error('Tab id not found'));
 };
 
-chrome.runtime.onMessage.addListener(messageHandler);
+browser.runtime.onMessage.addListener(messageHandler);
 
-chrome.runtime.onInstalled.addListener((details) => {
+browser.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
-    chrome.storage.sync.set({ userId: uuidv4() });
+    browser.storage.sync.set({ userId: uuidv4() });
   }
 });

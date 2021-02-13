@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import { browser } from 'webextension-polyfill-ts';
 import classnames from 'classnames';
 import { FaTimes } from 'react-icons/fa';
 import { SubmitMenuProps } from '../types/components/submit_types';
 import { timeStringToSeconds } from '../utils/string_utils';
 import OpeningSkipperHttpClient from '../api/opening_skipper_http_client';
-import Message from '../types/message_type';
 import Dropdown from './Dropdown';
 import { Option } from '../types/components/dropdown_types';
+import waitForMessage from '../utils/message_utils';
 
 const dropdownOptions: Option[] = [
   { value: 'op', label: 'Opening' },
@@ -26,36 +27,39 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
     new OpeningSkipperHttpClient()
   );
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit();
-    chrome.runtime.sendMessage(
-      { type: 'get-episode-information' },
-      (getEpisodeInfoResponse: Message) => {
-        chrome.runtime.sendMessage(
-          { type: 'player-get-video-duration' },
-          (playerGetDurationResponse: Message) => {
-            chrome.storage.sync.get(['userId'], ({ userId }) => {
-              const {
-                malId,
-                episodeNumber,
-                providerName,
-              } = getEpisodeInfoResponse.payload;
-              const duration = playerGetDurationResponse.payload;
-              openingSkipperHttpClient.createSkipTimes(
-                malId,
-                episodeNumber,
-                skipType,
-                providerName,
-                timeStringToSeconds(startTime),
-                timeStringToSeconds(endTime),
-                duration,
-                userId
-              );
-            });
-          }
-        );
-      }
+
+    let messageType = 'get-episode-information';
+    browser.runtime.sendMessage({ type: messageType });
+    const getEpisodeInfoResponse = await waitForMessage(
+      `${messageType}-response`
+    );
+
+    messageType = 'player-get-video-duration';
+    browser.runtime.sendMessage({ type: messageType });
+    const playerGetDurationResponse = await waitForMessage(
+      `${messageType}-response`
+    );
+
+    const { userId } = await browser.storage.sync.get(['userId']);
+    const {
+      malId,
+      episodeNumber,
+      providerName,
+    } = getEpisodeInfoResponse.payload;
+    const duration = playerGetDurationResponse.payload;
+
+    openingSkipperHttpClient.createSkipTimes(
+      malId,
+      episodeNumber,
+      skipType,
+      providerName,
+      timeStringToSeconds(startTime),
+      timeStringToSeconds(endTime),
+      duration,
+      userId
     );
   };
 
