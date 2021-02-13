@@ -1,18 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import classnames from 'classnames';
 import { FaTimes } from 'react-icons/fa';
 import { SubmitMenuProps } from '../types/components/submit_types';
-import { timeStringToSeconds } from '../utils/string_utils';
+import {
+  secondsToTimeString,
+  timeStringToSeconds,
+} from '../utils/string_utils';
 import OpeningSkipperHttpClient from '../api/opening_skipper_http_client';
 import Dropdown from './Dropdown';
-import { Option } from '../types/components/dropdown_types';
 import waitForMessage from '../utils/message_utils';
-
-const dropdownOptions: Option[] = [
-  { value: 'op', label: 'Opening' },
-  { value: 'ed', label: 'Ending' },
-];
 
 const SubmitMenu: React.FC<SubmitMenuProps> = ({
   variant,
@@ -21,8 +18,8 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
   onClose,
 }: SubmitMenuProps) => {
   const [skipType, setSkipType] = useState<'op' | 'ed'>('op');
-  const [startTime, setStartTime] = useState<string>('0:00');
-  const [endTime, setEndTime] = useState<string>('1:30');
+  const [startTime, setStartTime] = useState<string>('');
+  const [endTime, setEndTime] = useState<string>('');
   const [openingSkipperHttpClient] = useState<OpeningSkipperHttpClient>(
     new OpeningSkipperHttpClient()
   );
@@ -62,6 +59,27 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
       userId
     );
   };
+
+  useEffect(() => {
+    if (!hidden) {
+      (async () => {
+        let messageType = 'player-get-video-current-time';
+        browser.runtime.sendMessage({ type: messageType });
+        const currentTime: number = (
+          await waitForMessage(`${messageType}-response`)
+        ).payload;
+        setStartTime(secondsToTimeString(currentTime));
+        setEndTime(secondsToTimeString(currentTime + 90));
+
+        messageType = 'player-get-video-duration';
+        browser.runtime.sendMessage({ type: messageType });
+        const duration: number = (
+          await waitForMessage(`${messageType}-response`)
+        ).payload;
+        setSkipType(currentTime < duration / 2 ? 'op' : 'ed');
+      })();
+    }
+  }, [hidden]);
 
   return (
     <div
@@ -120,11 +138,13 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                 'px-2',
                 'py-1',
                 'block',
+                'text-sm',
                 'focus:outline-none',
                 'focus:ring-2',
                 'focus:ring-yellow-500'
               )}
               type="text"
+              required
               id="start-time"
               autoComplete="off"
               value={startTime}
@@ -139,11 +159,13 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                 'px-2',
                 'py-1',
                 'block',
+                'text-sm',
                 'focus:outline-none',
                 'focus:ring-2',
                 'focus:ring-yellow-500'
               )}
               type="text"
+              required
               id="end-time"
               autoComplete="off"
               value={endTime}
@@ -158,7 +180,10 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               className={classnames('text-xs', 'w-1/2')}
               value={skipType}
               onChange={setSkipType}
-              options={dropdownOptions}
+              options={[
+                { value: 'op', label: 'Opening' },
+                { value: 'ed', label: 'Ending' },
+              ]}
             />
             <input
               className={classnames(

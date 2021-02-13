@@ -88,7 +88,7 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
     case 'get-episode-information': {
       getEpisodeInformation()
         .then((episodeInformation) => ({
-          type: 'get-episode-information-response',
+          type: `${message.type}-response`,
           payload: episodeInformation,
         }))
         .then((response) => browser.runtime.sendMessage(response));

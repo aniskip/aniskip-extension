@@ -55,8 +55,15 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
     }
     case 'player-get-video-duration': {
       browser.runtime.sendMessage({
-        type: 'player-get-video-duration-response',
+        type: `${message.type}-response`,
         payload: videoElement.duration,
+      });
+      break;
+    }
+    case 'player-get-video-current-time': {
+      browser.runtime.sendMessage({
+        type: `${message.type}-response`,
+        payload: videoElement.currentTime,
       });
       break;
     }
