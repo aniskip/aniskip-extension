@@ -25,43 +25,48 @@ const Dropdown: React.FC<DropdownProps> = ({
         className={classnames(
           'bg-white',
           'rounded',
-          'px-2',
-          'py-1',
           'flex',
           'justify-between',
           'items-center',
           'w-full',
           'h-full',
           'space-x-2',
-          'focus:outline-none',
-          'focus:ring-2',
-          'focus:ring-yellow-500'
+          'text-center',
+          'border-2',
+          'border-gray-400',
+          {
+            'border-yellow-500': !hidden,
+          },
+          'focus:outline-none'
         )}
         type="button"
         onClick={() => setHidden((previous) => !previous)}
       >
-        <span
-          className={classnames(
-            'flex-1',
-            'font-semibold',
-            'border-r-2',
-            'border-gray-200'
-          )}
-        >
+        <span className={classnames('font-semibold', 'px-3', 'py-2')}>
           {options.find((element) => element.value === value)?.label}
         </span>
         <div
           className={classnames(
-            'flex-none',
-            'flex',
-            'justify-center',
-            'items-center',
-            'w-3',
-            'h-3',
-            'text-gray-500'
+            'border-l-2',
+            'border-gray-200',
+            'pl-3',
+            'pr-2',
+            'py-2'
           )}
         >
-          <FaCaretDown />
+          <div
+            className={classnames(
+              'flex-none',
+              'flex',
+              'justify-center',
+              'items-center',
+              'w-3',
+              'h-3',
+              'text-gray-500'
+            )}
+          >
+            <FaCaretDown />
+          </div>
         </div>
       </button>
       <div
@@ -71,25 +76,29 @@ const Dropdown: React.FC<DropdownProps> = ({
           'rounded',
           'mt-2',
           'absolute',
-          'w-full'
+          'w-full',
+          'shadow-lg',
+          'overflow-hidden'
         )}
       >
         {options.map(({ value: valueId, label }) => (
           <button
             className={classnames(
               'w-full',
-              'px-2',
-              'py-1',
-              'rounded',
+              'px-3',
+              'py-2',
+              'text-left',
+              'border-b',
               'focus:outline-none',
               'hover:bg-yellow-500',
+              'hover:border-yellow-500',
               'hover:text-white'
             )}
             type="button"
             key={uuidv4()}
             onClick={handleClick(valueId)}
           >
-            <span className={classnames()}>{label}</span>
+            <span>{label}</span>
           </button>
         ))}
       </div>

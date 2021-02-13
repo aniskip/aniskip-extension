@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
+import 'tailwindcss/tailwind.css';
+import Dropdown from '../components/Dropdown';
 
 const App: React.FC = () => {
   const [userId, setUserId] = useState<string>('');
@@ -11,7 +13,19 @@ const App: React.FC = () => {
     })();
   }, []);
 
-  return <div>The user id is: {userId}</div>;
+  return (
+    <div className="w-96 h-96">
+      The user id is: {userId}
+      <Dropdown
+        value="op"
+        onChange={() => {}}
+        options={[
+          { value: 'op', label: 'Opening' },
+          { value: 'ed', label: 'Ending' },
+        ]}
+      />
+    </div>
+  );
 };
 
 export default App;

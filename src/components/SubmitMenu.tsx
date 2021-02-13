@@ -84,10 +84,8 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
           'items-center',
           'w-full',
           'h-auto',
-          'border-white',
-          'border-b-2',
           'px-5',
-          'py-2'
+          'pt-2'
         )}
       >
         <h1 className={classnames('text-white', 'uppercase', 'text-sm')}>
@@ -157,14 +155,14 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
           </div>
           <div className={classnames('flex', 'space-x-2')}>
             <Dropdown
-              className={classnames('text-xs', 'flex-1')}
+              className={classnames('text-xs', 'w-1/2')}
               value={skipType}
               onChange={setSkipType}
               options={dropdownOptions}
             />
             <input
               className={classnames(
-                'flex-1',
+                'w-1/2',
                 'inline',
                 'border-none',
                 'bg-yellow-600',
