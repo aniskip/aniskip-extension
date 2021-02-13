@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import classnames from 'classnames';
 import { FaTimes } from 'react-icons/fa';
-import { SubmitMenuProps } from '../types/components/submit_types';
+import { InputProps, SubmitMenuProps } from '../types/components/submit_types';
 import {
   secondsToTimeString,
   timeStringToSeconds,
@@ -11,6 +11,26 @@ import OpeningSkipperHttpClient from '../api/opening_skipper_http_client';
 import Dropdown from './Dropdown';
 import waitForMessage from '../utils/message_utils';
 
+const Input: React.FC<InputProps> = ({ value, id, onChange }: InputProps) => (
+  <input
+    className={classnames(
+      'rounded',
+      'px-2',
+      'py-1',
+      'block',
+      'text-sm',
+      'focus:outline-none',
+      'focus:ring-2',
+      'focus:ring-yellow-500'
+    )}
+    type="text"
+    required
+    id={id}
+    autoComplete="off"
+    value={value}
+    onChange={onChange}
+  />
+);
 const SubmitMenu: React.FC<SubmitMenuProps> = ({
   variant,
   hidden,
@@ -132,42 +152,16 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
           onSubmit={handleSubmit}
         >
           <div className={classnames('text-black', 'space-y-2')}>
-            <input
-              className={classnames(
-                'rounded',
-                'px-2',
-                'py-1',
-                'block',
-                'text-sm',
-                'focus:outline-none',
-                'focus:ring-2',
-                'focus:ring-yellow-500'
-              )}
-              type="text"
-              required
+            <Input
               id="start-time"
-              autoComplete="off"
               value={startTime}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 const timeString = event.currentTarget.value;
                 setStartTime(timeString);
               }}
             />
-            <input
-              className={classnames(
-                'rounded',
-                'px-2',
-                'py-1',
-                'block',
-                'text-sm',
-                'focus:outline-none',
-                'focus:ring-2',
-                'focus:ring-yellow-500'
-              )}
-              type="text"
-              required
+            <Input
               id="end-time"
-              autoComplete="off"
               value={endTime}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 const timeString = event.currentTarget.value;

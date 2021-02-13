@@ -17,3 +17,9 @@ export interface SubmitMenuProps {
   onSubmit: CallableFunction;
   onClose: CallableFunction;
 }
+
+export interface InputProps {
+  value: string;
+  id: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
