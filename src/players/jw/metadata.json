@@ -1,5 +1,11 @@
 {
   "variant": "jw",
   "videoContainerSelectorString": "Video Player",
-  "injectSettingsButtonReferenceNodeSelectorString": "Settings"
+  "injectSettingsButtonReferenceNodeSelectorString": "Settings",
+  "player_urls": [
+    "*://gogo-play.net/*",
+    "*://streamsb.net/*",
+    "*://cloud9.to/*",
+    "*://fcdn.stream/*"
+  ]
 }

@@ -1,5 +1,6 @@
 {
   "variant": "aniwatch",
   "videoContainerSelectorString": "plyr__video-wrapper",
-  "injectSettingsButtonReferenceNodeSelectorString": "plyr__controls__item plyr__menu"
+  "injectSettingsButtonReferenceNodeSelectorString": "plyr__controls__item plyr__menu",
+  "player_urls": ["*://aniwatch.me/*"]
 }

@@ -38,21 +38,41 @@ const getPageUrls = () => {
   return pageUrls;
 };
 
+const getPlayerUrls = () => {
+  const playersPath = path.join(__dirname, '..', 'src', 'players');
+  const playerNames = fs
+    .readdirSync(playersPath, { withFileTypes: true })
+    .filter((file) => file.isDirectory())
+    .map((file) => file.name);
+
+  const playerUrls = playerNames
+    .map(
+      (playerName) =>
+        JSON.parse(
+          fs.readFileSync(path.join(playersPath, playerName, 'metadata.json'))
+        ).player_urls
+    )
+    .flat();
+
+  return playerUrls;
+};
+
 module.exports = () => {
-  const urls = getPageUrls();
+  const pageUrls = getPageUrls();
+  const playerUrls = getPlayerUrls();
   manifest.content_scripts = [
     {
-      matches: urls,
+      matches: pageUrls,
       js: ['content_script.js'],
     },
     {
-      matches: ['<all_urls>'],
+      matches: playerUrls,
       js: ['player_script.js'],
       all_frames: true,
       run_at: 'document_start',
     },
   ];
-  manifest.optional_permissions = urls;
+  manifest.optional_permissions = pageUrls.concat(playerUrls);
 
   switch (process.env.BROWSER) {
     case 'chromium':

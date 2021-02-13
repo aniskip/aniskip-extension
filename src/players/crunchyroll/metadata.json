@@ -1,5 +1,6 @@
 {
   "variant": "crunchyroll",
   "videoContainerSelectorString": "vilos",
-  "injectSettingsButtonReferenceNodeSelectorString": "settingsControl"
+  "injectSettingsButtonReferenceNodeSelectorString": "settingsControl",
+  "player_urls": ["*://static.crunchyroll.com/*"]
 }
