@@ -17,6 +17,7 @@ const manifest = {
     scripts: ['background_script.js'],
   },
   permissions: ['storage', '*://api.malsync.moe/*'],
+  web_accessible_resources: ['player_script.css'],
 };
 
 const getPageUrls = () => {

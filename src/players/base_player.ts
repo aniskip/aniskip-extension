@@ -6,6 +6,7 @@ import { SubmitButtonContainerProps } from '../types/components/submit_types';
 import { SkipTime } from '../types/api/skip_time_types';
 import SkipTimeIndicator from '../components/SkipTimeIndicator';
 import { SkipTimeIndicatorProps } from '../types/components/skip_time_indicator_types';
+import { browser } from 'webextension-polyfill-ts';
 
 abstract class BasePlayer implements Player {
   document: Document;
@@ -62,6 +63,11 @@ abstract class BasePlayer implements Player {
     );
 
     ReactDOM.render(submitButton, shadowRoot);
+
+    const link = document.createElement('link');
+    link.setAttribute('rel', 'stylesheet');
+    link.setAttribute('href', browser.runtime.getURL('player_script.css'));
+    shadowRoot.appendChild(link);
 
     referenceNode.insertAdjacentElement(
       'beforebegin',

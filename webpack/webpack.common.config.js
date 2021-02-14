@@ -1,7 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const JsonBuilderPlugin = require('./json_builder_webpack_plugin');
 const getManifest = require('./manifest');
 
@@ -28,31 +29,7 @@ module.exports = {
       {
         test: /\.((s[ac])?|c)ss$/i,
         use: [
-          {
-            loader: 'style-loader',
-            options: {
-              insert: (styleTag) => {
-                new MutationObserver((_mutations, observer) => {
-                  const rootIds = [
-                    'opening-skipper-player-submit-button',
-                    'opening-skipper-root',
-                  ];
-                  rootIds.forEach((rootId) => {
-                    // eslint-disable-next-line no-undef
-                    const root = document.getElementById(rootId);
-                    if (root) {
-                      observer.disconnect();
-                      root.shadowRoot.appendChild(styleTag);
-                    }
-                  });
-                  // eslint-disable-next-line no-undef
-                }).observe(document, {
-                  subtree: true,
-                  childList: true,
-                });
-              },
-            },
-          },
+          MiniCssExtractPlugin.loader,
           'css-loader',
           'resolve-url-loader',
           {
@@ -77,12 +54,7 @@ module.exports = {
               },
             },
           },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: false,
-            },
-          },
+          'sass-loader',
         ],
       },
     ],
@@ -91,15 +63,17 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js'],
   },
   plugins: [
+    new MiniCssExtractPlugin({ filename: '[name].css' }),
     new CleanWebpackPlugin(),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.join('src', 'options', 'options.html'),
-          to: 'options.html',
-        },
-        { from: path.join('src', 'popup', 'popup.html'), to: 'popup.html' },
-      ],
+    new HtmlWebpackPlugin({
+      filename: 'options.html',
+      template: './public/options.html',
+      chunks: ['options'],
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'popup.html',
+      template: './public/popup.html',
+      chunks: ['popup'],
     }),
     new JsonBuilderPlugin({
       output: 'manifest.json',
