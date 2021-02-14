@@ -29,9 +29,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
   const [currentInputFocus, setCurrentInputFocus] = useState<
     'start-time' | 'end-time'
   >();
-  const inputPatternRegexStringRef = useRef(
-    '[0-9]+:[0-9]{1,2}(.[0-9]{1,3})?'
-  );
+  const inputPatternRegexStringRef = useRef('[0-9]+:[0-9]{1,2}(.[0-9]{1,3})?');
   const inputPatternTestRegexRef = useRef(/^[0-9:.]*$/);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
