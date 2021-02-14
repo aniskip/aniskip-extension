@@ -4,7 +4,7 @@ import { SkipTime } from './types/api/skip_time_types';
 import { skipInterval } from './utils/page_utils';
 import getPlayer from './utils/player_utils';
 import 'tailwindcss/tailwind.css';
-import './players/player.scss';
+import './player_script.scss';
 
 let videoElement: HTMLVideoElement;
 let functionReferences: Record<string, (event: Event) => void> = {};
