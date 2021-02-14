@@ -19,7 +19,9 @@ export interface SubmitMenuProps {
 }
 
 export interface InputProps {
+  className?: string;
   value: string;
   id: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
