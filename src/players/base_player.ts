@@ -17,7 +17,8 @@ abstract class BasePlayer implements Player {
   constructor(document: Document) {
     this.document = document;
     this.submitButtonContainer = this.createContainer(
-      'opening-skipper-player-submit-button'
+      'opening-skipper-player-submit-button',
+      ['keydown', 'keyup', 'mousedown', 'mouseup']
     );
     this.skipTimeIndicatorContainer = this.createContainer(
       'opening-skipper-player-skip-time-indicator'
@@ -32,12 +33,18 @@ abstract class BasePlayer implements Player {
 
   abstract injectSkipTimeIndicator(skipTime: SkipTime): void;
 
-  createContainer(id: string) {
-    const submitButtonContainer = this.document.createElement('div');
-    submitButtonContainer.setAttribute('id', id);
-    submitButtonContainer.attachShadow({ mode: 'open' });
+  createContainer(id: string, stopPropagationEvents: string[] = []) {
+    const container = this.document.createElement('div');
+    container.setAttribute('id', id);
+    container.attachShadow({ mode: 'open' });
 
-    return submitButtonContainer;
+    stopPropagationEvents.forEach((eventName) => {
+      container.addEventListener(eventName, (event) => {
+        event.stopPropagation();
+      });
+    });
+
+    return container;
   }
 
   injectSubmitButtonHelper(
@@ -61,14 +68,6 @@ abstract class BasePlayer implements Player {
       this.submitButtonContainer
     );
 
-    const events = ['keydown', 'keyup', 'mousedown', 'mouseup'];
-
-    events.forEach((eventName) => {
-      this.submitButtonContainer.addEventListener(eventName, (event) => {
-        event.stopPropagation();
-      });
-    });
-
     return this.submitButtonContainer;
   }
 
@@ -80,16 +79,14 @@ abstract class BasePlayer implements Player {
     if (this.document.getElementById(id) || !referenceNode || !shadowRoot) {
       return null;
     }
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { start_time, end_time } = skipTime.interval;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { episode_length } = skipTime;
+    const { start_time: startTime, end_time: endTime } = skipTime.interval;
+    const { episode_length: episodeLength } = skipTime;
     const skipTimeIndicator = React.createElement<SkipTimeIndicatorProps>(
       SkipTimeIndicator,
       {
-        startTime: start_time,
-        endTime: end_time,
-        episodeDuration: episode_length,
+        startTime,
+        endTime,
+        episodeLength,
         color: 'red',
       }
     );
@@ -102,8 +99,8 @@ abstract class BasePlayer implements Player {
     selectorString: string,
     index: number
   ): HTMLElement | null {
-    const container = this.document.getElementsByClassName(selectorString);
-    return container[index] as HTMLElement;
+    const containers = this.document.getElementsByClassName(selectorString);
+    return containers[index] as HTMLElement;
   }
 }
 

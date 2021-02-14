@@ -25,7 +25,6 @@ class Jw extends BasePlayer {
     if (container) {
       this.injectSkipTimeIndicatornHelper(container, skipTime);
     }
-    console.log(this.document);
   }
 }
 

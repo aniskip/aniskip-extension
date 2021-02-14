@@ -8,7 +8,7 @@ class Crunchyroll extends BasePlayer {
   }
 
   getSeekBarContainer() {
-    return super.getContainerHelper(metadata.seekBarContainerSelectorString, 0);
+    return super.getContainerHelper(metadata.seekBarContainerSelectorString, 1);
   }
 
   injectSubmitButton() {
@@ -25,7 +25,6 @@ class Crunchyroll extends BasePlayer {
     if (container) {
       this.injectSkipTimeIndicatornHelper(container, skipTime);
     }
-    console.log(this.document);
   }
 }
 

@@ -8,12 +8,7 @@ class Aniwatch extends BasePlayer {
   }
 
   getSeekBarContainer() {
-    const container = super.getContainerHelper(
-      metadata.seekBarContainerSelectorString,
-      0
-    );
-    console.log({ container });
-    return container;
+    return super.getContainerHelper(metadata.seekBarContainerSelectorString, 0);
   }
 
   injectSubmitButton() {

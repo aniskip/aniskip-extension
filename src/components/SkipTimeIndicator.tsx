@@ -4,22 +4,21 @@ import { SkipTimeIndicatorProps } from '../types/components/skip_time_indicator_
 const SkipTimeIndicator: React.FC<SkipTimeIndicatorProps> = ({
   startTime,
   endTime,
-  episodeDuration,
+  episodeLength: episodeDuration,
   color,
 }: SkipTimeIndicatorProps) => {
-  const calculateTranslation = () => (startTime / episodeDuration) * 100;
-  const calculateWidth = () => ((endTime - startTime) / episodeDuration) * 100;
+  const calculateTranslation = () => startTime / episodeDuration;
+  const calculateWidth = () => (endTime - startTime) / episodeDuration;
 
   return (
     <div
       style={{
-        left: 0,
-        top: '39%',
+        left: `${calculateTranslation() * 100}%`,
+        top: '38%',
         backgroundColor: color,
         height: '5px',
         position: 'absolute',
-        width: `${calculateWidth()}%`,
-        marginLeft: `${calculateTranslation()}%`,
+        width: `${calculateWidth() * 100}%`,
         zIndex: 5,
       }}
     />
