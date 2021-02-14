@@ -9,9 +9,16 @@ import {
 } from '../utils/string_utils';
 import OpeningSkipperHttpClient from '../api/opening_skipper_http_client';
 import Dropdown from './Dropdown';
+import Button from './Button';
 import waitForMessage from '../utils/message_utils';
 
-const Input: React.FC<InputProps> = ({ value, id, onChange }: InputProps) => (
+const Input: React.FC<InputProps> = ({
+  className,
+  value,
+  id,
+  onChange,
+  onFocus,
+}: InputProps) => (
   <input
     className={classnames(
       'rounded',
@@ -21,7 +28,8 @@ const Input: React.FC<InputProps> = ({ value, id, onChange }: InputProps) => (
       'text-sm',
       'focus:outline-none',
       'focus:ring-2',
-      'focus:ring-yellow-500'
+      'focus:ring-yellow-500',
+      className
     )}
     type="text"
     required
@@ -29,6 +37,7 @@ const Input: React.FC<InputProps> = ({ value, id, onChange }: InputProps) => (
     autoComplete="off"
     value={value}
     onChange={onChange}
+    onFocus={onFocus}
   />
 );
 const SubmitMenu: React.FC<SubmitMenuProps> = ({
@@ -43,6 +52,9 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
   const [openingSkipperHttpClient] = useState<OpeningSkipperHttpClient>(
     new OpeningSkipperHttpClient()
   );
+  const [currentInputFocus, setCurrentInputFocus] = useState<
+    'start-time' | 'end-time'
+  >();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -110,6 +122,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
         'absolute',
         'select-none',
         'rounded-md',
+        'w-96',
         { hidden },
         `submit-menu--${variant}`
       )}
@@ -151,22 +164,112 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
           className={classnames('block', 'space-y-2')}
           onSubmit={handleSubmit}
         >
-          <div className={classnames('text-black', 'space-y-2')}>
+          <div className={classnames('flex', 'text-black', 'space-x-2')}>
             <Input
+              className={classnames('w-1/2')}
               id="start-time"
               value={startTime}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 const timeString = event.currentTarget.value;
                 setStartTime(timeString);
               }}
+              onFocus={() => setCurrentInputFocus('start-time')}
             />
             <Input
+              className={classnames('w-1/2')}
               id="end-time"
               value={endTime}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 const timeString = event.currentTarget.value;
                 setEndTime(timeString);
               }}
+              onFocus={() => setCurrentInputFocus('end-time')}
+            />
+          </div>
+          <div className={classnames('flex', 'text-black', 'space-x-2')}>
+            <Button
+              className={classnames(
+                'flex-1',
+                'inline',
+                'focus:ring-2',
+                'focus:ring-yellow-100',
+                'bg-yellow-600',
+                'text-white'
+              )}
+              onClick={async () => {
+                const messageType = 'player-get-video-current-time';
+                browser.runtime.sendMessage({ type: messageType });
+                const currentTime: number = (
+                  await waitForMessage(`${messageType}-response`)
+                ).payload;
+                if (currentInputFocus === 'start-time') {
+                  setStartTime(secondsToTimeString(currentTime));
+                } else if (currentInputFocus === 'end-time') {
+                  setEndTime(secondsToTimeString(currentTime));
+                }
+              }}
+              label="Now"
+            />
+            <Button
+              className={classnames(
+                'flex-1',
+                'inline',
+                'focus:ring-2',
+                'focus:ring-yellow-100',
+                'bg-blue-600',
+                'text-white'
+              )}
+              onClick={async () => {
+                let messageType = 'player-get-video-duration';
+                await browser.runtime.sendMessage({
+                  type: messageType,
+                });
+                const getEpisodeDurationResponse = await waitForMessage(
+                  `${messageType}-response`
+                );
+                messageType = 'player-add-skip-interval';
+                await browser.runtime.sendMessage({
+                  type: messageType,
+                  payload: {
+                    interval: {
+                      start_time: timeStringToSeconds(startTime),
+                      end_time: timeStringToSeconds(endTime),
+                    },
+                    skip_type: skipType,
+                    skip_id: '',
+                    episode_length: getEpisodeDurationResponse.payload,
+                  },
+                });
+                messageType = 'player-set-video-current-time';
+                await browser.runtime.sendMessage({
+                  type: messageType,
+                  payload: timeStringToSeconds(startTime),
+                });
+              }}
+              label="Preview"
+            />
+            <Button
+              className={classnames(
+                'flex-1',
+                'inline',
+                'focus:ring-2',
+                'focus:ring-yellow-100',
+                'bg-yellow-600',
+                'text-white'
+              )}
+              onClick={async () => {
+                const messageType = 'player-get-video-duration';
+                browser.runtime.sendMessage({ type: messageType });
+                const duration: number = (
+                  await waitForMessage(`${messageType}-response`)
+                ).payload;
+                if (currentInputFocus === 'start-time') {
+                  setStartTime(secondsToTimeString(duration));
+                } else if (currentInputFocus === 'end-time') {
+                  setEndTime(secondsToTimeString(duration));
+                }
+              }}
+              label="End"
             />
           </div>
           <div className={classnames('flex', 'space-x-2')}>
@@ -179,24 +282,17 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                 { value: 'ed', label: 'Ending' },
               ]}
             />
-            <input
+            <Button
               className={classnames(
                 'w-1/2',
                 'inline',
-                'border-none',
                 'bg-yellow-600',
                 'text-white',
-                'py-1',
-                'px-5',
-                'rounded',
-                'text-sm',
-                'font-semibold',
-                'focus:outline-none',
                 'focus:ring-2',
                 'focus:ring-yellow-100'
               )}
-              type="submit"
-              value="Submit"
+              submit
+              label="Submit"
             />
           </div>
         </form>
