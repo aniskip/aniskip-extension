@@ -67,6 +67,12 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
       });
       break;
     }
+    case 'player-set-video-current-time': {
+      const margin = 3;
+      const newTime = (message.payload as number) - margin;
+      videoElement.currentTime = newTime > 0 ? newTime : 0;
+      break;
+    }
     default:
   }
 };
