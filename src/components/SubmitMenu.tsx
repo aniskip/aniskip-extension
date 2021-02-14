@@ -58,29 +58,16 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
     } = getEpisodeInfoResponse.payload;
     const duration = playerGetDurationResponse.payload;
 
-    console.log({
-      submit_params: {
-        malId,
-        episodeNumber,
-        skipType,
-        providerName,
-        startTime: timeStringToSeconds(startTime),
-        endTime: timeStringToSeconds(endTime),
-        duration,
-        userId,
-      },
-    });
-
-    // openingSkipperHttpClient.createSkipTimes(
-    //   malId,
-    //   episodeNumber,
-    //   skipType,
-    //   providerName,
-    //   timeStringToSeconds(startTime),
-    //   timeStringToSeconds(endTime),
-    //   duration,
-    //   userId
-    // );
+    openingSkipperHttpClient.createSkipTimes(
+      malId,
+      episodeNumber,
+      skipType,
+      providerName,
+      timeStringToSeconds(startTime),
+      timeStringToSeconds(endTime),
+      duration,
+      userId
+    );
   };
 
   useEffect(() => {
