@@ -30,7 +30,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
     'start-time' | 'end-time'
   >();
   const inputPatternRegexStringRef = useRef(
-    '^[12]?[0-9]:[0-9]{1,2}(.[0-9]{1,3})?$'
+    '[0-9]+:[0-9]{1,2}(.[0-9]{1,3})?'
   );
   const inputPatternTestRegexRef = useRef(/^[0-9:.]*$/);
 
