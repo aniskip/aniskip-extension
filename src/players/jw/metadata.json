@@ -1,7 +1,9 @@
 {
   "variant": "jw",
   "videoContainerSelectorString": "Video Player",
+
   "injectSettingsButtonReferenceNodeSelectorString": "Settings",
+  "seekBarContainerSelectorString": "",
   "player_urls": [
     "*://gogo-play.net/*",
     "*://streamsb.net/*",
