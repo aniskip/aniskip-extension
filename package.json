@@ -1,7 +1,7 @@
 {
   "name": "typescript-opening-skipper-frontend",
   "extensionName": "Opening and Ending Skipper",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "An extension which gives the option to skip opening and endings of media on various streaming sites",
   "main": "content.ts",
   "repository": "https://github.com/lexesjan/typescript-opening-skipper-frontend",
