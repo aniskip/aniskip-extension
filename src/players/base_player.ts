@@ -45,6 +45,15 @@ abstract class BasePlayer implements Player {
       });
     });
 
+    (async () => {
+      const cssUrl = browser.runtime.getURL('player_script.css');
+      const response = await fetch(cssUrl, { method: 'GET' });
+      const cssString = await response.text();
+      const style = document.createElement('style');
+      style.innerHTML = cssString;
+      container.shadowRoot?.appendChild(style);
+    })();
+
     return container;
   }
 
@@ -57,17 +66,18 @@ abstract class BasePlayer implements Player {
       return null;
     }
 
-    const submitButton = React.createElement<SubmitButtonContainerProps>(
-      SubmitContainer,
-      { variant }
-    );
+    if (!shadowRoot.getElementById(`${id}-root`)) {
+      const root = this.document.createElement('div');
+      root.setAttribute('id', `${id}-root`);
+      shadowRoot.appendChild(root);
 
-    ReactDOM.render(submitButton, shadowRoot);
+      const submitButton = React.createElement<SubmitButtonContainerProps>(
+        SubmitContainer,
+        { variant }
+      );
 
-    const link = document.createElement('link');
-    link.setAttribute('rel', 'stylesheet');
-    link.setAttribute('href', browser.runtime.getURL('player_script.css'));
-    shadowRoot.appendChild(link);
+      ReactDOM.render(submitButton, root);
+    }
 
     referenceNode.insertAdjacentElement(
       'beforebegin',
@@ -98,11 +108,6 @@ abstract class BasePlayer implements Player {
       }
     );
     ReactDOM.render(skipTimeIndicator, shadowRoot);
-
-    const link = document.createElement('link');
-    link.setAttribute('rel', 'stylesheet');
-    link.setAttribute('href', browser.runtime.getURL('player_script.css'));
-    shadowRoot.appendChild(link);
 
     referenceNode.appendChild(this.skipTimeIndicatorContainer);
 
