@@ -221,14 +221,14 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               )}
               onClick={async () => {
                 let messageType = 'player-get-video-duration';
-                await browser.runtime.sendMessage({
+                browser.runtime.sendMessage({
                   type: messageType,
                 });
                 const getEpisodeDurationResponse = await waitForMessage(
                   `${messageType}-response`
                 );
                 messageType = 'player-add-skip-interval';
-                await browser.runtime.sendMessage({
+                browser.runtime.sendMessage({
                   type: messageType,
                   payload: {
                     interval: {
@@ -241,7 +241,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                   },
                 });
                 messageType = 'player-set-video-current-time';
-                await browser.runtime.sendMessage({
+                browser.runtime.sendMessage({
                   type: messageType,
                   payload: timeStringToSeconds(startTime),
                 });
