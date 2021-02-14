@@ -21,13 +21,21 @@ const skipIfInInterval = (skipTime: SkipTime) => {
   const functionReference =
     functionReferences[skipTimeString] ||
     (functionReferences[skipTimeString] = (event: Event) => {
-      const margin = 0.3;
+      const margin = 0;
       const video = event.currentTarget as HTMLVideoElement;
-      const checkIntervalLength =
-        skipTime.interval.end_time - skipTime.interval.start_time;
+      const checkIntervalLength = 10;
       skipInterval(video, skipTime, margin, checkIntervalLength);
     });
   return functionReference;
+};
+
+/**
+ * Removes skip times event handlers from the video element
+ */
+const clearSkipIntervals = (skipIntervalListners: EventListener[]) => {
+  skipIntervalListners.forEach((listener) =>
+    videoElement.removeEventListener('timeupdate', listener)
+  );
 };
 
 /**
@@ -43,13 +51,7 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
       break;
     }
     case 'player-clear-skip-intervals': {
-      const skipTimes = message.payload as SkipTime[];
-      skipTimes.forEach((skipTime) => {
-        videoElement.removeEventListener(
-          'timeupdate',
-          skipIfInInterval(skipTime)
-        );
-      });
+      clearSkipIntervals(Object.values(functionReferences));
       functionReferences = {};
       break;
     }
@@ -67,13 +69,44 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
       });
       break;
     }
-    case 'player-set-video-current-time': {
-      const margin = 3;
-      const newTime = (message.payload as number) - margin;
-      videoElement.currentTime = newTime > 0 ? newTime : 0;
-      break;
-    }
     case 'player-add-preview-skip-interval': {
+      const { payload } = message;
+      const skipTime: SkipTime = {
+        interval: {
+          start_time: payload.interval.startTime as number,
+          end_time: payload.interval.endTime as number,
+        },
+        skip_type: payload.skipType as 'op' | 'ed',
+        skip_id: '',
+        episode_length: videoElement.duration,
+      };
+
+      clearSkipIntervals(Object.values(functionReferences));
+
+      const previewSkipHandler = (event: Event) => {
+        const margin = 0;
+        const video = event.currentTarget as HTMLVideoElement;
+        const checkIntervalLength = 10;
+        const intervalSkipped = skipInterval(
+          video,
+          skipTime,
+          margin,
+          checkIntervalLength
+        );
+
+        if (intervalSkipped) {
+          video.removeEventListener('timeupdate', previewSkipHandler);
+          Object.values(functionReferences).forEach((functionReference) => {
+            videoElement.addEventListener('timeupdate', functionReference);
+          });
+        }
+      };
+      videoElement.addEventListener('timeupdate', previewSkipHandler);
+
+      const margin = 3;
+      const newTime = skipTime.interval.start_time - margin;
+      videoElement.currentTime = newTime > 0 ? newTime : 0;
+      videoElement.play();
       break;
     }
     default:

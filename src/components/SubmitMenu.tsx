@@ -226,30 +226,16 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                 'text-white'
               )}
               onClick={async () => {
-                let messageType = 'player-get-video-duration';
-                browser.runtime.sendMessage({
-                  type: messageType,
-                });
-                const getEpisodeDurationResponse = await waitForMessage(
-                  `${messageType}-response`
-                );
-                messageType = 'player-add-skip-interval';
+                const messageType = 'player-add-preview-skip-interval';
                 browser.runtime.sendMessage({
                   type: messageType,
                   payload: {
                     interval: {
-                      start_time: timeStringToSeconds(startTime),
-                      end_time: timeStringToSeconds(endTime),
+                      startTime: timeStringToSeconds(startTime),
+                      endTime: timeStringToSeconds(endTime),
                     },
-                    skip_type: skipType,
-                    skip_id: '',
-                    episode_length: getEpisodeDurationResponse.payload,
+                    skipType,
                   },
-                });
-                messageType = 'player-set-video-current-time';
-                browser.runtime.sendMessage({
-                  type: messageType,
-                  payload: timeStringToSeconds(startTime),
                 });
               }}
               label="Preview"
