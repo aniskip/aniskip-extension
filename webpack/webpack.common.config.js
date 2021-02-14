@@ -1,17 +1,18 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable import/no-extraneous-dependencies */
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const JsonBuilderPlugin = require('./json_builder_webpack_plugin');
 const getManifest = require('./manifest');
 
-module.exports = (env) => ({
-  mode: env.NODE_ENV,
+module.exports = {
+  mode: process.env.NODE_ENV,
   entry: {
     options: './src/options/index.tsx',
     popup: './src/popup/index.tsx',
-    background: './src/background.ts',
-    content: './src/content.ts',
-    player: './src/player.ts',
+    background_script: './src/background_script.ts',
+    content_script: './src/content_script.ts',
+    player_script: './src/player_script.ts',
   },
   output: {
     path: path.join(__dirname, '..', 'dist'),
@@ -24,12 +25,73 @@ module.exports = (env) => ({
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.((s[ac])?|c)ss$/i,
+        use: [
+          {
+            loader: 'style-loader',
+            options: {
+              insert: (styleTag) => {
+                new MutationObserver((_mutations, observer) => {
+                  const rootIds = [
+                    'opening-skipper-player-submit-button',
+                    'opening-skipper-root',
+                  ];
+                  rootIds.forEach((rootId) => {
+                    // eslint-disable-next-line no-undef
+                    const root = document.getElementById(rootId);
+                    if (root) {
+                      observer.disconnect();
+                      root.shadowRoot.appendChild(styleTag);
+                    }
+                  });
+                  // eslint-disable-next-line no-undef
+                }).observe(document, {
+                  subtree: true,
+                  childList: true,
+                });
+              },
+            },
+          },
+          'css-loader',
+          'resolve-url-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: false,
+              postcssOptions: {
+                plugins: [
+                  ['postcss-import', {}],
+                  [
+                    'tailwindcss',
+                    {
+                      config: path.join(
+                        __dirname,
+                        '..',
+                        './tailwind.config.js'
+                      ),
+                    },
+                  ],
+                  ['autoprefixer', {}],
+                ],
+              },
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: false,
+            },
+          },
+        ],
+      },
     ],
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new CopyPlugin({
       patterns: [
         {
@@ -41,7 +103,7 @@ module.exports = (env) => ({
     }),
     new JsonBuilderPlugin({
       output: 'manifest.json',
-      json: getManifest(env),
+      json: getManifest(),
     }),
   ],
-});
+};

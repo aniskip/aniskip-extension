@@ -14,9 +14,9 @@ const manifest = {
     default_popup: 'popup.html',
   },
   background: {
-    scripts: ['background.js'],
+    scripts: ['background_script.js'],
   },
-  permissions: ['*://api.malsync.moe/*'],
+  permissions: ['storage', '*://api.malsync.moe/*'],
 };
 
 const getPageUrls = () => {
@@ -38,23 +38,43 @@ const getPageUrls = () => {
   return pageUrls;
 };
 
-module.exports = (env) => {
-  const urls = getPageUrls();
+const getPlayerUrls = () => {
+  const playersPath = path.join(__dirname, '..', 'src', 'players');
+  const playerNames = fs
+    .readdirSync(playersPath, { withFileTypes: true })
+    .filter((file) => file.isDirectory())
+    .map((file) => file.name);
+
+  const playerUrls = playerNames
+    .map(
+      (playerName) =>
+        JSON.parse(
+          fs.readFileSync(path.join(playersPath, playerName, 'metadata.json'))
+        ).player_urls
+    )
+    .flat();
+
+  return playerUrls;
+};
+
+module.exports = () => {
+  const pageUrls = getPageUrls();
+  const playerUrls = getPlayerUrls();
   manifest.content_scripts = [
     {
-      matches: urls,
-      js: ['content.js'],
+      matches: pageUrls,
+      js: ['content_script.js'],
     },
     {
-      matches: ['<all_urls>'],
-      js: ['player.js'],
+      matches: playerUrls,
+      js: ['player_script.js'],
       all_frames: true,
       run_at: 'document_start',
     },
   ];
-  manifest.optional_permissions = urls;
+  manifest.optional_permissions = pageUrls.concat(playerUrls);
 
-  switch (env.BROWSER) {
+  switch (process.env.BROWSER) {
     case 'chromium':
       manifest.options_ui.chrome_style = true;
       manifest.browser_action.chrome_style = true;
@@ -62,12 +82,17 @@ module.exports = (env) => {
     case 'firefox':
       manifest.options_ui.browser_style = true;
       manifest.browser_action.browser_style = true;
+      manifest.browser_specific_settings = {
+        gecko: {
+          id: '{c67645fa-ad86-4b2f-ab7a-67fc5f3e9f5a}',
+        },
+      };
       break;
     default:
       break;
   }
 
-  if (env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development') {
     manifest.permissions.push('*://localhost/*');
   }
   return manifest;

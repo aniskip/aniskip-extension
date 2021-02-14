@@ -6,7 +6,12 @@ module.exports = {
     'prettier/prettier': 'error',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
   },
-  extends: ['airbnb-typescript', 'prettier', 'prettier/@typescript-eslint'],
+  extends: [
+    'airbnb-typescript',
+    'prettier',
+    'prettier/react',
+    'prettier/@typescript-eslint',
+  ],
   parserOptions: {
     project: './tsconfig.json',
     createDefaultProgram: true,

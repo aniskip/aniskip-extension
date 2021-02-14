@@ -5,19 +5,20 @@ import Nineanime from '../pages/nineanime/page';
 import { SkipTime } from '../types/api/skip_time_types';
 import Page from '../types/pages/page_type';
 
-/** Skips time on player based on skip intervals padded with margin
+/**
+ * Skips time on player based on skip intervals padded with margin
  * @param player Selector for media player with access to .currentTime and .duration
  * @param skipTime JSON object of SkipTimes type with information about skip times
  * @param margin Duration of padding to compensate for lack of skip time sensitivity
  * @param checkIntervalLength The interval length to check whether or not to skip
- * @returns Reference to skip interval if play
+ * @returns True if the interval was skipped else false
  */
 export function skipInterval(
   player: HTMLVideoElement,
   skipTime: SkipTime,
   margin: number,
   checkIntervalLength: number
-): void {
+): boolean {
   const currentTotalLength = player.duration;
   const skipDiff = currentTotalLength - skipTime.episode_length;
   const startTime = skipTime.interval.start_time;
@@ -29,6 +30,7 @@ export function skipInterval(
     ) {
       // eslint-disable-next-line no-param-reassign
       player.currentTime = endTime + skipDiff + margin;
+      return true;
     }
   } else if (
     player.currentTime >= 0 &&
@@ -36,10 +38,15 @@ export function skipInterval(
   ) {
     // eslint-disable-next-line no-param-reassign
     player.currentTime = endTime + skipDiff - margin;
+    return true;
   }
+  return false;
 }
 
-/**  Get provider name, provider anime id and anime episode number from current url
+/**
+ * Get provider name, provider anime id and anime episode number from current url
+ * @param pathname Provider's url path
+ * @param hostname Provider's host
  * @returns A tuple of (providerName, identifier and episodeNumber)
  */
 export function getProviderInformation(pathname: string, hostname: string) {
