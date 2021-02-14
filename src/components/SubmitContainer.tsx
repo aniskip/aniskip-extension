@@ -9,14 +9,6 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
 }: SubmitButtonContainerProps) => {
   const [clicked, setClicked] = useState<boolean>(false);
 
-  const handleClick = (
-    _event:
-      | React.MouseEvent<HTMLDivElement, MouseEvent>
-      | React.KeyboardEvent<HTMLDivElement>
-  ) => {
-    setClicked((previous) => !previous);
-  };
-
   return (
     <div
       className={classnames(
@@ -36,7 +28,10 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
         `submit-container--${variant}`
       )}
     >
-      <SubmitButton handleClick={handleClick} variant={variant} />
+      <SubmitButton
+        handleClick={() => setClicked((current) => !current)}
+        variant={variant}
+      />
       <SubmitMenu
         variant={variant}
         hidden={!clicked}

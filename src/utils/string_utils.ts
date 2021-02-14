@@ -14,3 +14,10 @@ export const secondsToTimeString = (seconds: number) => {
   const remainder = (seconds % 60).toFixed(3).padStart(6, '0');
   return `${minutes}:${remainder}`;
 };
+
+export const formatTimeString = (timeString: string) => {
+  const timeStringNumber = Number(timeString);
+  const isNumber = Number.isFinite(timeStringNumber);
+  const seconds = isNumber ? timeStringNumber : timeStringToSeconds(timeString);
+  return secondsToTimeString(seconds);
+};

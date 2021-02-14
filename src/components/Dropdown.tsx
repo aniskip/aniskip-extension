@@ -40,7 +40,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           'focus:outline-none'
         )}
         type="button"
-        onClick={() => setHidden((previous) => !previous)}
+        onClick={() => setHidden((current) => !current)}
       >
         <span className={classnames('font-semibold', 'px-3', 'py-2')}>
           {options.find((element) => element.value === value)?.label}

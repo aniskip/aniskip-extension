@@ -4,9 +4,10 @@ import { ButtonProps } from '../types/components/button_types';
 
 const Button: React.FC<ButtonProps> = ({
   className,
-  onClick,
   label,
   submit,
+  onClick,
+  onFocus,
 }: ButtonProps) => (
   <button
     className={classnames(
@@ -21,6 +22,7 @@ const Button: React.FC<ButtonProps> = ({
     )}
     type={submit ? 'submit' : 'button'}
     onClick={onClick}
+    onFocus={onFocus}
   >
     {label}
   </button>

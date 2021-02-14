@@ -73,6 +73,9 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
       videoElement.currentTime = newTime > 0 ? newTime : 0;
       break;
     }
+    case 'player-add-preview-skip-interval': {
+      break;
+    }
     default:
   }
 };

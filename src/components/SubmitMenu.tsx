@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import classnames from 'classnames';
 import { FaTimes } from 'react-icons/fa';
-import { InputProps, SubmitMenuProps } from '../types/components/submit_types';
+import { SubmitMenuProps } from '../types/components/submit_types';
 import {
+  formatTimeString,
   secondsToTimeString,
   timeStringToSeconds,
 } from '../utils/string_utils';
@@ -11,35 +12,8 @@ import OpeningSkipperHttpClient from '../api/opening_skipper_http_client';
 import Dropdown from './Dropdown';
 import Button from './Button';
 import waitForMessage from '../utils/message_utils';
+import Input from './Input';
 
-const Input: React.FC<InputProps> = ({
-  className,
-  value,
-  id,
-  onChange,
-  onFocus,
-}: InputProps) => (
-  <input
-    className={classnames(
-      'rounded',
-      'px-2',
-      'py-1',
-      'block',
-      'text-sm',
-      'focus:outline-none',
-      'focus:ring-2',
-      'focus:ring-yellow-500',
-      className
-    )}
-    type="text"
-    required
-    id={id}
-    autoComplete="off"
-    value={value}
-    onChange={onChange}
-    onFocus={onFocus}
-  />
-);
 const SubmitMenu: React.FC<SubmitMenuProps> = ({
   variant,
   hidden,
@@ -55,6 +29,10 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
   const [currentInputFocus, setCurrentInputFocus] = useState<
     'start-time' | 'end-time'
   >();
+  const inputPatternRegexStringRef = useRef(
+    '^[12]?[0-9]:[0-9]{1,2}(.[0-9]{1,3})?$'
+  );
+  const inputPatternTestRegexRef = useRef(/^[0-9:.]*$/);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -80,16 +58,29 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
     } = getEpisodeInfoResponse.payload;
     const duration = playerGetDurationResponse.payload;
 
-    openingSkipperHttpClient.createSkipTimes(
-      malId,
-      episodeNumber,
-      skipType,
-      providerName,
-      timeStringToSeconds(startTime),
-      timeStringToSeconds(endTime),
-      duration,
-      userId
-    );
+    console.log({
+      submit_params: {
+        malId,
+        episodeNumber,
+        skipType,
+        providerName,
+        startTime: timeStringToSeconds(startTime),
+        endTime: timeStringToSeconds(endTime),
+        duration,
+        userId,
+      },
+    });
+
+    // openingSkipperHttpClient.createSkipTimes(
+    //   malId,
+    //   episodeNumber,
+    //   skipType,
+    //   providerName,
+    //   timeStringToSeconds(startTime),
+    //   timeStringToSeconds(endTime),
+    //   duration,
+    //   userId
+    // );
   };
 
   useEffect(() => {
@@ -166,24 +157,52 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
         >
           <div className={classnames('flex', 'text-black', 'space-x-2')}>
             <Input
-              className={classnames('w-1/2')}
+              className={classnames(
+                'flex-auto',
+                'text-sm',
+                'focus:ring-2',
+                'focus:ring-yellow-500'
+              )}
               id="start-time"
               value={startTime}
+              pattern={inputPatternRegexStringRef.current}
+              required
+              title="Minutes : Seconds"
+              placeholder="Start time"
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 const timeString = event.currentTarget.value;
-                setStartTime(timeString);
+                const testRegex = inputPatternTestRegexRef.current;
+                if (testRegex.test(timeString)) {
+                  setStartTime(timeString);
+                }
               }}
               onFocus={() => setCurrentInputFocus('start-time')}
+              onBlur={() =>
+                setStartTime((current) => formatTimeString(current))
+              }
             />
             <Input
-              className={classnames('w-1/2')}
+              className={classnames(
+                'flex-auto',
+                'text-sm',
+                'focus:ring-2',
+                'focus:ring-yellow-500'
+              )}
               id="end-time"
               value={endTime}
+              pattern={inputPatternRegexStringRef.current}
+              required
+              title="Minutes : Seconds"
+              placeholder="End time"
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 const timeString = event.currentTarget.value;
-                setEndTime(timeString);
+                const testRegex = inputPatternTestRegexRef.current;
+                if (testRegex.test(timeString)) {
+                  setEndTime(timeString);
+                }
               }}
               onFocus={() => setCurrentInputFocus('end-time')}
+              onBlur={() => setEndTime((current) => formatTimeString(current))}
             />
           </div>
           <div className={classnames('flex', 'text-black', 'space-x-2')}>
