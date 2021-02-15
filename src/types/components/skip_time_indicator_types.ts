@@ -4,9 +4,11 @@ export interface SkipTimeIndicatorProps {
   startTime: number;
   endTime: number;
   episodeLength: number;
-  className: string;
+  className?: string;
+  variant: string;
 }
 
 export interface SkipTimeIndicatorContainerProps {
   skipTimes: SkipTime[];
+  variant: string;
 }

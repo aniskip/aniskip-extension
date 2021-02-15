@@ -7,6 +7,7 @@ const SkipTimeIndicator: React.FC<SkipTimeIndicatorProps> = ({
   endTime,
   episodeLength,
   className,
+  variant,
 }: SkipTimeIndicatorProps) => {
   const calculateTranslation = () => startTime / episodeLength;
   const calculateWidth = () => (endTime - startTime) / episodeLength;
@@ -18,13 +19,13 @@ const SkipTimeIndicator: React.FC<SkipTimeIndicatorProps> = ({
         'z-10',
         'top-1/2',
         'pointer-events-none',
-        className
+        className,
+        'skip-indicator',
+        `skip-indicator--${variant}`
       )}
       style={{
         left: `${calculateTranslation() * 100}%`,
         width: `${calculateWidth() * 100}%`,
-        marginTop: '-2.5px',
-        height: '5px',
       }}
     />
   );

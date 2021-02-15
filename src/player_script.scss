@@ -34,3 +34,13 @@
     }
   }
 }
+
+.skip-indicator {
+  margin-top: -2.5px;
+  height: 5px;
+
+  &--jw {
+    margin-top: -2px;
+    height: 4px;
+  }
+}

@@ -146,7 +146,10 @@ abstract class BasePlayer implements Player {
     if (reactRoot) {
       const skipTimeIndicatorElement = React.createElement<SkipTimeIndicatorContainerProps>(
         SkipTimeIndicatorContainer,
-        { skipTimes: this.skipTimes }
+        {
+          skipTimes: this.skipTimes,
+          variant: this.constructor.name.toLocaleLowerCase(),
+        }
       );
       ReactDOM.render(skipTimeIndicatorElement, reactRoot);
     }

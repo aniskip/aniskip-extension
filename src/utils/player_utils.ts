@@ -21,6 +21,7 @@ const getPlayer = (hostname: string) => {
     case 'gogo-play':
     case 'cloud9':
     case 'fcdn':
+    case 'streamsb':
       player = new Jw(document);
       break;
     default:
