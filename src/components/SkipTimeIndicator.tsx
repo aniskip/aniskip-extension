@@ -22,7 +22,7 @@ const SkipTimeIndicator: React.FC<SkipTimeIndicatorProps> = ({
       )}
       style={{
         left: `${calculateTranslation() * 100}%`,
-        width: `calc(${calculateWidth() * 100}% + 7.5px)`,
+        width: `${calculateWidth() * 100}%`,
         marginTop: '-2.5px',
         height: '5px',
       }}
