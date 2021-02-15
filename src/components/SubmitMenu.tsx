@@ -99,7 +99,8 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
         'select-none',
         'rounded-md',
         'w-96',
-        { hidden },
+        'transition-opacity',
+        { 'opacity-0': hidden },
         `submit-menu--${variant}`
       )}
       role="menu"

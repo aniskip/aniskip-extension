@@ -61,6 +61,10 @@ module.exports = {
       96: '24em',
     },
     extend: {
+      spacing: {
+        '3/2': '150%',
+        '2/1': '200%',
+      },
       lineHeight: {
         3: '.75em',
         4: '1em',
