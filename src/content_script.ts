@@ -2,7 +2,7 @@ import { browser, Runtime } from 'webextension-polyfill-ts';
 import MalsyncHttpClient from './api/malsync_http_client';
 import Message from './types/message_type';
 import OpeningSkipperHttpClient from './api/opening_skipper_http_client';
-import { getProviderInformation } from './utils/page_utils';
+import getProviderInformation from './utils/page_utils';
 
 /**
  * Returns the MAL id, episode number and provider name

@@ -14,35 +14,16 @@ interface Player {
   timeUpdateEventListeners: Record<string, (event: Event) => void>;
 
   /**
-   * Returns the root video container element
+   * Adds a skip time which will run once for preview
+   * @param skipTime Skip time to preview
    */
-  getVideoContainer(): HTMLElement | null;
-
-  /**
-   * Returns the seek bar container element
-   */
-  getSeekBarContainer(): HTMLElement | null;
-
-  /**
-   * Injects the submit menu button into the player controls
-   */
-  injectSubmitButton(): void;
-
-  /**
-   * Injects the skip time indicators into the player seek bar
-   */
-  injectSkipTimeIndicator(): void;
+  addPreviewSkipInterval(skipTime: SkipTime): void;
 
   /**
    * Adds a skip time into the player
    * @param skipTime Skip time to add
    */
   addSkipTime(skipTime: SkipTime): void;
-
-  /**
-   * Removes all the skip intervals from the player
-   */
-  clearSkipTimeIndicators(): void;
 
   /**
    * Returns the video element duration
@@ -55,27 +36,24 @@ interface Player {
   getCurrentTime(): number;
 
   /**
-   * Adds a skip time which will run once for preview
-   * @param skipTime Skip time to preview
+   * Returns the root video container element
    */
-  addPreviewSkipInterval(skipTime: SkipTime): void;
+  getVideoContainer(): HTMLElement | null;
+
+  /**
+   * Injects the skip time indicators into the player seek bar
+   */
+  injectSkipTimeIndicator(): void;
+
+  /**
+   * Injects the submit menu button into the player controls
+   */
+  injectSubmitButton(): void;
 
   /**
    * Resets player state
    */
   reset(): void;
-
-  /**
-   * Removes skip times event handlers from the video element
-   * @param eventListeners Event listeners to remove
-   */
-  clearVideoElementEventListeners(eventListeners: EventListener[]): void;
-
-  /**
-   * Skips the time in the interval if it is within the interval range
-   * @param skipTime Skip time object containing the intervals
-   */
-  skipIfInInterval(skipTime: SkipTime): void;
 }
 
 export default Player;

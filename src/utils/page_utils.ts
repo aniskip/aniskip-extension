@@ -2,46 +2,7 @@ import Aniwatch from '../pages/aniwatch/page';
 import Crunchyroll from '../pages/crunchyroll/page';
 import Gogoanime from '../pages/gogoanime/page';
 import Nineanime from '../pages/nineanime/page';
-import { SkipTime } from '../types/api/skip_time_types';
 import Page from '../types/pages/page_type';
-
-/**
- * Skips time on player based on skip intervals padded with margin
- * @param player Selector for media player with access to .currentTime and .duration
- * @param skipTime JSON object of SkipTimes type with information about skip times
- * @param margin Duration of padding to compensate for lack of skip time sensitivity
- * @param checkIntervalLength The interval length to check whether or not to skip
- * @returns True if the interval was skipped else false
- */
-export function skipInterval(
-  player: HTMLVideoElement,
-  skipTime: SkipTime,
-  margin: number,
-  checkIntervalLength: number
-): boolean {
-  const currentTotalLength = player.duration;
-  const skipDiff = currentTotalLength - skipTime.episode_length;
-  const startTime = skipTime.interval.start_time;
-  const endTime = skipTime.interval.end_time;
-  if (startTime > margin) {
-    if (
-      player.currentTime >= startTime + skipDiff + margin &&
-      player.currentTime <= startTime + skipDiff - margin + checkIntervalLength
-    ) {
-      // eslint-disable-next-line no-param-reassign
-      player.currentTime = endTime + skipDiff + margin;
-      return true;
-    }
-  } else if (
-    player.currentTime >= 0 &&
-    player.currentTime <= startTime + skipDiff - margin + checkIntervalLength
-  ) {
-    // eslint-disable-next-line no-param-reassign
-    player.currentTime = endTime + skipDiff - margin;
-    return true;
-  }
-  return false;
-}
 
 /**
  * Get provider name, provider anime id and anime episode number from current url
@@ -49,7 +10,7 @@ export function skipInterval(
  * @param hostname Provider's host
  * @returns A tuple of (providerName, identifier and episodeNumber)
  */
-export function getProviderInformation(pathname: string, hostname: string) {
+const getProviderInformation = (pathname: string, hostname: string) => {
   const domainName = hostname.replace(/(?:[^.\n]*\.)?([^.\n]*)(\..*)/, '$1');
   let page: Page;
 
@@ -78,4 +39,6 @@ export function getProviderInformation(pathname: string, hostname: string) {
     episodeNumber,
   };
   return result;
-}
+};
+
+export default getProviderInformation;
