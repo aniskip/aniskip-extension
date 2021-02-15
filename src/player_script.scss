@@ -6,6 +6,8 @@
 .submit {
   $crunchyroll-submit-button-size: 40px;
   $jw-submit-button-size: 44px;
+  $doodstream-submit-button-size: 70px;
+  $videojs-submit-button-size: 40px;
 
   &-container {
     &--aniwatch {
@@ -21,6 +23,16 @@
       width: $jw-submit-button-size;
       height: $jw-submit-button-size;
     }
+
+    &--doodstream {
+      width: $doodstream-submit-button-size;
+      height: $doodstream-submit-button-size;
+    }
+
+    &--videojs {
+      width: $videojs-submit-button-size;
+      height: $videojs-submit-button-size;
+    }
   }
 
   &-menu {
@@ -32,6 +44,11 @@
         bottom: 10em;
       }
     }
+
+    &--doodstream {
+      right: 2.5em;
+      bottom: 9em;
+    }
   }
 }
 
@@ -42,5 +59,10 @@
   &--jw {
     margin-top: -2px;
     height: 4px;
+  }
+
+  &--videojs {
+    margin-top: -4px;
+    height: 8px;
   }
 }

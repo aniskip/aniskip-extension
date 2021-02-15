@@ -238,11 +238,13 @@ abstract class BasePlayer implements Player {
   renderSkipTimeIndicator() {
     const { id, shadowRoot } = this.skipTimeIndicatorContainer;
     const reactRoot = shadowRoot?.getElementById(`${id}-root`);
+    const offset = this.getDuration() - this.skipTimes[0]?.episode_length || 0;
     if (reactRoot) {
       const skipTimeIndicatorElement = React.createElement<SkipTimeIndicatorContainerProps>(
         SkipTimeIndicatorContainer,
         {
           skipTimes: this.skipTimes,
+          offset,
           variant: this.constructor.name.toLocaleLowerCase(),
         }
       );

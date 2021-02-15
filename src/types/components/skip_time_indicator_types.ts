@@ -10,5 +10,6 @@ export interface SkipTimeIndicatorProps {
 
 export interface SkipTimeIndicatorContainerProps {
   skipTimes: SkipTime[];
+  offset: number;
   variant: string;
 }

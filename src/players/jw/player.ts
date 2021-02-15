@@ -18,13 +18,6 @@ class Jw extends BasePlayer {
     ) as HTMLElement;
     this.injectSubmitButtonHelper(referenceNode, metadata.variant);
   }
-
-  injectSkipTimeIndicator() {
-    const container = this.getSeekBarContainer();
-    if (container) {
-      this.injectSkipTimeIndicatornHelper(container);
-    }
-  }
 }
 
 export default Jw;

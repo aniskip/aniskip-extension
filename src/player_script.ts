@@ -69,7 +69,7 @@ new MutationObserver((_mutations, observer) => {
   if (player) {
     const videoContainer = player.getVideoContainer();
 
-    if (videoContainer) {
+    if (videoContainer && videoElement) {
       observer.disconnect();
       videoElement.onloadedmetadata = () => {
         player.reset();

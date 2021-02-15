@@ -3,5 +3,5 @@
   "videoContainerSelectorString": "plyr__video-wrapper",
   "seekBarContainerSelectorString": "plyr__progress",
   "injectSettingsButtonReferenceNodeSelectorString": "plyr__controls__item plyr__menu",
-  "player_urls": ["*://aniwatch.me/*"]
+  "player_urls": ["*://aniwatch.me/*", "*://streamtape.com/*"]
 }

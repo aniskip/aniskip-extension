@@ -5,9 +5,10 @@ import SkipTimeIndicator from './SkipTimeIndicator';
 
 const SkipTimeIndicatorContainer: React.FC<SkipTimeIndicatorContainerProps> = ({
   skipTimes,
+  offset,
   variant,
 }: SkipTimeIndicatorContainerProps) => (
-  <div className={classnames('w-full', 'h-full')}>
+  <div>
     {skipTimes.map((skipTime) => {
       const { start_time: startTime, end_time: endTime } = skipTime.interval;
       const { episode_length: episodeLength } = skipTime;
@@ -15,9 +16,9 @@ const SkipTimeIndicatorContainer: React.FC<SkipTimeIndicatorContainerProps> = ({
       return (
         <SkipTimeIndicator
           className={classnames('bg-green-700')}
-          startTime={startTime}
-          endTime={endTime}
-          episodeLength={episodeLength}
+          startTime={startTime + offset}
+          endTime={endTime + offset}
+          episodeLength={episodeLength + offset}
           key={skipTime.skip_id}
           variant={variant}
         />

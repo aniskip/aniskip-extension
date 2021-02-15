@@ -8,7 +8,7 @@ class Nineanime extends BasePage {
 
   getEpisodeNumber(): number {
     const cleansedPath = this.pathname.replace(/.*\./, '');
-    return parseInt(cleansedPath.split(/\/ep-/)[0], 10);
+    return parseInt(cleansedPath.split(/\/ep-/)[1], 10);
   }
 }
 
