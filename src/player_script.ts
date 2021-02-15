@@ -112,7 +112,7 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
       };
       videoElement.addEventListener('timeupdate', previewSkipHandler);
 
-      const margin = 3;
+      const margin = 2;
       const newTime = skipTime.interval.start_time - margin;
       videoElement.currentTime = newTime > 0 ? newTime : 0;
       videoElement.play();

@@ -3,8 +3,10 @@ export const capitalizeFirstLetter = (str: string) =>
   str[0].toUpperCase() + str.slice(1);
 
 export const timeStringToSeconds = (timeString: string) => {
-  const [minutes, seconds] = timeString.split(':');
-  return parseInt(minutes, 10) * 60 + parseFloat(seconds);
+  const [minutesString, secondsString] = timeString.split(':');
+  const minutes = parseInt(minutesString, 10) || 0;
+  const seconds = parseFloat(secondsString) || 0;
+  return minutes * 60 + seconds;
 };
 
 export const secondsToTimeString = (seconds: number) => {
