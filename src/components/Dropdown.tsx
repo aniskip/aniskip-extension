@@ -77,7 +77,8 @@ const Dropdown: React.FC<DropdownProps> = ({
           'absolute',
           'w-full',
           'shadow-lg',
-          'overflow-hidden'
+          'border',
+          'border-gray-200'
         )}
       >
         {options.map(({ value: valueId, label }) => (
