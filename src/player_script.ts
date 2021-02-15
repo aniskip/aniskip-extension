@@ -23,7 +23,7 @@ const skipIfInInterval = (skipTime: SkipTime) => {
     (functionReferences[skipTimeString] = (event: Event) => {
       const margin = 0;
       const video = event.currentTarget as HTMLVideoElement;
-      const checkIntervalLength = 10;
+      const checkIntervalLength = 2;
       skipInterval(video, skipTime, margin, checkIntervalLength);
     });
   return functionReference;
@@ -39,6 +39,15 @@ const clearSkipIntervals = (skipIntervalListners: EventListener[]) => {
 };
 
 /**
+ * Resets player state
+ */
+const resetPlayer = () => {
+  player.clearSkipIntervals();
+  clearSkipIntervals(Object.values(functionReferences));
+  functionReferences = {};
+};
+
+/**
  * Handles messages between the player and the background script
  * @param message Message containing the type of action and the payload
  * @param _sender Sender of the message
@@ -47,13 +56,12 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
   switch (message.type) {
     case 'player-add-skip-interval': {
       const skipTime = message.payload as SkipTime;
-      player.injectSkipTimeIndicator(skipTime);
+      player.addSkipTime(skipTime);
       videoElement.addEventListener('timeupdate', skipIfInInterval(skipTime));
       break;
     }
     case 'player-clear-skip-intervals': {
-      clearSkipIntervals(Object.values(functionReferences));
-      functionReferences = {};
+      resetPlayer();
       break;
     }
     case 'player-get-video-duration': {
@@ -124,8 +132,12 @@ new MutationObserver((_mutations, observer) => {
   if (videoElement && videoContainer) {
     observer.disconnect();
     videoElement.onloadedmetadata = () => {
+      resetPlayer();
       browser.runtime.sendMessage({ type: 'player-ready' });
     };
-    videoContainer.onmouseover = () => player.injectSubmitButton();
+    videoContainer.onmouseover = () => {
+      player.injectSubmitButton();
+      player.injectSkipTimeIndicator();
+    };
   }
 }).observe(document, { subtree: true, childList: true });

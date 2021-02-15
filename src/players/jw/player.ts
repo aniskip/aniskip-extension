@@ -1,4 +1,3 @@
-import { SkipTime } from '../../types/api/skip_time_types';
 import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
@@ -20,10 +19,10 @@ class Jw extends BasePlayer {
     this.injectSubmitButtonHelper(referenceNode, metadata.variant);
   }
 
-  injectSkipTimeIndicator(skipTime: SkipTime) {
+  injectSkipTimeIndicator() {
     const container = this.getSeekBarContainer();
     if (container) {
-      this.injectSkipTimeIndicatornHelper(container, skipTime);
+      this.injectSkipTimeIndicatornHelper(container);
     }
   }
 }

@@ -4,9 +4,9 @@ import { browser } from 'webextension-polyfill-ts';
 import Player from '../types/players/player_type';
 import SubmitContainer from '../components/SubmitContainer';
 import { SubmitButtonContainerProps } from '../types/components/submit_types';
+import { SkipTimeIndicatorContainerProps } from '../types/components/skip_time_indicator_types';
+import SkipTimeIndicatorContainer from '../components/SkipTimeIndicatorContainer';
 import { SkipTime } from '../types/api/skip_time_types';
-import SkipTimeIndicator from '../components/SkipTimeIndicator';
-import { SkipTimeIndicatorProps } from '../types/components/skip_time_indicator_types';
 
 abstract class BasePlayer implements Player {
   document: Document;
@@ -14,6 +14,8 @@ abstract class BasePlayer implements Player {
   submitButtonContainer: HTMLDivElement;
 
   skipTimeIndicatorContainer: HTMLDivElement;
+
+  skipTimes: SkipTime[];
 
   constructor(document: Document) {
     this.document = document;
@@ -24,6 +26,7 @@ abstract class BasePlayer implements Player {
     this.skipTimeIndicatorContainer = this.createContainer(
       'opening-skipper-player-skip-time-indicator'
     );
+    this.skipTimes = [];
   }
 
   abstract getVideoContainer(): HTMLElement | null;
@@ -31,8 +34,6 @@ abstract class BasePlayer implements Player {
   abstract getSeekBarContainer(): HTMLElement | null;
 
   abstract injectSubmitButton(): void;
-
-  abstract injectSkipTimeIndicator(skipTime: SkipTime): void;
 
   createContainer(id: string, stopPropagationEvents: string[] = []) {
     const container = this.document.createElement('div');
@@ -57,6 +58,14 @@ abstract class BasePlayer implements Player {
     return container;
   }
 
+  getContainerHelper(
+    selectorString: string,
+    index: number
+  ): HTMLElement | null {
+    const containers = this.document.getElementsByClassName(selectorString);
+    return containers[index] as HTMLElement;
+  }
+
   injectSubmitButtonHelper(
     referenceNode: HTMLElement,
     variant: string
@@ -66,9 +75,10 @@ abstract class BasePlayer implements Player {
       return null;
     }
 
-    if (!shadowRoot.getElementById(`${id}-root`)) {
+    const reactRootId = `${id}-root`;
+    if (!shadowRoot.getElementById(reactRootId)) {
       const root = this.document.createElement('div');
-      root.setAttribute('id', `${id}-root`);
+      root.setAttribute('id', reactRootId);
       shadowRoot.appendChild(root);
 
       const submitButton = React.createElement<SubmitButtonContainerProps>(
@@ -88,38 +98,55 @@ abstract class BasePlayer implements Player {
   }
 
   injectSkipTimeIndicatornHelper(
-    referenceNode: HTMLElement,
-    skipTime: SkipTime
+    shadowRootContainer: HTMLElement
   ): HTMLDivElement | null {
     const { id, shadowRoot } = this.skipTimeIndicatorContainer;
-    if (this.document.getElementById(id) || !referenceNode || !shadowRoot) {
+    if (
+      this.document.getElementById(id) ||
+      !shadowRootContainer ||
+      !shadowRoot
+    ) {
       return null;
     }
 
-    const { start_time: startTime, end_time: endTime } = skipTime.interval;
-    const { episode_length: episodeLength } = skipTime;
-    const skipTimeIndicator = React.createElement<SkipTimeIndicatorProps>(
-      SkipTimeIndicator,
-      {
-        startTime,
-        endTime,
-        episodeLength,
-        color: 'red',
-      }
-    );
-    ReactDOM.render(skipTimeIndicator, shadowRoot);
+    const reactRootId = `${id}-root`;
+    if (!shadowRoot.getElementById(reactRootId)) {
+      const root = this.document.createElement('div');
+      root.setAttribute('id', reactRootId);
+      shadowRoot.appendChild(root);
+    }
 
-    referenceNode.appendChild(this.skipTimeIndicatorContainer);
+    shadowRootContainer.appendChild(this.skipTimeIndicatorContainer);
 
     return this.skipTimeIndicatorContainer;
   }
 
-  getContainerHelper(
-    selectorString: string,
-    index: number
-  ): HTMLElement | null {
-    const containers = this.document.getElementsByClassName(selectorString);
-    return containers[index] as HTMLElement;
+  injectSkipTimeIndicator() {
+    const container = this.getSeekBarContainer();
+    if (container) {
+      this.injectSkipTimeIndicatornHelper(container);
+    }
+  }
+
+  addSkipTime(skipTime: SkipTime) {
+    this.skipTimes.push(skipTime);
+    this.renderSkipTimeIndicator();
+  }
+
+  clearSkipIntervals() {
+    this.skipTimes = [];
+    this.renderSkipTimeIndicator();
+  }
+
+  renderSkipTimeIndicator() {
+    const skipTimeIndicatorElement = React.createElement<SkipTimeIndicatorContainerProps>(
+      SkipTimeIndicatorContainer,
+      { skipTimes: this.skipTimes }
+    );
+    ReactDOM.render(
+      skipTimeIndicatorElement,
+      this.skipTimeIndicatorContainer.shadowRoot
+    );
   }
 }
 

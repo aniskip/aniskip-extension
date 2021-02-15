@@ -2,10 +2,7 @@ import { browser, Runtime } from 'webextension-polyfill-ts';
 import MalsyncHttpClient from './api/malsync_http_client';
 import Message from './types/message_type';
 import OpeningSkipperHttpClient from './api/opening_skipper_http_client';
-import { SkipTime } from './types/api/skip_time_types';
 import { getProviderInformation } from './utils/page_utils';
-
-let skipTimes: SkipTime[] = [];
 
 /**
  * Returns the MAL id, episode number and provider name
@@ -27,17 +24,6 @@ const getEpisodeInformation = async () => {
 };
 
 /**
- * Removes the skip times
- */
-const clearSkipTimeIntervals = () => {
-  browser.runtime.sendMessage({
-    type: 'player-clear-skip-intervals',
-    payload: skipTimes,
-  });
-  skipTimes = [];
-};
-
-/**
  * Adds the skip intervals to the player
  * @param openingSkipperHttpClient OpeningSkipperHttpClient object
  * @param malId MAL idenfitication number
@@ -56,7 +42,6 @@ const addSkipInterval = async (
     type
   );
   if (skipTimesResponse.found) {
-    skipTimes.push(skipTimesResponse.result);
     browser.runtime.sendMessage({
       type: 'player-add-skip-interval',
       payload: skipTimesResponse.result,
@@ -99,13 +84,3 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
 };
 
 browser.runtime.onMessage.addListener(messageHandler);
-
-// Handles URL change in SPAs
-let lastUrl = window.location.href;
-document.body.onclick = () => {
-  const url = window.location.href;
-  if (url !== lastUrl) {
-    lastUrl = url;
-    clearSkipTimeIntervals();
-  }
-};
