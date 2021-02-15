@@ -7,6 +7,7 @@ import { SubmitButtonContainerProps } from '../types/components/submit_types';
 import { SkipTimeIndicatorContainerProps } from '../types/components/skip_time_indicator_types';
 import SkipTimeIndicatorContainer from '../components/SkipTimeIndicatorContainer';
 import { SkipTime } from '../types/api/skip_time_types';
+import { skipInterval } from '../utils/page_utils';
 
 abstract class BasePlayer implements Player {
   document: Document;
@@ -17,7 +18,11 @@ abstract class BasePlayer implements Player {
 
   skipTimes: SkipTime[];
 
-  constructor(document: Document) {
+  videoElement: HTMLVideoElement;
+
+  timeUpdateEventListeners: Record<string, (event: Event) => void>;
+
+  constructor(document: Document, videoElement: HTMLVideoElement) {
     this.document = document;
     this.submitButtonContainer = this.createContainer(
       'opening-skipper-player-submit-button',
@@ -27,6 +32,8 @@ abstract class BasePlayer implements Player {
       'opening-skipper-player-skip-time-indicator'
     );
     this.skipTimes = [];
+    this.videoElement = videoElement;
+    this.timeUpdateEventListeners = {};
   }
 
   abstract getVideoContainer(): HTMLElement | null;
@@ -151,10 +158,14 @@ abstract class BasePlayer implements Player {
 
   addSkipTime(skipTime: SkipTime) {
     this.skipTimes.push(skipTime);
+    this.videoElement.addEventListener(
+      'timeupdate',
+      this.skipIfInInterval(skipTime)
+    );
     this.renderSkipTimeIndicator();
   }
 
-  clearSkipIntervals() {
+  clearSkipTimeIndicators() {
     this.skipTimes = [];
     this.renderSkipTimeIndicator();
   }
@@ -175,6 +186,75 @@ abstract class BasePlayer implements Player {
       );
       ReactDOM.render(skipTimeIndicatorElement, reactRoot);
     }
+  }
+
+  skipIfInInterval(skipTime: SkipTime) {
+    const skipTimeString = JSON.stringify(skipTime);
+    // Ensures player event handlers can be removed
+    const timeUpdateEventListener =
+      this.timeUpdateEventListeners[skipTimeString] ||
+      (this.timeUpdateEventListeners[skipTimeString] = (event: Event) => {
+        const margin = 0;
+        const video = event.currentTarget as HTMLVideoElement;
+        const checkIntervalLength = 5;
+        skipInterval(video, skipTime, margin, checkIntervalLength);
+      });
+    return timeUpdateEventListener;
+  }
+
+  clearVideoElementEventListeners(eventListeners: EventListener[]) {
+    eventListeners.forEach((listener) =>
+      this.videoElement.removeEventListener('timeupdate', listener)
+    );
+  }
+
+  reset() {
+    this.clearSkipTimeIndicators();
+    this.clearVideoElementEventListeners(
+      Object.values(this.timeUpdateEventListeners)
+    );
+    this.timeUpdateEventListeners = {};
+  }
+
+  addPreviewSkipInterval(skipTime: SkipTime) {
+    this.clearVideoElementEventListeners(
+      Object.values(this.timeUpdateEventListeners)
+    );
+
+    const previewSkipHandler = (event: Event) => {
+      const margin = 0;
+      const video = event.currentTarget as HTMLVideoElement;
+      const checkIntervalLength = 10;
+      const intervalSkipped = skipInterval(
+        video,
+        skipTime,
+        margin,
+        checkIntervalLength
+      );
+
+      if (intervalSkipped) {
+        video.removeEventListener('timeupdate', previewSkipHandler);
+        Object.values(this.timeUpdateEventListeners).forEach(
+          (functionReference) => {
+            this.videoElement.addEventListener('timeupdate', functionReference);
+          }
+        );
+      }
+    };
+    this.videoElement.addEventListener('timeupdate', previewSkipHandler);
+
+    const margin = 2;
+    const newTime = skipTime.interval.start_time - margin;
+    this.videoElement.currentTime = newTime > 0 ? newTime : 0;
+    this.videoElement.play();
+  }
+
+  getDuration() {
+    return this.videoElement.duration;
+  }
+
+  getCurrentTime() {
+    return this.videoElement.currentTime;
   }
 }
 
