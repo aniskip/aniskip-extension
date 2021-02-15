@@ -9,7 +9,14 @@ const SkipTimeIndicator: React.FC<SkipTimeIndicatorProps> = ({
   className,
   variant,
 }: SkipTimeIndicatorProps) => {
+  /**
+   * Calculates the percentage the skip time indicator has to be translated on the x axis
+   */
   const calculateTranslation = () => startTime / episodeLength;
+
+  /**
+   * Calculates the width of the skip time indicator
+   */
   const calculateWidth = () => (endTime - startTime) / episodeLength;
 
   return (

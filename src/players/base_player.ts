@@ -35,6 +35,11 @@ abstract class BasePlayer implements Player {
 
   abstract injectSubmitButton(): void;
 
+  /**
+   * Returns a new div container with a shadow root initialised
+   * @param id Id of the newly created container
+   * @param stopPropagationEvents Events to stop propagation of
+   */
   createContainer(id: string, stopPropagationEvents: string[] = []) {
     const container = this.document.createElement('div');
     container.setAttribute('id', id);
@@ -58,6 +63,11 @@ abstract class BasePlayer implements Player {
     return container;
   }
 
+  /**
+   * Returns the container element with the given query string
+   * @param selectorString Selector string to retrieve the node
+   * @param index Index of the container from the query result
+   */
   getContainerHelper(
     selectorString: string,
     index: number
@@ -66,6 +76,11 @@ abstract class BasePlayer implements Player {
     return containers[index] as HTMLElement;
   }
 
+  /**
+   * Helper function to inject the submit button
+   * @param referenceNode Reference node to put the submit button beside. Submit button will be placed on the left side of the reference node
+   * @param variant Variant of submit button based on the provider name
+   */
   injectSubmitButtonHelper(
     referenceNode: HTMLElement,
     variant: string
@@ -97,6 +112,10 @@ abstract class BasePlayer implements Player {
     return this.submitButtonContainer;
   }
 
+  /**
+   * Helper function to inject the skip time indicators
+   * @param shadowRootContainer Div element to put the shadow root into
+   */
   injectSkipTimeIndicatornHelper(
     shadowRootContainer: HTMLElement
   ): HTMLDivElement | null {
@@ -140,6 +159,9 @@ abstract class BasePlayer implements Player {
     this.renderSkipTimeIndicator();
   }
 
+  /**
+   * Renders the skip time indicator react element
+   */
   renderSkipTimeIndicator() {
     const { id, shadowRoot } = this.skipTimeIndicatorContainer;
     const reactRoot = shadowRoot?.getElementById(`${id}-root`);

@@ -17,6 +17,9 @@ const messageHandler = (message: Message, sender: Runtime.MessageSender) => {
 
 browser.runtime.onMessage.addListener(messageHandler);
 
+/**
+ * Set the user id on installation
+ */
 browser.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
     browser.storage.sync.set({ userId: uuidv4() });

@@ -33,6 +33,10 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
   const inputPatternRegexStringRef = useRef('[0-9]+:[0-9]{1,2}(.[0-9]{1,3})?');
   const inputPatternTestRegexRef = useRef(/^[0-9:.]*$/);
 
+  /**
+   * Handles the form event when the submit button is pressed
+   * @param event Form event
+   */
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit();

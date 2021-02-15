@@ -7,11 +7,6 @@ abstract class BaseHttpClient implements HttpClient {
     this.baseUrl = baseUrl;
   }
 
-  /**
-   * Performs a request to an API
-   * @param route API route to request
-   * @param method Method to request with
-   */
   async request(
     route: string,
     method: string,
