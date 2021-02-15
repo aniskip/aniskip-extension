@@ -116,6 +116,8 @@ abstract class BasePlayer implements Player {
       shadowRoot.appendChild(root);
     }
 
+    this.renderSkipTimeIndicator();
+
     shadowRootContainer.appendChild(this.skipTimeIndicatorContainer);
 
     return this.skipTimeIndicatorContainer;
@@ -139,14 +141,15 @@ abstract class BasePlayer implements Player {
   }
 
   renderSkipTimeIndicator() {
-    const skipTimeIndicatorElement = React.createElement<SkipTimeIndicatorContainerProps>(
-      SkipTimeIndicatorContainer,
-      { skipTimes: this.skipTimes }
-    );
-    ReactDOM.render(
-      skipTimeIndicatorElement,
-      this.skipTimeIndicatorContainer.shadowRoot
-    );
+    const { id, shadowRoot } = this.skipTimeIndicatorContainer;
+    const reactRoot = shadowRoot?.getElementById(`${id}-root`);
+    if (reactRoot) {
+      const skipTimeIndicatorElement = React.createElement<SkipTimeIndicatorContainerProps>(
+        SkipTimeIndicatorContainer,
+        { skipTimes: this.skipTimes }
+      );
+      ReactDOM.render(skipTimeIndicatorElement, reactRoot);
+    }
   }
 }
 

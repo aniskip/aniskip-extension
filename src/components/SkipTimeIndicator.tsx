@@ -1,25 +1,30 @@
 import React from 'react';
+import classnames from 'classnames';
 import { SkipTimeIndicatorProps } from '../types/components/skip_time_indicator_types';
 
 const SkipTimeIndicator: React.FC<SkipTimeIndicatorProps> = ({
   startTime,
   endTime,
   episodeLength,
-  color,
+  className,
 }: SkipTimeIndicatorProps) => {
   const calculateTranslation = () => startTime / episodeLength;
   const calculateWidth = () => (endTime - startTime) / episodeLength;
 
   return (
     <div
+      className={classnames(
+        'absolute',
+        'z-10',
+        'top-1/2',
+        'pointer-events-none',
+        className
+      )}
       style={{
         left: `${calculateTranslation() * 100}%`,
-        top: '38%',
-        backgroundColor: color,
+        width: `calc(${calculateWidth() * 100}% + 7.5px)`,
+        marginTop: '-2.5px',
         height: '5px',
-        position: 'absolute',
-        width: `${calculateWidth() * 100}%`,
-        zIndex: 5,
       }}
     />
   );
