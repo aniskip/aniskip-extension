@@ -17,6 +17,7 @@ import Input from './Input';
 const SubmitMenu: React.FC<SubmitMenuProps> = ({
   variant,
   hidden,
+  fullScreen,
   onSubmit,
   onClose,
 }: SubmitMenuProps) => {
@@ -93,15 +94,16 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
     <div
       className={classnames(
         'bg-gray-800',
-        '-right-20',
+        'right-5',
         'bottom-24',
         'absolute',
         'select-none',
         'rounded-md',
         'w-96',
         'transition-opacity',
-        { 'opacity-0': hidden },
-        `submit-menu--${variant}`
+        { 'opacity-0': hidden, hidden },
+        `submit-menu--${variant}`,
+        { [`submit-menu--${variant}--fullscreen`]: fullScreen }
       )}
       role="menu"
     >

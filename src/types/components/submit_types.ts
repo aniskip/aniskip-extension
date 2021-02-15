@@ -4,7 +4,6 @@ export interface SubmitButtonProps {
       | React.MouseEvent<HTMLDivElement, MouseEvent>
       | React.KeyboardEvent<HTMLDivElement>
   ) => void;
-  variant: string;
 }
 
 export interface SubmitButtonContainerProps {
@@ -14,6 +13,7 @@ export interface SubmitButtonContainerProps {
 export interface SubmitMenuProps {
   variant: string;
   hidden: boolean;
+  fullScreen?: boolean;
   onSubmit: CallableFunction;
   onClose: CallableFunction;
 }

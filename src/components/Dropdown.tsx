@@ -70,7 +70,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       <div
         className={classnames(
           'transition-opacity',
-          { 'opacity-0': hidden },
+          { 'opacity-0': hidden, hidden },
           'bg-white',
           'rounded',
           'mt-2',
