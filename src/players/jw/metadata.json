@@ -2,7 +2,7 @@
   "variant": "jw",
   "videoContainerSelectorString": "Video Player",
   "injectSettingsButtonReferenceNodeSelectorString": "Settings",
-  "seekBarContainerSelectorString": "jw-slider-time jw-background-color jw-reset jw-slider-horizontal jw-reset",
+  "seekBarContainerSelectorString": "Seek",
   "player_urls": [
     "*://gogo-play.net/*",
     "*://streamsb.net/*",

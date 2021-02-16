@@ -62,7 +62,7 @@ browser.runtime.onMessage.addListener(messageHandler);
 new MutationObserver((_mutations, observer) => {
   // eslint-disable-next-line prefer-destructuring
   const videoElement = document.getElementsByTagName('video')[0];
-  if (videoElement && !player) {
+  if (videoElement) {
     player = getPlayer(window.location.hostname, videoElement);
   }
 
@@ -73,6 +73,8 @@ new MutationObserver((_mutations, observer) => {
       observer.disconnect();
       videoElement.onloadedmetadata = () => {
         player.reset();
+        player.injectSubmitButton();
+        player.injectSkipTimeIndicator();
         browser.runtime.sendMessage({ type: 'player-ready' });
       };
       videoContainer.onmouseover = () => {
