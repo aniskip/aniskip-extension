@@ -1,11 +1,4 @@
 /**
- * Capitalizes the first letter of the input string
- * @param str String to capitalize the first letter of
- */
-export const capitalizeFirstLetter = (str: string) =>
-  str[0].toUpperCase() + str.slice(1);
-
-/**
  * Converts a time string into seconds
  * @param timeString Time in a string format of '<minutes>:<seconds>'
  */

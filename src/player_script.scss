@@ -33,6 +33,11 @@
       width: $videojs-submit-button-size;
       height: $videojs-submit-button-size;
     }
+
+    &--twistmoe {
+      pointer-events: all;
+      margin-right: -8px;
+    }
   }
 
   &-menu {
@@ -64,5 +69,10 @@
   &--videojs {
     margin-top: -4px;
     height: 8px;
+  }
+
+  &--twistmoe {
+    margin-top: -1px;
+    height: 2px;
   }
 }

@@ -2,6 +2,7 @@ import Aniwatch from '../pages/aniwatch/page';
 import Crunchyroll from '../pages/crunchyroll/page';
 import Gogoanime from '../pages/gogoanime/page';
 import Nineanime from '../pages/nineanime/page';
+import Twistmoe from '../pages/twistmoe/page';
 import Page from '../types/pages/page_type';
 
 /**
@@ -26,6 +27,9 @@ const getProviderInformation = (pathname: string, hostname: string) => {
       break;
     case 'crunchyroll':
       page = new Crunchyroll(hostname, pathname, document);
+      break;
+    case 'twist':
+      page = new Twistmoe(hostname, pathname, document);
       break;
     default:
       throw new Error(`Page ${hostname} not supported`);
