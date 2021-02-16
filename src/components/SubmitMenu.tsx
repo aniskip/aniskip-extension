@@ -146,9 +146,9 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
           <FaTimes />
         </button>
       </div>
-      <div className={classnames('container', 'px-5', 'py-4', 'mx-auto')}>
+      <div className={classnames('px-5', 'py-4', 'mx-auto')}>
         <form
-          className={classnames('block', 'space-y-2')}
+          className={classnames('block', 'space-y-2', 'mb-0')}
           onSubmit={handleSubmit}
         >
           <div className={classnames('flex', 'text-black', 'space-x-2')}>
