@@ -9,7 +9,11 @@ class Jw extends BasePlayer {
   }
 
   getSeekBarContainer() {
-    return super.getContainerHelper(metadata.seekBarContainerSelectorString, 0);
+    const slider = super.getContainerHelper(
+      metadata.seekBarContainerSelectorString,
+      0
+    );
+    return slider?.firstChild as HTMLElement;
   }
 
   injectSubmitButton() {

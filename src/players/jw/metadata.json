@@ -2,13 +2,13 @@
   "variant": "jw",
   "videoContainerSelectorString": "Video Player",
   "injectSettingsButtonReferenceNodeSelectorString": "Settings",
-  "seekBarContainerSelectorString": "jw-slider-container jw-reset",
+  "seekBarContainerSelectorString": "jw-slider-time jw-background-color jw-reset jw-slider-horizontal jw-reset",
   "player_urls": [
     "*://gogo-play.net/*",
     "*://streamsb.net/*",
     "*://cloud9.to/*",
     "*://fcdn.stream/*",
     "*://mcloud2.to/*",
-    "*://vidstream.pro/*"
+    "*://vidstream.pro/e/*"
   ]
 }
