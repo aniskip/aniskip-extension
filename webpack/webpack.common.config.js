@@ -3,11 +3,13 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const JsonBuilderPlugin = require('./json_builder_webpack_plugin');
 const getManifest = require('./manifest');
 
 module.exports = {
   mode: process.env.NODE_ENV,
+  context: path.join(__dirname, '..'),
   entry: {
     options: './src/options/index.tsx',
     popup: './src/popup/index.tsx',
@@ -23,7 +25,15 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+            },
+          },
+        ],
+        include: path.join(__dirname, '..', 'src'),
         exclude: /node_modules/,
       },
       {
@@ -35,7 +45,6 @@ module.exports = {
           {
             loader: 'postcss-loader',
             options: {
-              sourceMap: false,
               postcssOptions: {
                 plugins: [
                   ['postcss-import', {}],
@@ -63,6 +72,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js'],
   },
   plugins: [
+    new ForkTsCheckerWebpackPlugin(),
     new MiniCssExtractPlugin({ filename: '[name].css' }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
