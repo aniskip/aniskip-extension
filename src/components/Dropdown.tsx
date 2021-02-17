@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classnames from 'classnames';
 import { v4 as uuidv4 } from 'uuid';
 import { FaChevronDown } from 'react-icons/fa';
@@ -11,14 +11,32 @@ const Dropdown: React.FC<DropdownProps> = ({
   options,
 }: DropdownProps) => {
   const [hidden, setHidden] = useState(true);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleClick = (valueId: string) => () => {
     setHidden(true);
     onChange(valueId);
   };
 
+  const handleOutsideClick = (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
+    const dropdownClicked = !!dropdownRef.current?.contains(target);
+    if (!dropdownClicked) {
+      setHidden(true);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
+
   return (
-    <div className={classnames('text-black', 'relative', className)}>
+    <div
+      ref={dropdownRef}
+      className={classnames('text-black', 'relative', className)}
+    >
       <button
         className={classnames(
           'bg-white',
