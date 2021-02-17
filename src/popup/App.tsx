@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
-import 'tailwindcss/tailwind.css';
 import Dropdown from '../components/Dropdown';
 
 const App: React.FC = () => {

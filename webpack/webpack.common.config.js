@@ -40,7 +40,14 @@ module.exports = {
         test: /\.((s[ac])?|c)ss$/i,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 3,
+              url: false,
+              sourceMap: false,
+            },
+          },
           'resolve-url-loader',
           {
             loader: 'postcss-loader',
@@ -61,6 +68,7 @@ module.exports = {
                   ['autoprefixer', {}],
                 ],
               },
+              sourceMap: false,
             },
           },
           'sass-loader',
