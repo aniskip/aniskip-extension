@@ -28,7 +28,6 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
         'flex',
         'items-center',
         'justify-center',
-        'z-10',
         'w-8',
         'h-8',
         'border-white',

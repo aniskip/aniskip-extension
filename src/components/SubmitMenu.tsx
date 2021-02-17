@@ -108,8 +108,9 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
         'select-none',
         'rounded-md',
         'w-96',
+        'z-10',
         'transition-opacity',
-        { 'opacity-0': hidden, hidden },
+        { 'opacity-0': hidden, 'pointer-events-none': hidden },
         `submit-menu--${variant}`,
         { [`submit-menu--${variant}--fullscreen`]: fullScreen }
       )}

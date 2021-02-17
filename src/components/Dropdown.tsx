@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
 import { v4 as uuidv4 } from 'uuid';
-import { FaCaretDown } from 'react-icons/fa';
+import { FaChevronDown } from 'react-icons/fa';
 import { DropdownProps } from '../types/components/dropdown_types';
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -43,34 +43,35 @@ const Dropdown: React.FC<DropdownProps> = ({
         <span className={classnames('font-semibold', 'px-3', 'py-2')}>
           {options.find((element) => element.value === value)?.label}
         </span>
-        <div
-          className={classnames(
-            'border-l-2',
-            'border-gray-200',
-            'pl-3',
-            'pr-2',
-            'py-2'
-          )}
-        >
+        <div className={classnames('pl-3', 'pr-4', 'py-4')}>
           <div
             className={classnames(
+              'transition-transform',
+              'duration-300',
+              'transform',
+              { 'rotate-180': !hidden },
               'flex-none',
               'flex',
               'justify-center',
               'items-center',
-              'w-3',
-              'h-3',
-              'text-gray-500'
+              'w-4',
+              'h-4'
             )}
           >
-            <FaCaretDown />
+            <FaChevronDown />
           </div>
         </div>
       </button>
       <div
         className={classnames(
-          'transition-opacity',
-          { 'opacity-0': hidden, hidden },
+          'transition',
+          'transform',
+          'origin-top',
+          {
+            'opacity-0': hidden,
+            'pointer-events-none': hidden,
+            'scale-y-90': hidden,
+          },
           'bg-white',
           'rounded',
           'mt-2',
