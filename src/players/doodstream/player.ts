@@ -1,9 +1,9 @@
 import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
-class Aniwatch extends BasePlayer {
+class Doodstream extends BasePlayer {
   getVideoContainer() {
-    return super.getContainerHelper(metadata.videoContainerSelectorString, 0);
+    return this.document.getElementById(metadata.videoContainerSelectorString);
   }
 
   getSeekBarContainer() {
@@ -14,10 +14,8 @@ class Aniwatch extends BasePlayer {
     const referenceNode = document.getElementsByClassName(
       metadata.injectSettingsButtonReferenceNodeSelectorString
     )[0] as HTMLElement;
-    if (referenceNode) {
-      this.injectSubmitButtonHelper(referenceNode, metadata.variant);
-    }
+    this.injectSubmitButtonHelper(referenceNode, metadata.variant);
   }
 }
 
-export default Aniwatch;
+export default Doodstream;

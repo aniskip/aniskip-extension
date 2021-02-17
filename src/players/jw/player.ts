@@ -3,16 +3,29 @@ import metadata from './metadata.json';
 
 class Jw extends BasePlayer {
   getVideoContainer() {
-    return this.document.querySelector(
+    return this.document.querySelector<HTMLElement>(
       `[aria-label="${metadata.videoContainerSelectorString}"]`
-    ) as HTMLElement;
+    );
+  }
+
+  getSeekBarContainer() {
+    const slider = this.document.querySelector<HTMLElement>(
+      `[aria-label^="${metadata.seekBarContainerSelectorString}"]`
+    );
+    const firstChild = slider?.firstChild;
+    if (firstChild) {
+      return firstChild as HTMLElement;
+    }
+    return null;
   }
 
   injectSubmitButton() {
-    const referenceNode = document.querySelector(
+    const referenceNode = document.querySelector<HTMLElement>(
       `[aria-label="${metadata.injectSettingsButtonReferenceNodeSelectorString}"]`
-    ) as HTMLElement;
-    this.injectSubmitButtonHelper(referenceNode, metadata.variant);
+    );
+    if (referenceNode) {
+      this.injectSubmitButtonHelper(referenceNode, metadata.variant);
+    }
   }
 }
 

@@ -21,6 +21,8 @@ const Input: React.FC<InputProps> = ({
       'py-1',
       'block',
       'min-w-0',
+      'border-2',
+      'border-gray-200',
       'focus:outline-none',
       className
     )}

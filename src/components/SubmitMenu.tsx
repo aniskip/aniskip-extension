@@ -17,6 +17,7 @@ import Input from './Input';
 const SubmitMenu: React.FC<SubmitMenuProps> = ({
   variant,
   hidden,
+  fullScreen,
   onSubmit,
   onClose,
 }: SubmitMenuProps) => {
@@ -32,6 +33,10 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
   const inputPatternRegexStringRef = useRef('[0-9]+:[0-9]{1,2}(.[0-9]{1,3})?');
   const inputPatternTestRegexRef = useRef(/^[0-9:.]*$/);
 
+  /**
+   * Handles the form event when the submit button is pressed
+   * @param event Form event
+   */
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit();
@@ -71,19 +76,23 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
   useEffect(() => {
     if (!hidden) {
       (async () => {
-        let messageType = 'player-get-video-current-time';
+        let messageType = 'player-get-video-duration';
+        browser.runtime.sendMessage({ type: messageType });
+        const duration: number = (
+          await waitForMessage(`${messageType}-response`)
+        ).payload;
+
+        messageType = 'player-get-video-current-time';
         browser.runtime.sendMessage({ type: messageType });
         const currentTime: number = (
           await waitForMessage(`${messageType}-response`)
         ).payload;
         setStartTime(secondsToTimeString(currentTime));
-        setEndTime(secondsToTimeString(currentTime + 90));
-
-        messageType = 'player-get-video-duration';
-        browser.runtime.sendMessage({ type: messageType });
-        const duration: number = (
-          await waitForMessage(`${messageType}-response`)
-        ).payload;
+        let newEndTime = currentTime + 90;
+        if (newEndTime > duration) {
+          newEndTime = duration;
+        }
+        setEndTime(secondsToTimeString(newEndTime));
         setSkipType(currentTime < duration / 2 ? 'op' : 'ed');
       })();
     }
@@ -93,14 +102,16 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
     <div
       className={classnames(
         'bg-gray-800',
-        '-right-20',
+        'right-5',
         'bottom-24',
         'absolute',
         'select-none',
         'rounded-md',
         'w-96',
-        { hidden },
-        `submit-menu--${variant}`
+        'transition-opacity',
+        { 'opacity-0': hidden, hidden },
+        `submit-menu--${variant}`,
+        { [`submit-menu--${variant}--fullscreen`]: fullScreen }
       )}
       role="menu"
     >
@@ -135,9 +146,9 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
           <FaTimes />
         </button>
       </div>
-      <div className={classnames('container', 'px-5', 'py-4', 'mx-auto')}>
+      <div className={classnames('px-5', 'py-4', 'mx-auto')}>
         <form
-          className={classnames('block', 'space-y-2')}
+          className={classnames('block', 'space-y-2', 'mb-0')}
           onSubmit={handleSubmit}
         >
           <div className={classnames('flex', 'text-black', 'space-x-2')}>
@@ -145,8 +156,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               className={classnames(
                 'flex-auto',
                 'text-sm',
-                'focus:ring-2',
-                'focus:ring-yellow-500'
+                'focus:border-yellow-500'
               )}
               id="start-time"
               value={startTime}
@@ -170,8 +180,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               className={classnames(
                 'flex-auto',
                 'text-sm',
-                'focus:ring-2',
-                'focus:ring-yellow-500'
+                'focus:border-yellow-500'
               )}
               id="end-time"
               value={endTime}
@@ -195,8 +204,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               className={classnames(
                 'flex-1',
                 'inline',
-                'focus:ring-2',
-                'focus:ring-yellow-100',
+                'focus:border-yellow-100',
                 'bg-yellow-600',
                 'text-white'
               )}
@@ -218,8 +226,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               className={classnames(
                 'flex-1',
                 'inline',
-                'focus:ring-2',
-                'focus:ring-yellow-100',
+                'focus:border-yellow-100',
                 'bg-blue-600',
                 'text-white'
               )}
@@ -242,8 +249,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               className={classnames(
                 'flex-1',
                 'inline',
-                'focus:ring-2',
-                'focus:ring-yellow-100',
+                'focus:border-yellow-100',
                 'bg-yellow-600',
                 'text-white'
               )}
@@ -278,8 +284,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                 'inline',
                 'bg-yellow-600',
                 'text-white',
-                'focus:ring-2',
-                'focus:ring-yellow-100'
+                'focus:border-yellow-100'
               )}
               submit
               label="Submit"

@@ -12,9 +12,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 }: DropdownProps) => {
   const [hidden, setHidden] = useState(true);
 
-  const handleClick = (valueId: string) => (
-    _event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleClick = (valueId: string) => () => {
     setHidden(true);
     onChange(valueId);
   };
@@ -71,14 +69,16 @@ const Dropdown: React.FC<DropdownProps> = ({
       </button>
       <div
         className={classnames(
-          { hidden },
+          'transition-opacity',
+          { 'opacity-0': hidden, hidden },
           'bg-white',
           'rounded',
           'mt-2',
           'absolute',
           'w-full',
           'shadow-lg',
-          'overflow-hidden'
+          'border',
+          'border-gray-200'
         )}
       >
         {options.map(({ value: valueId, label }) => (

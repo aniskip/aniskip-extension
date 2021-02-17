@@ -1,0 +1,78 @@
+:host {
+  all: none;
+  font-size: 16px;
+}
+
+.submit {
+  $crunchyroll-submit-button-size: 40px;
+  $jw-submit-button-size: 44px;
+  $doodstream-submit-button-size: 70px;
+  $videojs-submit-button-size: 40px;
+
+  &-container {
+    &--aniwatch {
+      margin-right: -2px;
+    }
+
+    &--crunchyroll {
+      width: $crunchyroll-submit-button-size;
+      height: $crunchyroll-submit-button-size;
+    }
+
+    &--jw {
+      width: $jw-submit-button-size;
+      height: $jw-submit-button-size;
+    }
+
+    &--doodstream {
+      width: $doodstream-submit-button-size;
+      height: $doodstream-submit-button-size;
+    }
+
+    &--videojs {
+      width: $videojs-submit-button-size;
+      height: $videojs-submit-button-size;
+    }
+
+    &--twistmoe {
+      pointer-events: all;
+      margin-right: -8px;
+    }
+  }
+
+  &-menu {
+    &--jw {
+      right: 0.5em;
+
+      &--fullscreen {
+        right: 3em;
+        bottom: 10em;
+      }
+    }
+
+    &--doodstream {
+      right: 2.5em;
+      bottom: 9em;
+    }
+  }
+}
+
+.skip-indicator {
+  margin-top: -2.5px;
+  height: 5px;
+
+  &--jw {
+    margin-top: -2px;
+    height: 4px;
+  }
+
+  &--videojs {
+    margin-top: -4px;
+    height: 8px;
+  }
+
+  &--twistmoe {
+    margin-top: -1px;
+    height: 2px;
+  }
+}

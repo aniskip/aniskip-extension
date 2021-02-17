@@ -2,10 +2,13 @@
   "variant": "jw",
   "videoContainerSelectorString": "Video Player",
   "injectSettingsButtonReferenceNodeSelectorString": "Settings",
+  "seekBarContainerSelectorString": "Seek",
   "player_urls": [
     "*://gogo-play.net/*",
     "*://streamsb.net/*",
     "*://cloud9.to/*",
-    "*://fcdn.stream/*"
+    "*://fcdn.stream/*",
+    "*://mcloud2.to/*",
+    "*://vidstream.pro/e/*"
   ]
 }

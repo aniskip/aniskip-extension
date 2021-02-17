@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classnames from 'classnames';
 import { SubmitButtonContainerProps } from '../types/components/submit_types';
 import SubmitButton from './SubmitButton';
@@ -8,6 +8,17 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
   variant,
 }: SubmitButtonContainerProps) => {
   const [clicked, setClicked] = useState<boolean>(false);
+  const [fullScreen, setFullscreen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fullscreenHandler = () => {
+      setFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', fullscreenHandler);
+
+    return () =>
+      document.removeEventListener('fullscreenchange', fullscreenHandler);
+  }, [setFullscreen]);
 
   return (
     <div
@@ -17,8 +28,9 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
         'flex',
         'items-center',
         'justify-center',
-        'relative',
         'z-10',
+        'w-8',
+        'h-8',
         'border-white',
         'border-b-2',
         'border-opacity-0',
@@ -28,13 +40,11 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
         `submit-container--${variant}`
       )}
     >
-      <SubmitButton
-        handleClick={() => setClicked((current) => !current)}
-        variant={variant}
-      />
+      <SubmitButton handleClick={() => setClicked((current) => !current)} />
       <SubmitMenu
         variant={variant}
         hidden={!clicked}
+        fullScreen={fullScreen}
         onSubmit={() => setClicked(false)}
         onClose={() => setClicked(false)}
       />

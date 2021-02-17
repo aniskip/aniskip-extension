@@ -1,7 +1,7 @@
 import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
-class Aniwatch extends BasePlayer {
+class Twistmoe extends BasePlayer {
   getVideoContainer() {
     return super.getContainerHelper(metadata.videoContainerSelectorString, 0);
   }
@@ -20,4 +20,4 @@ class Aniwatch extends BasePlayer {
   }
 }
 
-export default Aniwatch;
+export default Twistmoe;

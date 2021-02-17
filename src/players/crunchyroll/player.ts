@@ -6,6 +6,10 @@ class Crunchyroll extends BasePlayer {
     return this.document.getElementById(metadata.videoContainerSelectorString);
   }
 
+  getSeekBarContainer() {
+    return super.getContainerHelper(metadata.seekBarContainerSelectorString, 1);
+  }
+
   injectSubmitButton() {
     const referenceNode = document.getElementById(
       metadata.injectSettingsButtonReferenceNodeSelectorString
