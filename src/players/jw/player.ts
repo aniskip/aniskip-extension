@@ -10,7 +10,7 @@ class Jw extends BasePlayer {
 
   getSeekBarContainer() {
     const slider = this.document.querySelector<HTMLElement>(
-      `[aria-label="${metadata.seekBarContainerSelectorString}"]`
+      `[aria-label^="${metadata.seekBarContainerSelectorString}"]`
     );
     const firstChild = slider?.firstChild;
     if (firstChild) {
