@@ -84,6 +84,7 @@ module.exports = () => {
       break;
     case 'firefox':
       manifest.options_ui.browser_style = false;
+      manifest.options_ui.open_in_tab = true;
       manifest.browser_action.browser_style = false;
       manifest.browser_specific_settings = {
         gecko: {

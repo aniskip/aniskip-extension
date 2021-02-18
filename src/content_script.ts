@@ -3,6 +3,7 @@ import MalsyncHttpClient from './api/malsync_http_client';
 import Message from './types/message_type';
 import OpeningSkipperHttpClient from './api/opening_skipper_http_client';
 import getProviderInformation from './utils/page_utils';
+import { SkipOptionType } from './types/options/skip_option_type';
 
 /**
  * Returns the MAL id, episode number and provider name
@@ -34,8 +35,12 @@ const addSkipInterval = async (
   openingSkipperHttpClient: OpeningSkipperHttpClient,
   malId: number,
   episodeNumber: number,
-  type: 'op' | 'ed'
+  type: 'op' | 'ed',
+  option: SkipOptionType
 ) => {
+  if (option === 'disabled') {
+    return;
+  }
   const skipTimesResponse = await openingSkipperHttpClient.getSkipTimes(
     malId,
     episodeNumber,
@@ -43,7 +48,7 @@ const addSkipInterval = async (
   );
   if (skipTimesResponse.found) {
     browser.runtime.sendMessage({
-      type: 'player-add-skip-interval',
+      type: `player-add-${option}-interval`,
       payload: skipTimesResponse.result,
     });
   }
@@ -52,11 +57,27 @@ const addSkipInterval = async (
 /**
  * Adds the opening and ending skip invervals
  */
-const addSkipIntervals = async () => {
+const initialiseSkipTimes = async () => {
   const openingSkipperHttpClient = new OpeningSkipperHttpClient();
   const { malId, episodeNumber } = await getEpisodeInformation();
-  await addSkipInterval(openingSkipperHttpClient, malId, episodeNumber, 'op');
-  await addSkipInterval(openingSkipperHttpClient, malId, episodeNumber, 'ed');
+  const { openingOption, endingOption } = await browser.storage.sync.get([
+    'openingOption',
+    'endingOption',
+  ]);
+  addSkipInterval(
+    openingSkipperHttpClient,
+    malId,
+    episodeNumber,
+    'op',
+    openingOption
+  );
+  addSkipInterval(
+    openingSkipperHttpClient,
+    malId,
+    episodeNumber,
+    'ed',
+    endingOption
+  );
 };
 
 /**
@@ -67,7 +88,7 @@ const addSkipIntervals = async () => {
 const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
   switch (message.type) {
     case 'player-ready': {
-      addSkipIntervals();
+      initialiseSkipTimes();
       break;
     }
     case 'get-episode-information': {

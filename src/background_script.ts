@@ -1,6 +1,7 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 import { v4 as uuidv4 } from 'uuid';
 import Message from './types/message_type';
+import { SkipOptionType } from './types/options/skip_option_type';
 
 /**
  * Relay messages between content scripts
@@ -22,6 +23,16 @@ browser.runtime.onMessage.addListener(messageHandler);
  */
 browser.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
-    browser.storage.sync.set({ userId: uuidv4() });
+    const defaultOptions: {
+      userId: string;
+      openingOption: SkipOptionType;
+      endingOption: SkipOptionType;
+    } = {
+      userId: uuidv4(),
+      openingOption: 'manual-skip',
+      endingOption: 'manual-skip',
+    };
+
+    browser.storage.sync.set(defaultOptions);
   }
 });

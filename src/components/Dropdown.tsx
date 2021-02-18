@@ -96,6 +96,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           'absolute',
           'w-full',
           'shadow-lg',
+          'z-10',
           'border',
           'border-gray-200'
         )}

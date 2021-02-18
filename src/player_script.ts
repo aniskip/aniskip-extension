@@ -15,7 +15,7 @@ let player: Player;
  */
 const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
   switch (message.type) {
-    case 'player-add-skip-interval': {
+    case 'player-add-auto-skip-interval': {
       const skipTime = message.payload as SkipTime;
       player.addSkipTime(skipTime);
       break;
