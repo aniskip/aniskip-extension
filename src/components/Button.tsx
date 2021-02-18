@@ -11,9 +11,8 @@ const Button: React.FC<ButtonProps> = ({
 }: ButtonProps) => (
   <button
     className={classnames(
-      'border-2',
       'border-transparent',
-      'py-1',
+      'py-2',
       'px-5',
       'rounded',
       'text-sm',

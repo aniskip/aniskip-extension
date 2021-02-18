@@ -3,7 +3,11 @@ import { SkipTime } from '../api/skip_time_types';
 interface Player {
   document: Document;
 
+  variant: string;
+
   submitButtonContainer: HTMLDivElement;
+
+  skipButtonContainer: HTMLDivElement;
 
   skipTimeIndicatorContainer: HTMLDivElement;
 
@@ -22,8 +26,9 @@ interface Player {
   /**
    * Adds a skip time into the player
    * @param skipTime Skip time to add
+   * @param manual True if the user has to click skip opening / ending button, false if auto skip
    */
-  addSkipTime(skipTime: SkipTime): void;
+  addSkipTime(skipTime: SkipTime, manual: boolean): void;
 
   /**
    * Returns the video element duration
@@ -41,6 +46,11 @@ interface Player {
   getVideoContainer(): HTMLElement | null;
 
   /**
+   * Injects the skip button into the player
+   */
+  injectSkipButton(): void;
+
+  /**
    * Injects the skip time indicators into the player seek bar
    */
   injectSkipTimeIndicator(): void;
@@ -51,9 +61,20 @@ interface Player {
   injectSubmitButton(): void;
 
   /**
+   * Plays the player
+   */
+  play(): void;
+
+  /**
    * Resets player state
    */
   reset(): void;
+
+  /**
+   * Sets the video element current time to the input time
+   * @param time Time in seconds to set the player time to
+   */
+  setCurrentTime(time: number): void;
 }
 
 export default Player;

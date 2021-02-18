@@ -5,6 +5,8 @@ interface Page {
 
   document: Document;
 
+  providerName: string;
+
   /**
    * Returns the provider name from the url
    */

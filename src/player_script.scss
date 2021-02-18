@@ -1,5 +1,5 @@
 :host {
-  all: none;
+  all: initial;
   font-size: 16px;
 }
 
@@ -74,5 +74,17 @@
   &--twistmoe {
     margin-top: -1px;
     height: 2px;
+  }
+}
+
+.skip-button {
+  &--jw {
+    right: 0.5em;
+    bottom: 4.5em;
+
+    &--fullscreen {
+      right: 3em;
+      bottom: 10em;
+    }
   }
 }

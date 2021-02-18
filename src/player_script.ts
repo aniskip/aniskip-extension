@@ -17,7 +17,12 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
   switch (message.type) {
     case 'player-add-auto-skip-time': {
       const skipTime = message.payload as SkipTime;
-      player.addSkipTime(skipTime);
+      player.addSkipTime(skipTime, false);
+      break;
+    }
+    case 'player-add-manual-skip-time': {
+      const skipTime = message.payload as SkipTime;
+      player.addSkipTime(skipTime, true);
       break;
     }
     case 'player-clear-skip-times': {
@@ -38,6 +43,10 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
       });
       break;
     }
+    case 'player-set-video-current-time': {
+      player.setCurrentTime(message.payload);
+      break;
+    }
     case 'player-add-preview-skip-time': {
       const { payload } = message;
       const skipTime: SkipTime = {
@@ -50,6 +59,10 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
         episode_length: player.getDuration(),
       };
       player.addPreviewSkipTime(skipTime);
+      break;
+    }
+    case 'player-play': {
+      player.play();
       break;
     }
     default:
@@ -75,11 +88,13 @@ new MutationObserver((_mutations, observer) => {
         player.reset();
         player.injectSubmitButton();
         player.injectSkipTimeIndicator();
+        player.injectSkipButton();
         browser.runtime.sendMessage({ type: 'player-ready' });
       };
       videoContainer.onmouseover = () => {
         player.injectSubmitButton();
         player.injectSkipTimeIndicator();
+        player.injectSkipButton();
       };
     }
   }

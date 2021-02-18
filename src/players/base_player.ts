@@ -8,11 +8,17 @@ import { SkipTimeIndicatorContainerProps } from '../types/components/skip_time_i
 import SkipTimeIndicatorContainer from '../components/SkipTimeIndicatorContainer';
 import { SkipTime } from '../types/api/skip_time_types';
 import isInInterval from '../utils/time_utils';
+import { SkipTimeButtonProps } from '../types/components/skip_time_button_types';
+import SkipButton from '../components/SkipButton';
 
 abstract class BasePlayer implements Player {
   document: Document;
 
+  variant: string;
+
   submitButtonContainer: HTMLDivElement;
+
+  skipButtonContainer: HTMLDivElement;
 
   skipTimeIndicatorContainer: HTMLDivElement;
 
@@ -22,14 +28,23 @@ abstract class BasePlayer implements Player {
 
   timeUpdateEventListeners: Record<string, (event: Event) => void>;
 
-  constructor(document: Document, videoElement: HTMLVideoElement) {
+  constructor(
+    document: Document,
+    videoElement: HTMLVideoElement,
+    variant: string
+  ) {
     this.document = document;
+    this.variant = variant;
     this.submitButtonContainer = this.createContainer(
       'opening-skipper-player-submit-button',
-      ['keydown', 'keyup', 'mousedown', 'mouseup']
+      ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']
     );
     this.skipTimeIndicatorContainer = this.createContainer(
       'opening-skipper-player-skip-time-indicator'
+    );
+    this.skipButtonContainer = this.createContainer(
+      'opening-skipper-player-skip-button',
+      ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']
     );
     this.skipTimes = [];
     this.videoElement = videoElement;
@@ -83,11 +98,11 @@ abstract class BasePlayer implements Player {
     this.videoElement.play();
   }
 
-  addSkipTime(skipTime: SkipTime) {
+  addSkipTime(skipTime: SkipTime, manual: boolean = false) {
     this.skipTimes.push(skipTime);
     this.videoElement.addEventListener(
       'timeupdate',
-      this.skipIfInInterval(skipTime)
+      this.skipIfInInterval(skipTime, manual)
     );
     this.renderSkipTimeIndicator();
   }
@@ -159,41 +174,55 @@ abstract class BasePlayer implements Player {
     return this.videoElement.currentTime;
   }
 
+  injectSkipButton() {
+    const submitButtonParentElement = this.submitButtonContainer.parentElement;
+    const shadowRootContainer = this.skipButtonContainer;
+    if (submitButtonParentElement && shadowRootContainer) {
+      this.injectContainerHelper(
+        submitButtonParentElement,
+        shadowRootContainer
+      );
+    }
+  }
+
   injectSkipTimeIndicator() {
-    const container = this.getSeekBarContainer();
-    if (container) {
-      this.injectSkipTimeIndicatornHelper(container);
+    const seekBarContainer = this.getSeekBarContainer();
+    const shadowRootContainer = this.skipTimeIndicatorContainer;
+    if (seekBarContainer && shadowRootContainer) {
+      const { id } = shadowRootContainer;
+      const reactRootId = `${id}-root`;
+      this.injectContainerHelper(
+        seekBarContainer,
+        shadowRootContainer,
+        reactRootId
+      );
+      this.renderSkipTimeIndicator();
     }
   }
 
   /**
-   * Helper function to inject the skip time indicators
-   * @param shadowRootContainer Div element to put the shadow root into
+   * Helper function to inject containers into the player
+   * @param target Div element to put the shadow root element into
+   * @param shadowRootContainer Container element which contains the shadow root
+   * @param reactRootId If specified, a div element is created for the react root
    */
-  injectSkipTimeIndicatornHelper(
-    shadowRootContainer: HTMLElement
-  ): HTMLDivElement | null {
-    const { id, shadowRoot } = this.skipTimeIndicatorContainer;
-    if (
-      this.document.getElementById(id) ||
-      !shadowRootContainer ||
-      !shadowRoot
-    ) {
-      return null;
+  injectContainerHelper(
+    target: HTMLElement,
+    shadowRootContainer: HTMLElement,
+    reactRootId?: string
+  ): void {
+    const { id, shadowRoot } = shadowRootContainer;
+    if (this.document.getElementById(id) || !shadowRoot) {
+      return;
     }
 
-    const reactRootId = `${id}-root`;
-    if (!shadowRoot.getElementById(reactRootId)) {
+    if (reactRootId && !shadowRoot.getElementById(reactRootId)) {
       const root = this.document.createElement('div');
       root.setAttribute('id', reactRootId);
       shadowRoot.appendChild(root);
     }
 
-    this.renderSkipTimeIndicator();
-
-    shadowRootContainer.appendChild(this.skipTimeIndicatorContainer);
-
-    return this.skipTimeIndicatorContainer;
+    target.appendChild(shadowRootContainer);
   }
 
   /**
@@ -232,6 +261,10 @@ abstract class BasePlayer implements Player {
     return this.submitButtonContainer;
   }
 
+  play() {
+    this.videoElement.play();
+  }
+
   /**
    * Renders the skip time indicator react element
    */
@@ -245,7 +278,7 @@ abstract class BasePlayer implements Player {
         {
           skipTimes: this.skipTimes,
           offset,
-          variant: this.constructor.name.toLocaleLowerCase(),
+          variant: this.variant,
         }
       );
       ReactDOM.render(skipTimeIndicatorElement, reactRoot);
@@ -272,7 +305,7 @@ abstract class BasePlayer implements Player {
    * Skips the time in the interval if it is within the interval range
    * @param skipTime Skip time object containing the intervals
    */
-  skipIfInInterval(skipTime: SkipTime) {
+  skipIfInInterval(skipTime: SkipTime, manual: boolean) {
     const skipTimeString = JSON.stringify(skipTime);
     // Ensures player event handlers can be removed
     const timeUpdateEventListener =
@@ -280,9 +313,10 @@ abstract class BasePlayer implements Player {
       (this.timeUpdateEventListeners[skipTimeString] = (event: Event) => {
         const margin = 0;
         const video = event.currentTarget as HTMLVideoElement;
-        const checkIntervalLength = 5;
         const { interval, episode_length: episodeLength } = skipTime;
         const { start_time: startTime, end_time: endTime } = interval;
+        const skipTimeIntervalLength = endTime - startTime;
+        const checkIntervalLength = manual ? skipTimeIntervalLength : 1;
         const offset = video.duration - episodeLength;
         const { currentTime } = video;
         const inInterval = isInInterval(
@@ -292,7 +326,36 @@ abstract class BasePlayer implements Player {
           checkIntervalLength
         );
 
-        if (inInterval) {
+        if (manual) {
+          const { id, shadowRoot } = this.skipButtonContainer;
+          if (shadowRoot) {
+            const reactRootId = `${id}-${skipTime.skip_type}-root`;
+            if (!shadowRoot.getElementById(reactRootId)) {
+              const root = this.document.createElement('div');
+              root.setAttribute('id', reactRootId);
+              shadowRoot.appendChild(root);
+            }
+            const reactRoot = shadowRoot.getElementById(reactRootId);
+            if (reactRoot) {
+              const skipButton = React.createElement<SkipTimeButtonProps>(
+                SkipButton,
+                {
+                  variant: this.variant,
+                  label:
+                    skipTime.skip_type === 'op'
+                      ? 'Skip Opening'
+                      : 'Skip Ending',
+                  hidden: !inInterval,
+                  onClick: () => {
+                    this.setCurrentTime(endTime + offset + margin);
+                    this.play();
+                  },
+                }
+              );
+              ReactDOM.render(skipButton, reactRoot);
+            }
+          }
+        } else if (inInterval) {
           this.setCurrentTime(endTime + offset + margin);
         }
       });

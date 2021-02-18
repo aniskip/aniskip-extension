@@ -103,7 +103,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
       className={classnames(
         'bg-gray-800',
         'right-5',
-        'bottom-24',
+        'bottom-28',
         'absolute',
         'select-none',
         'rounded-md',

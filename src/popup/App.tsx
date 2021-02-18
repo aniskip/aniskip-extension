@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import Dropdown from '../components/Dropdown';
+import SkipButton from '../components/SkipButton';
 
 const App: React.FC = () => {
   const [userId, setUserId] = useState<string>('');
@@ -13,7 +14,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-96 h-96">
+    <div className="w-96 h-96" style={{ fontSize: '16px' }}>
       The user id is: {userId}
       <Dropdown
         value="op"
@@ -23,6 +24,7 @@ const App: React.FC = () => {
           { value: 'ed', label: 'Ending' },
         ]}
       />
+      <SkipButton variant="" label="Skip Opening" />
     </div>
   );
 };

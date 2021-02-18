@@ -61,7 +61,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         <span className={classnames('font-semibold', 'px-3', 'py-2')}>
           {options.find((element) => element.value === value)?.label}
         </span>
-        <div className={classnames('pl-3', 'pr-4', 'py-4')}>
+        <div className={classnames('pl-3', 'pr-4', 'py-3')}>
           <div
             className={classnames(
               'transition-transform',
