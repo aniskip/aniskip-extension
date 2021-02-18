@@ -45,7 +45,7 @@ abstract class BasePlayer implements Player {
 
   abstract injectSubmitButton(): void;
 
-  addPreviewSkipInterval(skipTime: SkipTime) {
+  addPreviewSkipTime(skipTime: SkipTime) {
     this.clearVideoElementEventListeners(
       Object.values(this.timeUpdateEventListeners)
     );
@@ -93,7 +93,7 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Removes all the skip intervals from the player
+   * Removes all the skip times from the player
    */
   clearSkipTimeIndicators() {
     this.skipTimes = [];

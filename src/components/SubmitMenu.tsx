@@ -232,7 +232,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                 'text-white'
               )}
               onClick={async () => {
-                const messageType = 'player-add-preview-skip-interval';
+                const messageType = 'player-add-preview-skip-time';
                 browser.runtime.sendMessage({
                   type: messageType,
                   payload: {

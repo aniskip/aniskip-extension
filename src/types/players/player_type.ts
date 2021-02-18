@@ -17,7 +17,7 @@ interface Player {
    * Adds a skip time which will run once for preview
    * @param skipTime Skip time to preview
    */
-  addPreviewSkipInterval(skipTime: SkipTime): void;
+  addPreviewSkipTime(skipTime: SkipTime): void;
 
   /**
    * Adds a skip time into the player

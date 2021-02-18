@@ -15,12 +15,12 @@ let player: Player;
  */
 const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
   switch (message.type) {
-    case 'player-add-auto-skip-interval': {
+    case 'player-add-auto-skip-time': {
       const skipTime = message.payload as SkipTime;
       player.addSkipTime(skipTime);
       break;
     }
-    case 'player-clear-skip-intervals': {
+    case 'player-clear-skip-times': {
       player.reset();
       break;
     }
@@ -38,7 +38,7 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
       });
       break;
     }
-    case 'player-add-preview-skip-interval': {
+    case 'player-add-preview-skip-time': {
       const { payload } = message;
       const skipTime: SkipTime = {
         interval: {
@@ -49,7 +49,7 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
         skip_id: '',
         episode_length: player.getDuration(),
       };
-      player.addPreviewSkipInterval(skipTime);
+      player.addPreviewSkipTime(skipTime);
       break;
     }
     default:

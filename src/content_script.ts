@@ -25,13 +25,13 @@ const getEpisodeInformation = async () => {
 };
 
 /**
- * Adds the skip intervals to the player
+ * Adds the skip time to the player
  * @param openingSkipperHttpClient OpeningSkipperHttpClient object
  * @param malId MAL idenfitication number
  * @param episodeNumber Episode number
- * @param type Type of interval to add, either 'op' or 'ed'
+ * @param type Type of time to add, either 'op' or 'ed'
  */
-const addSkipInterval = async (
+const addSkipTime = async (
   openingSkipperHttpClient: OpeningSkipperHttpClient,
   malId: number,
   episodeNumber: number,
@@ -48,7 +48,7 @@ const addSkipInterval = async (
   );
   if (skipTimesResponse.found) {
     browser.runtime.sendMessage({
-      type: `player-add-${option}-interval`,
+      type: `player-add-${option}-time`,
       payload: skipTimesResponse.result,
     });
   }
@@ -64,14 +64,14 @@ const initialiseSkipTimes = async () => {
     'openingOption',
     'endingOption',
   ]);
-  addSkipInterval(
+  addSkipTime(
     openingSkipperHttpClient,
     malId,
     episodeNumber,
     'op',
     openingOption
   );
-  addSkipInterval(
+  addSkipTime(
     openingSkipperHttpClient,
     malId,
     episodeNumber,
