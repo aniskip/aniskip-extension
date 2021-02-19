@@ -10,14 +10,7 @@ const isInInterval = (
   currentTime: number,
   margin: number,
   checkIntervalLength: number
-): boolean => {
-  if (
-    currentTime >= 0 &&
-    currentTime <= startTime - margin + checkIntervalLength
-  ) {
-    return true;
-  }
-  return false;
-};
+): boolean =>
+  currentTime >= 0 && currentTime <= startTime - margin + checkIntervalLength;
 
 export default isInInterval;
