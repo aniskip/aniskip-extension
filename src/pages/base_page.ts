@@ -26,7 +26,7 @@ abstract class BasePage implements Page {
   }
 
   async getMalId(): Promise<number> {
-    if (this.malId !== 0) {
+    if (this.malId > 0) {
       return this.malId;
     }
 
