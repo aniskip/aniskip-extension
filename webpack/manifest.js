@@ -16,7 +16,7 @@ const manifest = {
   background: {
     scripts: ['background_script.js'],
   },
-  permissions: ['storage', '*://api.malsync.moe/*'],
+  permissions: ['storage', '*://api.malsync.moe/*', '*://api.jikan.moe/*'],
   web_accessible_resources: ['player_script.css'],
 };
 

@@ -5,6 +5,8 @@ interface Page {
 
   document: Document;
 
+  malId: number;
+
   /**
    * Returns the provider name from the url
    */
@@ -18,7 +20,12 @@ interface Page {
   /**
    * Returns the episode number from the url
    */
-  getEpisodeNumber(): number;
+  getEpisodeNumber(): Promise<number>;
+
+  /**
+   * Returns the MAL identification id from the url
+   */
+  getMalId(): Promise<number>;
 }
 
 export default Page;

@@ -1,20 +1,18 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
-import MalsyncHttpClient from './api/malsync_http_client';
 import Message from './types/message_type';
 import OpeningSkipperHttpClient from './api/opening_skipper_http_client';
-import getProviderInformation from './utils/page_utils';
+import getPage from './utils/page_utils';
 
 /**
  * Returns the MAL id, episode number and provider name
  */
 const getEpisodeInformation = async () => {
   const { pathname, hostname } = window.location;
-  const { providerName, identifier, episodeNumber } = getProviderInformation(
-    pathname,
-    hostname
-  );
-  const malsyncHttpClient = new MalsyncHttpClient();
-  const malId = await malsyncHttpClient.getMalId(providerName, identifier);
+  const page = getPage(pathname, hostname);
+
+  const providerName = page.getProviderName();
+  const episodeNumber = await page.getEpisodeNumber();
+  const malId = await page.getMalId();
 
   return {
     malId,

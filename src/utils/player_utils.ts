@@ -7,7 +7,7 @@ import Jw from '../players/jw/player';
 import Twistmoe from '../players/twistmoe/player';
 
 /**
- * Obtains the settings container of the player
+ * Obtains the player object from the domain
  * @param hostname Player's host
  * @param videoElement Player's video element
  */
