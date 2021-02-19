@@ -5,8 +5,9 @@ class Aniwatch extends BasePage {
     return this.pathname.split('/')[2];
   }
 
-  getEpisodeNumber(): number {
-    return parseInt(this.pathname.split('/')[3], 10);
+  getEpisodeNumber(): Promise<number> {
+    const episodeNumber = parseInt(this.pathname.split('/')[3], 10);
+    return Promise.resolve(episodeNumber);
   }
 }
 
