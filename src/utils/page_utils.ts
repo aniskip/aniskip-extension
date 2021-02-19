@@ -6,12 +6,11 @@ import Twistmoe from '../pages/twistmoe/page';
 import Page from '../types/pages/page_type';
 
 /**
- * Get provider name, provider anime id and anime episode number from current url
+ * Obtains the page object from the domain
  * @param pathname Provider's url path
  * @param hostname Provider's host
- * @returns A tuple of (providerName, identifier and episodeNumber)
  */
-const getProviderInformation = (pathname: string, hostname: string) => {
+const getPage = (pathname: string, hostname: string) => {
   const domainName = hostname.replace(/(?:[^.\n]*\.)?([^.\n]*)(\..*)/, '$1');
   let page: Page;
 
@@ -34,15 +33,7 @@ const getProviderInformation = (pathname: string, hostname: string) => {
     default:
       throw new Error(`Page ${hostname} not supported`);
   }
-  const providerName = page.getProviderName();
-  const identifier = page.getIdentifier();
-  const episodeNumber = page.getEpisodeNumber();
-  const result = {
-    providerName,
-    identifier,
-    episodeNumber,
-  };
-  return result;
+  return page;
 };
 
-export default getProviderInformation;
+export default getPage;

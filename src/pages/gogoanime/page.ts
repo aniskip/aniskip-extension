@@ -6,8 +6,9 @@ class Gogoanime extends BasePage {
     return identifierUnclean.substring(1);
   }
 
-  getEpisodeNumber(): number {
-    return parseInt(this.pathname.split('-episode-')[1], 10);
+  getEpisodeNumber(): Promise<number> {
+    const episodeNumber = parseInt(this.pathname.split('-episode-')[1], 10);
+    return Promise.resolve(episodeNumber);
   }
 }
 
