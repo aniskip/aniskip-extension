@@ -31,6 +31,12 @@ class Crunchyroll extends BasePage {
     return -1;
   }
 
+  /**
+   * Converts the episode number into seasonal episode number form
+   * @param jikanHttpClient Jikan http client object
+   * @param malId MAL identification number
+   * @param episodeNumber Extracted episode number
+   */
   static async getSeasonalEpisodeNumber(
     jikanHttpClient: JikanHttpClient,
     malId: number,
@@ -61,6 +67,11 @@ class Crunchyroll extends BasePage {
     return episodeNumber;
   }
 
+  /**
+   * Returns the offset to subtract from the episode number
+   * @param jikanHttpClient Jikan http client object
+   * @param prequelMalId Prequel MAL identification number
+   */
   static async getSeasonalEpisodeNumberHelper(
     jikanHttpClient: JikanHttpClient,
     prequelMalId: number
