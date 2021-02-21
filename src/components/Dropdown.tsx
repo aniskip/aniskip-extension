@@ -35,7 +35,12 @@ const Dropdown: React.FC<DropdownProps> = ({
   return (
     <div
       ref={dropdownRef}
-      className={classnames('text-black', 'relative', className)}
+      className={classnames(
+        'text-black',
+        'relative',
+        'inline-block',
+        className
+      )}
     >
       <button
         className={classnames(
@@ -58,7 +63,29 @@ const Dropdown: React.FC<DropdownProps> = ({
         type="button"
         onClick={() => setHidden((current) => !current)}
       >
-        <span className={classnames('font-semibold', 'px-3', 'py-2')}>
+        <span
+          className={classnames(
+            'invisible',
+            'pointer-events-none',
+            'px-3',
+            'py-2'
+          )}
+        >
+          {
+            options.reduce((max, current) =>
+              current.label.length > max.label.length ? current : max
+            ).label
+          }
+        </span>
+        <span
+          className={classnames(
+            'font-semibold',
+            'px-3',
+            'py-2',
+            'absolute',
+            'left-0'
+          )}
+        >
           {options.find((element) => element.value === value)?.label}
         </span>
         <div className={classnames('pl-3', 'pr-4', 'py-3')}>
@@ -98,6 +125,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           'shadow-lg',
           'z-10',
           'border',
+          'overflow-hidden',
           'border-gray-200'
         )}
       >
@@ -118,7 +146,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             key={uuidv4()}
             onClick={handleClick(valueId)}
           >
-            <span>{label}</span>
+            {label}
           </button>
         ))}
       </div>
