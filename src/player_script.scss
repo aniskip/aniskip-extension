@@ -42,11 +42,12 @@
 
   &-menu {
     &--jw {
+      bottom: 8em;
       right: 0.5em;
 
       &--fullscreen {
         right: 3em;
-        bottom: 10em;
+        bottom: 12em;
       }
     }
 
@@ -80,11 +81,11 @@
 .skip-button {
   &--jw {
     right: 2em;
-    bottom: 4.5em;
+    bottom: 5em;
 
     &--fullscreen {
       right: 4.5em;
-      bottom: 8em;
+      bottom: 9em;
     }
   }
 }
