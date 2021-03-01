@@ -46,6 +46,11 @@ interface Player {
   getVideoContainer(): HTMLElement | null;
 
   /**
+   * Initialises the player by injecting the extension buttons
+   */
+  initialise(): void;
+
+  /**
    * Injects the skip button into the player
    */
   injectSkipButton(): void;

@@ -84,18 +84,7 @@ new MutationObserver((_mutations, observer) => {
 
     if (videoContainer && videoElement) {
       observer.disconnect();
-      videoElement.onloadedmetadata = () => {
-        player.reset();
-        player.injectSubmitButton();
-        player.injectSkipTimeIndicator();
-        player.injectSkipButton();
-        browser.runtime.sendMessage({ type: 'player-ready' });
-      };
-      videoContainer.onmouseover = () => {
-        player.injectSubmitButton();
-        player.injectSkipTimeIndicator();
-        player.injectSkipButton();
-      };
+      player.initialise();
     }
   }
 }).observe(document, { subtree: true, childList: true });
