@@ -1,5 +1,10 @@
 import BaseHttpClient from './base_http_client';
-import { PostResponseTypeFromMedia } from '../types/api/anilist_types';
+import {
+  Media,
+  MediaTitle,
+  PostResponseTypeFromMedia,
+  PostResponseTypeFromPage,
+} from '../types/api/anilist_types';
 
 class AnilistHttpClient extends BaseHttpClient {
   constructor() {
@@ -27,27 +32,72 @@ class AnilistHttpClient extends BaseHttpClient {
    * Returns the relations an anime has
    * @param malId MAL id of anime to get relations of
    */
-  async getRelations(malId: number): Promise<PostResponseTypeFromMedia> {
+  async getRelations(
+    malId: number
+  ): Promise<
+    PostResponseTypeFromMedia<
+      Media<Pick<Media, 'episodes' | 'format' | 'idMal'>>
+    >
+  > {
     const query = `
-    query ($malId: Int) {
-      Media (idMal: $malId, type: ANIME) {
-        episodes
-        idMal
-        relations {
-          edges {
-            node {
-              format
-              episodes
-              idMal
+      query ($malId: Int) {
+        Media (idMal: $malId, type: ANIME) {
+          episodes
+          idMal
+          relations {
+            edges {
+              node {
+                format
+                episodes
+                idMal
+              }
+              relationType
             }
-            relationType
           }
         }
       }
-    }
     `;
-    const variables: Record<string, number> = {
+    const variables = {
       malId,
+    };
+    const response = await this.query(query, variables);
+    return response.json();
+  }
+
+  /**
+   * Searches Anilist
+   * @param type Specify what to search
+   * @param q Query to search
+   * @param limit search result limit
+   */
+  async search(
+    title: string
+  ): Promise<
+    PostResponseTypeFromPage<
+      Pick<
+        Media<undefined, Pick<MediaTitle, 'english' | 'romaji' | 'native'>>,
+        'idMal' | 'title' | 'synonyms'
+      >
+    >
+  > {
+    const query = `
+      query ($title: String) {
+        Page {
+          media (search: $title, type: ANIME) {
+            idMal
+            title {
+              romaji
+              english
+              native
+              userPreferred
+            }
+            synonyms
+          }
+        }
+      }
+    `;
+    const variables = {
+      title,
     };
     const response = await this.query(query, variables);
     return response.json();

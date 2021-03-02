@@ -25,24 +25,51 @@ export type MediaFormat =
   | 'NOVEL'
   | 'ONE_SHOT';
 
-export interface MediaEdge {
-  node: Media;
+export interface MediaEdge<M extends Partial<Media> | undefined> {
+  node: M;
   relationType: MediaRelation;
 }
 
-export interface MediaConnection {
-  edges: MediaEdge[];
+export interface MediaConnection<M extends Partial<Media> | undefined> {
+  edges: MediaEdge<M>[];
 }
 
-export interface Media {
+export interface MediaTitle {
+  romaji: string;
+  english: string;
+  native: string;
+  userPreferred: string;
+}
+
+export type Media<
+  M extends Partial<Media> | undefined = undefined,
+  MT extends Partial<MediaTitle> | undefined = undefined
+> = {
   episodes: number;
-  format?: MediaFormat;
+  format: MediaFormat;
   idMal: number;
-  relations: MediaConnection;
+  synonyms: string[];
+} & (M extends undefined
+  ? {}
+  : {
+      relations: MediaConnection<M>;
+    }) &
+  (MT extends undefined
+    ? {}
+    : {
+        title: MT;
+      });
+
+export interface PostResponseTypeFromMedia<M extends Partial<Media>> {
+  data: {
+    Media: M;
+  };
 }
 
-export interface PostResponseTypeFromMedia {
+export interface PostResponseTypeFromPage<M extends Partial<Media>> {
   data: {
-    Media: Media;
+    Page: {
+      media: M[];
+    };
   };
 }
