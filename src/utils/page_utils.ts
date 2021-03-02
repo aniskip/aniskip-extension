@@ -1,3 +1,4 @@
+import AniMixPlay from '../pages/animixplay/page';
 import Aniwatch from '../pages/aniwatch/page';
 import Crunchyroll from '../pages/crunchyroll/page';
 import Gogoanime from '../pages/gogoanime/page';
@@ -15,6 +16,9 @@ const getPage = (pathname: string, hostname: string) => {
   let page: Page;
 
   switch (domainName) {
+    case 'animixplay':
+      page = new AniMixPlay(hostname, pathname, document);
+      break;
     case 'aniwatch':
       page = new Aniwatch(hostname, pathname, document);
       break;
