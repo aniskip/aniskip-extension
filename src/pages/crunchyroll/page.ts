@@ -1,4 +1,4 @@
-import JikanHttpClient from '../../api/jikan_http_client';
+import AnilistHttpClient from '../../api/anilist_http_client';
 import BasePage from '../base_page';
 
 class Crunchyroll extends BasePage {
@@ -20,9 +20,9 @@ class Crunchyroll extends BasePage {
     if (matches) {
       const episodeNumber = parseInt(matches[1], 10);
       const malId = await this.getMalId();
-      const jikanHttpClient = new JikanHttpClient();
+      const anilistHttpClient = new AnilistHttpClient();
       const seasonalEpisodeNumber = await Crunchyroll.getSeasonalEpisodeNumber(
-        jikanHttpClient,
+        anilistHttpClient,
         malId,
         episodeNumber
       );
@@ -33,21 +33,28 @@ class Crunchyroll extends BasePage {
 
   /**
    * Converts the episode number into seasonal episode number form
-   * @param jikanHttpClient Jikan http client object
+   * @param anilistHttpClient Anilist http client object
    * @param malId MAL identification number
    * @param episodeNumber Extracted episode number
    */
   static async getSeasonalEpisodeNumber(
-    jikanHttpClient: JikanHttpClient,
+    anilistHttpClient: AnilistHttpClient,
     malId: number,
     episodeNumber: number
   ): Promise<number> {
-    const animeDetails = await jikanHttpClient.getAnimeDetails(malId);
-    if (animeDetails.related.Prequel) {
-      const [prequel] = animeDetails.related.Prequel;
+    const {
+      data: { Media: animeDetails },
+    } = await anilistHttpClient.getRelations(malId);
+
+    const [prequelEdge] = animeDetails.relations.edges.filter((edge) => {
+      const { relationType, node } = edge;
+      return relationType === 'PREQUEL' && node.format === 'TV';
+    });
+    if (prequelEdge) {
+      const { node: prequelNode } = prequelEdge;
       const episodeNumberOffset = await Crunchyroll.getSeasonalEpisodeNumberHelper(
-        jikanHttpClient,
-        prequel.mal_id
+        anilistHttpClient,
+        prequelNode.idMal
       );
 
       // The episode number is already in seasonal form
@@ -69,36 +76,34 @@ class Crunchyroll extends BasePage {
 
   /**
    * Returns the offset to subtract from the episode number
-   * @param jikanHttpClient Jikan http client object
+   * @param anilistHttpClient Jikan http client object
    * @param prequelMalId Prequel MAL identification number
    */
   static async getSeasonalEpisodeNumberHelper(
-    jikanHttpClient: JikanHttpClient,
+    anilistHttpClient: AnilistHttpClient,
     prequelMalId: number
   ): Promise<number> {
-    const animeDetails = await jikanHttpClient.getAnimeDetails(prequelMalId);
+    const {
+      data: { Media: animeDetails },
+    } = await anilistHttpClient.getRelations(prequelMalId);
 
-    const isTvEpisode = animeDetails.type === 'TV';
+    const [prequelEdge] = animeDetails.relations.edges.filter((edge) => {
+      const { relationType, node } = edge;
+      return relationType === 'PREQUEL' && node.format === 'TV';
+    });
 
-    if (animeDetails.related.Prequel) {
-      const [prequel] = animeDetails.related.Prequel;
-      if (!isTvEpisode) {
-        return Crunchyroll.getSeasonalEpisodeNumberHelper(
-          jikanHttpClient,
-          prequel.mal_id
-        );
-      }
-
+    if (prequelEdge) {
+      const { node: prequelNode } = prequelEdge;
       return (
         animeDetails.episodes +
         (await Crunchyroll.getSeasonalEpisodeNumberHelper(
-          jikanHttpClient,
-          prequel.mal_id
+          anilistHttpClient,
+          prequelNode.idMal
         ))
       );
     }
 
-    return !isTvEpisode ? 0 : animeDetails.episodes;
+    return animeDetails.episodes;
   }
 }
 
