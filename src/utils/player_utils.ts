@@ -1,5 +1,5 @@
 import Player from '../types/players/player_type';
-import Aniwatch from '../players/aniwatch/player';
+import Plyr from '../players/plyr/player';
 import Crunchyroll from '../players/crunchyroll/player';
 import Videojs from '../players/videojs/player';
 import Doodstream from '../players/doodstream/player';
@@ -16,18 +16,19 @@ const getPlayer = (hostname: string, videoElement: HTMLVideoElement) => {
   let player: Player;
 
   switch (domainName) {
+    case 'animixplay':
     case 'aniwatch':
     case 'streamtape':
-      player = new Aniwatch(document, videoElement);
+      player = new Plyr(document, videoElement);
       break;
     case 'crunchyroll':
       player = new Crunchyroll(document, videoElement);
       break;
-    case 'gogo-play':
     case 'cloud9':
     case 'fcdn':
-    case 'streamsb':
+    case 'gogo-play':
     case 'mcloud2':
+    case 'streamsb':
     case 'vidstream':
       player = new Jw(document, videoElement);
       break;
