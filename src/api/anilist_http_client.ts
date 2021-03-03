@@ -36,7 +36,10 @@ class AnilistHttpClient extends BaseHttpClient {
     malId: number
   ): Promise<
     PostResponseTypeFromMedia<
-      Media<Pick<Media, 'episodes' | 'format' | 'idMal'>>
+      Pick<
+        Media<Pick<Media, 'episodes' | 'format' | 'idMal'>>,
+        'episodes' | 'idMal' | 'relations'
+      >
     >
   > {
     const query = `
