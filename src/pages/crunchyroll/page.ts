@@ -1,3 +1,4 @@
+import { browser } from 'webextension-polyfill-ts';
 import AnilistHttpClient from '../../api/anilist_http_client';
 import BasePage from '../base_page';
 
@@ -83,6 +84,14 @@ class Crunchyroll extends BasePage {
     anilistHttpClient: AnilistHttpClient,
     prequelMalId: number
   ): Promise<number> {
+    const { episodeOffsetCache } = await browser.storage.local.get({
+      episodeOffsetCache: {},
+    });
+
+    if (episodeOffsetCache[prequelMalId]) {
+      return episodeOffsetCache[prequelMalId];
+    }
+
     const {
       data: { Media: animeDetails },
     } = await anilistHttpClient.getRelations(prequelMalId);
@@ -92,18 +101,30 @@ class Crunchyroll extends BasePage {
       return relationType === 'PREQUEL' && node.format === 'TV';
     });
 
+    let episodeOffset = animeDetails.episodes;
+
     if (prequelEdge) {
       const { node: prequelNode } = prequelEdge;
-      return (
+      episodeOffset =
         animeDetails.episodes +
         (await Crunchyroll.getSeasonalEpisodeNumberHelper(
           anilistHttpClient,
           prequelNode.idMal
-        ))
-      );
+        ));
     }
 
-    return animeDetails.episodes;
+    // cache offset
+    const {
+      episodeOffsetCache: updatedEpisodeOffsetCache,
+    } = await browser.storage.local.get({
+      episodeOffsetCache: {},
+    });
+    updatedEpisodeOffsetCache[prequelMalId] = episodeOffset;
+    browser.storage.local.set({
+      episodeOffsetCache: updatedEpisodeOffsetCache,
+    });
+
+    return episodeOffset;
   }
 }
 

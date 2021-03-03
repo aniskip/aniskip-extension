@@ -34,5 +34,13 @@ browser.runtime.onInstalled.addListener((details) => {
     };
 
     browser.storage.sync.set(defaultOptions);
+
+    const localDefaultOptions: {
+      episodeOffsetCache: Record<string, number>;
+    } = {
+      episodeOffsetCache: {},
+    };
+
+    browser.storage.local.set(localDefaultOptions);
   }
 });
