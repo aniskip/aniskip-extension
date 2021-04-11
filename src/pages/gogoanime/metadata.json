@@ -2,6 +2,7 @@
   "page_urls": [
     "*://gogoanime.so/*",
     "*://gogoanime.sh/*",
-    "*://*.gogoanime.sh/*"
+    "*://*.gogoanime.sh/*",
+    "*://*.gogoanime.ai/*"
   ]
 }

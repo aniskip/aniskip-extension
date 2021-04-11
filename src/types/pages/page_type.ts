@@ -10,6 +10,11 @@ interface Page {
   malId: number;
 
   /**
+   * Returns the title
+   */
+  getTitle(): string;
+
+  /**
    * Returns the provider name from the url
    */
   getProviderName(): string;

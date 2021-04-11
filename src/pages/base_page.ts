@@ -31,6 +31,10 @@ abstract class BasePage implements Page {
 
   abstract getEpisodeNumber(): Promise<number>;
 
+  getTitle(): string {
+    return this.getIdentifier();
+  }
+
   getProviderName(): string {
     return this.providerName;
   }
@@ -48,7 +52,8 @@ abstract class BasePage implements Page {
       this.malId = await malsyncHttpClient.getMalId(providerName, identifier);
     } catch {
       // MALSync was not able to find the id
-      this.malId = await BasePage.findClosestMalId(identifier);
+      const title = this.getTitle();
+      this.malId = await BasePage.findClosestMalId(title);
     }
 
     return this.malId;
@@ -56,12 +61,12 @@ abstract class BasePage implements Page {
 
   /**
    * Search MAL and find the closest MAL id to the identifier
-   * @param identifier Identifier from the provider
+   * @param titleVariant Title from the provider
    */
-  static async findClosestMalId(identifier: string): Promise<number> {
+  static async findClosestMalId(title: string): Promise<number> {
     const anilistHttpClient = new AnilistHttpClient();
 
-    const searchResponse = await anilistHttpClient.search(identifier);
+    const searchResponse = await anilistHttpClient.search(title);
     const {
       data: {
         Page: { media: searchResults },
@@ -70,9 +75,9 @@ abstract class BasePage implements Page {
 
     let closest = 0;
     let bestSimilarity = 0;
-    searchResults.forEach(({ title, idMal, synonyms }) => {
+    searchResults.forEach(({ title: titleVariants, idMal, synonyms }) => {
       const titles = [...synonyms];
-      Object.values(title).forEach((titleVariant) => {
+      Object.values(titleVariants).forEach((titleVariant) => {
         if (titleVariant) {
           titles.push(titleVariant);
         }
@@ -80,7 +85,7 @@ abstract class BasePage implements Page {
       titles.forEach((titleVariant) => {
         const similarity = stringSimilarity.compareTwoStrings(
           titleVariant.toLocaleLowerCase(),
-          identifier.toLocaleLowerCase()
+          title.toLocaleLowerCase()
         );
         if (similarity > bestSimilarity) {
           bestSimilarity = similarity;

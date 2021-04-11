@@ -14,6 +14,10 @@ let player: Player;
  * @param _sender Sender of the message
  */
 const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
+  if (!player) {
+    return;
+  }
+
   switch (message.type) {
     case 'player-add-auto-skip-time': {
       const skipTime = message.payload as SkipTime;

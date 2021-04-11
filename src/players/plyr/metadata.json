@@ -6,6 +6,7 @@
   "player_urls": [
     "*://aniwatch.me/*",
     "*://streamtape.com/*",
+    "*://animixplay.to/v*/*",
     "*://animixplay.to/api/*"
   ]
 }

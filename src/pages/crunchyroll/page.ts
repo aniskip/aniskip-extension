@@ -22,7 +22,7 @@ class Crunchyroll extends BasePage {
       const episodeNumber = parseInt(matches[1], 10);
       const malId = await this.getMalId();
       const anilistHttpClient = new AnilistHttpClient();
-      const seasonalEpisodeNumber = await Crunchyroll.getSeasonalEpisodeNumber(
+      const seasonalEpisodeNumber = await this.getSeasonalEpisodeNumber(
         anilistHttpClient,
         malId,
         episodeNumber
@@ -38,7 +38,7 @@ class Crunchyroll extends BasePage {
    * @param malId MAL identification number
    * @param episodeNumber Extracted episode number
    */
-  static async getSeasonalEpisodeNumber(
+  async getSeasonalEpisodeNumber(
     anilistHttpClient: AnilistHttpClient,
     malId: number,
     episodeNumber: number
@@ -51,6 +51,7 @@ class Crunchyroll extends BasePage {
       const { relationType, node } = edge;
       return relationType === 'PREQUEL' && node.format === 'TV';
     });
+
     if (prequelEdge) {
       const { node: prequelNode } = prequelEdge;
       const episodeNumberOffset = await Crunchyroll.getSeasonalEpisodeNumberHelper(
@@ -67,6 +68,11 @@ class Crunchyroll extends BasePage {
 
       // Handle season with parts
       if (seasonalEpisodeNumber > animeDetails.episodes) {
+        const [sequel] = animeDetails.relations.edges.filter((edge) => {
+          const { relationType, node } = edge;
+          return relationType === 'SEQUEL' && node.format === 'TV';
+        });
+        this.malId = sequel.node.idMal;
         seasonalEpisodeNumber -= animeDetails.episodes;
       }
 

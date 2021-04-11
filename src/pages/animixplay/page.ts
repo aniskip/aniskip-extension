@@ -1,11 +1,15 @@
 import BasePage from '../base_page';
 
 class AniMixPlay extends BasePage {
-  getIdentifier(): string {
+  getTitle(): string {
     const titleSpan = this.document.getElementsByClassName('animetitle')[0];
     if (titleSpan) {
       return titleSpan.innerHTML;
     }
+    return this.getIdentifier();
+  }
+
+  getIdentifier(): string {
     return this.pathname.split('/')[2];
   }
 
