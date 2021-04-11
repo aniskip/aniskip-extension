@@ -18,6 +18,7 @@ const manifest = {
   },
   permissions: [
     'storage',
+    '*://api.aniskip.com/*',
     '*://api.malsync.moe/*',
     '*://api.jikan.moe/*',
     '*://graphql.anilist.co/*',
