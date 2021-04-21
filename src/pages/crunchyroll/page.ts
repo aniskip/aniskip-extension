@@ -4,14 +4,15 @@ import BasePage from '../base_page';
 
 class Crunchyroll extends BasePage {
   getIdentifier(): string {
-    const title = Array.from(
-      this.document.getElementsByTagName('title')
-    ).filter(
-      (titleElement: HTMLTitleElement) => titleElement.text !== undefined
-    )[0].text;
-    const seriesNameWithEpisode = title.split(', ')[0];
-    const seriesName = seriesNameWithEpisode.replace(/\sEpisode\s[0-9]+/, '');
-    const encoded = encodeURIComponent(seriesName.toLocaleLowerCase());
+    const titleElement = this.document
+      .querySelector('[property="og:title"]')
+      ?.getAttribute('content');
+
+    if (!titleElement) {
+      return '';
+    }
+
+    const encoded = encodeURIComponent(titleElement.toLocaleLowerCase());
     const reEncoded = encodeURIComponent(encoded.replace(/\./g, '%2e'));
     return reEncoded;
   }
