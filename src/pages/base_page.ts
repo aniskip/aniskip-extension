@@ -72,6 +72,7 @@ abstract class BasePage implements Page {
         Page: { media: searchResults },
       },
     } = searchResponse;
+    console.log({ title, searchResponse, searchResults });
 
     let closest = 0;
     let bestSimilarity = 0;

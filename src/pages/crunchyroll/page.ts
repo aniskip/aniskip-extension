@@ -4,15 +4,7 @@ import BasePage from '../base_page';
 
 class Crunchyroll extends BasePage {
   getIdentifier(): string {
-    const title = this.document
-      .querySelector('[name="title"]')
-      ?.getAttribute('content')
-      ?.split(' Episode')[0];
-
-    if (!title) {
-      return '';
-    }
-
+    const title = this.getTitle();
     const encoded = encodeURIComponent(title.toLocaleLowerCase());
     const reEncoded = encodeURIComponent(encoded.replace(/\./g, '%2e'));
     return reEncoded;
@@ -32,6 +24,15 @@ class Crunchyroll extends BasePage {
       return seasonalEpisodeNumber;
     }
     return -1;
+  }
+
+  getTitle(): string {
+    const title = this.document
+      .querySelector('[name="title"]')
+      ?.getAttribute('content')
+      ?.split(' Episode')[0];
+
+    return title || '';
   }
 
   /**
