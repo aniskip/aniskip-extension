@@ -13,12 +13,7 @@ module.exports = {
       },
     ],
   },
-  extends: [
-    'airbnb-typescript',
-    'prettier',
-    'prettier/react',
-    'prettier/@typescript-eslint',
-  ],
+  extends: ['airbnb-typescript', 'airbnb/hooks', 'prettier'],
   parserOptions: {
     project: './tsconfig.json',
     createDefaultProgram: true,

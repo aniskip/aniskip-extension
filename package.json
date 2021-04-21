@@ -20,8 +20,7 @@
     "dev:firefox": "cross-env NODE_ENV=development BROWSER=firefox webpack --config ./webpack/webpack.dev.config.js --watch"
   },
   "devDependencies": {
-    "@types/chrome": "^0.0.134",
-    "@types/classnames": "^2.2.11",
+    "@types/chrome": "^0.0.135",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
     "@types/string-similarity": "^4.0.0",
@@ -54,7 +53,7 @@
     "sass-loader": "^11.0.1",
     "schema-utils": "^3.0.0",
     "style-loader": "^2.0.0",
-    "ts-loader": "^8.1.0",
+    "ts-loader": "^9.0.2",
     "typescript": "^4.2.4",
     "webpack": "^5.31.2",
     "webpack-cli": "^4.6.0",
