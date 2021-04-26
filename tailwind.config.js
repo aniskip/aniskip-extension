@@ -1,13 +1,11 @@
 module.exports = {
-  purge: {
-    enabled: process.env.NODE_ENV === 'production',
-    content: [
-      './src/**/*.html',
-      './src/**/*.js',
-      './src/**/*.ts',
-      './src/**/*.tsx',
-    ],
-  },
+  mode: 'jit',
+  purge: [
+    './src/**/*.html',
+    './src/**/*.js',
+    './src/**/*.ts',
+    './src/**/*.tsx',
+  ],
   darkMode: false, // or 'media' or 'class'
   theme: {
     fontSize: {
@@ -75,11 +73,6 @@ module.exports = {
         9: '2.25em',
         10: '2.5em',
       },
-    },
-  },
-  variants: {
-    extend: {
-      textColor: ['active'],
     },
   },
   plugins: [],

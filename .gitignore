@@ -36,3 +36,12 @@ Thumbs.db
 
 # Ignore built ts files
 dist
+
+# yarn
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
