@@ -13,7 +13,7 @@ module.exports = {
       },
     ],
   },
-  extends: ['airbnb-typescript', 'airbnb/hooks', 'prettier'],
+  extends: ['airbnb-typescript', 'plugin:react-hooks/recommended', 'prettier'],
   parserOptions: {
     project: './tsconfig.json',
     createDefaultProgram: true,

@@ -265,7 +265,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^17.0.3":
+"@types/react@npm:*, @types/react@npm:^17.0.4":
   version: 17.0.4
   resolution: "@types/react@npm:17.0.4"
   dependencies:
@@ -308,7 +308,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^4.21.0":
+"@typescript-eslint/eslint-plugin@npm:^4.22.0":
   version: 4.22.0
   resolution: "@typescript-eslint/eslint-plugin@npm:4.22.0"
   dependencies:
@@ -346,7 +346,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^4.21.0, @typescript-eslint/parser@npm:^4.4.1":
+"@typescript-eslint/parser@npm:^4.22.0, @typescript-eslint/parser@npm:^4.4.1":
   version: 4.22.0
   resolution: "@typescript-eslint/parser@npm:4.22.0"
   dependencies:
@@ -1433,7 +1433,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-loader@npm:^5.2.1":
+"css-loader@npm:^5.2.4":
   version: 5.2.4
   resolution: "css-loader@npm:5.2.4"
   dependencies:
@@ -1525,7 +1525,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4.1.0":
+"debug@npm:4, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1":
   version: 4.3.2
   resolution: "debug@npm:4.3.2"
   dependencies:
@@ -1543,18 +1543,6 @@ __metadata:
   dependencies:
     ms: 2.0.0
   checksum: 559f44f98cf25e2ee489022aec173afbff746564cb108c4493becb95bc3c017a67bdaa25a0ff64801fd32c35051d00af0e56cc7f762ae2c3bc089496e5a1c31b
-  languageName: node
-  linkType: hard
-
-"debug@npm:^4.0.1, debug@npm:^4.1.1":
-  version: 4.3.1
-  resolution: "debug@npm:4.3.1"
-  dependencies:
-    ms: 2.1.2
-  peerDependenciesMeta:
-    supports-color:
-      optional: true
-  checksum: 0d41ba5177510e8b388dfd7df143ab0f9312e4abdaba312595461511dac88e9ef8101939d33b4e6d37e10341af6a5301082e4d7d6f3deb4d57bc05fc7d296fad
   languageName: node
   linkType: hard
 
@@ -1751,9 +1739,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.719":
-  version: 1.3.720
-  resolution: "electron-to-chromium@npm:1.3.720"
-  checksum: 51bb3720af1ffe2ac04e0760f4cdcf319c2e371625e7ed9e433ee962c1c7ae09e65b44afbe7ddf5c71dc9a01583c8e0015ff04b86f0222ed7cc5b5871494078d
+  version: 1.3.721
+  resolution: "electron-to-chromium@npm:1.3.721"
+  checksum: d6787bcf45d9f8f7bda38ba3954f06e19e0690e7520828f3f0f36734d3c4f6cc94e4b5ba4ca0cce56bb166d73714475b6a3d8c4ef8e7aaf11fe0d90d7f46b3b8
   languageName: node
   linkType: hard
 
@@ -1989,7 +1977,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.1.0":
+"eslint-config-prettier@npm:^8.3.0":
   version: 8.3.0
   resolution: "eslint-config-prettier@npm:8.3.0"
   peerDependencies:
@@ -2064,7 +2052,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-prettier@npm:^3.3.1":
+"eslint-plugin-prettier@npm:^3.4.0":
   version: 3.4.0
   resolution: "eslint-plugin-prettier@npm:3.4.0"
   dependencies:
@@ -2395,7 +2383,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fork-ts-checker-webpack-plugin@npm:^6.2.1":
+"fork-ts-checker-webpack-plugin@npm:^6.2.5":
   version: 6.2.5
   resolution: "fork-ts-checker-webpack-plugin@npm:6.2.5"
   dependencies:
@@ -3505,7 +3493,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"mini-css-extract-plugin@npm:^1.4.1":
+"mini-css-extract-plugin@npm:^1.5.0":
   version: 1.5.0
   resolution: "mini-css-extract-plugin@npm:1.5.0"
   dependencies:
@@ -4299,7 +4287,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.1.6, postcss@npm:^8.2.1, postcss@npm:^8.2.10, postcss@npm:^8.2.9":
+"postcss@npm:^8.1.6, postcss@npm:^8.2.1, postcss@npm:^8.2.10, postcss@npm:^8.2.13":
   version: 8.2.13
   resolution: "postcss@npm:8.2.13"
   dependencies:
@@ -4562,9 +4550,9 @@ fsevents@~2.3.1:
   linkType: hard
 
 "regenerator-runtime@npm:^0.13.4":
-  version: 0.13.7
-  resolution: "regenerator-runtime@npm:0.13.7"
-  checksum: 6ef567c662088b1b292214920cbd72443059298d477f72e1a37e0a113bafbfac9057cbfe35ae617284effc4b423493326a78561bbff7b04162c7949bdb9624e8
+  version: 0.13.8
+  resolution: "regenerator-runtime@npm:0.13.8"
+  checksum: 20178f5753f181d59691e5c3b4c59a2769987f75c7ccf325777673b5478acca61a553b10e895585086c222f72f5ee428090acf50320264de4b79f630f7388653
   languageName: node
   linkType: hard
 
@@ -4812,7 +4800,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.32.8":
+"sass@npm:^1.32.11":
   version: 1.32.11
   resolution: "sass@npm:1.32.11"
   dependencies:
@@ -5284,7 +5272,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^2.1.1":
+"tailwindcss@npm:^2.1.2":
   version: 2.1.2
   resolution: "tailwindcss@npm:2.1.2"
   dependencies:
@@ -5411,7 +5399,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"ts-loader@npm:^9.0.2":
+"ts-loader@npm:^9.1.1":
   version: 9.1.1
   resolution: "ts-loader@npm:9.1.1"
   dependencies:
@@ -5505,31 +5493,32 @@ resolve@^2.0.0-next.3:
   resolution: "typescript-opening-skipper-frontend@workspace:."
   dependencies:
     "@types/chrome": ^0.0.135
-    "@types/react": ^17.0.3
+    "@types/react": ^17.0.4
     "@types/react-dom": ^17.0.3
     "@types/string-similarity": ^4.0.0
     "@types/uuid": ^8.3.0
     "@types/webpack": ^5.28.0
-    "@typescript-eslint/eslint-plugin": ^4.21.0
-    "@typescript-eslint/parser": ^4.21.0
+    "@typescript-eslint/eslint-plugin": ^4.22.0
+    "@typescript-eslint/parser": ^4.22.0
     autoprefixer: ^10.2.5
     classnames: ^2.3.1
     clean-webpack-plugin: ^4.0.0-alpha.0
     copy-webpack-plugin: ^8.1.1
     cross-env: ^7.0.3
-    css-loader: ^5.2.1
+    css-loader: ^5.2.4
     eslint: ^7.25.0
     eslint-config-airbnb-typescript: ^12.3.1
-    eslint-config-prettier: ^8.1.0
+    eslint-config-prettier: ^8.3.0
+    eslint-import-resolver-node: ^0.3.4
     eslint-plugin-import: ^2.22.1
     eslint-plugin-jsx-a11y: ^6.4.1
-    eslint-plugin-prettier: ^3.3.1
+    eslint-plugin-prettier: ^3.4.0
     eslint-plugin-react: ^7.23.2
     eslint-plugin-react-hooks: ^4.2.0
-    fork-ts-checker-webpack-plugin: ^6.2.1
+    fork-ts-checker-webpack-plugin: ^6.2.5
     html-webpack-plugin: ^5.3.1
-    mini-css-extract-plugin: ^1.4.1
-    postcss: ^8.2.9
+    mini-css-extract-plugin: ^1.5.0
+    postcss: ^8.2.13
     postcss-import: ^14.0.1
     postcss-loader: ^5.2.0
     prettier: ^2.2.1
@@ -5537,17 +5526,17 @@ resolve@^2.0.0-next.3:
     react-dom: ^17.0.2
     react-icons: ^4.2.0
     resolve-url-loader: ^3.1.2
-    sass: ^1.32.8
+    sass: ^1.32.11
     sass-loader: ^11.0.1
     schema-utils: ^3.0.0
     string-similarity: ^4.0.4
     style-loader: ^2.0.0
-    tailwindcss: ^2.1.1
-    ts-loader: ^9.0.2
+    tailwindcss: ^2.1.2
+    ts-loader: ^9.1.1
     typescript: ^4.2.4
     uuid: ^8.3.2
     webextension-polyfill-ts: ^0.25.0
-    webpack: ^5.31.2
+    webpack: ^5.35.1
     webpack-cli: ^4.6.0
     webpack-merge: ^5.7.3
   languageName: unknown
@@ -5757,7 +5746,7 @@ typescript@^4.2.4:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5, webpack@npm:^5.31.2":
+"webpack@npm:^5, webpack@npm:^5.35.1":
   version: 5.35.1
   resolution: "webpack@npm:5.35.1"
   dependencies:
