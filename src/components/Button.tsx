@@ -1,5 +1,4 @@
 import React from 'react';
-import classnames from 'classnames';
 import { ButtonProps } from '../types/components/button_types';
 
 const Button: React.FC<ButtonProps> = ({
@@ -10,16 +9,7 @@ const Button: React.FC<ButtonProps> = ({
   onFocus,
 }: ButtonProps) => (
   <button
-    className={classnames(
-      'border-transparent',
-      'py-2',
-      'px-5',
-      'rounded',
-      'text-sm',
-      'font-semibold',
-      'focus:outline-none',
-      className
-    )}
+    className={`border-transparent py-2 px-5 rounded text-sm font-semibold focus:outline-none ${className}`}
     type={submit ? 'submit' : 'button'}
     onClick={onClick}
     onFocus={onFocus}

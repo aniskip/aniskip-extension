@@ -46,7 +46,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/eslint-plugin", "virtual:1c0500bbbfa0d9dfafd4614abce3b2894751ffb8075425f77b9af7f140eca1f1df864d8086078aa470168b59e7d67bb04c6a7a67c8703760bd8a17a943e0edc4#npm:4.22.0"],
             ["@typescript-eslint/parser", "virtual:1c0500bbbfa0d9dfafd4614abce3b2894751ffb8075425f77b9af7f140eca1f1df864d8086078aa470168b59e7d67bb04c6a7a67c8703760bd8a17a943e0edc4#npm:4.22.0"],
             ["autoprefixer", "virtual:1c0500bbbfa0d9dfafd4614abce3b2894751ffb8075425f77b9af7f140eca1f1df864d8086078aa470168b59e7d67bb04c6a7a67c8703760bd8a17a943e0edc4#npm:10.2.5"],
-            ["classnames", "npm:2.3.1"],
             ["clean-webpack-plugin", "virtual:1c0500bbbfa0d9dfafd4614abce3b2894751ffb8075425f77b9af7f140eca1f1df864d8086078aa470168b59e7d67bb04c6a7a67c8703760bd8a17a943e0edc4#npm:4.0.0-alpha.0"],
             ["copy-webpack-plugin", "virtual:1c0500bbbfa0d9dfafd4614abce3b2894751ffb8075425f77b9af7f140eca1f1df864d8086078aa470168b59e7d67bb04c6a7a67c8703760bd8a17a943e0edc4#npm:8.1.1"],
             ["cross-env", "npm:7.0.3"],
@@ -1538,15 +1537,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/chrome-trace-event-npm-1.0.3-e0ae3dcd60-0420a2d7ea.zip/node_modules/chrome-trace-event/",
           "packageDependencies": [
             ["chrome-trace-event", "npm:1.0.3"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["classnames", [
-        ["npm:2.3.1", {
-          "packageLocation": "./.yarn/cache/classnames-npm-2.3.1-f2ae0a8d3c-57d536eded.zip/node_modules/classnames/",
-          "packageDependencies": [
-            ["classnames", "npm:2.3.1"]
           ],
           "linkType": "HARD",
         }]
@@ -6770,7 +6760,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/eslint-plugin", "virtual:1c0500bbbfa0d9dfafd4614abce3b2894751ffb8075425f77b9af7f140eca1f1df864d8086078aa470168b59e7d67bb04c6a7a67c8703760bd8a17a943e0edc4#npm:4.22.0"],
             ["@typescript-eslint/parser", "virtual:1c0500bbbfa0d9dfafd4614abce3b2894751ffb8075425f77b9af7f140eca1f1df864d8086078aa470168b59e7d67bb04c6a7a67c8703760bd8a17a943e0edc4#npm:4.22.0"],
             ["autoprefixer", "virtual:1c0500bbbfa0d9dfafd4614abce3b2894751ffb8075425f77b9af7f140eca1f1df864d8086078aa470168b59e7d67bb04c6a7a67c8703760bd8a17a943e0edc4#npm:10.2.5"],
-            ["classnames", "npm:2.3.1"],
             ["clean-webpack-plugin", "virtual:1c0500bbbfa0d9dfafd4614abce3b2894751ffb8075425f77b9af7f140eca1f1df864d8086078aa470168b59e7d67bb04c6a7a67c8703760bd8a17a943e0edc4#npm:4.0.0-alpha.0"],
             ["copy-webpack-plugin", "virtual:1c0500bbbfa0d9dfafd4614abce3b2894751ffb8075425f77b9af7f140eca1f1df864d8086078aa470168b59e7d67bb04c6a7a67c8703760bd8a17a943e0edc4#npm:8.1.1"],
             ["cross-env", "npm:7.0.3"],

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import classnames from 'classnames';
 import { SkipTimeButtonProps } from '../types/components/skip_time_button_types';
 import Button from './Button';
 
@@ -23,27 +22,11 @@ const SkipButton: React.FC<SkipTimeButtonProps> = ({
 
   return (
     <Button
-      className={classnames(
-        'transition-opacity',
-        'font-sans',
-        'whitespace-nowrap',
-        'text-blue-100',
-        'bg-gray-800',
-        'bg-opacity-80',
-        'py-3',
-        'absolute',
-        'top-auto',
-        'bottom-16',
-        'left-auto',
-        'right-11',
-        'z-10',
-        'border',
-        'border-blue-100',
-        'border-opacity-80',
-        { 'opacity-0': hidden, 'pointer-events-none': hidden },
-        `skip-button--${variant}`,
-        { [`skip-button--${variant}--fullscreen`]: fullscreen }
-      )}
+      className={`transition-opacity font-sans whitespace-nowrap text-blue-100 bg-gray-800 bg-opacity-80 py-3 absolute top-auto bottom-16 left-auto right-11 z-10 border border-blue-100 border-opacity-80 ${
+        hidden && 'opacity-0 pointer-events-none'
+      } skip-button--${variant} ${
+        fullscreen && `skip-button--${variant}--fullscreen`
+      }`}
       label={label}
       onClick={onClick}
     />

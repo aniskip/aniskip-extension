@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
-import classnames from 'classnames';
 import Dropdown from '../components/Dropdown';
 import { SkipOptionType } from '../types/options/skip_option_type';
 // import SettingsNavigation from '../components/SettingsNavigation';
@@ -52,33 +51,22 @@ const SettingsPage: React.FC = () => {
   }, [setOpeningOption, setEndingOption]);
 
   return (
-    <div
-      className={classnames(
-        'sm:flex',
-        'sm:space-x-6',
-        'pt-8',
-        'border',
-        'px-10',
-        'py-10',
-        'rounded-md',
-        'bg-white'
-      )}
-    >
+    <div className="sm:flex sm:space-x-6 pt-8 border px-10 py-10 rounded-md bg-white">
       {/* <SettingsNavigation /> */}
-      <div className={classnames('space-y-2', 'w-full')}>
-        {/* <div className={classnames('flex', 'justify-between')}> */}
-        <div className={classnames('text-lg')}>Opening default action</div>
+      <div className="space-y-2 w-full">
+        {/* <div className="flex justify-between"> */}
+        <div className="text-lg">Opening default action</div>
         <Dropdown
-          className={classnames('w-full')}
+          className="w-full"
           value={openingOption}
           onChange={handleOpeningOptionChange}
           options={skipOptions}
         />
         {/* </div> */}
-        {/* <div className={classnames('flex', 'justify-between')}> */}
-        <div className={classnames('text-lg')}>Ending default action</div>
+        {/* <div className="flex justify-between"> */}
+        <div className="text-lg">Ending default action</div>
         <Dropdown
-          className={classnames('w-full')}
+          className="w-full"
           value={endingOption}
           onChange={handleEndingOptionChange}
           options={skipOptions}

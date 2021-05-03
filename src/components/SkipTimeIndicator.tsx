@@ -1,5 +1,4 @@
 import React from 'react';
-import classnames from 'classnames';
 import { SkipTimeIndicatorProps } from '../types/components/skip_time_indicator_types';
 
 const SkipTimeIndicator: React.FC<SkipTimeIndicatorProps> = ({
@@ -21,15 +20,7 @@ const SkipTimeIndicator: React.FC<SkipTimeIndicatorProps> = ({
 
   return (
     <div
-      className={classnames(
-        'absolute',
-        'z-10',
-        'top-1/2',
-        'pointer-events-none',
-        className,
-        'skip-indicator',
-        `skip-indicator--${variant}`
-      )}
+      className={`absolute z-10 top-1/2 pointer-events-none skip-indicator skip-indicator--${variant} ${className}`}
       style={{
         left: `${calculateTranslation() * 100}%`,
         width: `${calculateWidth() * 100}%`,

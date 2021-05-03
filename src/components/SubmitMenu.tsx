@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
-import classnames from 'classnames';
 import { FaTimes } from 'react-icons/fa';
 import { SubmitMenuProps } from '../types/components/submit_types';
 import {
@@ -100,65 +99,28 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
 
   return (
     <div
-      className={classnames(
-        'bg-gray-800',
-        'right-5',
-        'bottom-28',
-        'absolute',
-        'select-none',
-        'rounded-md',
-        'w-96',
-        'z-10',
-        'transition-opacity',
-        { 'opacity-0': hidden, 'pointer-events-none': hidden },
-        `submit-menu--${variant}`,
-        { [`submit-menu--${variant}--fullscreen`]: fullScreen }
-      )}
+      className={`bg-gray-800 right-5 bottom-28 absolute select-none rounded-md w-96 z-10 transition-opacity ${
+        hidden && 'opacity-0 pointer-events-none'
+      } submit-menu--${variant} ${
+        fullScreen && `submit-menu--${variant}--fullscreen`
+      }`}
       role="menu"
     >
-      <div
-        className={classnames(
-          'flex',
-          'justify-between',
-          'items-center',
-          'w-full',
-          'h-auto',
-          'px-5',
-          'pt-2'
-        )}
-      >
-        <h1 className={classnames('text-white', 'uppercase', 'text-sm')}>
-          Submit Skip Times
-        </h1>
+      <div className="flex justify-between items-center w-full h-auto px-5 pt-2">
+        <h1 className="text-white uppercase text-sm">Submit Skip Times</h1>
         <button
           type="button"
-          className={classnames(
-            'flex',
-            'justify-center',
-            'items-center',
-            'w-3',
-            'h-3',
-            'focus:outline-none',
-            'text-white',
-            'active:text-yellow-500'
-          )}
+          className="flex justify-center items-center w-3 h-3 focus:outline-none text-white active:text-yellow-500"
           onClick={() => onClose()}
         >
           <FaTimes />
         </button>
       </div>
-      <div className={classnames('px-5', 'py-4', 'mx-auto')}>
-        <form
-          className={classnames('block', 'space-y-2', 'mb-0')}
-          onSubmit={handleSubmit}
-        >
-          <div className={classnames('flex', 'text-black', 'space-x-2')}>
+      <div className="px-5 py-4 mx-auto">
+        <form className="block space-y-2 mb-0" onSubmit={handleSubmit}>
+          <div className="flex text-black space-x-2">
             <Input
-              className={classnames(
-                'flex-auto',
-                'text-sm',
-                'focus:border-yellow-500'
-              )}
+              className="flex-auto text-sm focus:border-yellow-500"
               id="start-time"
               value={startTime}
               pattern={inputPatternRegexStringRef.current}
@@ -178,11 +140,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               }
             />
             <Input
-              className={classnames(
-                'flex-auto',
-                'text-sm',
-                'focus:border-yellow-500'
-              )}
+              className="flex-auto text-sm focus:border-yellow-500"
               id="end-time"
               value={endTime}
               pattern={inputPatternRegexStringRef.current}
@@ -200,15 +158,9 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               onBlur={() => setEndTime((current) => formatTimeString(current))}
             />
           </div>
-          <div className={classnames('flex', 'text-black', 'space-x-2')}>
+          <div className="flex text-black space-x-2">
             <Button
-              className={classnames(
-                'flex-1',
-                'inline',
-                'focus:border-yellow-100',
-                'bg-yellow-600',
-                'text-white'
-              )}
+              className="flex-1 inline focus:border-yellow-100 bg-yellow-600 text-white"
               onClick={async () => {
                 const messageType = 'player-get-video-current-time';
                 browser.runtime.sendMessage({ type: messageType });
@@ -224,13 +176,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               label="Now"
             />
             <Button
-              className={classnames(
-                'flex-1',
-                'inline',
-                'focus:border-yellow-100',
-                'bg-blue-600',
-                'text-white'
-              )}
+              className="flex-1 inline focus:border-yellow-100 bg-blue-600 text-white"
               onClick={async () => {
                 const messageType = 'player-add-preview-skip-time';
                 browser.runtime.sendMessage({
@@ -247,13 +193,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               label="Preview"
             />
             <Button
-              className={classnames(
-                'flex-1',
-                'inline',
-                'focus:border-yellow-100',
-                'bg-yellow-600',
-                'text-white'
-              )}
+              className="flex-1 inline focus:border-yellow-100 bg-yellow-600 text-white"
               onClick={async () => {
                 const messageType = 'player-get-video-duration';
                 browser.runtime.sendMessage({ type: messageType });
@@ -269,9 +209,9 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               label="End"
             />
           </div>
-          <div className={classnames('flex', 'space-x-2')}>
+          <div className="flex space-x-2">
             <Dropdown
-              className={classnames('text-xs', 'w-1/2')}
+              className="text-xs w-1/2"
               value={skipType}
               onChange={setSkipType}
               options={[
@@ -280,13 +220,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               ]}
             />
             <Button
-              className={classnames(
-                'w-1/2',
-                'inline',
-                'bg-yellow-600',
-                'text-white',
-                'focus:border-yellow-100'
-              )}
+              className="w-1/2 inline bg-yellow-600 text-white focus:border-yellow-100"
               submit
               label="Submit"
             />
