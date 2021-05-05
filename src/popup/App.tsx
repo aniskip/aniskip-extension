@@ -29,7 +29,7 @@ const App: React.FC = () => {
           },
         ]}
       />
-      <SkipButton variant="" label="Skip Opening" />
+      <SkipButton>Skip Opening</SkipButton>
     </div>
   );
 };

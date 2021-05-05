@@ -4,7 +4,7 @@ import Button from './Button';
 
 const SkipButton: React.FC<SkipTimeButtonProps> = ({
   variant,
-  label,
+  children,
   hidden,
   onClick,
 }: SkipTimeButtonProps) => {
@@ -27,9 +27,10 @@ const SkipButton: React.FC<SkipTimeButtonProps> = ({
       } skip-button--${variant} ${
         fullscreen && `skip-button--${variant}--fullscreen`
       }`}
-      label={label}
       onClick={onClick}
-    />
+    >
+      {children}
+    </Button>
   );
 };
 export default SkipButton;

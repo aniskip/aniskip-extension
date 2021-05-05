@@ -3,7 +3,7 @@ import { ButtonProps } from '../types/components/button_types';
 
 const Button: React.FC<ButtonProps> = ({
   className,
-  label,
+  children,
   submit,
   onClick,
   onFocus,
@@ -14,7 +14,7 @@ const Button: React.FC<ButtonProps> = ({
     onClick={onClick}
     onFocus={onFocus}
   >
-    {label}
+    {children}
   </button>
 );
 

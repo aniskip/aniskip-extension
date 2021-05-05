@@ -351,16 +351,13 @@ abstract class BasePlayer implements Player {
                 SkipButton,
                 {
                   variant: this.variant,
-                  label:
-                    skipTime.skip_type === 'op'
-                      ? 'Skip Opening'
-                      : 'Skip Ending',
                   hidden: !inInterval,
                   onClick: () => {
                     this.setCurrentTime(endTime + offset + margin);
                     this.play();
                   },
-                }
+                },
+                skipTime.skip_type === 'op' ? 'Skip Opening' : 'Skip Ending'
               );
               ReactDOM.render(skipButton, reactRoot);
             }

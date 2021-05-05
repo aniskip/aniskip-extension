@@ -173,8 +173,9 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                   setEndTime(secondsToTimeString(currentTime));
                 }
               }}
-              label="Now"
-            />
+            >
+              Now
+            </Button>
             <Button
               className="flex-1 inline focus:border-yellow-100 bg-blue-600 text-white"
               onClick={async () => {
@@ -190,8 +191,9 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                   },
                 });
               }}
-              label="Preview"
-            />
+            >
+              Preview
+            </Button>
             <Button
               className="flex-1 inline focus:border-yellow-100 bg-yellow-600 text-white"
               onClick={async () => {
@@ -206,8 +208,9 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                   setEndTime(secondsToTimeString(duration));
                 }
               }}
-              label="End"
-            />
+            >
+              End
+            </Button>
           </div>
           <div className="flex space-x-2">
             <Dropdown
@@ -222,8 +225,9 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
             <Button
               className="w-1/2 inline bg-yellow-600 text-white focus:border-yellow-100"
               submit
-              label="Submit"
-            />
+            >
+              Submit
+            </Button>
           </div>
         </form>
       </div>

@@ -1,6 +1,8 @@
+import React from 'react';
+
 export interface SkipTimeButtonProps {
-  variant: string;
-  label: string;
+  variant?: string;
+  children?: React.ReactNode;
   hidden?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
