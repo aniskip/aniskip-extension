@@ -14,7 +14,7 @@ const Input: React.FC<InputProps> = ({
   onBlur,
 }: InputProps) => (
   <input
-    className={`rounded px-2 py-1 block min-w-0 border-2 border-gray-200 focus:outline-none ${className}`}
+    className={`rounded px-4 py-2 block min-w-0 border border-gray-300 focus:outline-none ${className}`}
     type="text"
     id={id}
     autoComplete="off"

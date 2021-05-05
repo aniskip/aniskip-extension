@@ -110,7 +110,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
         <h1 className="text-white uppercase text-sm">Submit Skip Times</h1>
         <button
           type="button"
-          className="flex justify-center items-center w-3 h-3 focus:outline-none text-white active:text-yellow-500"
+          className="flex justify-center items-center w-3 h-3 focus:outline-none text-white active:text-yellow-600"
           onClick={() => onClose()}
         >
           <FaTimes />
@@ -120,7 +120,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
         <form className="block space-y-2 mb-0" onSubmit={handleSubmit}>
           <div className="flex text-black space-x-2">
             <Input
-              className="flex-auto text-sm focus:border-yellow-500"
+              className="flex-auto text-sm focus:border-yellow-600 focus:ring-yellow-600 focus:ring-1"
               id="start-time"
               value={startTime}
               pattern={inputPatternRegexStringRef.current}
@@ -140,7 +140,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               }
             />
             <Input
-              className="flex-auto text-sm focus:border-yellow-500"
+              className="flex-auto text-sm focus:border-yellow-600 focus:ring-yellow-600 focus:ring-1"
               id="end-time"
               value={endTime}
               pattern={inputPatternRegexStringRef.current}
@@ -160,7 +160,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
           </div>
           <div className="flex text-black space-x-2">
             <Button
-              className="flex-1 inline focus:border-yellow-100 bg-yellow-600 text-white"
+              className="flex-1 focus:border-yellow-100 bg-yellow-600 text-white"
               onClick={async () => {
                 const messageType = 'player-get-video-current-time';
                 browser.runtime.sendMessage({ type: messageType });
@@ -177,7 +177,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               Now
             </Button>
             <Button
-              className="flex-1 inline focus:border-yellow-100 bg-blue-600 text-white"
+              className="flex-1 focus:border-yellow-100 bg-blue-600 text-white"
               onClick={async () => {
                 const messageType = 'player-add-preview-skip-time';
                 browser.runtime.sendMessage({
@@ -195,7 +195,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               Preview
             </Button>
             <Button
-              className="flex-1 inline focus:border-yellow-100 bg-yellow-600 text-white"
+              className="flex-1 focus:border-yellow-100 bg-yellow-600 text-white"
               onClick={async () => {
                 const messageType = 'player-get-video-duration';
                 browser.runtime.sendMessage({ type: messageType });
@@ -222,10 +222,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                 { value: 'ed', label: 'Ending' },
               ]}
             />
-            <Button
-              className="w-1/2 inline bg-yellow-600 text-white focus:border-yellow-100"
-              submit
-            >
+            <Button className="w-1/2 inline bg-yellow-600 text-white" submit>
               Submit
             </Button>
           </div>

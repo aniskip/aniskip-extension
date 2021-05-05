@@ -14,7 +14,7 @@ const SkipTimeIndicatorContainer: React.FC<SkipTimeIndicatorContainerProps> = ({
 
       return (
         <SkipTimeIndicator
-          className="bg-purple-900"
+          className="bg-blue-700"
           startTime={startTime + offset}
           endTime={endTime + offset}
           episodeLength={episodeLength + offset}
