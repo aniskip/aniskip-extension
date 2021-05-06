@@ -5,7 +5,7 @@ interface Player {
 
   variant: string;
 
-  submitButtonContainer: HTMLDivElement;
+  submitMenuContainer: HTMLDivElement;
 
   skipButtonContainer: HTMLDivElement;
 
@@ -63,7 +63,7 @@ interface Player {
   /**
    * Injects the submit menu button into the player controls
    */
-  injectSubmitButton(): void;
+  injectSubmitMenu(): void;
 
   /**
    * Plays the player

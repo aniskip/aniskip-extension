@@ -1,4 +1,4 @@
-export interface SubmitButtonProps {
+export interface SubmitMenuButtonProps {
   handleClick: (
     event:
       | React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -6,7 +6,7 @@ export interface SubmitButtonProps {
   ) => void;
 }
 
-export interface SubmitButtonContainerProps {
+export interface SubmitMenuContainerProps {
   variant: string;
 }
 
