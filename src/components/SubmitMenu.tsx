@@ -29,7 +29,9 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
   const [currentInputFocus, setCurrentInputFocus] = useState<
     'start-time' | 'end-time'
   >();
-  const inputPatternRegexStringRef = useRef('[0-9]+:[0-9]{1,2}(.[0-9]{1,3})?');
+  const inputPatternRegexStringRef = useRef(
+    '([0-9]+:)?[0-9]{1,2}:[0-9]{1,2}(.[0-9]{1,3})?'
+  );
   const inputPatternTestRegexRef = useRef(/^[0-9:.]*$/);
 
   /**
@@ -134,7 +136,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                 value={startTime}
                 pattern={inputPatternRegexStringRef.current}
                 required
-                title="Minutes : Seconds"
+                title="Hours : Minutes : Seconds"
                 placeholder="Start time"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   const timeString = event.currentTarget.value;
@@ -159,7 +161,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                 value={endTime}
                 pattern={inputPatternRegexStringRef.current}
                 required
-                title="Minutes : Seconds"
+                title="Hours : Minutes : Seconds"
                 placeholder="End time"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   const timeString = event.currentTarget.value;
@@ -219,10 +221,12 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                 const duration: number = (
                   await waitForMessage(`${messageType}-response`)
                 ).payload;
+                const trimmedDuration = Math.floor(duration);
+
                 if (currentInputFocus === 'start-time') {
-                  setStartTime(secondsToTimeString(duration));
+                  setStartTime(secondsToTimeString(trimmedDuration));
                 } else if (currentInputFocus === 'end-time') {
-                  setEndTime(secondsToTimeString(duration));
+                  setEndTime(secondsToTimeString(trimmedDuration));
                 }
               }}
             >
