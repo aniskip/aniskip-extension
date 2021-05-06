@@ -1,3 +1,3 @@
-# typescript-opening-skipper-frontend
+# typescript-aniskip-extension
 
-Web browser extension to skip openings and endings
+Web browser extension to skip anime openings and endings
