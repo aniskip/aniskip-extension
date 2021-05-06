@@ -1,5 +1,4 @@
 import React from 'react';
-import classnames from 'classnames';
 import { SkipTimeIndicatorContainerProps } from '../types/components/skip_time_indicator_types';
 import SkipTimeIndicator from './SkipTimeIndicator';
 
@@ -15,7 +14,7 @@ const SkipTimeIndicatorContainer: React.FC<SkipTimeIndicatorContainerProps> = ({
 
       return (
         <SkipTimeIndicator
-          className={classnames('bg-green-700')}
+          className="bg-blue-700"
           startTime={startTime + offset}
           endTime={endTime + offset}
           episodeLength={episodeLength + offset}

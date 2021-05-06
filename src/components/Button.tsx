@@ -1,31 +1,20 @@
 import React from 'react';
-import classnames from 'classnames';
 import { ButtonProps } from '../types/components/button_types';
 
 const Button: React.FC<ButtonProps> = ({
   className,
-  label,
+  children,
   submit,
   onClick,
   onFocus,
 }: ButtonProps) => (
   <button
-    className={classnames(
-      'border-2',
-      'border-transparent',
-      'py-1',
-      'px-5',
-      'rounded',
-      'text-sm',
-      'font-semibold',
-      'focus:outline-none',
-      className
-    )}
+    className={`px-4 py-2 border-transparent rounded text-sm font-semibold focus:outline-none ${className}`}
     type={submit ? 'submit' : 'button'}
     onClick={onClick}
     onFocus={onFocus}
   >
-    {label}
+    {children}
   </button>
 );
 

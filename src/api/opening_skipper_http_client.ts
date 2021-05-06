@@ -6,7 +6,11 @@ import BaseHttpClient from './base_http_client';
 
 class OpeningSkipperHttpClient extends BaseHttpClient {
   constructor() {
-    super('http://localhost:5000/api/v1');
+    super(
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:5000/v1'
+        : 'https://api.aniskip.com/v1'
+    );
   }
 
   /**

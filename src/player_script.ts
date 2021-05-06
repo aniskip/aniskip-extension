@@ -14,13 +14,22 @@ let player: Player;
  * @param _sender Sender of the message
  */
 const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
+  if (!player) {
+    return;
+  }
+
   switch (message.type) {
-    case 'player-add-skip-interval': {
+    case 'player-add-auto-skip-time': {
       const skipTime = message.payload as SkipTime;
-      player.addSkipTime(skipTime);
+      player.addSkipTime(skipTime, false);
       break;
     }
-    case 'player-clear-skip-intervals': {
+    case 'player-add-manual-skip-time': {
+      const skipTime = message.payload as SkipTime;
+      player.addSkipTime(skipTime, true);
+      break;
+    }
+    case 'player-clear-skip-times': {
       player.reset();
       break;
     }
@@ -38,7 +47,11 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
       });
       break;
     }
-    case 'player-add-preview-skip-interval': {
+    case 'player-set-video-current-time': {
+      player.setCurrentTime(message.payload);
+      break;
+    }
+    case 'player-add-preview-skip-time': {
       const { payload } = message;
       const skipTime: SkipTime = {
         interval: {
@@ -49,7 +62,11 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
         skip_id: '',
         episode_length: player.getDuration(),
       };
-      player.addPreviewSkipInterval(skipTime);
+      player.addPreviewSkipTime(skipTime);
+      break;
+    }
+    case 'player-play': {
+      player.play();
       break;
     }
     default:
@@ -71,16 +88,7 @@ new MutationObserver((_mutations, observer) => {
 
     if (videoContainer && videoElement) {
       observer.disconnect();
-      videoElement.onloadedmetadata = () => {
-        player.reset();
-        player.injectSubmitButton();
-        player.injectSkipTimeIndicator();
-        browser.runtime.sendMessage({ type: 'player-ready' });
-      };
-      videoContainer.onmouseover = () => {
-        player.injectSubmitButton();
-        player.injectSkipTimeIndicator();
-      };
+      player.initialise();
     }
   }
 }).observe(document, { subtree: true, childList: true });

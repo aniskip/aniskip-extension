@@ -1,5 +1,5 @@
 :host {
-  all: none;
+  all: initial;
   font-size: 16px;
 }
 
@@ -10,7 +10,7 @@
   $videojs-submit-button-size: 40px;
 
   &-container {
-    &--aniwatch {
+    &--plyr {
       margin-right: -2px;
     }
 
@@ -42,11 +42,12 @@
 
   &-menu {
     &--jw {
+      bottom: 8em;
       right: 0.5em;
 
       &--fullscreen {
         right: 3em;
-        bottom: 10em;
+        bottom: 12em;
       }
     }
 
@@ -74,5 +75,17 @@
   &--twistmoe {
     margin-top: -1px;
     height: 2px;
+  }
+}
+
+.skip-button {
+  &--jw {
+    right: 2em;
+    bottom: 5em;
+
+    &--fullscreen {
+      right: 4.5em;
+      bottom: 9em;
+    }
   }
 }

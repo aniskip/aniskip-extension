@@ -2,6 +2,7 @@ import { browser, Runtime } from 'webextension-polyfill-ts';
 import Message from './types/message_type';
 import OpeningSkipperHttpClient from './api/opening_skipper_http_client';
 import getPage from './utils/page_utils';
+import { SkipOptionType } from './types/options/skip_option_type';
 
 /**
  * Returns the MAL id, episode number and provider name
@@ -22,18 +23,22 @@ const getEpisodeInformation = async () => {
 };
 
 /**
- * Adds the skip intervals to the player
+ * Adds the skip time to the player
  * @param openingSkipperHttpClient OpeningSkipperHttpClient object
  * @param malId MAL idenfitication number
  * @param episodeNumber Episode number
- * @param type Type of interval to add, either 'op' or 'ed'
+ * @param type Type of time to add, either 'op' or 'ed'
  */
-const addSkipInterval = async (
+const addSkipTime = async (
   openingSkipperHttpClient: OpeningSkipperHttpClient,
   malId: number,
   episodeNumber: number,
-  type: 'op' | 'ed'
+  type: 'op' | 'ed',
+  option: SkipOptionType
 ) => {
+  if (option === 'disabled') {
+    return;
+  }
   const skipTimesResponse = await openingSkipperHttpClient.getSkipTimes(
     malId,
     episodeNumber,
@@ -41,7 +46,7 @@ const addSkipInterval = async (
   );
   if (skipTimesResponse.found) {
     browser.runtime.sendMessage({
-      type: 'player-add-skip-interval',
+      type: `player-add-${option}-time`,
       payload: skipTimesResponse.result,
     });
   }
@@ -50,11 +55,27 @@ const addSkipInterval = async (
 /**
  * Adds the opening and ending skip invervals
  */
-const addSkipIntervals = async () => {
+const initialiseSkipTimes = async () => {
   const openingSkipperHttpClient = new OpeningSkipperHttpClient();
   const { malId, episodeNumber } = await getEpisodeInformation();
-  await addSkipInterval(openingSkipperHttpClient, malId, episodeNumber, 'op');
-  await addSkipInterval(openingSkipperHttpClient, malId, episodeNumber, 'ed');
+  const { openingOption, endingOption } = await browser.storage.sync.get([
+    'openingOption',
+    'endingOption',
+  ]);
+  addSkipTime(
+    openingSkipperHttpClient,
+    malId,
+    episodeNumber,
+    'op',
+    openingOption
+  );
+  addSkipTime(
+    openingSkipperHttpClient,
+    malId,
+    episodeNumber,
+    'ed',
+    endingOption
+  );
 };
 
 /**
@@ -65,7 +86,7 @@ const addSkipIntervals = async () => {
 const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
   switch (message.type) {
     case 'player-ready': {
-      addSkipIntervals();
+      initialiseSkipTimes();
       break;
     }
     case 'get-episode-information': {

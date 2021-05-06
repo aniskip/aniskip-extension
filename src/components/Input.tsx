@@ -1,5 +1,4 @@
 import React from 'react';
-import classnames from 'classnames';
 import { InputProps } from '../types/components/submit_types';
 
 const Input: React.FC<InputProps> = ({
@@ -15,17 +14,7 @@ const Input: React.FC<InputProps> = ({
   onBlur,
 }: InputProps) => (
   <input
-    className={classnames(
-      'rounded',
-      'px-2',
-      'py-1',
-      'block',
-      'min-w-0',
-      'border-2',
-      'border-gray-200',
-      'focus:outline-none',
-      className
-    )}
+    className={`rounded px-3 py-2 block min-w-0 border border-gray-300 focus:outline-none ${className}`}
     type="text"
     id={id}
     autoComplete="off"

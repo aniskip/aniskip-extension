@@ -5,7 +5,14 @@ interface Page {
 
   document: Document;
 
+  providerName: string;
+
   malId: number;
+
+  /**
+   * Returns the title
+   */
+  getTitle(): string;
 
   /**
    * Returns the provider name from the url

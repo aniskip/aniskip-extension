@@ -11,13 +11,23 @@ const manifest = {
     page: 'options.html',
   },
   browser_action: {
-    default_popup: 'popup.html',
+    default_popup: 'options.html',
   },
   background: {
     scripts: ['background_script.js'],
   },
-  permissions: ['storage', '*://api.malsync.moe/*', '*://api.jikan.moe/*'],
+  permissions: [
+    'storage',
+    '*://api.aniskip.com/*',
+    '*://api.malsync.moe/*',
+    '*://graphql.anilist.co/*',
+  ],
   web_accessible_resources: ['player_script.css'],
+  icons: {
+    16: 'icon_16.png',
+    48: 'icon_48.png',
+    128: 'icon_128.png',
+  },
 };
 
 const getPageUrls = () => {
@@ -32,7 +42,7 @@ const getPageUrls = () => {
       (pageName) =>
         JSON.parse(
           fs.readFileSync(path.join(pagesPath, pageName, 'metadata.json'))
-        ).urls
+        ).page_urls
     )
     .flat();
 
@@ -65,6 +75,7 @@ module.exports = () => {
     {
       matches: pageUrls,
       js: ['content_script.js'],
+      run_at: 'document_start',
     },
     {
       matches: playerUrls,
@@ -77,12 +88,14 @@ module.exports = () => {
 
   switch (process.env.BROWSER) {
     case 'chromium':
-      manifest.options_ui.chrome_style = true;
-      manifest.browser_action.chrome_style = true;
+      manifest.options_ui.chrome_style = false;
+      manifest.options_ui.open_in_tab = true;
+      manifest.browser_action.chrome_style = false;
       break;
     case 'firefox':
-      manifest.options_ui.browser_style = true;
-      manifest.browser_action.browser_style = true;
+      manifest.options_ui.browser_style = false;
+      manifest.options_ui.open_in_tab = true;
+      manifest.browser_action.browser_style = false;
       manifest.browser_specific_settings = {
         gecko: {
           id: '{c67645fa-ad86-4b2f-ab7a-67fc5f3e9f5a}',

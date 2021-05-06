@@ -2,6 +2,10 @@ import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
 class Videojs extends BasePlayer {
+  constructor(document: Document, videoElement: HTMLVideoElement) {
+    super(document, videoElement, metadata.variant);
+  }
+
   getVideoContainer() {
     return this.document.getElementById(metadata.videoContainerSelectorString);
   }
