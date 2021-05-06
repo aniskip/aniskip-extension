@@ -86,7 +86,7 @@ class Crunchyroll extends BasePage {
 
   /**
    * Returns the offset to subtract from the episode number
-   * @param anilistHttpClient Jikan http client object
+   * @param anilistHttpClient Anilist http client object
    * @param prequelMalId Prequel MAL identification number
    */
   static async getSeasonalEpisodeNumberHelper(
