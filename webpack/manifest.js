@@ -20,7 +20,6 @@ const manifest = {
     'storage',
     '*://api.aniskip.com/*',
     '*://api.malsync.moe/*',
-    '*://api.jikan.moe/*',
     '*://graphql.anilist.co/*',
   ],
   web_accessible_resources: ['player_script.css'],
