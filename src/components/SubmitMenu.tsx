@@ -7,7 +7,7 @@ import {
   secondsToTimeString,
   timeStringToSeconds,
 } from '../utils/string_utils';
-import OpeningSkipperHttpClient from '../api/opening_skipper_http_client';
+import AniskipHttpClient from '../api/aniskip_http_client';
 import Dropdown from './Dropdown';
 import Button from './Button';
 import waitForMessage from '../utils/message_utils';
@@ -23,8 +23,8 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
   const [skipType, setSkipType] = useState<'op' | 'ed'>('op');
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
-  const [openingSkipperHttpClient] = useState<OpeningSkipperHttpClient>(
-    new OpeningSkipperHttpClient()
+  const [aniskipHttpClient] = useState<AniskipHttpClient>(
+    new AniskipHttpClient()
   );
   const [currentInputFocus, setCurrentInputFocus] = useState<
     'start-time' | 'end-time'
@@ -60,7 +60,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
     } = getEpisodeInfoResponse.payload;
     const duration = playerGetDurationResponse.payload;
 
-    openingSkipperHttpClient.createSkipTimes(
+    aniskipHttpClient.createSkipTimes(
       malId,
       episodeNumber,
       skipType,

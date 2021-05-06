@@ -1,6 +1,6 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 import Message from './types/message_type';
-import OpeningSkipperHttpClient from './api/opening_skipper_http_client';
+import AniskipHttpClient from './api/aniskip_http_client';
 import getPage from './utils/page_utils';
 import { SkipOptionType } from './types/options/skip_option_type';
 
@@ -24,13 +24,13 @@ const getEpisodeInformation = async () => {
 
 /**
  * Adds the skip time to the player
- * @param openingSkipperHttpClient OpeningSkipperHttpClient object
+ * @param aniskipHttpClient AniskipHttpClient object
  * @param malId MAL idenfitication number
  * @param episodeNumber Episode number
  * @param type Type of time to add, either 'op' or 'ed'
  */
 const addSkipTime = async (
-  openingSkipperHttpClient: OpeningSkipperHttpClient,
+  aniskipHttpClient: AniskipHttpClient,
   malId: number,
   episodeNumber: number,
   type: 'op' | 'ed',
@@ -39,7 +39,7 @@ const addSkipTime = async (
   if (option === 'disabled') {
     return;
   }
-  const skipTimesResponse = await openingSkipperHttpClient.getSkipTimes(
+  const skipTimesResponse = await aniskipHttpClient.getSkipTimes(
     malId,
     episodeNumber,
     type
@@ -56,26 +56,14 @@ const addSkipTime = async (
  * Adds the opening and ending skip invervals
  */
 const initialiseSkipTimes = async () => {
-  const openingSkipperHttpClient = new OpeningSkipperHttpClient();
+  const aniskipHttpClient = new AniskipHttpClient();
   const { malId, episodeNumber } = await getEpisodeInformation();
   const { openingOption, endingOption } = await browser.storage.sync.get([
     'openingOption',
     'endingOption',
   ]);
-  addSkipTime(
-    openingSkipperHttpClient,
-    malId,
-    episodeNumber,
-    'op',
-    openingOption
-  );
-  addSkipTime(
-    openingSkipperHttpClient,
-    malId,
-    episodeNumber,
-    'ed',
-    endingOption
-  );
+  addSkipTime(aniskipHttpClient, malId, episodeNumber, 'op', openingOption);
+  addSkipTime(aniskipHttpClient, malId, episodeNumber, 'ed', endingOption);
 };
 
 /**

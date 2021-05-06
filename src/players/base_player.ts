@@ -36,14 +36,14 @@ abstract class BasePlayer implements Player {
     this.document = document;
     this.variant = variant;
     this.submitMenuContainer = this.createContainer(
-      'opening-skipper-player-submit-button',
+      'aniskip-player-submit-menu',
       ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']
     );
     this.skipTimeIndicatorContainer = this.createContainer(
-      'opening-skipper-player-skip-time-indicator'
+      'aniskip-player-skip-time-indicator'
     );
     this.skipButtonContainer = this.createContainer(
-      'opening-skipper-player-skip-button',
+      'aniskip-player-skip-button',
       ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']
     );
     this.skipTimes = [];
