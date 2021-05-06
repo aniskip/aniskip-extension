@@ -2403,6 +2403,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fs-extra@npm:1.0.0":
+  version: 1.0.0
+  resolution: "fs-extra@npm:1.0.0"
+  dependencies:
+    graceful-fs: ^4.1.2
+    jsonfile: ^2.1.0
+    klaw: ^1.0.0
+  checksum: b07d107d48524fcb6f055303dcd0546098e7c2f1e02548734abfabc5353a14232bec77738c0acfff670ac41c36e25460af7afda516bac6d647d814df102c9023
+  languageName: node
+  linkType: hard
+
 "fs-extra@npm:^9.0.0, fs-extra@npm:^9.1.0":
   version: 9.1.0
   resolution: "fs-extra@npm:9.1.0"
@@ -2598,7 +2609,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.0, graceful-fs@npm:^4.2.4, graceful-fs@npm:^4.2.6":
+"graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.1.9, graceful-fs@npm:^4.2.0, graceful-fs@npm:^4.2.4, graceful-fs@npm:^4.2.6":
   version: 4.2.6
   resolution: "graceful-fs@npm:4.2.6"
   checksum: 84d39c7756892553da990a9db7e45f844b3309b37b5a00174cbb4748476f2250c54f24594d4d252f64f085c65c2fdac7c809419bf6d55f0e6e42eb07ac0f5bf2
@@ -3206,6 +3217,18 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"jsonfile@npm:^2.1.0":
+  version: 2.4.0
+  resolution: "jsonfile@npm:2.4.0"
+  dependencies:
+    graceful-fs: ^4.1.6
+  dependenciesMeta:
+    graceful-fs:
+      optional: true
+  checksum: 56a7800db8e652b6e23c2d441cc3fdc8a60b6d6874a9ef8137be6a1b3ddcd946ea480ceb35dd9ce62edab3ccd2ad5e51c41b882d999301d3bdf2a68d5d63b1b1
+  languageName: node
+  linkType: hard
+
 "jsonfile@npm:^6.0.1":
   version: 6.1.0
   resolution: "jsonfile@npm:6.1.0"
@@ -3233,6 +3256,18 @@ fsevents@~2.3.1:
   version: 6.0.3
   resolution: "kind-of@npm:6.0.3"
   checksum: 5de5d6577796af87a983199d6350ed41c670abec4a306cc43ca887c1afdbd6b89af9ab00016e3ca17eb7ad89ebfd9bb817d33baa89f855c6c95398a8b8abbf08
+  languageName: node
+  linkType: hard
+
+"klaw@npm:^1.0.0":
+  version: 1.3.1
+  resolution: "klaw@npm:1.3.1"
+  dependencies:
+    graceful-fs: ^4.1.9
+  dependenciesMeta:
+    graceful-fs:
+      optional: true
+  checksum: af8966b850d39fd9eb48a8d7b28c3bcf6fc47e651f1c6f875150872b108c71638f29807126974f4e28492e72f5b74006f31d83f8638230abbdfd5f1991aba56b
   languageName: node
   linkType: hard
 
@@ -5530,6 +5565,7 @@ resolve@^2.0.0-next.3:
     webextension-polyfill-ts: ^0.25.0
     webpack: ^5.35.1
     webpack-cli: ^4.6.0
+    webpack-copy-plugin: ^0.0.4
     webpack-merge: ^5.7.3
   languageName: unknown
   linkType: soft
@@ -5705,6 +5741,15 @@ typescript@^4.2.4:
   bin:
     webpack-cli: bin/cli.js
   checksum: 5818245d609bfe677a84c14ebb7177590a511a871ce877803c14ba948dc603c15637fdfc1346726480d26b97ba4a55785a211e584d0dd098ec767927f244f9b9
+  languageName: node
+  linkType: hard
+
+"webpack-copy-plugin@npm:^0.0.4":
+  version: 0.0.4
+  resolution: "webpack-copy-plugin@npm:0.0.4"
+  dependencies:
+    fs-extra: 1.0.0
+  checksum: 62919862cd3bcae129b2e5d70e7cf75595f973045edebc6f32e0843424a07e744fea29e5a4bc38d024ad67061c14d32ff53d4e6dca964425655d7d2bed67a680
   languageName: node
   linkType: hard
 

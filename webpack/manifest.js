@@ -11,7 +11,7 @@ const manifest = {
     page: 'options.html',
   },
   browser_action: {
-    default_popup: 'popup.html',
+    default_popup: 'options.html',
   },
   background: {
     scripts: ['background_script.js'],
@@ -24,6 +24,11 @@ const manifest = {
     '*://graphql.anilist.co/*',
   ],
   web_accessible_resources: ['player_script.css'],
+  icons: {
+    16: 'icon_16.png',
+    48: 'icon_48.png',
+    128: 'icon_128.png',
+  },
 };
 
 const getPageUrls = () => {

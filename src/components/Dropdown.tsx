@@ -32,12 +32,9 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, []);
 
   return (
-    <div
-      ref={dropdownRef}
-      className={`text-black relative inline-block ${className}`}
-    >
+    <div ref={dropdownRef} className={`relative inline-block ${className}`}>
       <button
-        className={`bg-white rounded flex justify-between items-center w-full h-full space-x-2 text-center border ${
+        className={`bg-white rounded flex justify-between items-center w-full h-full text-center border ${
           hidden
             ? 'border-gray-300'
             : 'ring-1 ring-yellow-600 border-yellow-600'
@@ -52,7 +49,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             ).label
           }
         </span>
-        <span className="font-semibold px-3 py-2 absolute left-0">
+        <span className="text-black font-normal px-3 py-2 absolute left-0">
           {options.find((element) => element.value === value)?.label}
         </span>
         <div className="pl-3 pr-4 py-3">
@@ -72,7 +69,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       >
         {options.map(({ value: valueId, label }) => (
           <button
-            className="w-full px-4 py-2 text-left focus:outline-none hover:bg-yellow-600 hover:border-yellow-600 hover:text-white"
+            className="text-black w-full px-3 py-2 text-left focus:outline-none hover:bg-yellow-600 hover:border-yellow-600 hover:text-white"
             type="button"
             key={uuidv4()}
             onClick={handleClick(valueId)}

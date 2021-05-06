@@ -82,6 +82,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["webextension-polyfill-ts", "npm:0.25.0"],
             ["webpack", "virtual:1c0500bbbfa0d9dfafd4614abce3b2894751ffb8075425f77b9af7f140eca1f1df864d8086078aa470168b59e7d67bb04c6a7a67c8703760bd8a17a943e0edc4#npm:5.35.1"],
             ["webpack-cli", "virtual:1c0500bbbfa0d9dfafd4614abce3b2894751ffb8075425f77b9af7f140eca1f1df864d8086078aa470168b59e7d67bb04c6a7a67c8703760bd8a17a943e0edc4#npm:4.6.0"],
+            ["webpack-copy-plugin", "npm:0.0.4"],
             ["webpack-merge", "npm:5.7.3"]
           ],
           "linkType": "SOFT",
@@ -3098,6 +3099,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["fs-extra", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/fs-extra-npm-1.0.0-19f06bf41d-b07d107d48.zip/node_modules/fs-extra/",
+          "packageDependencies": [
+            ["fs-extra", "npm:1.0.0"],
+            ["graceful-fs", "npm:4.2.6"],
+            ["jsonfile", "npm:2.4.0"],
+            ["klaw", "npm:1.3.1"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:9.1.0", {
           "packageLocation": "./.yarn/cache/fs-extra-npm-9.1.0-983c2ddb4c-e667d8df54.zip/node_modules/fs-extra/",
           "packageDependencies": [
@@ -4022,6 +4033,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["jsonfile", [
+        ["npm:2.4.0", {
+          "packageLocation": "./.yarn/cache/jsonfile-npm-2.4.0-5547489d6b-56a7800db8.zip/node_modules/jsonfile/",
+          "packageDependencies": [
+            ["jsonfile", "npm:2.4.0"],
+            ["graceful-fs", "npm:4.2.6"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:6.1.0", {
           "packageLocation": "./.yarn/cache/jsonfile-npm-6.1.0-20a4796cee-9419c886ab.zip/node_modules/jsonfile/",
           "packageDependencies": [
@@ -4048,6 +4067,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/kind-of-npm-6.0.3-ab15f36220-5de5d65777.zip/node_modules/kind-of/",
           "packageDependencies": [
             ["kind-of", "npm:6.0.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["klaw", [
+        ["npm:1.3.1", {
+          "packageLocation": "./.yarn/cache/klaw-npm-1.3.1-0adc7be9ec-af8966b850.zip/node_modules/klaw/",
+          "packageDependencies": [
+            ["klaw", "npm:1.3.1"],
+            ["graceful-fs", "npm:4.2.6"]
           ],
           "linkType": "HARD",
         }]
@@ -6796,6 +6825,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["webextension-polyfill-ts", "npm:0.25.0"],
             ["webpack", "virtual:1c0500bbbfa0d9dfafd4614abce3b2894751ffb8075425f77b9af7f140eca1f1df864d8086078aa470168b59e7d67bb04c6a7a67c8703760bd8a17a943e0edc4#npm:5.35.1"],
             ["webpack-cli", "virtual:1c0500bbbfa0d9dfafd4614abce3b2894751ffb8075425f77b9af7f140eca1f1df864d8086078aa470168b59e7d67bb04c6a7a67c8703760bd8a17a943e0edc4#npm:4.6.0"],
+            ["webpack-copy-plugin", "npm:0.0.4"],
             ["webpack-merge", "npm:5.7.3"]
           ],
           "linkType": "SOFT",
@@ -7056,6 +7086,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "webpack-bundle-analyzer",
             "webpack-dev-server",
             "webpack"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["webpack-copy-plugin", [
+        ["npm:0.0.4", {
+          "packageLocation": "./.yarn/cache/webpack-copy-plugin-npm-0.0.4-06d577f228-62919862cd.zip/node_modules/webpack-copy-plugin/",
+          "packageDependencies": [
+            ["webpack-copy-plugin", "npm:0.0.4"],
+            ["fs-extra", "npm:1.0.0"]
           ],
           "linkType": "HARD",
         }]

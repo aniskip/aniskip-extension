@@ -4,6 +4,8 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 const JsonBuilderPlugin = require('./json_builder_webpack_plugin');
 const getManifest = require('./manifest');
 
@@ -96,6 +98,14 @@ module.exports = {
     new JsonBuilderPlugin({
       output: 'manifest.json',
       json: getManifest(),
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: './public/*.png',
+          to: '[name].png',
+        },
+      ],
     }),
   ],
 };

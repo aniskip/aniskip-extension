@@ -214,7 +214,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
           </div>
           <div className="flex space-x-2">
             <Dropdown
-              className="text-xs w-1/2"
+              className="text-sm w-1/2"
               value={skipType}
               onChange={setSkipType}
               options={[
