@@ -89,7 +89,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
         setStartTime(secondsToTimeString(currentTime));
         let newEndTime = currentTime + 90;
         if (newEndTime > duration) {
-          newEndTime = duration;
+          newEndTime = Math.floor(duration);
         }
         setEndTime(secondsToTimeString(newEndTime));
         setSkipType(currentTime < duration / 2 ? 'op' : 'ed');
