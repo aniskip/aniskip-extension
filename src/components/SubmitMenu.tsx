@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
-import { FaTimes } from 'react-icons/fa';
+import { FaPlay, FaTimes } from 'react-icons/fa';
 import { SubmitMenuProps } from '../types/components/submit_types';
 import {
   formatTimeString,
@@ -99,7 +99,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
 
   return (
     <div
-      className={`bg-gray-800 right-5 bottom-28 absolute select-none rounded-md w-96 z-10 transition-opacity ${
+      className={`bg-trueGray-800 bg-opacity-80 border border-gray-300 right-5 bottom-28 absolute select-none rounded-md w-96 z-10 transition-opacity ${
         hidden && 'opacity-0 pointer-events-none'
       } submit-menu--${variant} ${
         fullScreen && `submit-menu--${variant}--fullscreen`
@@ -107,7 +107,12 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
       role="menu"
     >
       <div className="flex justify-between items-center w-full h-auto px-5 pt-2">
-        <h1 className="text-white uppercase text-sm">Submit Skip Times</h1>
+        <div className="flex items-center space-x-1 outline-none">
+          <FaPlay className="text-yellow-600" size={12} />
+          <span className="text-white font-bold text-sm uppercase">
+            Submit skip times
+          </span>
+        </div>
         <button
           type="button"
           className="flex justify-center items-center w-3 h-3 focus:outline-none text-white active:text-yellow-600"
@@ -118,49 +123,61 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
       </div>
       <div className="px-5 py-4 mx-auto">
         <form className="block space-y-2 mb-0" onSubmit={handleSubmit}>
-          <div className="flex text-black space-x-2">
-            <Input
-              className="flex-auto text-sm focus:border-yellow-600 focus:ring-yellow-600 focus:ring-1"
-              id="start-time"
-              value={startTime}
-              pattern={inputPatternRegexStringRef.current}
-              required
-              title="Minutes : Seconds"
-              placeholder="Start time"
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                const timeString = event.currentTarget.value;
-                const testRegex = inputPatternTestRegexRef.current;
-                if (testRegex.test(timeString)) {
-                  setStartTime(timeString);
+          <div className="flex space-x-2">
+            <div className="flex-1">
+              <div className="text-white font-bold text-xs uppercase">
+                Start time
+              </div>
+              <Input
+                className="shadow-sm w-full text-black text-sm focus:border-yellow-600 focus:ring-yellow-600 focus:ring-1"
+                id="start-time"
+                value={startTime}
+                pattern={inputPatternRegexStringRef.current}
+                required
+                title="Minutes : Seconds"
+                placeholder="Start time"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  const timeString = event.currentTarget.value;
+                  const testRegex = inputPatternTestRegexRef.current;
+                  if (testRegex.test(timeString)) {
+                    setStartTime(timeString);
+                  }
+                }}
+                onFocus={() => setCurrentInputFocus('start-time')}
+                onBlur={() =>
+                  setStartTime((current) => formatTimeString(current))
                 }
-              }}
-              onFocus={() => setCurrentInputFocus('start-time')}
-              onBlur={() =>
-                setStartTime((current) => formatTimeString(current))
-              }
-            />
-            <Input
-              className="flex-auto text-sm focus:border-yellow-600 focus:ring-yellow-600 focus:ring-1"
-              id="end-time"
-              value={endTime}
-              pattern={inputPatternRegexStringRef.current}
-              required
-              title="Minutes : Seconds"
-              placeholder="End time"
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                const timeString = event.currentTarget.value;
-                const testRegex = inputPatternTestRegexRef.current;
-                if (testRegex.test(timeString)) {
-                  setEndTime(timeString);
+              />
+            </div>
+            <div className="flex-1">
+              <div className="text-white font-bold text-xs uppercase">
+                End time
+              </div>
+              <Input
+                className="shadow-sm w-full text-black text-sm focus:border-yellow-600 focus:ring-yellow-600 focus:ring-1"
+                id="end-time"
+                value={endTime}
+                pattern={inputPatternRegexStringRef.current}
+                required
+                title="Minutes : Seconds"
+                placeholder="End time"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  const timeString = event.currentTarget.value;
+                  const testRegex = inputPatternTestRegexRef.current;
+                  if (testRegex.test(timeString)) {
+                    setEndTime(timeString);
+                  }
+                }}
+                onFocus={() => setCurrentInputFocus('end-time')}
+                onBlur={() =>
+                  setEndTime((current) => formatTimeString(current))
                 }
-              }}
-              onFocus={() => setCurrentInputFocus('end-time')}
-              onBlur={() => setEndTime((current) => formatTimeString(current))}
-            />
+              />
+            </div>
           </div>
           <div className="flex text-black space-x-2">
             <Button
-              className="flex-1 focus:border-yellow-100 bg-yellow-600 text-white"
+              className="shadow-sm flex-1 bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
               onClick={async () => {
                 const messageType = 'player-get-video-current-time';
                 browser.runtime.sendMessage({ type: messageType });
@@ -177,7 +194,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               Now
             </Button>
             <Button
-              className="flex-1 focus:border-yellow-100 bg-blue-600 text-white"
+              className="shadow-sm flex-1 bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
               onClick={async () => {
                 const messageType = 'player-add-preview-skip-time';
                 browser.runtime.sendMessage({
@@ -195,7 +212,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               Preview
             </Button>
             <Button
-              className="flex-1 focus:border-yellow-100 bg-yellow-600 text-white"
+              className="shadow-sm flex-1 bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
               onClick={async () => {
                 const messageType = 'player-get-video-duration';
                 browser.runtime.sendMessage({ type: messageType });
@@ -212,19 +229,27 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               End
             </Button>
           </div>
-          <div className="flex space-x-2">
-            <Dropdown
-              className="text-sm w-1/2"
-              value={skipType}
-              onChange={setSkipType}
-              options={[
-                { value: 'op', label: 'Opening' },
-                { value: 'ed', label: 'Ending' },
-              ]}
-            />
-            <Button className="w-1/2 inline bg-yellow-600 text-white" submit>
-              Submit
-            </Button>
+          <div>
+            <div className="text-white text-xs font-bold uppercase">
+              Skip type
+            </div>
+            <div className="flex space-x-2">
+              <Dropdown
+                className="text-sm w-1/2"
+                value={skipType}
+                onChange={setSkipType}
+                options={[
+                  { value: 'op', label: 'Opening' },
+                  { value: 'ed', label: 'Ending' },
+                ]}
+              />
+              <Button
+                className="shadow-sm w-1/2 inline bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
+                submit
+              >
+                Submit
+              </Button>
+            </div>
           </div>
         </form>
       </div>

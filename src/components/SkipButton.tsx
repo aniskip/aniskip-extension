@@ -22,7 +22,7 @@ const SkipButton: React.FC<SkipTimeButtonProps> = ({
 
   return (
     <Button
-      className={`transition-opacity font-sans whitespace-nowrap text-blue-100 bg-gray-800 bg-opacity-80 py-3 absolute top-auto bottom-16 left-auto right-11 z-10 border border-blue-100 border-opacity-80 ${
+      className={`transition-opacity font-sans whitespace-nowrap text-white bg-trueGray-800 bg-opacity-80 py-3 absolute top-auto bottom-16 left-auto right-11 z-10 border border-gray-300 ${
         hidden && 'opacity-0 pointer-events-none'
       } skip-button--${variant} ${
         fullscreen && `skip-button--${variant}--fullscreen`

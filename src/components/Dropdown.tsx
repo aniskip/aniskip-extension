@@ -58,7 +58,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               !hidden && 'rotate-180'
             } flex-none flex justify-center items-center w-4 h-4`}
           >
-            <FaChevronDown />
+            <FaChevronDown className="text-black" />
           </div>
         </div>
       </button>
