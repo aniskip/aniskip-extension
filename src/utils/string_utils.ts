@@ -7,25 +7,46 @@ export const capitalizeFirstLetter = (str: string) =>
 
 /**
  * Converts a time string into seconds
- * @param timeString Time in a string format of '<minutes>:<seconds>'
+ * @param timeString Time in a string format of '(<hours>:)(<minutes>:)<seconds>'
  */
 export const timeStringToSeconds = (timeString: string) => {
-  const [minutesString, secondsString] = timeString.split(':');
-  const minutes = parseInt(minutesString, 10) || 0;
-  const seconds = parseFloat(secondsString) || 0;
-  return minutes * 60 + seconds;
+  // seconds, days, minutes
+  const timeUnitToSeconds = [1, 60, 60 * 60];
+  let seconds = 0;
+  const times = timeString.split(':');
+  times.reverse().forEach((time, index) => {
+    const parsedTime = parseFloat(time);
+
+    if (!parsedTime || index >= timeUnitToSeconds.length) {
+      return;
+    }
+
+    seconds += parsedTime * timeUnitToSeconds[index];
+  });
+
+  return seconds;
 };
 
 /**
  * Converts seconds into a time string
- * @param seconds Number of seconds to convert to the format of '<minutes>:<seconds>'
+ * @param seconds Number of seconds to convert to the format of '(<hours>:)<minutes>:<seconds>'
  */
 export const secondsToTimeString = (seconds: number) => {
-  const minutes = Math.floor(seconds / 60)
-    .toString()
-    .padStart(1, '0');
-  const remainder = (seconds % 60).toFixed(3).padStart(6, '0');
-  return `${minutes}:${remainder}`;
+  let remainingSeconds = seconds;
+
+  const hours = Math.floor(remainingSeconds / (60 * 60));
+  const hoursFormatted = hours.toString();
+  remainingSeconds %= 60 * 60;
+
+  const minutes = Math.floor(remainingSeconds / 60);
+  const minutesFormatted = minutes.toString().padStart(hours ? 2 : 1, '0');
+
+  remainingSeconds %= 60;
+  const secondsFormated = remainingSeconds.toFixed(3).padStart(6, '0');
+
+  return `${
+    hours ? `${hoursFormatted}:` : ''
+  }${minutesFormatted}:${secondsFormated}`;
 };
 
 /**
