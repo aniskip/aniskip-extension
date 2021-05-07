@@ -89,6 +89,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
         const currentTime: number = (
           await waitForMessage(`${messageType}-response`)
         ).payload;
+
         setStartTime(secondsToTimeString(currentTime));
         let newEndTime = currentTime + 90;
         if (newEndTime > duration) {
@@ -128,7 +129,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
         <form className="block space-y-2 mb-0" onSubmit={handleSubmit}>
           <div className="flex space-x-2">
             <div className="flex-1">
-              <div className="text-white font-bold text-xs uppercase">
+              <div className="text-white font-bold text-xs uppercase mb-1">
                 Start time
               </div>
               <Input
@@ -153,7 +154,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               />
             </div>
             <div className="flex-1">
-              <div className="text-white font-bold text-xs uppercase">
+              <div className="text-white font-bold text-xs uppercase mb-1">
                 End time
               </div>
               <Input
@@ -235,12 +236,12 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
             </Button>
           </div>
           <div>
-            <div className="text-white text-xs font-bold uppercase">
+            <div className="text-white font-bold text-xs uppercase mb-1">
               Skip type
             </div>
             <div className="flex space-x-2">
               <Dropdown
-                className="text-sm w-1/2"
+                className="flex-1 text-sm"
                 value={skipType}
                 onChange={setSkipType}
                 options={[
@@ -248,12 +249,14 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
                   { value: 'ed', label: 'Ending' },
                 ]}
               />
-              <Button
-                className="shadow-sm w-1/2 inline bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
-                submit
-              >
-                Submit
-              </Button>
+              <div className="flex-1">
+                <Button
+                  className="w-full shadow-sm bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
+                  submit
+                >
+                  Submit
+                </Button>
+              </div>
             </div>
           </div>
         </form>
