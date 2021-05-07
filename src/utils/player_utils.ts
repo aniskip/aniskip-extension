@@ -30,11 +30,13 @@ const getPlayer = (hostname: string, videoElement: HTMLVideoElement) => {
     case 'mcloud2':
     case 'streamsb':
     case 'vidstream':
+    case 'streamhd':
       player = new Jw(document, videoElement);
       break;
     case 'dood':
       player = new Doodstream(document, videoElement);
       break;
+    case 'mixdrop':
     case 'mp4upload':
       player = new Videojs(document, videoElement);
       break;

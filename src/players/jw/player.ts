@@ -12,6 +12,10 @@ class Jw extends BasePlayer {
     );
   }
 
+  getVideoControlsContainer() {
+    return super.getContainerHelper(metadata.videoControlsContainerString, 0);
+  }
+
   getSeekBarContainer() {
     const slider = this.document.querySelector<HTMLElement>(
       `[aria-label^="${metadata.seekBarContainerSelectorString}"]`

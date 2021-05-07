@@ -10,15 +10,17 @@ class Crunchyroll extends BasePlayer {
     return this.document.getElementById(metadata.videoContainerSelectorString);
   }
 
+  getVideoControlsContainer() {
+    return this.document.getElementById(metadata.videoControlsContainerString);
+  }
+
   getSeekBarContainer() {
     return super.getContainerHelper(metadata.seekBarContainerSelectorString, 1);
   }
 
   initialise() {
     super.initialise();
-    const controlsPackage = document.getElementById(
-      'velocity-controls-package'
-    );
+    const controlsPackage = this.getVideoControlsContainer();
     if (controlsPackage) {
       new MutationObserver(async () => {
         this.injectSubmitMenu();

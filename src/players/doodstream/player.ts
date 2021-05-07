@@ -10,6 +10,10 @@ class Doodstream extends BasePlayer {
     return this.document.getElementById(metadata.videoContainerSelectorString);
   }
 
+  getVideoControlsContainer() {
+    return super.getContainerHelper(metadata.videoControlsContainerString, 0);
+  }
+
   getSeekBarContainer() {
     return super.getContainerHelper(metadata.seekBarContainerSelectorString, 0);
   }

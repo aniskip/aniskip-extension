@@ -46,6 +46,11 @@ interface Player {
   getVideoContainer(): HTMLElement | null;
 
   /**
+   * Returns the video controls container element
+   */
+  getVideoControlsContainer(): HTMLElement | null;
+
+  /**
    * Initialises the player by injecting the extension buttons
    */
   initialise(): void;

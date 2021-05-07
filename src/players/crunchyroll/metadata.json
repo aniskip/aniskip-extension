@@ -1,6 +1,7 @@
 {
   "variant": "crunchyroll",
-  "videoContainerSelectorString": "velocity-controls-package",
+  "videoContainerSelectorString": "velocity-player-package",
+  "videoControlsContainerString": "velocity-controls-package",
   "injectSettingsButtonReferenceNodeSelectorString": "settingsControl",
   "seekBarContainerSelectorString": "r-13awgt0 r-18u37iz r-1udh08x r-13qz1uu css-1dbjc4n",
   "player_urls": ["*://static.crunchyroll.com/*"]

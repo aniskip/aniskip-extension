@@ -84,9 +84,9 @@ new MutationObserver((_mutations, observer) => {
   }
 
   if (player) {
-    const videoContainer = player.getVideoContainer();
+    const videoControlsContainer = player.getVideoControlsContainer();
 
-    if (videoContainer && videoElement) {
+    if (videoControlsContainer && videoElement) {
       observer.disconnect();
       player.initialise();
     }

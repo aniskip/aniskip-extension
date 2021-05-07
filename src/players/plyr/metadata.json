@@ -1,6 +1,7 @@
 {
   "variant": "plyr",
   "videoContainerSelectorString": "plyr__video-wrapper",
+  "videoControlsContainerString": "plyr__controls",
   "seekBarContainerSelectorString": "plyr__progress",
   "injectSettingsButtonReferenceNodeSelectorString": "plyr__controls__item plyr__menu",
   "player_urls": [

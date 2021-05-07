@@ -51,6 +51,8 @@ abstract class BasePlayer implements Player {
 
   abstract getVideoContainer(): HTMLElement | null;
 
+  abstract getVideoControlsContainer(): HTMLElement | null;
+
   /**
    * Returns the seek bar container element
    */
