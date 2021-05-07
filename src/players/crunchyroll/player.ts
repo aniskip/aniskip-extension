@@ -3,7 +3,7 @@ import metadata from './metadata.json';
 
 class Crunchyroll extends BasePlayer {
   constructor(document: Document, videoElement: HTMLVideoElement) {
-    super(document, videoElement, metadata.variant);
+    super(document, videoElement, metadata);
   }
 
   getVideoContainer() {

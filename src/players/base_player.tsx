@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { browser } from 'webextension-polyfill-ts';
 
-import Player from '../types/players/player_type';
+import { Player, Metadata } from '../types/players/player_types';
 import SubmitMenuContainer from '../components/SubmitMenuContainer';
 import SkipTimeIndicatorContainer from '../components/SkipTimeIndicatorContainer';
 import { SkipTime } from '../types/api/skip_time_types';
@@ -12,7 +12,7 @@ import SkipButton from '../components/SkipButton';
 abstract class BasePlayer implements Player {
   document: Document;
 
-  variant: string;
+  metadata: Metadata;
 
   submitMenuContainer: HTMLDivElement;
 
@@ -29,10 +29,10 @@ abstract class BasePlayer implements Player {
   constructor(
     document: Document,
     videoElement: HTMLVideoElement,
-    variant: string
+    metadata: Metadata
   ) {
     this.document = document;
-    this.variant = variant;
+    this.metadata = metadata;
     this.submitMenuContainer = this.createContainer(
       'aniskip-player-submit-menu',
       ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']
@@ -279,7 +279,7 @@ abstract class BasePlayer implements Player {
         <SkipTimeIndicatorContainer
           skipTimes={this.skipTimes}
           offset={offset}
-          variant={this.variant}
+          variant={this.metadata.variant}
         />,
         reactRoot
       );
@@ -348,7 +348,7 @@ abstract class BasePlayer implements Player {
           ReactDOM.render(
             <SkipButton
               skipType={skipTime.skip_type}
-              variant={this.variant}
+              variant={this.metadata.variant}
               hidden={!inInterval}
               onClick={() => {
                 this.setCurrentTime(endTime + offset + margin);

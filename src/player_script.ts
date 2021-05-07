@@ -2,7 +2,7 @@ import { browser, Runtime } from 'webextension-polyfill-ts';
 import Message from './types/message_type';
 import { SkipTime, SkipType } from './types/api/skip_time_types';
 import getPlayer from './utils/player_utils';
-import Player from './types/players/player_type';
+import { Player } from './types/players/player_types';
 import 'tailwindcss/tailwind.css';
 import './player_script.scss';
 

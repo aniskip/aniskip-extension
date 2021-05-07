@@ -1,4 +1,4 @@
-import Player from '../types/players/player_type';
+import { Player } from '../types/players/player_types';
 import Plyr from '../players/plyr/player';
 import Crunchyroll from '../players/crunchyroll/player';
 import Videojs from '../players/videojs/player';

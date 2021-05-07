@@ -1,9 +1,18 @@
 import { SkipTime } from '../api/skip_time_types';
 
-interface Player {
+export interface Metadata {
+  variant: string;
+  videoContainerSelectorString: string;
+  videoControlsContainerString: string;
+  injectSettingsButtonReferenceNodeSelectorString: string;
+  seekBarContainerSelectorString: string;
+  player_urls: string[];
+}
+
+export interface Player {
   document: Document;
 
-  variant: string;
+  metadata: Metadata;
 
   submitMenuContainer: HTMLDivElement;
 
@@ -86,5 +95,3 @@ interface Player {
    */
   setCurrentTime(time: number): void;
 }
-
-export default Player;
