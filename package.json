@@ -1,10 +1,10 @@
 {
-  "name": "typescript-opening-skipper-frontend",
-  "extensionName": "Opening and Ending Skipper",
-  "version": "0.7.0",
-  "description": "An extension which gives the option to skip opening and endings of media on various streaming sites",
-  "main": "content.ts",
-  "repository": "https://github.com/lexesjan/typescript-opening-skipper-frontend",
+  "name": "typescript-aniskip-extension",
+  "extensionName": "Aniskip",
+  "version": "0.8.0",
+  "description": "An extension which gives the option to skip anime opening and endings on various streaming sites",
+  "main": "content_script.ts",
+  "repository": "https://github.com/lexesjan/typescript-aniskip-extension",
   "contributors": [
     "Lexes Jan Mantiquilla <mantiquillal@gmail.com>",
     "Dabreadman <tany3@tcd.ie>"

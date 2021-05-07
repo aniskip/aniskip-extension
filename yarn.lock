@@ -5610,9 +5610,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"typescript-opening-skipper-frontend@workspace:.":
+"typescript-aniskip-extension@workspace:.":
   version: 0.0.0-use.local
-  resolution: "typescript-opening-skipper-frontend@workspace:."
+  resolution: "typescript-aniskip-extension@workspace:."
   dependencies:
     "@types/chrome": ^0.0.137
     "@types/react": ^17.0.5

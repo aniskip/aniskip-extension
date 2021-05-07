@@ -23,12 +23,12 @@ class Jw extends BasePlayer {
     return null;
   }
 
-  injectSubmitButton() {
+  injectSubmitMenu() {
     const referenceNode = document.querySelector<HTMLElement>(
       `[aria-label="${metadata.injectSettingsButtonReferenceNodeSelectorString}"]`
     );
     if (referenceNode) {
-      this.injectSubmitButtonHelper(referenceNode, metadata.variant);
+      this.injectSubmitMenuHelper(referenceNode, metadata.variant);
     }
   }
 }
