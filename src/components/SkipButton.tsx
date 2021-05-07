@@ -3,8 +3,8 @@ import { SkipTimeButtonProps } from '../types/components/skip_time_button_types'
 import Button from './Button';
 
 const SkipButton: React.FC<SkipTimeButtonProps> = ({
+  skipType,
   variant,
-  children,
   hidden,
   onClick,
 }: SkipTimeButtonProps) => {
@@ -20,6 +20,11 @@ const SkipButton: React.FC<SkipTimeButtonProps> = ({
       document.removeEventListener('fullscreenchange', fullscreenHandler);
   }, [setFullscreen]);
 
+  const skipTypeFullNames = {
+    op: 'Opening',
+    ed: 'Ending',
+  };
+
   return (
     <Button
       className={`transition-opacity font-sans whitespace-nowrap text-white bg-trueGray-800 bg-opacity-80 py-3 absolute top-auto bottom-16 left-auto right-11 z-10 border border-gray-300 ${
@@ -29,7 +34,7 @@ const SkipButton: React.FC<SkipTimeButtonProps> = ({
       }`}
       onClick={onClick}
     >
-      {children}
+      {`Skip ${skipTypeFullNames[skipType]}`}
     </Button>
   );
 };

@@ -1,14 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { browser } from 'webextension-polyfill-ts';
+
 import Player from '../types/players/player_type';
 import SubmitMenuContainer from '../components/SubmitMenuContainer';
-import { SubmitMenuContainerProps } from '../types/components/submit_types';
-import { SkipTimeIndicatorContainerProps } from '../types/components/skip_time_indicator_types';
 import SkipTimeIndicatorContainer from '../components/SkipTimeIndicatorContainer';
 import { SkipTime } from '../types/api/skip_time_types';
 import isInInterval from '../utils/time_utils';
-import { SkipTimeButtonProps } from '../types/components/skip_time_button_types';
 import SkipButton from '../components/SkipButton';
 
 abstract class BasePlayer implements Player {
@@ -252,12 +250,7 @@ abstract class BasePlayer implements Player {
       root.setAttribute('id', reactRootId);
       shadowRoot.appendChild(root);
 
-      const submitMenuContainer = React.createElement<SubmitMenuContainerProps>(
-        SubmitMenuContainer,
-        { variant }
-      );
-
-      ReactDOM.render(submitMenuContainer, root);
+      ReactDOM.render(<SubmitMenuContainer variant={variant} />, root);
     }
 
     referenceNode.insertAdjacentElement(
@@ -280,15 +273,14 @@ abstract class BasePlayer implements Player {
     const reactRoot = shadowRoot?.getElementById(`${id}-root`);
     const offset = this.getDuration() - this.skipTimes[0]?.episode_length || 0;
     if (reactRoot) {
-      const skipTimeIndicatorElement = React.createElement<SkipTimeIndicatorContainerProps>(
-        SkipTimeIndicatorContainer,
-        {
-          skipTimes: this.skipTimes,
-          offset,
-          variant: this.variant,
-        }
+      ReactDOM.render(
+        <SkipTimeIndicatorContainer
+          skipTimes={this.skipTimes}
+          offset={offset}
+          variant={this.variant}
+        />,
+        reactRoot
       );
-      ReactDOM.render(skipTimeIndicatorElement, reactRoot);
     }
   }
 
@@ -335,30 +327,34 @@ abstract class BasePlayer implements Player {
 
         if (manual) {
           const { id, shadowRoot } = this.skipButtonContainer;
-          if (shadowRoot) {
-            const reactRootId = `${id}-${skipTime.skip_type}-root`;
-            if (!shadowRoot.getElementById(reactRootId)) {
-              const root = this.document.createElement('div');
-              root.setAttribute('id', reactRootId);
-              shadowRoot.appendChild(root);
-            }
-            const reactRoot = shadowRoot.getElementById(reactRootId);
-            if (reactRoot) {
-              const skipButton = React.createElement<SkipTimeButtonProps>(
-                SkipButton,
-                {
-                  variant: this.variant,
-                  hidden: !inInterval,
-                  onClick: () => {
-                    this.setCurrentTime(endTime + offset + margin);
-                    this.play();
-                  },
-                },
-                skipTime.skip_type === 'op' ? 'Skip Opening' : 'Skip Ending'
-              );
-              ReactDOM.render(skipButton, reactRoot);
-            }
+          if (!shadowRoot) {
+            return;
           }
+
+          const reactRootId = `${id}-${skipTime.skip_type}-root`;
+          if (!shadowRoot.getElementById(reactRootId)) {
+            const root = this.document.createElement('div');
+            root.setAttribute('id', reactRootId);
+            shadowRoot.appendChild(root);
+          }
+
+          const reactRoot = shadowRoot.getElementById(reactRootId);
+          if (!reactRoot) {
+            return;
+          }
+
+          ReactDOM.render(
+            <SkipButton
+              skipType={skipTime.skip_type}
+              variant={this.variant}
+              hidden={!inInterval}
+              onClick={() => {
+                this.setCurrentTime(endTime + offset + margin);
+                this.play();
+              }}
+            />,
+            reactRoot
+          );
         } else if (inInterval) {
           this.setCurrentTime(endTime + offset + margin);
         }

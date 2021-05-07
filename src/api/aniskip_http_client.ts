@@ -1,6 +1,7 @@
 import {
   GetResponseTypeFromSkipTimes,
   PostResponseTypeFromSkipTimesVote,
+  SkipType,
 } from '../types/api/skip_time_types';
 import BaseHttpClient from './base_http_client';
 
@@ -22,7 +23,7 @@ class AniskipHttpClient extends BaseHttpClient {
   async getSkipTimes(
     animeId: number,
     episodeNumber: number,
-    type: 'op' | 'ed'
+    type: SkipType
   ): Promise<GetResponseTypeFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
     const params = { type };
@@ -44,7 +45,7 @@ class AniskipHttpClient extends BaseHttpClient {
   async createSkipTimes(
     animeId: number,
     episodeNumber: number,
-    skipType: 'op' | 'ed',
+    skipType: SkipType,
     providerName: string,
     startTime: number,
     endTime: number,

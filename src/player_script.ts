@@ -1,6 +1,6 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 import Message from './types/message_type';
-import { SkipTime } from './types/api/skip_time_types';
+import { SkipTime, SkipType } from './types/api/skip_time_types';
 import getPlayer from './utils/player_utils';
 import Player from './types/players/player_type';
 import 'tailwindcss/tailwind.css';
@@ -58,7 +58,7 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
           start_time: payload.interval.startTime as number,
           end_time: payload.interval.endTime as number,
         },
-        skip_type: payload.skipType as 'op' | 'ed',
+        skip_type: payload.skipType as SkipType,
         skip_id: '',
         episode_length: player.getDuration(),
       };

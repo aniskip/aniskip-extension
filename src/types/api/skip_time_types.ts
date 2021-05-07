@@ -1,9 +1,11 @@
+export type SkipType = 'op' | 'ed';
+
 export interface SkipTime {
   interval: {
     start_time: number;
     end_time: number;
   };
-  skip_type: 'op' | 'ed';
+  skip_type: SkipType;
   skip_id: string;
   episode_length: number;
 }

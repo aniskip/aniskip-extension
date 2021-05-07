@@ -12,6 +12,7 @@ import Dropdown from './Dropdown';
 import Button from './Button';
 import waitForMessage from '../utils/message_utils';
 import Input from './Input';
+import { SkipType } from '../types/api/skip_time_types';
 
 const SubmitMenu: React.FC<SubmitMenuProps> = ({
   variant,
@@ -20,7 +21,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
   onSubmit,
   onClose,
 }: SubmitMenuProps) => {
-  const [skipType, setSkipType] = useState<'op' | 'ed'>('op');
+  const [skipType, setSkipType] = useState<SkipType>('op');
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
   const [aniskipHttpClient] = useState<AniskipHttpClient>(
