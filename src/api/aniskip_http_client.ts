@@ -4,7 +4,7 @@ import {
 } from '../types/api/skip_time_types';
 import BaseHttpClient from './base_http_client';
 
-class OpeningSkipperHttpClient extends BaseHttpClient {
+class AniskipHttpClient extends BaseHttpClient {
   constructor() {
     super(
       process.env.NODE_ENV === 'development'
@@ -98,4 +98,4 @@ class OpeningSkipperHttpClient extends BaseHttpClient {
   }
 }
 
-export default OpeningSkipperHttpClient;
+export default AniskipHttpClient;

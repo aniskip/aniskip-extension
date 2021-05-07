@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { SubmitButtonContainerProps } from '../types/components/submit_types';
-import SubmitButton from './SubmitButton';
+import { SubmitMenuContainerProps } from '../types/components/submit_types';
+import SubmitMenuButton from './SubmitMenuButton';
 import SubmitMenu from './SubmitMenu';
 
-const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
+const SubmitMenuContainer: React.FC<SubmitMenuContainerProps> = ({
   variant,
-}: SubmitButtonContainerProps) => {
+}: SubmitMenuContainerProps) => {
   const [clicked, setClicked] = useState<boolean>(false);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
 
@@ -25,7 +25,7 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
         clicked && 'border-opacity-100'
       } submit-container--${variant}`}
     >
-      <SubmitButton handleClick={() => setClicked((current) => !current)} />
+      <SubmitMenuButton handleClick={() => setClicked((current) => !current)} />
       <SubmitMenu
         variant={variant}
         hidden={!clicked}
@@ -37,4 +37,4 @@ const SubmitButtonContainer: React.FC<SubmitButtonContainerProps> = ({
   );
 };
 
-export default SubmitButtonContainer;
+export default SubmitMenuContainer;

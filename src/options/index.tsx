@@ -7,5 +7,5 @@ ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById('opening-skipper-root')
+  document.getElementById('aniskip-root')
 );
