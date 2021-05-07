@@ -14,12 +14,12 @@ class Plyr extends BasePlayer {
     return super.getContainerHelper(metadata.seekBarContainerSelectorString, 0);
   }
 
-  injectSubmitButton() {
+  injectSubmitMenu() {
     const referenceNode = document.getElementsByClassName(
       metadata.injectSettingsButtonReferenceNodeSelectorString
     )[0] as HTMLElement;
     if (referenceNode) {
-      this.injectSubmitButtonHelper(referenceNode, metadata.variant);
+      this.injectSubmitMenuHelper(referenceNode, metadata.variant);
     }
   }
 }

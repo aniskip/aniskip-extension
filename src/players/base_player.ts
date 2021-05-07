@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { browser } from 'webextension-polyfill-ts';
 import Player from '../types/players/player_type';
-import SubmitContainer from '../components/SubmitContainer';
-import { SubmitButtonContainerProps } from '../types/components/submit_types';
+import SubmitMenuContainer from '../components/SubmitMenuContainer';
+import { SubmitMenuContainerProps } from '../types/components/submit_types';
 import { SkipTimeIndicatorContainerProps } from '../types/components/skip_time_indicator_types';
 import SkipTimeIndicatorContainer from '../components/SkipTimeIndicatorContainer';
 import { SkipTime } from '../types/api/skip_time_types';
@@ -16,7 +16,7 @@ abstract class BasePlayer implements Player {
 
   variant: string;
 
-  submitButtonContainer: HTMLDivElement;
+  submitMenuContainer: HTMLDivElement;
 
   skipButtonContainer: HTMLDivElement;
 
@@ -35,15 +35,15 @@ abstract class BasePlayer implements Player {
   ) {
     this.document = document;
     this.variant = variant;
-    this.submitButtonContainer = this.createContainer(
-      'opening-skipper-player-submit-button',
+    this.submitMenuContainer = this.createContainer(
+      'aniskip-player-submit-menu',
       ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']
     );
     this.skipTimeIndicatorContainer = this.createContainer(
-      'opening-skipper-player-skip-time-indicator'
+      'aniskip-player-skip-time-indicator'
     );
     this.skipButtonContainer = this.createContainer(
-      'opening-skipper-player-skip-button',
+      'aniskip-player-skip-button',
       ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']
     );
     this.skipTimes = [];
@@ -58,7 +58,7 @@ abstract class BasePlayer implements Player {
    */
   abstract getSeekBarContainer(): HTMLElement | null;
 
-  abstract injectSubmitButton(): void;
+  abstract injectSubmitMenu(): void;
 
   addPreviewSkipTime(skipTime: SkipTime) {
     this.clearVideoElementEventListeners(
@@ -177,7 +177,7 @@ abstract class BasePlayer implements Player {
   initialise() {
     this.videoElement.onloadedmetadata = () => {
       this.reset();
-      this.injectSubmitButton();
+      this.injectSubmitMenu();
       this.injectSkipTimeIndicator();
       this.injectSkipButton();
       browser.runtime.sendMessage({ type: 'player-ready' });
@@ -185,13 +185,10 @@ abstract class BasePlayer implements Player {
   }
 
   injectSkipButton() {
-    const submitButtonParentElement = this.submitButtonContainer.parentElement;
+    const submitMenuParentElement = this.submitMenuContainer.parentElement;
     const shadowRootContainer = this.skipButtonContainer;
-    if (submitButtonParentElement && shadowRootContainer) {
-      this.injectContainerHelper(
-        submitButtonParentElement,
-        shadowRootContainer
-      );
+    if (submitMenuParentElement && shadowRootContainer) {
+      this.injectContainerHelper(submitMenuParentElement, shadowRootContainer);
     }
   }
 
@@ -240,11 +237,11 @@ abstract class BasePlayer implements Player {
    * @param referenceNode Reference node to put the submit button beside. Submit button will be placed on the left side of the reference node
    * @param variant Variant of submit button based on the provider name
    */
-  injectSubmitButtonHelper(
+  injectSubmitMenuHelper(
     referenceNode: HTMLElement,
     variant: string
   ): HTMLDivElement | null {
-    const { id, shadowRoot } = this.submitButtonContainer;
+    const { id, shadowRoot } = this.submitMenuContainer;
     if (this.document.getElementById(id) || !referenceNode || !shadowRoot) {
       return null;
     }
@@ -255,20 +252,20 @@ abstract class BasePlayer implements Player {
       root.setAttribute('id', reactRootId);
       shadowRoot.appendChild(root);
 
-      const submitButton = React.createElement<SubmitButtonContainerProps>(
-        SubmitContainer,
+      const submitMenuContainer = React.createElement<SubmitMenuContainerProps>(
+        SubmitMenuContainer,
         { variant }
       );
 
-      ReactDOM.render(submitButton, root);
+      ReactDOM.render(submitMenuContainer, root);
     }
 
     referenceNode.insertAdjacentElement(
       'beforebegin',
-      this.submitButtonContainer
+      this.submitMenuContainer
     );
 
-    return this.submitButtonContainer;
+    return this.submitMenuContainer;
   }
 
   play() {
