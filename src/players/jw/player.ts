@@ -13,7 +13,10 @@ class Jw extends BasePlayer {
   }
 
   getVideoControlsContainer() {
-    return super.getContainerHelper(metadata.videoControlsContainerString, 0);
+    return super.getContainerHelper(
+      metadata.videoControlsContainerSelectorString,
+      0
+    );
   }
 
   getSeekBarContainer() {

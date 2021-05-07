@@ -6,16 +6,11 @@ class Doodstream extends BasePlayer {
     super(document, videoElement, metadata);
   }
 
-  getVideoContainer() {
-    return this.document.getElementById(metadata.videoContainerSelectorString);
-  }
-
   getVideoControlsContainer() {
-    return super.getContainerHelper(metadata.videoControlsContainerString, 0);
-  }
-
-  getSeekBarContainer() {
-    return super.getContainerHelper(metadata.seekBarContainerSelectorString, 0);
+    return super.getContainerHelper(
+      metadata.videoControlsContainerSelectorString,
+      0
+    );
   }
 
   injectSubmitMenu() {

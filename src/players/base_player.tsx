@@ -49,15 +49,6 @@ abstract class BasePlayer implements Player {
     this.timeUpdateEventListeners = {};
   }
 
-  abstract getVideoContainer(): HTMLElement | null;
-
-  abstract getVideoControlsContainer(): HTMLElement | null;
-
-  /**
-   * Returns the seek bar container element
-   */
-  abstract getSeekBarContainer(): HTMLElement | null;
-
   abstract injectSubmitMenu(): void;
 
   addPreviewSkipTime(skipTime: SkipTime) {
@@ -172,6 +163,28 @@ abstract class BasePlayer implements Player {
 
   getCurrentTime() {
     return this.videoElement.currentTime;
+  }
+
+  getVideoContainer() {
+    return this.document.getElementById(
+      this.metadata.videoContainerSelectorString
+    );
+  }
+
+  getVideoControlsContainer() {
+    return this.document.getElementById(
+      this.metadata.videoControlsContainerSelectorString
+    );
+  }
+
+  /**
+   * Returns the seek bar container element
+   */
+  getSeekBarContainer() {
+    return this.getContainerHelper(
+      this.metadata.seekBarContainerSelectorString,
+      0
+    );
   }
 
   initialise() {

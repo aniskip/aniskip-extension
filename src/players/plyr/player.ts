@@ -11,11 +11,10 @@ class Plyr extends BasePlayer {
   }
 
   getVideoControlsContainer() {
-    return super.getContainerHelper(metadata.videoControlsContainerString, 0);
-  }
-
-  getSeekBarContainer() {
-    return super.getContainerHelper(metadata.seekBarContainerSelectorString, 0);
+    return super.getContainerHelper(
+      metadata.videoControlsContainerSelectorString,
+      0
+    );
   }
 
   injectSubmitMenu() {

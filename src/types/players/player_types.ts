@@ -3,7 +3,7 @@ import { SkipTime } from '../api/skip_time_types';
 export interface Metadata {
   variant: string;
   videoContainerSelectorString: string;
-  videoControlsContainerString: string;
+  videoControlsContainerSelectorString: string;
   injectSettingsButtonReferenceNodeSelectorString: string;
   seekBarContainerSelectorString: string;
   player_urls: string[];

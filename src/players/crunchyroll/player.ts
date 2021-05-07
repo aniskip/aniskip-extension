@@ -6,14 +6,6 @@ class Crunchyroll extends BasePlayer {
     super(document, videoElement, metadata);
   }
 
-  getVideoContainer() {
-    return this.document.getElementById(metadata.videoContainerSelectorString);
-  }
-
-  getVideoControlsContainer() {
-    return this.document.getElementById(metadata.videoControlsContainerString);
-  }
-
   getSeekBarContainer() {
     return super.getContainerHelper(metadata.seekBarContainerSelectorString, 1);
   }
