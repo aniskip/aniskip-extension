@@ -15,11 +15,13 @@ export const timeStringToSeconds = (timeString: string) => {
   let seconds = 0;
   const times = timeString.split(':');
   times.reverse().forEach((time, index) => {
-    if (!time || index >= timeUnitToSeconds.length) {
+    const parsedTime = parseFloat(time);
+
+    if (!parsedTime || index >= timeUnitToSeconds.length) {
       return;
     }
 
-    seconds += parseFloat(time) * timeUnitToSeconds[index];
+    seconds += parsedTime * timeUnitToSeconds[index];
   });
 
   return seconds;
