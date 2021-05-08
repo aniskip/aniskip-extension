@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import SkipTimeIndicator from '../components/SkipTimeIndicator';
-import { SkipTime } from '../types/api/skip_time_types';
+import { SkipTimeType } from '../types/api/skip_time_types';
 import BaseRenderer from './base_renderer';
 
 class SkipTimeIndicatorsRenderer extends BaseRenderer {
@@ -10,7 +10,7 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
 
   videoDuration: number;
 
-  skipTimes: SkipTime[];
+  skipTimes: SkipTimeType[];
 
   constructor(id: string, variant: string) {
     super(id);
@@ -22,10 +22,9 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
 
   /**
    * Adds a skip time indicator into the player
-   *
    * @param skipTime Skip time to add
    */
-  addSkipTimeIndicator(skipTime: SkipTime) {
+  addSkipTimeIndicator(skipTime: SkipTimeType) {
     this.skipTimes.push(skipTime);
     this.render();
   }
@@ -40,11 +39,11 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
 
   /**
    * Sets video duration
-   *
    * @param videoDuration Video duration
    */
   setVideoDuration(videoDuration: number) {
     this.videoDuration = videoDuration;
+    this.render();
   }
 
   render() {

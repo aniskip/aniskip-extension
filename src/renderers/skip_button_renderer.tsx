@@ -1,45 +1,88 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SkipButton from '../components/SkipButton';
-import { SkipType } from '../types/api/skip_time_types';
-import { SkipButtonClickHandler } from '../types/components/skip_time_button_types';
+import { SkipTimeType } from '../types/api/skip_time_types';
+import { SkipButtonOnClickHandler } from '../types/components/skip_time_button_types';
 
 import BaseRenderer from './base_renderer';
 
-class SkipButtonRenderer extends BaseRenderer {
+class SkipButtonsRenderer extends BaseRenderer {
   variant: string;
 
   isHidden: boolean;
 
-  skipType: SkipType;
+  skipTimes: SkipTimeType[];
 
-  clickHandler: SkipButtonClickHandler;
+  onClickHandlers: SkipButtonOnClickHandler[];
 
-  constructor(
-    id: string,
-    variant: string,
-    skipType: SkipType,
-    clickHandler: SkipButtonClickHandler
-  ) {
+  videoDuration: number;
+
+  currentTime: number;
+
+  constructor(id: string, variant: string) {
     super(id, ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']);
 
     this.variant = variant;
     this.isHidden = true;
-    this.skipType = skipType;
-    this.clickHandler = clickHandler;
+    this.skipTimes = [];
+    this.onClickHandlers = [];
+    this.videoDuration = 0;
+    this.currentTime = 0;
+  }
+
+  /**
+   * Adds a skip button into the player
+   * @param skipTime Skip time for the skip button
+   * @param onClickHandler On click handler for skip button
+   */
+  addSkipButton(
+    skipTime: SkipTimeType,
+    onClickHandler: SkipButtonOnClickHandler
+  ) {
+    this.skipTimes.push(skipTime);
+    this.onClickHandlers.push(onClickHandler);
+    this.render();
+  }
+
+  /**
+   * Sets video duration
+   * @param videoDuration Video duration
+   */
+  setVideoDuration(videoDuration: number) {
+    this.videoDuration = videoDuration;
+    this.render();
+  }
+
+  /**
+   * Sets current time
+   * @param currentTime Current time of the video
+   */
+  setCurrentTime(currentTime: number) {
+    this.currentTime = currentTime;
+    this.render();
+  }
+
+  /**
+   * Removes all the skip buttons from the player
+   */
+  clearSkipButtons() {
+    this.skipTimes = [];
+    this.onClickHandlers = [];
+    this.render();
   }
 
   render() {
     ReactDOM.render(
       <SkipButton
-        skipType={this.skipType}
+        skipTimes={this.skipTimes}
         variant={this.variant}
-        hidden={this.isHidden}
-        onClick={this.clickHandler}
+        currentTime={this.currentTime}
+        videoDuration={this.videoDuration}
+        onClickHandlers={this.onClickHandlers}
       />,
       this.shadowRoot.getElementById(this.reactRootId)
     );
   }
 }
 
-export default SkipButtonRenderer;
+export default SkipButtonsRenderer;

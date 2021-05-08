@@ -1,12 +1,12 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { Player, Metadata } from '../types/players/player_types';
-import { SkipTime } from '../types/api/skip_time_types';
+import { SkipTimeType } from '../types/api/skip_time_types';
 import isInInterval from '../utils/time_utils';
 import SkipTimeIndicatorsRenderer from '../renderers/skip_time_indicators_renderer';
 import SubmitMenuButtonRenderer from '../renderers/submit_menu_button_renderer';
 import SubmitMenuRenderer from '../renderers/submit_menu_renderer';
-import SkipButtonRenderer from '../renderers/skip_button_renderer';
+import SkipButtonsRenderer from '../renderers/skip_button_renderer';
 
 abstract class BasePlayer implements Player {
   document: Document;
@@ -19,7 +19,7 @@ abstract class BasePlayer implements Player {
 
   submitMenuButtonRenderer: SubmitMenuButtonRenderer;
 
-  skipButtonRenderers: Record<string, SkipButtonRenderer>;
+  skipButtonRenderer: SkipButtonsRenderer;
 
   skipTimeIndicatorsRenderer: SkipTimeIndicatorsRenderer;
 
@@ -38,7 +38,10 @@ abstract class BasePlayer implements Player {
     this.timeUpdateEventListeners = {};
     this.isSubmitMenuHidden = true;
 
-    this.skipButtonRenderers = {};
+    this.skipButtonRenderer = new SkipButtonsRenderer(
+      'aniskip-player-skip-buttons',
+      this.metadata.variant
+    );
     this.submitMenuRenderer = new SubmitMenuRenderer(
       'aniskip-player-submit-menu',
       this.metadata.variant,
@@ -56,7 +59,7 @@ abstract class BasePlayer implements Player {
     );
   }
 
-  addPreviewSkipTime(skipTime: SkipTime) {
+  addPreviewSkipTime(skipTime: SkipTimeType) {
     this.clearVideoElementEventListeners(
       Object.values(this.timeUpdateEventListeners)
     );
@@ -94,21 +97,14 @@ abstract class BasePlayer implements Player {
     this.videoElement.play();
   }
 
-  addSkipTime(skipTime: SkipTime, manual: boolean = false) {
+  addSkipTime(skipTime: SkipTimeType, manual: boolean = false) {
     this.skipTimeIndicatorsRenderer.addSkipTimeIndicator(skipTime);
-    const skipType = skipTime.skip_type;
     const endTime = skipTime.interval.end_time;
     const offset = this.getDuration() - skipTime.episode_length;
-    this.skipButtonRenderers[JSON.stringify(skipTime)] = new SkipButtonRenderer(
-      `aniskip-player-${skipType}-skip-button`,
-      this.metadata.variant,
-      skipType,
-      () => {
-        this.setCurrentTime(endTime + offset);
-        this.play();
-      }
-    );
-    this.injectSkipButtons();
+    this.skipButtonRenderer.addSkipButton(skipTime, () => {
+      this.setCurrentTime(endTime + offset);
+      this.play();
+    });
     this.videoElement.addEventListener(
       'timeupdate',
       this.skipIfInInterval(skipTime, manual)
@@ -194,15 +190,10 @@ abstract class BasePlayer implements Player {
   injectSkipButtons() {
     const settingsButtonElement = this.getSettingsButtonElement();
     if (settingsButtonElement) {
-      Object.values(this.skipButtonRenderers).forEach((renderer) => {
-        if (this.document.getElementById(renderer.reactRootId)) {
-          return;
-        }
-        settingsButtonElement.parentElement?.appendChild(
-          renderer.shadowRootContainer
-        );
-      });
-      this.submitMenuRenderer.render();
+      settingsButtonElement.parentElement?.appendChild(
+        this.skipButtonRenderer.shadowRootContainer
+      );
+      this.skipButtonRenderer.setVideoDuration(this.getDuration());
     }
   }
 
@@ -216,7 +207,6 @@ abstract class BasePlayer implements Player {
         this.skipTimeIndicatorsRenderer.shadowRootContainer
       );
       this.skipTimeIndicatorsRenderer.setVideoDuration(this.getDuration());
-      this.skipTimeIndicatorsRenderer.render();
     }
   }
 
@@ -279,7 +269,7 @@ abstract class BasePlayer implements Player {
    * Skips the time in the interval if it is within the interval range
    * @param skipTime Skip time object containing the intervals
    */
-  skipIfInInterval(skipTime: SkipTime, manual: boolean) {
+  skipIfInInterval(skipTime: SkipTimeType, manual: boolean) {
     const skipTimeString = JSON.stringify(skipTime);
     // Ensures player event handlers can be removed
     const timeUpdateEventListener =
@@ -301,9 +291,7 @@ abstract class BasePlayer implements Player {
         );
 
         if (manual) {
-          const skipButtonRenderer = this.skipButtonRenderers[skipTimeString];
-          skipButtonRenderer.isHidden = !inInterval;
-          skipButtonRenderer.render();
+          this.skipButtonRenderer.setCurrentTime(currentTime);
         } else if (inInterval) {
           this.setCurrentTime(endTime + offset + margin);
         }

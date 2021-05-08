@@ -1,6 +1,6 @@
 export type SkipType = 'op' | 'ed';
 
-export interface SkipTime {
+export interface SkipTimeType {
   interval: {
     start_time: number;
     end_time: number;
@@ -16,7 +16,7 @@ export type GetResponseTypeFromSkipTimes =
     }
   | {
       found: true;
-      result: SkipTime;
+      result: SkipTimeType;
     };
 
 export interface SuccessMessageType {

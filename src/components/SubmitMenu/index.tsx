@@ -10,7 +10,7 @@ import {
 } from '../../utils/string_utils';
 import AniskipHttpClient from '../../api/aniskip_http_client';
 import Dropdown from '../Dropdown';
-import Button from '../Button';
+import DefaultButton from '../Button';
 import MenuButton from './Button';
 import waitForMessage from '../../utils/message_utils';
 import Input from '../Input';
@@ -183,7 +183,7 @@ const SubmitMenu = ({
             </div>
           </div>
           <div className="flex text-black space-x-2">
-            <Button
+            <DefaultButton
               className="shadow-sm flex-1 bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
               onClick={async () => {
                 const messageType = 'player-get-video-current-time';
@@ -199,8 +199,8 @@ const SubmitMenu = ({
               }}
             >
               Now
-            </Button>
-            <Button
+            </DefaultButton>
+            <DefaultButton
               className="shadow-sm flex-1 bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
               onClick={async () => {
                 const messageType = 'player-add-preview-skip-time';
@@ -217,8 +217,8 @@ const SubmitMenu = ({
               }}
             >
               Preview
-            </Button>
-            <Button
+            </DefaultButton>
+            <DefaultButton
               className="shadow-sm flex-1 bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
               onClick={async () => {
                 const messageType = 'player-get-video-duration';
@@ -236,7 +236,7 @@ const SubmitMenu = ({
               }}
             >
               End
-            </Button>
+            </DefaultButton>
           </div>
           <div>
             <div className="text-white font-bold text-xs uppercase mb-1">
@@ -253,12 +253,12 @@ const SubmitMenu = ({
                 ]}
               />
               <div className="flex-1">
-                <Button
+                <DefaultButton
                   className="w-full h-full shadow-sm bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
                   submit
                 >
                   Submit
-                </Button>
+                </DefaultButton>
               </div>
             </div>
           </div>

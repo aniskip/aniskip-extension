@@ -1,6 +1,6 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 import Message from './types/message_type';
-import { SkipTime, SkipType } from './types/api/skip_time_types';
+import { SkipTimeType, SkipType } from './types/api/skip_time_types';
 import getPlayer from './utils/player_utils';
 import { Player } from './types/players/player_types';
 import 'tailwindcss/tailwind.css';
@@ -20,12 +20,12 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
 
   switch (message.type) {
     case 'player-add-auto-skip-time': {
-      const skipTime = message.payload as SkipTime;
+      const skipTime = message.payload as SkipTimeType;
       player.addSkipTime(skipTime, false);
       break;
     }
     case 'player-add-manual-skip-time': {
-      const skipTime = message.payload as SkipTime;
+      const skipTime = message.payload as SkipTimeType;
       player.addSkipTime(skipTime, true);
       break;
     }
@@ -53,7 +53,7 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
     }
     case 'player-add-preview-skip-time': {
       const { payload } = message;
-      const skipTime: SkipTime = {
+      const skipTime: SkipTimeType = {
         interval: {
           start_time: payload.interval.startTime as number,
           end_time: payload.interval.endTime as number,

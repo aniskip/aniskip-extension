@@ -1,4 +1,4 @@
-import { SkipTime } from '../api/skip_time_types';
+import { SkipTimeType } from '../api/skip_time_types';
 
 export interface Metadata {
   variant: string;
@@ -22,14 +22,14 @@ export interface Player {
    * Adds a skip time which will run once for preview
    * @param skipTime Skip time to preview
    */
-  addPreviewSkipTime(skipTime: SkipTime): void;
+  addPreviewSkipTime(skipTime: SkipTimeType): void;
 
   /**
    * Adds a skip time into the player
    * @param skipTime Skip time to add
    * @param manual True if the user has to click skip opening / ending button, false if auto skip
    */
-  addSkipTime(skipTime: SkipTime, manual: boolean): void;
+  addSkipTime(skipTime: SkipTimeType, manual: boolean): void;
 
   /**
    * Returns the video element duration
