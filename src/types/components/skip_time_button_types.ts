@@ -1,9 +1,13 @@
 import React from 'react';
 import { SkipType } from '../api/skip_time_types';
 
-export interface SkipTimeButtonProps {
+export type SkipButtonClickHandler = (
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+) => void;
+
+export interface SkipButtonProps {
   skipType: SkipType;
-  variant?: string;
+  variant: string;
   hidden?: boolean;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClick?: SkipButtonClickHandler;
 }

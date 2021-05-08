@@ -1,14 +1,14 @@
 import React from 'react';
 import useFullscreen from '../hooks/use_fullscreen';
-import { SkipTimeButtonProps } from '../types/components/skip_time_button_types';
+import { SkipButtonProps } from '../types/components/skip_time_button_types';
 import Button from './Button';
 
-const SkipButton: React.FC<SkipTimeButtonProps> = ({
+const SkipButton: React.FC<SkipButtonProps> = ({
   skipType,
   variant,
   hidden,
   onClick,
-}: SkipTimeButtonProps) => {
+}: SkipButtonProps) => {
   const { isFullscreen } = useFullscreen();
 
   const skipTypeFullNames = {

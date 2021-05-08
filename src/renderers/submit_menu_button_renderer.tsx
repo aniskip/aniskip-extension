@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SubmitMenuButton from '../components/SubmitMenuButton';
-import { SubmitButtonHandleClickFunction } from '../types/components/submit_types';
+import { SubmitButtonClickHandler } from '../types/components/submit_types';
 
 import BaseRenderer from './base_renderer';
 
@@ -10,12 +10,12 @@ class SubmitMenuButtonRenderer extends BaseRenderer {
 
   isActive: boolean;
 
-  clickHandler: SubmitButtonHandleClickFunction;
+  clickHandler: SubmitButtonClickHandler;
 
   constructor(
     id: string,
     variant: string,
-    clickHandler: SubmitButtonHandleClickFunction
+    clickHandler: SubmitButtonClickHandler
   ) {
     super(id, ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']);
 

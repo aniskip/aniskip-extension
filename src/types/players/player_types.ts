@@ -14,8 +14,6 @@ export interface Player {
 
   metadata: Metadata;
 
-  skipButtonContainer: HTMLDivElement;
-
   videoElement: HTMLVideoElement;
 
   timeUpdateEventListeners: Record<string, (event: Event) => void>;

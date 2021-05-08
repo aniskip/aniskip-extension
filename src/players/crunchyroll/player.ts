@@ -17,7 +17,7 @@ class Crunchyroll extends BasePlayer {
       new MutationObserver(async () => {
         this.injectSubmitMenuButton();
         this.injectSkipTimeIndicator();
-        this.injectSkipButton();
+        this.injectSkipButtons();
       }).observe(controlsPackage, { childList: true });
     }
   }
