@@ -6,18 +6,22 @@ class Videojs extends BasePlayer {
     super(document, videoElement, metadata);
   }
 
-  getVideoControlsContainer() {
-    return super.getContainerHelper(
-      metadata.videoControlsContainerSelectorString,
-      0
+  getVideoContainer() {
+    return this.document.querySelector<HTMLElement>(
+      `[aria-label="${metadata.videoContainerSelectorString}"]`
     );
   }
 
-  injectSubmitMenu() {
-    const referenceNode = document.getElementsByClassName(
+  getVideoControlsContainer() {
+    return super.getContainerHelper(
+      metadata.videoControlsContainerSelectorString
+    );
+  }
+
+  getSettingsButtonElement() {
+    return super.getContainerHelper(
       metadata.injectSettingsButtonReferenceNodeSelectorString
-    )[0] as HTMLElement;
-    this.injectSubmitMenuHelper(referenceNode, metadata.variant);
+    );
   }
 }
 

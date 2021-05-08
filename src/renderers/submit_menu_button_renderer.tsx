@@ -1,0 +1,48 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import SubmitMenuButton from '../components/SubmitMenuButton';
+import { SubmitButtonHandleClickFunction } from '../types/components/submit_types';
+
+import BaseRenderer from './base_renderer';
+
+class SubmitMenuButtonRenderer extends BaseRenderer {
+  variant: string;
+
+  isActive: boolean;
+
+  clickHandler: SubmitButtonHandleClickFunction;
+
+  constructor(
+    id: string,
+    variant: string,
+    clickHandler: SubmitButtonHandleClickFunction
+  ) {
+    super(id, ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']);
+
+    this.variant = variant;
+    this.isActive = false;
+    this.clickHandler = clickHandler;
+  }
+
+  /**
+   * Set is active field
+   * @param isActive Is menu button active new value
+   */
+  setIsActive(isActive: boolean) {
+    this.isActive = isActive;
+    this.render();
+  }
+
+  render() {
+    ReactDOM.render(
+      <SubmitMenuButton
+        active={this.isActive}
+        variant={this.variant}
+        handleClick={this.clickHandler}
+      />,
+      this.shadowRoot.getElementById(this.reactRootId)
+    );
+  }
+}
+
+export default SubmitMenuButtonRenderer;

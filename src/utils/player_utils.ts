@@ -31,6 +31,7 @@ const getPlayer = (hostname: string, videoElement: HTMLVideoElement) => {
     case 'streamsb':
     case 'vidstream':
     case 'streamhd':
+    case 'sbembed':
       player = new Jw(document, videoElement);
       break;
     case 'dood':

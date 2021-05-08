@@ -14,11 +14,7 @@ export interface Player {
 
   metadata: Metadata;
 
-  submitMenuContainer: HTMLDivElement;
-
   skipButtonContainer: HTMLDivElement;
-
-  skipTimes: SkipTime[];
 
   videoElement: HTMLVideoElement;
 
@@ -48,11 +44,6 @@ export interface Player {
   getCurrentTime(): number;
 
   /**
-   * Returns the root video container element
-   */
-  getVideoContainer(): HTMLElement | null;
-
-  /**
    * Returns the video controls container element
    */
   getVideoControlsContainer(): HTMLElement | null;
@@ -61,21 +52,6 @@ export interface Player {
    * Initialises the player by injecting the extension buttons
    */
   initialise(): void;
-
-  /**
-   * Injects the skip button into the player
-   */
-  injectSkipButton(): void;
-
-  /**
-   * Injects the skip time indicators into the player seek bar
-   */
-  injectSkipTimeIndicator(): void;
-
-  /**
-   * Injects the submit menu button into the player controls
-   */
-  injectSubmitMenu(): void;
 
   /**
    * Plays the player

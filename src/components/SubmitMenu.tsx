@@ -13,14 +13,15 @@ import Button from './Button';
 import waitForMessage from '../utils/message_utils';
 import Input from './Input';
 import { SkipType } from '../types/api/skip_time_types';
+import useFullscreen from '../hooks/use_fullscreen';
 
 const SubmitMenu: React.FC<SubmitMenuProps> = ({
   variant,
   hidden,
-  fullScreen,
   onSubmit,
   onClose,
 }: SubmitMenuProps) => {
+  const { isFullscreen } = useFullscreen();
   const [skipType, setSkipType] = useState<SkipType>('op');
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
@@ -103,10 +104,10 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
 
   return (
     <div
-      className={`bg-trueGray-800 bg-opacity-80 border border-gray-300 right-5 bottom-28 absolute select-none rounded-md w-96 z-10 transition-opacity ${
+      className={`font-sans bg-trueGray-800 bg-opacity-80 border border-gray-300 right-5 bottom-28 absolute select-none rounded-md w-96 z-10 transition-opacity ${
         hidden && 'opacity-0 pointer-events-none'
       } submit-menu--${variant} ${
-        fullScreen && `submit-menu--${variant}--fullscreen`
+        isFullscreen && `submit-menu--${variant}--fullscreen`
       }`}
       role="menu"
     >
@@ -251,7 +252,7 @@ const SubmitMenu: React.FC<SubmitMenuProps> = ({
               />
               <div className="flex-1">
                 <Button
-                  className="w-full shadow-sm bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
+                  className="w-full h-full shadow-sm bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
                   submit
                 >
                   Submit

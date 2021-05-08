@@ -1,8 +1,8 @@
 {
   "variant": "videojs",
-  "videoContainerSelectorString": "player",
+  "videoContainerSelectorString": "Video Player",
   "videoControlsContainerSelectorString": "vjs-control-bar",
-  "injectSettingsButtonReferenceNodeSelectorString": "vjs-picture-in-picture-control vjs-control vjs-button",
+  "injectSettingsButtonReferenceNodeSelectorString": "vjs-fullscreen-control vjs-control vjs-button",
   "seekBarContainerSelectorString": "vjs-progress-holder vjs-slider vjs-slider-horizontal",
   "player_urls": ["*://www.mp4upload.com/embed-*", "*://mixdrop.co/e/*"]
 }

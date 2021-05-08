@@ -7,23 +7,19 @@ class Plyr extends BasePlayer {
   }
 
   getVideoContainer() {
-    return super.getContainerHelper(metadata.videoContainerSelectorString, 0);
+    return super.getContainerHelper(metadata.videoContainerSelectorString);
   }
 
   getVideoControlsContainer() {
     return super.getContainerHelper(
-      metadata.videoControlsContainerSelectorString,
-      0
+      metadata.videoControlsContainerSelectorString
     );
   }
 
-  injectSubmitMenu() {
-    const referenceNode = document.getElementsByClassName(
+  getSettingsButtonElement() {
+    return super.getContainerHelper(
       metadata.injectSettingsButtonReferenceNodeSelectorString
-    )[0] as HTMLElement;
-    if (referenceNode) {
-      this.injectSubmitMenuHelper(referenceNode, metadata.variant);
-    }
+    );
   }
 }
 

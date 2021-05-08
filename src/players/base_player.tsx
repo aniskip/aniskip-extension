@@ -3,24 +3,27 @@ import ReactDOM from 'react-dom';
 import { browser } from 'webextension-polyfill-ts';
 
 import { Player, Metadata } from '../types/players/player_types';
-import SubmitMenuContainer from '../components/SubmitMenuContainer';
 import { SkipTime } from '../types/api/skip_time_types';
 import isInInterval from '../utils/time_utils';
 import SkipButton from '../components/SkipButton';
 import SkipTimeIndicatorsRenderer from '../renderers/skip_time_indicators_renderer';
+import SubmitMenuButtonRenderer from '../renderers/submit_menu_button_renderer';
+import SubmitMenuRenderer from '../renderers/submit_menu_renderer';
 
 abstract class BasePlayer implements Player {
   document: Document;
 
   metadata: Metadata;
 
-  submitMenuContainer: HTMLDivElement;
+  isSubmitMenuHidden: boolean;
+
+  submitMenuRenderer: SubmitMenuRenderer;
+
+  submitMenuButtonRenderer: SubmitMenuButtonRenderer;
 
   skipButtonContainer: HTMLDivElement;
 
   skipTimeIndicatorRenderer: SkipTimeIndicatorsRenderer;
-
-  skipTimes: SkipTime[];
 
   videoElement: HTMLVideoElement;
 
@@ -33,25 +36,30 @@ abstract class BasePlayer implements Player {
   ) {
     this.document = document;
     this.metadata = metadata;
-    this.submitMenuContainer = this.createContainer(
-      'aniskip-player-submit-menu',
-      ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']
-    );
     this.skipButtonContainer = this.createContainer(
       'aniskip-player-skip-button',
       ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']
     );
-    this.skipTimes = [];
     this.videoElement = videoElement;
     this.timeUpdateEventListeners = {};
+    this.isSubmitMenuHidden = true;
 
+    this.submitMenuRenderer = new SubmitMenuRenderer(
+      'aniskip-player-submit-menu',
+      this.metadata.variant,
+      () => this.setIsSubmitMenuHidden(true),
+      () => this.setIsSubmitMenuHidden(true)
+    );
+    this.submitMenuButtonRenderer = new SubmitMenuButtonRenderer(
+      'aniskip-player-submit-menu-button',
+      this.metadata.variant,
+      () => this.setIsSubmitMenuHidden(!this.isSubmitMenuHidden)
+    );
     this.skipTimeIndicatorRenderer = new SkipTimeIndicatorsRenderer(
       'aniskip-player-skip-time-indicator',
       this.metadata.variant
     );
   }
-
-  abstract injectSubmitMenu(): void;
 
   addPreviewSkipTime(skipTime: SkipTime) {
     this.clearVideoElementEventListeners(
@@ -144,7 +152,7 @@ abstract class BasePlayer implements Player {
    */
   getContainerHelper(
     selectorString: string,
-    index: number
+    index: number = 0
   ): HTMLElement | null {
     const containers = this.document.getElementsByClassName(selectorString);
     return containers[index] as HTMLElement;
@@ -158,6 +166,9 @@ abstract class BasePlayer implements Player {
     return this.videoElement.currentTime;
   }
 
+  /**
+   * Returns the root video container element
+   */
   getVideoContainer() {
     return this.document.getElementById(
       this.metadata.videoContainerSelectorString
@@ -180,24 +191,38 @@ abstract class BasePlayer implements Player {
     );
   }
 
+  getSettingsButtonElement() {
+    return this.document.getElementById(
+      this.metadata.injectSettingsButtonReferenceNodeSelectorString
+    );
+  }
+
   initialise() {
     this.videoElement.onloadedmetadata = () => {
       this.reset();
       this.injectSubmitMenu();
+      this.injectSubmitMenuButton();
       this.injectSkipTimeIndicator();
       this.injectSkipButton();
       browser.runtime.sendMessage({ type: 'player-ready' });
     };
   }
 
+  /**
+   * Injects the skip button into the player
+   */
   injectSkipButton() {
-    const submitMenuParentElement = this.submitMenuContainer.parentElement;
+    const submitMenuParentElement = this.submitMenuButtonRenderer
+      .shadowRootContainer.parentElement;
     const shadowRootContainer = this.skipButtonContainer;
     if (submitMenuParentElement && shadowRootContainer) {
       this.injectContainerHelper(submitMenuParentElement, shadowRootContainer);
     }
   }
 
+  /**
+   * Injects the skip time indicators into the player seek bar
+   */
   injectSkipTimeIndicator() {
     const seekBarContainer = this.getSeekBarContainer();
     if (seekBarContainer) {
@@ -235,34 +260,28 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Helper function to inject the submit button
-   * @param referenceNode Reference node to put the submit button beside. Submit button will be placed on the left side of the reference node
-   * @param variant Variant of submit button based on the provider name
+   * Injects the submit menu button into the player controls
    */
-  injectSubmitMenuHelper(
-    referenceNode: HTMLElement,
-    variant: string
-  ): HTMLDivElement | null {
-    const { id, shadowRoot } = this.submitMenuContainer;
-    if (this.document.getElementById(id) || !referenceNode || !shadowRoot) {
-      return null;
+  injectSubmitMenu() {
+    const videoContainer = this.getVideoContainer();
+    if (videoContainer) {
+      videoContainer.appendChild(this.submitMenuRenderer.shadowRootContainer);
+      this.submitMenuRenderer.render();
     }
+  }
 
-    const reactRootId = `${id}-root`;
-    if (!shadowRoot.getElementById(reactRootId)) {
-      const root = this.document.createElement('div');
-      root.setAttribute('id', reactRootId);
-      shadowRoot.appendChild(root);
-
-      ReactDOM.render(<SubmitMenuContainer variant={variant} />, root);
+  /**
+   * Injects the submit menu button into the player
+   */
+  injectSubmitMenuButton() {
+    const settingsButtonElement = this.getSettingsButtonElement();
+    if (settingsButtonElement) {
+      settingsButtonElement.insertAdjacentElement(
+        'beforebegin',
+        this.submitMenuButtonRenderer.shadowRootContainer
+      );
+      this.submitMenuButtonRenderer.render();
     }
-
-    referenceNode.insertAdjacentElement(
-      'beforebegin',
-      this.submitMenuContainer
-    );
-
-    return this.submitMenuContainer;
   }
 
   play() {
@@ -283,6 +302,16 @@ abstract class BasePlayer implements Player {
    */
   setCurrentTime(time: number) {
     this.videoElement.currentTime = time;
+  }
+
+  /**
+   * Set is submit menu hidden field
+   * @param isSubmitMenuHidden Is submit menu hidden new value
+   */
+  setIsSubmitMenuHidden(isSubmitMenuHidden: boolean) {
+    this.isSubmitMenuHidden = isSubmitMenuHidden;
+    this.submitMenuButtonRenderer.setIsActive(!this.isSubmitMenuHidden);
+    this.submitMenuRenderer.setIsHidden(this.isSubmitMenuHidden);
   }
 
   /**

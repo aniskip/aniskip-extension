@@ -26,7 +26,6 @@ abstract class BaseRenderer implements Renderer {
 
   /**
    * Creates a shadow root initialised with the tailwindcss stylesheet
-   *
    * @param container Container element to add shadow root to
    * @param stopPropagationEvents Events to stop propagation of
    */
@@ -35,7 +34,7 @@ abstract class BaseRenderer implements Renderer {
     stopPropagationEvents: string[] = []
   ) {
     const shadowRoot = container.attachShadow({
-      mode: 'open',
+      mode: 'closed',
     });
 
     stopPropagationEvents.forEach((eventName) => {

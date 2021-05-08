@@ -1,9 +1,13 @@
+export type SubmitButtonHandleClickFunction = (
+  event:
+    | React.MouseEvent<HTMLDivElement, MouseEvent>
+    | React.KeyboardEvent<HTMLDivElement>
+) => void;
+
 export interface SubmitMenuButtonProps {
-  handleClick: (
-    event:
-      | React.MouseEvent<HTMLDivElement, MouseEvent>
-      | React.KeyboardEvent<HTMLDivElement>
-  ) => void;
+  active?: boolean;
+  variant: string;
+  handleClick: SubmitButtonHandleClickFunction;
 }
 
 export interface SubmitMenuContainerProps {

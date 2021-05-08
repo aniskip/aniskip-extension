@@ -9,38 +9,11 @@
   $doodstream-submit-button-size: 70px;
   $videojs-submit-button-size: 40px;
 
-  &-container {
-    &--plyr {
-      margin-right: -2px;
-    }
-
-    &--crunchyroll {
-      width: $crunchyroll-submit-button-size;
-      height: $crunchyroll-submit-button-size;
-    }
-
-    &--jw {
-      width: $jw-submit-button-size;
-      height: $jw-submit-button-size;
-    }
-
-    &--doodstream {
-      width: $doodstream-submit-button-size;
-      height: $doodstream-submit-button-size;
-    }
-
-    &--videojs {
-      width: $videojs-submit-button-size;
-      height: $videojs-submit-button-size;
-    }
-
-    &--twistmoe {
-      pointer-events: all;
-      margin-right: -8px;
-    }
-  }
-
   &-menu {
+    &--crunchyroll {
+      bottom: 10em;
+    }
+
     &--jw {
       bottom: 8em;
       right: 0.5em;
@@ -54,6 +27,37 @@
     &--doodstream {
       right: 2.5em;
       bottom: 9em;
+    }
+
+    &-button {
+      &--plyr {
+        margin-right: -2px;
+      }
+
+      &--crunchyroll {
+        width: $crunchyroll-submit-button-size;
+        height: $crunchyroll-submit-button-size;
+      }
+
+      &--jw {
+        width: $jw-submit-button-size;
+        height: $jw-submit-button-size;
+      }
+
+      &--doodstream {
+        width: $doodstream-submit-button-size;
+        height: $doodstream-submit-button-size;
+      }
+
+      &--videojs {
+        width: $videojs-submit-button-size;
+        height: $videojs-submit-button-size;
+      }
+
+      &--twistmoe {
+        pointer-events: all;
+        margin-right: -8px;
+      }
     }
   }
 }

@@ -14,8 +14,7 @@ class Jw extends BasePlayer {
 
   getVideoControlsContainer() {
     return super.getContainerHelper(
-      metadata.videoControlsContainerSelectorString,
-      0
+      metadata.videoControlsContainerSelectorString
     );
   }
 
@@ -30,13 +29,10 @@ class Jw extends BasePlayer {
     return null;
   }
 
-  injectSubmitMenu() {
-    const referenceNode = document.querySelector<HTMLElement>(
+  getSettingsButtonElement() {
+    return this.document.querySelector<HTMLElement>(
       `[aria-label="${metadata.injectSettingsButtonReferenceNodeSelectorString}"]`
     );
-    if (referenceNode) {
-      this.injectSubmitMenuHelper(referenceNode, metadata.variant);
-    }
   }
 }
 

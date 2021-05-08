@@ -15,19 +15,10 @@ class Crunchyroll extends BasePlayer {
     const controlsPackage = this.getVideoControlsContainer();
     if (controlsPackage) {
       new MutationObserver(async () => {
-        this.injectSubmitMenu();
+        this.injectSubmitMenuButton();
         this.injectSkipTimeIndicator();
         this.injectSkipButton();
       }).observe(controlsPackage, { childList: true });
-    }
-  }
-
-  injectSubmitMenu() {
-    const referenceNode = document.getElementById(
-      metadata.injectSettingsButtonReferenceNodeSelectorString
-    );
-    if (referenceNode) {
-      this.injectSubmitMenuHelper(referenceNode, metadata.variant);
     }
   }
 }
