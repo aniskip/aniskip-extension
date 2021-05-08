@@ -22,7 +22,6 @@ const manifest = {
     '*://api.malsync.moe/*',
     '*://graphql.anilist.co/*',
   ],
-  web_accessible_resources: ['player_script.css'],
   icons: {
     16: 'icon_16.png',
     48: 'icon_48.png',

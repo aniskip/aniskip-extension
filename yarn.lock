@@ -4946,6 +4946,17 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"loader-utils@npm:^1.0.0":
+  version: 1.4.0
+  resolution: "loader-utils@npm:1.4.0"
+  dependencies:
+    big.js: ^5.2.2
+    emojis-list: ^3.0.0
+    json5: ^1.0.1
+  checksum: 9fd690e57ad78d32ff2942383b4a7a175eba575280ba5aca3b4d03183fec34aa0db314f49bd3301adf7e60b02471644161bf53149e8f2d18fd6a52627e95a927
+  languageName: node
+  linkType: hard
+
 "loader-utils@npm:^2.0.0":
   version: 2.0.0
   resolution: "loader-utils@npm:2.0.0"
@@ -7989,6 +8000,15 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"to-string-loader@npm:^1.1.6":
+  version: 1.1.6
+  resolution: "to-string-loader@npm:1.1.6"
+  dependencies:
+    loader-utils: ^1.0.0
+  checksum: 386f7a1984fd64e6dfa01bcab6f0d790b0eab903b7ad0afbdaf583543442eba9dc5cbbac72f77e639a57fe714e369b6041d630fb13e70dfe53cba6f9c3ae9a82
+  languageName: node
+  linkType: hard
+
 "tosource@npm:1.0.0":
   version: 1.0.0
   resolution: "tosource@npm:1.0.0"
@@ -8179,6 +8199,7 @@ resolve@^2.0.0-next.3:
     string-similarity: ^4.0.4
     style-loader: ^2.0.0
     tailwindcss: ^2.1.2
+    to-string-loader: ^1.1.6
     ts-loader: ^9.1.2
     typescript: ^4.2.4
     uuid: ^8.3.2

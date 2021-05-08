@@ -1,5 +1,3 @@
-import { browser } from 'webextension-polyfill-ts';
-
 import Renderer from '../types/renderer_type';
 
 abstract class BaseRenderer implements Renderer {
@@ -43,18 +41,20 @@ abstract class BaseRenderer implements Renderer {
       });
     });
 
-    (async () => {
-      const cssUrl = browser.runtime.getURL('player_script.css');
-      const response = await fetch(cssUrl, { method: 'GET' });
-      const cssString = await response.text();
-      const style = document.createElement('style');
-      style.innerHTML = cssString;
-      shadowRoot.appendChild(style);
+    // Inject styles using inline webpack loaders
+    const tailwindcssStyle = document.createElement('style');
+    // eslint-disable-next-line import/no-webpack-loader-syntax, global-require
+    tailwindcssStyle.textContent = require(`!to-string-loader!css-loader?{"esModule":false,"sourceMap":false}!postcss-loader?{"postcssOptions":{"plugins":["postcss-import","tailwindcss","autoprefixer"]},"sourceMap":false}!tailwindcss/tailwind.css`);
 
-      const reactRoot = document.createElement('div');
-      reactRoot.setAttribute('id', this.reactRootId);
-      shadowRoot.appendChild(reactRoot);
-    })();
+    shadowRoot.appendChild(tailwindcssStyle);
+    const playerScriptStyle = document.createElement('style');
+    // eslint-disable-next-line import/no-webpack-loader-syntax, global-require
+    playerScriptStyle.textContent = require('!to-string-loader!css-loader?{"esModule":false,"sourceMap":false}!sass-loader!../player_script.scss');
+    shadowRoot.appendChild(playerScriptStyle);
+
+    const reactRoot = document.createElement('div');
+    reactRoot.setAttribute('id', this.reactRootId);
+    shadowRoot.appendChild(reactRoot);
 
     return shadowRoot;
   }

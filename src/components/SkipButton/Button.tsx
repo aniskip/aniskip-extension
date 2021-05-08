@@ -13,7 +13,7 @@ const Button = ({ skipType, variant, hidden, onClick }: SkipButtonProps) => {
 
   return (
     <DefaultButton
-      className={`transition-opacity font-sans whitespace-nowrap text-white bg-trueGray-800 bg-opacity-80 py-3 absolute top-auto bottom-16 left-auto right-11 z-10 border border-gray-300 ${
+      className={`transition-opacity font-sans whitespace-nowrap text-white bg-trueGray-800 bg-opacity-80 py-3 absolute top-auto bottom-16 left-auto right-11 border border-gray-300 ${
         hidden && 'opacity-0 pointer-events-none'
       } skip-button--${variant} ${
         isFullscreen && `skip-button--${variant}--fullscreen`

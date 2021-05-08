@@ -45,30 +45,15 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              importLoaders: 3,
-              url: false,
+              esModule: false,
               sourceMap: false,
             },
           },
-          'resolve-url-loader',
           {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                plugins: [
-                  ['postcss-import', {}],
-                  [
-                    'tailwindcss',
-                    {
-                      config: path.join(
-                        __dirname,
-                        '..',
-                        './tailwind.config.js'
-                      ),
-                    },
-                  ],
-                  ['autoprefixer', {}],
-                ],
+                plugins: ['postcss-import', 'tailwindcss', 'autoprefixer'],
               },
               sourceMap: false,
             },

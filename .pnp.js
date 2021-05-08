@@ -78,6 +78,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["string-similarity", "npm:4.0.4"],
             ["style-loader", "virtual:f1177d4ec0185f312c7c26a9da3de16c57b1308723bcc6bcfb83d9522ebd1f1eb4216ff607c18810b9798579892fad0214108e83904f7baaafbf6a18c98abb6b#npm:2.0.0"],
             ["tailwindcss", "virtual:f1177d4ec0185f312c7c26a9da3de16c57b1308723bcc6bcfb83d9522ebd1f1eb4216ff607c18810b9798579892fad0214108e83904f7baaafbf6a18c98abb6b#npm:2.1.2"],
+            ["to-string-loader", "npm:1.1.6"],
             ["ts-loader", "virtual:f1177d4ec0185f312c7c26a9da3de16c57b1308723bcc6bcfb83d9522ebd1f1eb4216ff607c18810b9798579892fad0214108e83904f7baaafbf6a18c98abb6b#npm:9.1.2"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"],
             ["uuid", "npm:8.3.2"],
@@ -5989,6 +5990,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
+        ["npm:1.4.0", {
+          "packageLocation": "./.yarn/cache/loader-utils-npm-1.4.0-a56254a277-9fd690e57a.zip/node_modules/loader-utils/",
+          "packageDependencies": [
+            ["loader-utils", "npm:1.4.0"],
+            ["big.js", "npm:5.2.2"],
+            ["emojis-list", "npm:3.0.0"],
+            ["json5", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:2.0.0", {
           "packageLocation": "./.yarn/cache/loader-utils-npm-2.0.0-cf7d5aadbf-a1c2e48781.zip/node_modules/loader-utils/",
           "packageDependencies": [
@@ -9487,6 +9498,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["to-string-loader", [
+        ["npm:1.1.6", {
+          "packageLocation": "./.yarn/cache/to-string-loader-npm-1.1.6-6759f70502-386f7a1984.zip/node_modules/to-string-loader/",
+          "packageDependencies": [
+            ["to-string-loader", "npm:1.1.6"],
+            ["loader-utils", "npm:1.4.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["tosource", [
         ["npm:1.0.0", {
           "packageLocation": "./.yarn/cache/tosource-npm-1.0.0-718e0580f4-57348bec54.zip/node_modules/tosource/",
@@ -9747,6 +9768,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["string-similarity", "npm:4.0.4"],
             ["style-loader", "virtual:f1177d4ec0185f312c7c26a9da3de16c57b1308723bcc6bcfb83d9522ebd1f1eb4216ff607c18810b9798579892fad0214108e83904f7baaafbf6a18c98abb6b#npm:2.0.0"],
             ["tailwindcss", "virtual:f1177d4ec0185f312c7c26a9da3de16c57b1308723bcc6bcfb83d9522ebd1f1eb4216ff607c18810b9798579892fad0214108e83904f7baaafbf6a18c98abb6b#npm:2.1.2"],
+            ["to-string-loader", "npm:1.1.6"],
             ["ts-loader", "virtual:f1177d4ec0185f312c7c26a9da3de16c57b1308723bcc6bcfb83d9522ebd1f1eb4216ff607c18810b9798579892fad0214108e83904f7baaafbf6a18c98abb6b#npm:9.1.2"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"],
             ["uuid", "npm:8.3.2"],
