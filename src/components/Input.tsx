@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputProps } from '../types/components/submit_types';
 
-const Input: React.FC<InputProps> = ({
+const Input = ({
   className,
   value,
   id,

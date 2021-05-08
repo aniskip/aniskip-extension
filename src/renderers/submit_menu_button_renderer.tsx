@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SubmitMenuButton from '../components/SubmitMenuButton';
+import SubmitMenu from '../components/SubmitMenu';
 import { SubmitButtonClickHandler } from '../types/components/submit_types';
 
 import BaseRenderer from './base_renderer';
@@ -35,7 +35,7 @@ class SubmitMenuButtonRenderer extends BaseRenderer {
 
   render() {
     ReactDOM.render(
-      <SubmitMenuButton
+      <SubmitMenu.Button
         active={this.isActive}
         variant={this.variant}
         handleClick={this.clickHandler}

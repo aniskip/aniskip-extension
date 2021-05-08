@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import SkipTimeIndicatorContainer from '../components/SkipTimeIndicatorContainer';
+import SkipTimeIndicator from '../components/SkipTimeIndicator';
 import { SkipTime } from '../types/api/skip_time_types';
 import BaseRenderer from './base_renderer';
 
@@ -49,7 +49,7 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
 
   render() {
     ReactDOM.render(
-      <SkipTimeIndicatorContainer
+      <SkipTimeIndicator
         skipTimes={this.skipTimes}
         videoDuration={this.videoDuration}
         variant={this.variant}

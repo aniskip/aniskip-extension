@@ -1,7 +1,7 @@
 import React from 'react';
 import { ButtonProps } from '../types/components/button_types';
 
-const Button: React.FC<ButtonProps> = ({
+const Button = ({
   className,
   children,
   submit,

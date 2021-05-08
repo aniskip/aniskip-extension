@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SubmitMenu from '../components/SubmitMenu';
 
+import SubmitMenu from '../components/SubmitMenu';
 import BaseRenderer from './base_renderer';
 
 class SubmitMenuRenderer extends BaseRenderer {

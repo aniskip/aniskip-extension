@@ -1,7 +1,8 @@
 import React from 'react';
-import { SkipTimeIndicatorProps } from '../types/components/skip_time_indicator_types';
 
-const SkipTimeIndicator: React.FC<SkipTimeIndicatorProps> = ({
+import { SkipTimeIndicatorProps } from '../../types/components/skip_time_indicator_types';
+
+const SkipTimeIndicator = ({
   startTime,
   endTime,
   episodeLength,
@@ -28,4 +29,5 @@ const SkipTimeIndicator: React.FC<SkipTimeIndicatorProps> = ({
     />
   );
 };
+
 export default SkipTimeIndicator;

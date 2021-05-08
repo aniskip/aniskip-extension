@@ -3,12 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { FaChevronDown } from 'react-icons/fa';
 import { DropdownProps } from '../types/components/dropdown_types';
 
-const Dropdown: React.FC<DropdownProps> = ({
-  className,
-  value,
-  onChange,
-  options,
-}: DropdownProps) => {
+const Dropdown = ({ className, value, onChange, options }: DropdownProps) => {
   const [hidden, setHidden] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
 

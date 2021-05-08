@@ -1,12 +1,8 @@
 import React from 'react';
 import { FaCloudUploadAlt } from 'react-icons/fa';
-import { SubmitMenuButtonProps } from '../types/components/submit_types';
+import { SubmitMenuButtonProps } from '../../types/components/submit_types';
 
-const SubmitMenuButton: React.FC<SubmitMenuButtonProps> = ({
-  variant,
-  active,
-  handleClick,
-}: SubmitMenuButtonProps) => (
+const Button = ({ variant, active, handleClick }: SubmitMenuButtonProps) => (
   <div
     className={`font-sans w-8 h-8 cursor-pointer select-none outline-none text-white flex items-center justify-center border-white border-b-2 border-opacity-0 ${
       active && 'border-opacity-100'
@@ -19,4 +15,4 @@ const SubmitMenuButton: React.FC<SubmitMenuButtonProps> = ({
     <FaCloudUploadAlt className="w-1/2 h-1/2" />
   </div>
 );
-export default SubmitMenuButton;
+export default Button;

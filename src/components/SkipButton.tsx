@@ -3,7 +3,7 @@ import useFullscreen from '../hooks/use_fullscreen';
 import { SkipButtonProps } from '../types/components/skip_time_button_types';
 import Button from './Button';
 
-const SkipButton: React.FC<SkipButtonProps> = ({
+const SkipButton = ({
   skipType,
   variant,
   hidden,
