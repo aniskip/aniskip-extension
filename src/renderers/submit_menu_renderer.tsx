@@ -19,7 +19,14 @@ class SubmitMenuRenderer extends BaseRenderer {
     onSubmit: CallableFunction,
     onClose: CallableFunction
   ) {
-    super(id, ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']);
+    super(id, [
+      'keydown',
+      'keyup',
+      'mousedown',
+      'mouseup',
+      'click',
+      'dblclick',
+    ]);
 
     this.variant = variant;
     this.isHidden = true;

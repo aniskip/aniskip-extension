@@ -176,14 +176,12 @@ abstract class BasePlayer implements Player {
   }
 
   initialise() {
-    this.videoElement.onloadedmetadata = () => {
-      this.reset();
-      this.injectSubmitMenu();
-      this.injectSubmitMenuButton();
-      this.injectSkipTimeIndicator();
-      this.injectSkipButtons();
-      browser.runtime.sendMessage({ type: 'player-ready' });
-    };
+    this.reset();
+    this.injectSubmitMenu();
+    this.injectSubmitMenuButton();
+    this.injectSkipTimeIndicator();
+    this.injectSkipButtons();
+    browser.runtime.sendMessage({ type: 'player-ready' });
   }
 
   /**

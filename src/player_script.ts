@@ -75,9 +75,8 @@ browser.runtime.onMessage.addListener(messageHandler);
 
 // Notify content script when video DOM element has been added
 new MutationObserver((_mutations, observer) => {
-  // eslint-disable-next-line prefer-destructuring
   const videoElement = document.getElementsByTagName('video')[0];
-  if (videoElement) {
+  if (videoElement && videoElement.duration > 60) {
     player = getPlayer(window.location.hostname, videoElement);
   }
 
