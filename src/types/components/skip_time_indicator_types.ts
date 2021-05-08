@@ -10,6 +10,6 @@ export interface SkipTimeIndicatorProps {
 
 export interface SkipTimeIndicatorContainerProps {
   skipTimes: SkipTime[];
-  offset: number;
+  videoDuration: number;
   variant: string;
 }

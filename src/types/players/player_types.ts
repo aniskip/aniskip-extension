@@ -18,8 +18,6 @@ export interface Player {
 
   skipButtonContainer: HTMLDivElement;
 
-  skipTimeIndicatorContainer: HTMLDivElement;
-
   skipTimes: SkipTime[];
 
   videoElement: HTMLVideoElement;

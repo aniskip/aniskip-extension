@@ -4,10 +4,10 @@ import { browser } from 'webextension-polyfill-ts';
 
 import { Player, Metadata } from '../types/players/player_types';
 import SubmitMenuContainer from '../components/SubmitMenuContainer';
-import SkipTimeIndicatorContainer from '../components/SkipTimeIndicatorContainer';
 import { SkipTime } from '../types/api/skip_time_types';
 import isInInterval from '../utils/time_utils';
 import SkipButton from '../components/SkipButton';
+import SkipTimeIndicatorsRenderer from '../renderers/skip_time_indicators_renderer';
 
 abstract class BasePlayer implements Player {
   document: Document;
@@ -18,7 +18,7 @@ abstract class BasePlayer implements Player {
 
   skipButtonContainer: HTMLDivElement;
 
-  skipTimeIndicatorContainer: HTMLDivElement;
+  skipTimeIndicatorRenderer: SkipTimeIndicatorsRenderer;
 
   skipTimes: SkipTime[];
 
@@ -37,9 +37,6 @@ abstract class BasePlayer implements Player {
       'aniskip-player-submit-menu',
       ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']
     );
-    this.skipTimeIndicatorContainer = this.createContainer(
-      'aniskip-player-skip-time-indicator'
-    );
     this.skipButtonContainer = this.createContainer(
       'aniskip-player-skip-button',
       ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']
@@ -47,6 +44,11 @@ abstract class BasePlayer implements Player {
     this.skipTimes = [];
     this.videoElement = videoElement;
     this.timeUpdateEventListeners = {};
+
+    this.skipTimeIndicatorRenderer = new SkipTimeIndicatorsRenderer(
+      'aniskip-player-skip-time-indicator',
+      this.metadata.variant
+    );
   }
 
   abstract injectSubmitMenu(): void;
@@ -90,20 +92,11 @@ abstract class BasePlayer implements Player {
   }
 
   addSkipTime(skipTime: SkipTime, manual: boolean = false) {
-    this.skipTimes.push(skipTime);
+    this.skipTimeIndicatorRenderer.addSkipTimeIndicator(skipTime);
     this.videoElement.addEventListener(
       'timeupdate',
       this.skipIfInInterval(skipTime, manual)
     );
-    this.renderSkipTimeIndicator();
-  }
-
-  /**
-   * Removes all the skip times from the player
-   */
-  clearSkipTimeIndicators() {
-    this.skipTimes = [];
-    this.renderSkipTimeIndicator();
   }
 
   /**
@@ -207,16 +200,12 @@ abstract class BasePlayer implements Player {
 
   injectSkipTimeIndicator() {
     const seekBarContainer = this.getSeekBarContainer();
-    const shadowRootContainer = this.skipTimeIndicatorContainer;
-    if (seekBarContainer && shadowRootContainer) {
-      const { id } = shadowRootContainer;
-      const reactRootId = `${id}-root`;
-      this.injectContainerHelper(
-        seekBarContainer,
-        shadowRootContainer,
-        reactRootId
+    if (seekBarContainer) {
+      seekBarContainer.appendChild(
+        this.skipTimeIndicatorRenderer.shadowRootContainer
       );
-      this.renderSkipTimeIndicator();
+      this.skipTimeIndicatorRenderer.setVideoDuration(this.getDuration());
+      this.skipTimeIndicatorRenderer.render();
     }
   }
 
@@ -280,27 +269,8 @@ abstract class BasePlayer implements Player {
     this.videoElement.play();
   }
 
-  /**
-   * Renders the skip time indicator react element
-   */
-  renderSkipTimeIndicator() {
-    const { id, shadowRoot } = this.skipTimeIndicatorContainer;
-    const reactRoot = shadowRoot?.getElementById(`${id}-root`);
-    const offset = this.getDuration() - this.skipTimes[0]?.episode_length || 0;
-    if (reactRoot) {
-      ReactDOM.render(
-        <SkipTimeIndicatorContainer
-          skipTimes={this.skipTimes}
-          offset={offset}
-          variant={this.metadata.variant}
-        />,
-        reactRoot
-      );
-    }
-  }
-
   reset() {
-    this.clearSkipTimeIndicators();
+    this.skipTimeIndicatorRenderer.clearSkipTimeIndicators();
     this.clearVideoElementEventListeners(
       Object.values(this.timeUpdateEventListeners)
     );
