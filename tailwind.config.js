@@ -10,7 +10,10 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    colors,
+    colors: {
+      primary: colors.amber[500],
+      ...colors,
+    },
     fontSize: {
       xs: '0.75em',
       sm: '0.875em',

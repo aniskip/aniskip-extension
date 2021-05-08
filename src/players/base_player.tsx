@@ -101,10 +101,12 @@ abstract class BasePlayer implements Player {
     this.skipTimeIndicatorsRenderer.addSkipTimeIndicator(skipTime);
     const endTime = skipTime.interval.end_time;
     const offset = this.getDuration() - skipTime.episode_length;
-    this.skipButtonRenderer.addSkipButton(skipTime, () => {
-      this.setCurrentTime(endTime + offset);
-      this.play();
-    });
+    if (manual) {
+      this.skipButtonRenderer.addSkipButton(skipTime, () => {
+        this.setCurrentTime(endTime + offset);
+        this.play();
+      });
+    }
     this.videoElement.addEventListener(
       'timeupdate',
       this.skipIfInInterval(skipTime, manual)
@@ -241,6 +243,7 @@ abstract class BasePlayer implements Player {
 
   reset() {
     this.skipTimeIndicatorsRenderer.clearSkipTimeIndicators();
+    this.skipButtonRenderer.clearSkipButtons();
     this.clearVideoElementEventListeners(
       Object.values(this.timeUpdateEventListeners)
     );
@@ -279,22 +282,20 @@ abstract class BasePlayer implements Player {
         const video = event.currentTarget as HTMLVideoElement;
         const { interval, episode_length: episodeLength } = skipTime;
         const { start_time: startTime, end_time: endTime } = interval;
-        const skipTimeIntervalLength = endTime - startTime;
-        const checkIntervalLength = manual ? skipTimeIntervalLength : 1;
         const offset = video.duration - episodeLength;
         const { currentTime } = video;
         const inInterval = isInInterval(
           startTime + offset,
           currentTime,
           margin,
-          checkIntervalLength
+          1
         );
 
-        if (manual) {
-          this.skipButtonRenderer.setCurrentTime(currentTime);
-        } else if (inInterval) {
+        if (!manual && inInterval) {
           this.setCurrentTime(endTime + offset + margin);
         }
+
+        this.skipButtonRenderer.setCurrentTime(currentTime);
       });
 
     return timeUpdateEventListener;

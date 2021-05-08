@@ -19,6 +19,7 @@ const getPlayer = (hostname: string, videoElement: HTMLVideoElement) => {
     case 'animixplay':
     case 'aniwatch':
     case 'streamtape':
+    case 'github':
       player = new Plyr(document, videoElement);
       break;
     case 'crunchyroll':

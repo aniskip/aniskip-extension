@@ -34,7 +34,7 @@ const SkipButtonContainer = ({
 
         return (
           <Button
-            key={skipId}
+            key={`skip-button-${skipId}`}
             skipType={skipType}
             variant={variant}
             hidden={!inInterval}

@@ -20,7 +20,7 @@ const SkipTimeIndicatorContainer = ({
           startTime={startTime + offset}
           endTime={endTime + offset}
           episodeLength={episodeLength + offset}
-          key={skipTime.skip_id}
+          key={`skip-time-indicator-${skipTime.skip_id}`}
           variant={variant}
         />
       );

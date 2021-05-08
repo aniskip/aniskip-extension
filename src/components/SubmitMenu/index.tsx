@@ -115,14 +115,14 @@ const SubmitMenu = ({
     >
       <div className="flex justify-between items-center w-full h-auto px-5 pt-2">
         <div className="flex items-center space-x-1 outline-none">
-          <FaPlay className="text-yellow-600" size={12} />
+          <FaPlay className="text-primary" size={12} />
           <span className="text-white font-bold text-sm uppercase">
             Submit skip times
           </span>
         </div>
         <button
           type="button"
-          className="flex justify-center items-center w-3 h-3 focus:outline-none text-white active:text-yellow-600"
+          className="flex justify-center items-center w-3 h-3 focus:outline-none text-white active:text-primary"
           onClick={() => onClose()}
         >
           <FaTimes />
@@ -136,7 +136,7 @@ const SubmitMenu = ({
                 Start time
               </div>
               <Input
-                className="shadow-sm w-full text-black text-sm focus:border-yellow-600 focus:ring-yellow-600 focus:ring-1"
+                className="shadow-sm w-full text-black text-sm focus:border-primary focus:ring-primary focus:ring-1"
                 id="start-time"
                 value={startTime}
                 pattern={inputPatternRegexStringRef.current}
@@ -161,7 +161,7 @@ const SubmitMenu = ({
                 End time
               </div>
               <Input
-                className="shadow-sm w-full text-black text-sm focus:border-yellow-600 focus:ring-yellow-600 focus:ring-1"
+                className="shadow-sm w-full text-black text-sm focus:border-primary focus:ring-primary focus:ring-1"
                 id="end-time"
                 value={endTime}
                 pattern={inputPatternRegexStringRef.current}
@@ -184,7 +184,7 @@ const SubmitMenu = ({
           </div>
           <div className="flex text-black space-x-2">
             <DefaultButton
-              className="shadow-sm flex-1 bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
+              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 text-white"
               onClick={async () => {
                 const messageType = 'player-get-video-current-time';
                 browser.runtime.sendMessage({ type: messageType });
@@ -201,7 +201,7 @@ const SubmitMenu = ({
               Now
             </DefaultButton>
             <DefaultButton
-              className="shadow-sm flex-1 bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
+              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 text-white"
               onClick={async () => {
                 const messageType = 'player-add-preview-skip-time';
                 browser.runtime.sendMessage({
@@ -219,7 +219,7 @@ const SubmitMenu = ({
               Preview
             </DefaultButton>
             <DefaultButton
-              className="shadow-sm flex-1 bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
+              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 text-white"
               onClick={async () => {
                 const messageType = 'player-get-video-duration';
                 browser.runtime.sendMessage({ type: messageType });
@@ -254,7 +254,7 @@ const SubmitMenu = ({
               />
               <div className="flex-1">
                 <DefaultButton
-                  className="w-full h-full shadow-sm bg-yellow-600 bg-opacity-80 border border-gray-300 text-white"
+                  className="w-full h-full shadow-sm bg-primary bg-opacity-80 border border-gray-300 text-white"
                   submit
                 >
                   Submit

@@ -30,9 +30,7 @@ const Dropdown = ({ className, value, onChange, options }: DropdownProps) => {
     <div ref={dropdownRef} className={`relative ${className}`}>
       <button
         className={`bg-white rounded flex justify-between items-center w-full h-full text-center border ${
-          hidden
-            ? 'border-gray-300'
-            : 'ring-1 ring-yellow-600 border-yellow-600'
+          hidden ? 'border-gray-300' : 'ring-1 ring-primary border-primary'
         } focus:outline-none`}
         type="button"
         onClick={() => setHidden((current) => !current)}
@@ -64,7 +62,7 @@ const Dropdown = ({ className, value, onChange, options }: DropdownProps) => {
       >
         {options.map(({ value: valueId, label }) => (
           <button
-            className="text-black w-full px-3 py-2 text-left focus:outline-none hover:bg-yellow-600 hover:border-yellow-600 hover:text-white"
+            className="text-black w-full px-3 py-2 text-left focus:outline-none hover:bg-primary hover:border-primary hover:text-white"
             type="button"
             key={uuidv4()}
             onClick={handleClick(valueId)}
