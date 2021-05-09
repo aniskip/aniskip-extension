@@ -117,11 +117,11 @@ const SubmitMenu = ({
     let updatedSeconds = timeSeconds;
 
     switch (event.key) {
-      case 'H': {
+      case 'J': {
         modifier = 0.1;
       }
       /* falls through */
-      case 'h': {
+      case 'j': {
         updatedSeconds -= modifier;
         break;
       }
