@@ -122,7 +122,7 @@ class Crunchyroll extends BasePage {
         ));
     }
 
-    // cache offset
+    // Cache offset
     const {
       episodeOffsetCache: updatedEpisodeOffsetCache,
     } = await browser.storage.local.get({

@@ -1,4 +1,6 @@
 import stringSimilarity from 'string-similarity';
+import { browser } from 'webextension-polyfill-ts';
+
 import AnilistHttpClient from '../api/anilist_http_client';
 import MalsyncHttpClient from '../api/malsync_http_client';
 import Page from '../types/pages/page_type';
@@ -40,11 +42,13 @@ abstract class BasePage implements Page {
   }
 
   async getMalId(): Promise<number> {
+    const identifier = this.getIdentifier();
+
+    this.malId = (await BasePage.getMalIdCached(identifier)) || 0;
+
     if (this.malId > 0) {
       return this.malId;
     }
-
-    const identifier = this.getIdentifier();
 
     try {
       const malsyncHttpClient = new MalsyncHttpClient();
@@ -55,6 +59,13 @@ abstract class BasePage implements Page {
       const title = this.getTitle();
       this.malId = await BasePage.findClosestMalId(title);
     }
+
+    // Cache MAL id
+    const { malIdCache: updatedMalIdCache } = await browser.storage.local.get({
+      malIdCache: {},
+    });
+    updatedMalIdCache[identifier] = this.malId;
+    browser.storage.local.set({ malIdCache: updatedMalIdCache });
 
     return this.malId;
   }
@@ -99,6 +110,18 @@ abstract class BasePage implements Page {
     }
 
     throw new Error('Closest MAL id not found');
+  }
+
+  /**
+   * Returns a MAL id from the cache
+   * @param identifier Provider anime identifier
+   */
+  static async getMalIdCached(identifier: string): Promise<number | undefined> {
+    const { malIdCache } = await browser.storage.local.get({
+      malIdCache: {},
+    });
+
+    return malIdCache[identifier];
   }
 }
 
