@@ -136,9 +136,18 @@ const SubmitMenu = ({
       default:
     }
 
+    if (updatedSeconds === timeSeconds) {
+      return;
+    }
+
     if (updatedSeconds < 0) {
       updatedSeconds = 0;
     }
+
+    browser.runtime.sendMessage({
+      type: 'player-set-video-current-time',
+      payload: updatedSeconds,
+    });
 
     const updatedTimeString = secondsToTimeString(updatedSeconds);
     setTime(updatedTimeString);
