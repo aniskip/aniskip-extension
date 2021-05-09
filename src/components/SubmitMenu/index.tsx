@@ -84,7 +84,15 @@ const SubmitMenu = ({
       `${messageType}-response`
     );
 
-    const { userId } = await browser.storage.sync.get(['userId']);
+    const {
+      userId,
+      openingOption,
+      endingOption,
+    } = await browser.storage.sync.get([
+      'userId',
+      'openingOption',
+      'endingOption',
+    ]);
     const {
       malId,
       episodeNumber,
@@ -92,16 +100,34 @@ const SubmitMenu = ({
     } = getEpisodeInfoResponse.payload;
     const duration = playerGetDurationResponse.payload;
 
-    aniskipHttpClient.createSkipTimes(
+    const startTimeSeconds = timeStringToSeconds(startTime);
+    const endTimeSeconds = timeStringToSeconds(endTime);
+
+    await aniskipHttpClient.createSkipTimes(
       malId,
       episodeNumber,
       skipType,
       providerName,
-      timeStringToSeconds(startTime),
-      timeStringToSeconds(endTime),
+      startTimeSeconds,
+      endTimeSeconds,
       duration,
       userId
     );
+
+    const option = skipType === 'op' ? openingOption : endingOption;
+
+    browser.runtime.sendMessage({
+      type: `player-add-${option}-time`,
+      payload: {
+        interval: {
+          start_time: startTimeSeconds,
+          end_time: endTimeSeconds,
+        },
+        skip_type: skipType,
+        skip_id: '',
+        episode_length: duration,
+      },
+    });
   };
 
   /**
