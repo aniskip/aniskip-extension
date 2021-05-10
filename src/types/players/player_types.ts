@@ -57,6 +57,12 @@ export interface Player {
   play(): void;
 
   /**
+   * Removes a skip time from the player
+   * @param skipTime Skip time to remove
+   */
+  removeSkipTime(skipTime: SkipTimeType): void;
+
+  /**
    * Resets player state
    */
   reset(): void;

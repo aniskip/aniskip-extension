@@ -31,7 +31,10 @@ export const timeStringToSeconds = (timeString: string) => {
  * Converts seconds into a time string
  * @param seconds Number of seconds to convert to the format of '(<hours>:)<minutes>:<seconds>'
  */
-export const secondsToTimeString = (seconds: number) => {
+export const secondsToTimeString = (
+  seconds: number,
+  decimalPlaces: number = 3
+) => {
   let remainingSeconds = seconds;
 
   const hours = Math.floor(remainingSeconds / (60 * 60));
@@ -42,7 +45,9 @@ export const secondsToTimeString = (seconds: number) => {
   const minutesFormatted = minutes.toString().padStart(hours ? 2 : 1, '0');
 
   remainingSeconds %= 60;
-  const secondsFormated = remainingSeconds.toFixed(3).padStart(6, '0');
+  const secondsFormated = remainingSeconds
+    .toFixed(decimalPlaces)
+    .padStart(decimalPlaces + decimalPlaces === 0 ? 2 : 3, '0');
 
   return `${
     hours ? `${hoursFormatted}:` : ''

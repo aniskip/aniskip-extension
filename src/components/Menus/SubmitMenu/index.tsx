@@ -8,7 +8,6 @@ import {
   secondsToTimeString,
   timeStringToSeconds,
 } from '../../../utils/string_utils';
-import AniskipHttpClient from '../../../api/aniskip_http_client';
 import Dropdown from '../../Dropdown';
 import DefaultButton from '../../Button';
 import MenuButton from './Button';
@@ -16,6 +15,7 @@ import waitForMessage from '../../../utils/message_utils';
 import Input from '../../Input';
 import { SkipType } from '../../../types/api/skip_time_types';
 import useFullscreen from '../../../hooks/use_fullscreen';
+import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
 
 const SubmitMenu = ({
   variant,
@@ -24,12 +24,10 @@ const SubmitMenu = ({
   onClose,
 }: SubmitMenuProps) => {
   const { isFullscreen } = useFullscreen();
+  const { aniskipHttpClient } = useAniskipHttpClient();
   const [skipType, setSkipType] = useState<SkipType>('op');
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
-  const [aniskipHttpClient] = useState<AniskipHttpClient>(
-    new AniskipHttpClient()
-  );
   const [currentInputFocus, setCurrentInputFocus] = useState<
     'start-time' | 'end-time'
   >();
@@ -181,166 +179,154 @@ const SubmitMenu = ({
 
   return (
     <div
-      className={`font-sans bg-trueGray-800 bg-opacity-80 border border-gray-300 right-5 bottom-28 absolute select-none rounded-md w-96 z-10 transition-opacity ${
+      className={`font-sans w-96 px-5 pt-2 pb-4 z-10 bg-trueGray-800 bg-opacity-80 border border-gray-300 right-5 bottom-28 absolute select-none rounded-md transition-opacity text-white ${
         hidden && 'opacity-0 pointer-events-none'
       } submit-menu--${variant} ${
         isFullscreen && `submit-menu--${variant}--fullscreen`
       }`}
       role="menu"
     >
-      <div className="flex justify-between items-center w-full h-auto px-5 pt-2">
+      <div className="flex justify-between items-center w-full h-auto mb-4">
         <div className="flex items-center space-x-1 outline-none">
           <FaPlay className="text-primary" size={12} />
-          <span className="text-white font-bold text-sm uppercase">
-            Submit skip times
-          </span>
+          <span className="font-bold text-sm uppercase">Submit skip times</span>
         </div>
         <button
           type="button"
-          className="flex justify-center items-center w-3 h-3 focus:outline-none text-white active:text-primary"
+          className="flex justify-center items-center focus:outline-none"
           onClick={() => onClose()}
         >
-          <FaTimes />
+          <FaTimes className="w-4 h-4 active:text-primary" />
         </button>
       </div>
-      <div className="px-5 py-4 mx-auto">
-        <form className="block space-y-2 mb-0" onSubmit={handleSubmit}>
-          <div className="flex space-x-2">
-            <div className="flex-1">
-              <div className="text-white font-bold text-xs uppercase mb-1">
-                Start time
-              </div>
-              <Input
-                className="shadow-sm w-full text-black text-sm focus:border-primary focus:ring-primary focus:ring-1"
-                id="start-time"
-                value={startTime}
-                pattern={inputPatternRegexStringRef.current}
-                required
-                title="Hours : Minutes : Seconds"
-                placeholder="Start time"
-                onChange={(event) => {
-                  const timeString = event.currentTarget.value;
-                  const testRegex = inputPatternTestRegexRef.current;
-                  if (testRegex.test(timeString)) {
-                    setStartTime(timeString);
-                  }
-                }}
-                onKeyDown={handleOnKeyDown(setStartTime)}
-                onFocus={() => setCurrentInputFocus('start-time')}
-                onBlur={() =>
-                  setStartTime((current) => formatTimeString(current))
-                }
-              />
-            </div>
-            <div className="flex-1">
-              <div className="text-white font-bold text-xs uppercase mb-1">
-                End time
-              </div>
-              <Input
-                className="shadow-sm w-full text-black text-sm focus:border-primary focus:ring-primary focus:ring-1"
-                id="end-time"
-                value={endTime}
-                pattern={inputPatternRegexStringRef.current}
-                required
-                title="Hours : Minutes : Seconds"
-                placeholder="End time"
-                onChange={(event) => {
-                  const timeString = event.currentTarget.value;
-                  const testRegex = inputPatternTestRegexRef.current;
-                  if (testRegex.test(timeString)) {
-                    setEndTime(timeString);
-                  }
-                }}
-                onKeyDown={handleOnKeyDown(setEndTime)}
-                onFocus={() => setCurrentInputFocus('end-time')}
-                onBlur={() =>
-                  setEndTime((current) => formatTimeString(current))
-                }
-              />
-            </div>
-          </div>
-          <div className="flex text-black space-x-2">
-            <DefaultButton
-              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 text-white"
-              onClick={async () => {
-                const messageType = 'player-get-video-current-time';
-                browser.runtime.sendMessage({ type: messageType });
-                const currentTime: number = (
-                  await waitForMessage(`${messageType}-response`)
-                ).payload;
-                if (currentInputFocus === 'start-time') {
-                  setStartTime(secondsToTimeString(currentTime));
-                } else if (currentInputFocus === 'end-time') {
-                  setEndTime(secondsToTimeString(currentTime));
+      <form className="space-y-2" onSubmit={handleSubmit}>
+        <div className="flex space-x-2">
+          <div className="flex-1">
+            <div className="font-bold text-xs uppercase mb-1">Start time</div>
+            <Input
+              className="shadow-sm w-full text-black text-sm focus:border-primary focus:ring-primary focus:ring-1"
+              id="start-time"
+              value={startTime}
+              pattern={inputPatternRegexStringRef.current}
+              required
+              title="Hours : Minutes : Seconds"
+              placeholder="Start time"
+              onChange={(event) => {
+                const timeString = event.currentTarget.value;
+                const testRegex = inputPatternTestRegexRef.current;
+                if (testRegex.test(timeString)) {
+                  setStartTime(timeString);
                 }
               }}
-            >
-              Now
-            </DefaultButton>
-            <DefaultButton
-              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 text-white"
-              onClick={async () => {
-                const messageType = 'player-add-preview-skip-time';
-                browser.runtime.sendMessage({
-                  type: messageType,
-                  payload: {
-                    interval: {
-                      startTime: timeStringToSeconds(startTime),
-                      endTime: timeStringToSeconds(endTime),
-                    },
-                    skipType,
+              onKeyDown={handleOnKeyDown(setStartTime)}
+              onFocus={() => setCurrentInputFocus('start-time')}
+              onBlur={() =>
+                setStartTime((current) => formatTimeString(current))
+              }
+            />
+          </div>
+          <div className="flex-1">
+            <div className="font-bold text-xs uppercase mb-1">End time</div>
+            <Input
+              className="shadow-sm w-full text-black text-sm focus:border-primary focus:ring-primary focus:ring-1"
+              id="end-time"
+              value={endTime}
+              pattern={inputPatternRegexStringRef.current}
+              required
+              title="Hours : Minutes : Seconds"
+              placeholder="End time"
+              onChange={(event) => {
+                const timeString = event.currentTarget.value;
+                const testRegex = inputPatternTestRegexRef.current;
+                if (testRegex.test(timeString)) {
+                  setEndTime(timeString);
+                }
+              }}
+              onKeyDown={handleOnKeyDown(setEndTime)}
+              onFocus={() => setCurrentInputFocus('end-time')}
+              onBlur={() => setEndTime((current) => formatTimeString(current))}
+            />
+          </div>
+        </div>
+        <div className="flex space-x-2">
+          <DefaultButton
+            className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
+            onClick={async () => {
+              const messageType = 'player-get-video-current-time';
+              browser.runtime.sendMessage({ type: messageType });
+              const currentTime: number = (
+                await waitForMessage(`${messageType}-response`)
+              ).payload;
+              if (currentInputFocus === 'start-time') {
+                setStartTime(secondsToTimeString(currentTime));
+              } else if (currentInputFocus === 'end-time') {
+                setEndTime(secondsToTimeString(currentTime));
+              }
+            }}
+          >
+            Now
+          </DefaultButton>
+          <DefaultButton
+            className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
+            onClick={async () => {
+              const messageType = 'player-add-preview-skip-time';
+              browser.runtime.sendMessage({
+                type: messageType,
+                payload: {
+                  interval: {
+                    startTime: timeStringToSeconds(startTime),
+                    endTime: timeStringToSeconds(endTime),
                   },
-                });
-              }}
-            >
-              Preview
-            </DefaultButton>
-            <DefaultButton
-              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 text-white"
-              onClick={async () => {
-                const messageType = 'player-get-video-duration';
-                browser.runtime.sendMessage({ type: messageType });
-                const duration: number = (
-                  await waitForMessage(`${messageType}-response`)
-                ).payload;
-                const trimmedDuration = Math.floor(duration);
+                  skipType,
+                },
+              });
+            }}
+          >
+            Preview
+          </DefaultButton>
+          <DefaultButton
+            className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
+            onClick={async () => {
+              const messageType = 'player-get-video-duration';
+              browser.runtime.sendMessage({ type: messageType });
+              const duration: number = (
+                await waitForMessage(`${messageType}-response`)
+              ).payload;
+              const trimmedDuration = Math.floor(duration);
 
-                if (currentInputFocus === 'start-time') {
-                  setStartTime(secondsToTimeString(trimmedDuration));
-                } else if (currentInputFocus === 'end-time') {
-                  setEndTime(secondsToTimeString(trimmedDuration));
-                }
-              }}
-            >
-              End
-            </DefaultButton>
-          </div>
-          <div>
-            <div className="text-white font-bold text-xs uppercase mb-1">
-              Skip type
-            </div>
-            <div className="flex space-x-2">
-              <Dropdown
-                className="flex-1 text-sm"
-                value={skipType}
-                onChange={setSkipType}
-                options={[
-                  { value: 'op', label: 'Opening' },
-                  { value: 'ed', label: 'Ending' },
-                ]}
-              />
-              <div className="flex-1">
-                <DefaultButton
-                  className="w-full h-full shadow-sm bg-primary bg-opacity-80 border border-gray-300 text-white"
-                  submit
-                >
-                  Submit
-                </DefaultButton>
-              </div>
+              if (currentInputFocus === 'start-time') {
+                setStartTime(secondsToTimeString(trimmedDuration));
+              } else if (currentInputFocus === 'end-time') {
+                setEndTime(secondsToTimeString(trimmedDuration));
+              }
+            }}
+          >
+            End
+          </DefaultButton>
+        </div>
+        <div>
+          <div className="font-bold text-xs uppercase mb-1">Skip type</div>
+          <div className="flex space-x-2">
+            <Dropdown
+              className="flex-1 text-sm"
+              value={skipType}
+              onChange={setSkipType}
+              options={[
+                { value: 'op', label: 'Opening' },
+                { value: 'ed', label: 'Ending' },
+              ]}
+            />
+            <div className="flex-1">
+              <DefaultButton
+                className="w-full h-full shadow-sm bg-primary bg-opacity-80 border border-gray-300"
+                submit
+              >
+                Submit
+              </DefaultButton>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 };

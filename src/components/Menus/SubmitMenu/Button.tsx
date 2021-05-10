@@ -11,7 +11,11 @@ const Button = ({ variant, active, onClick }: SubmitMenuButtonProps) => (
     title="Submit skip times"
     tabIndex={0}
     onClick={onClick}
-    onKeyDown={onClick}
+    onKeyDown={(event) => {
+      if (event.key !== 'Tab') {
+        onClick(event);
+      }
+    }}
   >
     <FaCloudUploadAlt className="text-white w-1/2 h-1/2" />
   </div>

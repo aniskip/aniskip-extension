@@ -40,6 +40,7 @@ abstract class BasePlayer implements Player {
     this.menusState = {
       isSubmitMenuHidden: true,
       isVoteMenuHidden: true,
+      skipTimes: [],
     };
 
     this.skipButtonRenderer = new SkipButtonsRenderer(
@@ -58,6 +59,11 @@ abstract class BasePlayer implements Player {
         this.setMenusState({
           ...this.menusState,
           isSubmitMenuHidden: true,
+        }),
+      () =>
+        this.setMenusState({
+          ...this.menusState,
+          isVoteMenuHidden: true,
         })
     );
     this.menusButtonsRenderer = new MenusButtonsRenderer(
@@ -65,11 +71,13 @@ abstract class BasePlayer implements Player {
       this.metadata.variant,
       () =>
         this.setMenusState({
+          ...this.menusState,
           isSubmitMenuHidden: !this.menusState.isSubmitMenuHidden,
           isVoteMenuHidden: true,
         }),
       () =>
         this.setMenusState({
+          ...this.menusState,
           isSubmitMenuHidden: true,
           isVoteMenuHidden: !this.menusState.isVoteMenuHidden,
         })
@@ -120,6 +128,10 @@ abstract class BasePlayer implements Player {
 
   addSkipTime(skipTime: SkipTimeType, manual: boolean = false) {
     this.skipTimeIndicatorsRenderer.addSkipTimeIndicator(skipTime);
+    this.setMenusState({
+      ...this.menusState,
+      skipTimes: [...this.menusState.skipTimes, skipTime],
+    });
     const endTime = skipTime.interval.end_time;
     const offset = this.getDuration() - skipTime.episode_length;
     if (manual) {
@@ -260,13 +272,36 @@ abstract class BasePlayer implements Player {
     this.videoElement.play();
   }
 
+  removeSkipTime(skipTime: SkipTimeType) {
+    this.skipTimeIndicatorsRenderer.removeSkipTimeIndicator(skipTime);
+    this.skipButtonRenderer.removeSkipButton(skipTime);
+    this.setMenusState({
+      ...this.menusState,
+      skipTimes: [
+        ...this.menusState.skipTimes.filter(
+          ({ skip_id: currentSkipId }) => currentSkipId !== skipTime.skip_id
+        ),
+      ],
+    });
+    this.videoElement.removeEventListener(
+      'timeupdate',
+      this.timeUpdateEventListeners[JSON.stringify(skipTime)]
+    );
+  }
+
   reset() {
     this.skipTimeIndicatorsRenderer.clearSkipTimeIndicators();
     this.skipButtonRenderer.clearSkipButtons();
+    this.menusRenderer.resetState();
     this.clearVideoElementEventListeners(
       Object.values(this.timeUpdateEventListeners)
     );
     this.timeUpdateEventListeners = {};
+    this.menusState = {
+      isSubmitMenuHidden: true,
+      isVoteMenuHidden: true,
+      skipTimes: [],
+    };
   }
 
   /**

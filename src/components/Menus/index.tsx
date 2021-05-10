@@ -5,17 +5,18 @@ import Buttons from './Buttons';
 import SubmitMenu from './SubmitMenu';
 import VoteMenu from './VoteMenu';
 
-const Menus = ({ variant, submitMenuProps, voteMenuProps }: MenusProps) => (
+const Menus = ({ submitMenuProps, voteMenuProps }: MenusProps) => (
   <>
     <SubmitMenu
-      variant={variant}
+      variant={submitMenuProps.variant}
       hidden={submitMenuProps.hidden}
       onSubmit={submitMenuProps.onSubmit}
       onClose={submitMenuProps.onClose}
     />
     <VoteMenu
-      variant={variant}
+      variant={voteMenuProps.variant}
       hidden={voteMenuProps.hidden}
+      skipTimes={voteMenuProps.skipTimes}
       onClose={voteMenuProps.onClose}
     />
   </>

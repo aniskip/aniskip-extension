@@ -45,6 +45,21 @@ class SkipButtonsRenderer extends BaseRenderer {
   }
 
   /**
+   * Removes a skip button into the player
+   * @param skipTime Skip time of the skip button to remove
+   */
+  removeSkipButton(skipTime: SkipTimeType) {
+    const skipTimeIndex = this.skipTimes.findIndex(
+      ({ skip_id: currentSkipId }) => currentSkipId === skipTime.skip_id
+    );
+    if (skipTimeIndex !== -1) {
+      this.skipTimes.splice(skipTimeIndex, 1);
+      this.onClickHandlers.splice(skipTimeIndex, 1);
+    }
+    this.render();
+  }
+
+  /**
    * Sets video duration
    * @param videoDuration Video duration
    */

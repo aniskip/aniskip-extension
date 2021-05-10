@@ -76,7 +76,7 @@ class AniskipHttpClient extends BaseHttpClient {
   ): Promise<PostResponseTypeFromSkipTimesVote> {
     const route = `/skip-times/vote/${skipId}`;
     const body = JSON.stringify({
-      type,
+      vote_type: type,
     });
     const response = await this.request(route, 'POST', {}, body);
     return response.json();

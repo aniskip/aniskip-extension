@@ -27,10 +27,6 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
       player.addSkipTime(skipTime, true);
       break;
     }
-    case 'player-clear-skip-times': {
-      player.reset();
-      break;
-    }
     case 'player-get-video-duration': {
       browser.runtime.sendMessage({
         type: `${message.type}-response`,
@@ -65,6 +61,10 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
     }
     case 'player-play': {
       player.play();
+      break;
+    }
+    case 'player-remove-skip-time': {
+      player.removeSkipTime(message.payload);
       break;
     }
     default:

@@ -7,3 +7,8 @@ export interface ButtonProps {
   children?: React.ReactNode;
   submit?: boolean;
 }
+
+export interface LinkButtonProps {
+  children?: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+}

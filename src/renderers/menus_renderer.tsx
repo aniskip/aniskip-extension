@@ -10,15 +10,18 @@ class MenusRenderer extends BaseRenderer {
 
   state: MenusState;
 
-  onSubmit: CallableFunction;
+  submitMenuOnSubmit: CallableFunction;
 
-  onClose: CallableFunction;
+  submitMenuOnClose: CallableFunction;
+
+  voteMenuOnClose: CallableFunction;
 
   constructor(
     id: string,
     variant: string,
-    onSubmit: CallableFunction,
-    onClose: CallableFunction
+    submitMenuOnSubmit: CallableFunction,
+    submitMenuOnClose: CallableFunction,
+    voteMenuOnClose: CallableFunction
   ) {
     super(id, [
       'keydown',
@@ -33,9 +36,11 @@ class MenusRenderer extends BaseRenderer {
     this.state = {
       isSubmitMenuHidden: true,
       isVoteMenuHidden: true,
+      skipTimes: [],
     };
-    this.onSubmit = onSubmit;
-    this.onClose = onClose;
+    this.submitMenuOnSubmit = submitMenuOnSubmit;
+    this.submitMenuOnClose = submitMenuOnClose;
+    this.voteMenuOnClose = voteMenuOnClose;
   }
 
   /**
@@ -47,18 +52,31 @@ class MenusRenderer extends BaseRenderer {
     this.render();
   }
 
+  /**
+   * Reset menus state
+   */
+  resetState() {
+    this.setMenusState({
+      isSubmitMenuHidden: true,
+      isVoteMenuHidden: true,
+      skipTimes: [],
+    });
+  }
+
   render() {
     ReactDOM.render(
       <Menus
-        variant={this.variant}
         submitMenuProps={{
+          variant: this.variant,
           hidden: this.state.isSubmitMenuHidden,
-          onSubmit: this.onSubmit,
-          onClose: this.onClose,
+          onSubmit: this.submitMenuOnSubmit,
+          onClose: this.submitMenuOnClose,
         }}
         voteMenuProps={{
+          variant: this.variant,
           hidden: this.state.isVoteMenuHidden,
-          onClose: () => {},
+          skipTimes: this.state.skipTimes,
+          onClose: this.voteMenuOnClose,
         }}
       />,
       this.shadowRoot.getElementById(this.reactRootId)

@@ -1,17 +1,13 @@
-import { SubmitMenuButtonOnClickHandler } from './submit_types';
-import { VoteMenuButtonOnClickHandler } from './vote_menu_types';
+import { SkipTimeType } from '../api/skip_time_types';
+import {
+  SubmitMenuButtonOnClickHandler,
+  SubmitMenuProps,
+} from './submit_types';
+import { VoteMenuButtonOnClickHandler, VoteMenuProps } from './vote_menu_types';
 
 export interface MenusProps {
-  variant: string;
-  submitMenuProps: {
-    hidden: boolean;
-    onSubmit: CallableFunction;
-    onClose: CallableFunction;
-  };
-  voteMenuProps: {
-    hidden: boolean;
-    onClose: CallableFunction;
-  };
+  submitMenuProps: SubmitMenuProps;
+  voteMenuProps: VoteMenuProps;
 }
 
 export interface MenusButtonsProps {
@@ -30,6 +26,7 @@ export interface MenusButtonsProps {
 export interface MenusState {
   isSubmitMenuHidden: boolean;
   isVoteMenuHidden: boolean;
+  skipTimes: SkipTimeType[];
 }
 
 export interface MenusButtonsState {
