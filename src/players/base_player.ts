@@ -4,20 +4,21 @@ import { Player, Metadata } from '../types/players/player_types';
 import { SkipTimeType } from '../types/api/skip_time_types';
 import isInInterval from '../utils/time_utils';
 import SkipTimeIndicatorsRenderer from '../renderers/skip_time_indicators_renderer';
-import SubmitMenuButtonRenderer from '../renderers/submit_menu_button_renderer';
-import SubmitMenuRenderer from '../renderers/submit_menu_renderer';
+import MenusButtonsRenderer from '../renderers/menus_buttons_renderer';
+import MenusRenderer from '../renderers/menus_renderer';
 import SkipButtonsRenderer from '../renderers/skip_button_renderer';
+import { MenusState } from '../types/components/menus_types';
 
 abstract class BasePlayer implements Player {
   document: Document;
 
   metadata: Metadata;
 
-  isSubmitMenuHidden: boolean;
+  menusState: MenusState;
 
-  submitMenuRenderer: SubmitMenuRenderer;
+  menusRenderer: MenusRenderer;
 
-  submitMenuButtonRenderer: SubmitMenuButtonRenderer;
+  menusButtonsRenderer: MenusButtonsRenderer;
 
   skipButtonRenderer: SkipButtonsRenderer;
 
@@ -36,22 +37,42 @@ abstract class BasePlayer implements Player {
     this.metadata = metadata;
     this.videoElement = videoElement;
     this.timeUpdateEventListeners = {};
-    this.isSubmitMenuHidden = true;
+    this.menusState = {
+      isSubmitMenuHidden: true,
+      isVoteMenuHidden: true,
+    };
 
     this.skipButtonRenderer = new SkipButtonsRenderer(
       'aniskip-player-skip-buttons',
       this.metadata.variant
     );
-    this.submitMenuRenderer = new SubmitMenuRenderer(
-      'aniskip-player-submit-menu',
+    this.menusRenderer = new MenusRenderer(
+      'aniskip-player-menus',
       this.metadata.variant,
-      () => this.setIsSubmitMenuHidden(true),
-      () => this.setIsSubmitMenuHidden(true)
+      () =>
+        this.setMenusState({
+          ...this.menusState,
+          isSubmitMenuHidden: true,
+        }),
+      () =>
+        this.setMenusState({
+          ...this.menusState,
+          isSubmitMenuHidden: true,
+        })
     );
-    this.submitMenuButtonRenderer = new SubmitMenuButtonRenderer(
+    this.menusButtonsRenderer = new MenusButtonsRenderer(
       'aniskip-player-submit-menu-button',
       this.metadata.variant,
-      () => this.setIsSubmitMenuHidden(!this.isSubmitMenuHidden)
+      () =>
+        this.setMenusState({
+          isSubmitMenuHidden: !this.menusState.isSubmitMenuHidden,
+          isVoteMenuHidden: true,
+        }),
+      () =>
+        this.setMenusState({
+          isSubmitMenuHidden: true,
+          isVoteMenuHidden: !this.menusState.isVoteMenuHidden,
+        })
     );
     this.skipTimeIndicatorsRenderer = new SkipTimeIndicatorsRenderer(
       'aniskip-player-skip-time-indicator',
@@ -216,8 +237,8 @@ abstract class BasePlayer implements Player {
   injectSubmitMenu() {
     const videoContainer = this.getVideoContainer();
     if (videoContainer) {
-      videoContainer.appendChild(this.submitMenuRenderer.shadowRootContainer);
-      this.submitMenuRenderer.render();
+      videoContainer.appendChild(this.menusRenderer.shadowRootContainer);
+      this.menusRenderer.render();
     }
   }
 
@@ -229,9 +250,9 @@ abstract class BasePlayer implements Player {
     if (settingsButtonElement) {
       settingsButtonElement.insertAdjacentElement(
         'beforebegin',
-        this.submitMenuButtonRenderer.shadowRootContainer
+        this.menusButtonsRenderer.shadowRootContainer
       );
-      this.submitMenuButtonRenderer.render();
+      this.menusButtonsRenderer.render();
     }
   }
 
@@ -257,13 +278,16 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Set is submit menu hidden field
-   * @param isSubmitMenuHidden Is submit menu hidden new value
+   * Set menus state
+   * @param newState New state of menus
    */
-  setIsSubmitMenuHidden(isSubmitMenuHidden: boolean) {
-    this.isSubmitMenuHidden = isSubmitMenuHidden;
-    this.submitMenuButtonRenderer.setIsActive(!this.isSubmitMenuHidden);
-    this.submitMenuRenderer.setIsHidden(this.isSubmitMenuHidden);
+  setMenusState(newState: MenusState) {
+    this.menusState = newState;
+    this.menusButtonsRenderer.setState({
+      isSubmitButtonActive: !newState.isSubmitMenuHidden,
+      isVoteButtonActive: !newState.isVoteMenuHidden,
+    });
+    this.menusRenderer.setMenusState(newState);
   }
 
   /**

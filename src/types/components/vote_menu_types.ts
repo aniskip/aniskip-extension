@@ -1,4 +1,10 @@
-export type VoteMenuButtonClickHandler = (
+export interface VoteMenuProps {
+  variant: string;
+  hidden: boolean;
+  onClose: CallableFunction;
+}
+
+export type VoteMenuButtonOnClickHandler = (
   event:
     | React.MouseEvent<HTMLDivElement, MouseEvent>
     | React.KeyboardEvent<HTMLDivElement>
@@ -7,5 +13,5 @@ export type VoteMenuButtonClickHandler = (
 export interface VoteMenuButtonProps {
   active?: boolean;
   variant: string;
-  handleClick: VoteMenuButtonClickHandler;
+  onClick: VoteMenuButtonOnClickHandler;
 }

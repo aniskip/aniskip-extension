@@ -1,4 +1,4 @@
-export type SubmitButtonClickHandler = (
+export type SubmitMenuButtonOnClickHandler = (
   event:
     | React.MouseEvent<HTMLDivElement, MouseEvent>
     | React.KeyboardEvent<HTMLDivElement>
@@ -7,7 +7,7 @@ export type SubmitButtonClickHandler = (
 export interface SubmitMenuButtonProps {
   active?: boolean;
   variant: string;
-  handleClick: SubmitButtonClickHandler;
+  onClick: SubmitMenuButtonOnClickHandler;
 }
 
 export interface SubmitMenuContainerProps {
@@ -17,7 +17,6 @@ export interface SubmitMenuContainerProps {
 export interface SubmitMenuProps {
   variant: string;
   hidden: boolean;
-  fullScreen?: boolean;
   onSubmit: CallableFunction;
   onClose: CallableFunction;
 }

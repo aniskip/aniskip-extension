@@ -2,20 +2,20 @@ import React, { useEffect, useRef, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import { FaPlay, FaTimes } from 'react-icons/fa';
 
-import { SubmitMenuProps } from '../../types/components/submit_types';
+import { SubmitMenuProps } from '../../../types/components/submit_types';
 import {
   formatTimeString,
   secondsToTimeString,
   timeStringToSeconds,
-} from '../../utils/string_utils';
-import AniskipHttpClient from '../../api/aniskip_http_client';
-import Dropdown from '../Dropdown';
-import DefaultButton from '../Button';
+} from '../../../utils/string_utils';
+import AniskipHttpClient from '../../../api/aniskip_http_client';
+import Dropdown from '../../Dropdown';
+import DefaultButton from '../../Button';
 import MenuButton from './Button';
-import waitForMessage from '../../utils/message_utils';
-import Input from '../Input';
-import { SkipType } from '../../types/api/skip_time_types';
-import useFullscreen from '../../hooks/use_fullscreen';
+import waitForMessage from '../../../utils/message_utils';
+import Input from '../../Input';
+import { SkipType } from '../../../types/api/skip_time_types';
+import useFullscreen from '../../../hooks/use_fullscreen';
 
 const SubmitMenu = ({
   variant,

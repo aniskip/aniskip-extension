@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import SubmitMenu from '../components/SubmitMenu';
 import BaseRenderer from './base_renderer';
+import Menus from '../components/Menus';
+import { MenusState } from '../types/components/menus_types';
 
-class SubmitMenuRenderer extends BaseRenderer {
+class MenusRenderer extends BaseRenderer {
   variant: string;
 
-  isHidden: boolean;
+  state: MenusState;
 
   onSubmit: CallableFunction;
 
@@ -29,31 +30,40 @@ class SubmitMenuRenderer extends BaseRenderer {
     ]);
 
     this.variant = variant;
-    this.isHidden = true;
+    this.state = {
+      isSubmitMenuHidden: true,
+      isVoteMenuHidden: true,
+    };
     this.onSubmit = onSubmit;
     this.onClose = onClose;
   }
 
   /**
-   * Set is hidden field
-   * @param isHidden Is menu hidden new value
+   * Set menus state
+   * @param newState New state of menus
    */
-  setIsHidden(isHidden: boolean) {
-    this.isHidden = isHidden;
+  setMenusState(newState: MenusState) {
+    this.state = newState;
     this.render();
   }
 
   render() {
     ReactDOM.render(
-      <SubmitMenu
+      <Menus
         variant={this.variant}
-        hidden={this.isHidden}
-        onSubmit={this.onSubmit}
-        onClose={this.onClose}
+        submitMenuProps={{
+          hidden: this.state.isSubmitMenuHidden,
+          onSubmit: this.onSubmit,
+          onClose: this.onClose,
+        }}
+        voteMenuProps={{
+          hidden: this.state.isVoteMenuHidden,
+          onClose: () => {},
+        }}
       />,
       this.shadowRoot.getElementById(this.reactRootId)
     );
   }
 }
 
-export default SubmitMenuRenderer;
+export default MenusRenderer;
