@@ -28,6 +28,7 @@ const getPlayer = (hostname: string, videoElement: HTMLVideoElement) => {
     case 'cloud9':
     case 'fcdn':
     case 'gogo-play':
+    case 'mcloud':
     case 'mcloud2':
     case 'streamsb':
     case 'vidstream':
