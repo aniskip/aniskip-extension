@@ -1,4 +1,4 @@
-import { SkipTimeType } from '../api/skip_time_types';
+import { SkipTimeType } from '../api/aniskip_types';
 
 export interface VoteMenuProps {
   variant: string;

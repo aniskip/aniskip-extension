@@ -3,7 +3,7 @@ import Message from './types/message_type';
 import AniskipHttpClient from './api/aniskip_http_client';
 import getPage from './utils/page_utils';
 import { SkipOptionType } from './types/options/skip_option_type';
-import { SkipType } from './types/api/skip_time_types';
+import { SkipType } from './types/api/aniskip_types';
 
 /**
  * Returns the MAL id, episode number and provider name

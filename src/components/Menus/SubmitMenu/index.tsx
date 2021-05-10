@@ -13,7 +13,7 @@ import DefaultButton from '../../Button';
 import MenuButton from './Button';
 import waitForMessage from '../../../utils/message_utils';
 import Input from '../../Input';
-import { SkipType } from '../../../types/api/skip_time_types';
+import { SkipType } from '../../../types/api/aniskip_types';
 import useFullscreen from '../../../hooks/use_fullscreen';
 import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
 

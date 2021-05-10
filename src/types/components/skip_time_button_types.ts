@@ -1,5 +1,5 @@
 import React from 'react';
-import { SkipTimeType, SkipType } from '../api/skip_time_types';
+import { SkipTimeType, SkipType } from '../api/aniskip_types';
 
 export type SkipButtonOnClickHandler = (
   event: React.MouseEvent<HTMLButtonElement, MouseEvent>

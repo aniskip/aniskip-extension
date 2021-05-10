@@ -1,6 +1,6 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 import Message from './types/message_type';
-import { SkipTimeType, SkipType } from './types/api/skip_time_types';
+import { SkipTimeType, SkipType } from './types/api/aniskip_types';
 import getPlayer from './utils/player_utils';
 import { Player } from './types/players/player_types';
 

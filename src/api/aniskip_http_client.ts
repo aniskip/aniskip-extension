@@ -2,7 +2,8 @@ import {
   GetResponseTypeFromSkipTimes,
   PostResponseTypeFromSkipTimesVote,
   SkipType,
-} from '../types/api/skip_time_types';
+  VoteType,
+} from '../types/api/aniskip_types';
 import BaseHttpClient from './base_http_client';
 
 class AniskipHttpClient extends BaseHttpClient {
@@ -72,7 +73,7 @@ class AniskipHttpClient extends BaseHttpClient {
    */
   async vote(
     skipId: string,
-    type: 'upvote' | 'downvote'
+    type: VoteType
   ): Promise<PostResponseTypeFromSkipTimesVote> {
     const route = `/skip-times/vote/${skipId}`;
     const body = JSON.stringify({

@@ -4,6 +4,7 @@ import { browser } from 'webextension-polyfill-ts';
 
 import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
 import useFullscreen from '../../../hooks/use_fullscreen';
+import { VoteType } from '../../../types/api/aniskip_types';
 import { VoteMenuProps } from '../../../types/components/vote_menu_types';
 import { secondsToTimeString } from '../../../utils/string_utils';
 import LinkButton from '../../LinkButton';
@@ -12,10 +13,21 @@ import Button from './Button';
 const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
   const { isFullscreen } = useFullscreen();
   const { aniskipHttpClient } = useAniskipHttpClient();
-  const [votesSubmitted, setVotesSubmitted] = useState<boolean[]>([]);
+  const [skipTimesVoted, setSkipTimesVoted] = useState<
+    Record<string, VoteType>
+  >({});
 
   useEffect(() => {
     skipTimes.sort((a, b) => a.interval.start_time - b.interval.end_time);
+    (async () => {
+      const currentSkipTimesVoted = (
+        await browser.storage.local.get({
+          skipTimesVoted: {},
+        })
+      ).skipTimesVoted;
+
+      setSkipTimesVoted(currentSkipTimesVoted);
+    })();
   }, [skipTimes]);
 
   const setPlayerCurrentTime = (time: number) => () => {
@@ -55,13 +67,14 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
         {skipTimes.length > 0 &&
           skipTimes
             .filter((skipTime) => skipTime.skip_id)
-            .map((skipTime, index) => {
+            .map((skipTime) => {
               const {
                 skip_id: skipId,
                 interval,
                 skip_type: skipType,
               } = skipTime;
-              const isVoteSubmitted = votesSubmitted[index];
+              const isUpvoted = skipTimesVoted[skipId] === 'upvote';
+              const isDownvoted = skipTimesVoted[skipId] === 'downvote';
               const startTimeFormatted = secondsToTimeString(
                 interval.start_time,
                 0
@@ -108,25 +121,79 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
                   </div>
                   <div className="flex flex-col justify-between py-1">
                     <button
-                      className="focus:outline-none hover:text-primary active:opacity-80"
+                      className={`focus:outline-none hover:text-primary active:opacity-80 ${
+                        isUpvoted && 'text-primary'
+                      }`}
                       type="button"
-                      onClick={() => {
-                        aniskipHttpClient.upvote(skipId);
+                      onClick={async () => {
+                        if (isUpvoted) {
+                          return;
+                        }
+
+                        const currentSkipTimesVoted = (
+                          await browser.storage.local.get({
+                            skipTimesVoted,
+                          })
+                        ).skipTimesVoted;
+
+                        const updatedSkipTimesVoted = {
+                          ...skipTimesVoted,
+                          ...currentSkipTimesVoted,
+                          [skipId]: 'upvote',
+                        };
+
+                        setSkipTimesVoted(updatedSkipTimesVoted);
+
+                        const response = await aniskipHttpClient.upvote(skipId);
+                        if (response.message === 'success') {
+                          browser.storage.local.set({
+                            skipTimesVoted: updatedSkipTimesVoted,
+                          });
+                        }
                       }}
+                      disabled={isUpvoted}
                     >
                       <FaChevronUp />
                     </button>
                     <button
-                      className="focus:outline-none hover:text-blue-500 active:opacity-80"
+                      className={`focus:outline-none hover:text-blue-500 active:opacity-80 ${
+                        isDownvoted && 'text-blue-500'
+                      }`}
                       type="button"
                       onClick={async () => {
+                        if (isDownvoted) {
+                          return;
+                        }
+
+                        const currentSkipTimesVoted = (
+                          await browser.storage.local.get({
+                            skipTimesVoted,
+                          })
+                        ).skipTimesVoted;
+
+                        const updatedSkipTimesVoted = {
+                          ...skipTimesVoted,
+                          ...currentSkipTimesVoted,
+                          [skipId]: 'downvote',
+                        };
+
+                        setSkipTimesVoted(updatedSkipTimesVoted);
+
                         browser.runtime.sendMessage({
                           type: 'player-remove-skip-time',
                           payload: skipTime,
                         });
 
-                        aniskipHttpClient.downvote(skipId);
+                        const response = await aniskipHttpClient.downvote(
+                          skipId
+                        );
+                        if (response.message === 'success') {
+                          browser.storage.local.set({
+                            skipTimesVoted: updatedSkipTimesVoted,
+                          });
+                        }
                       }}
+                      disabled={isDownvoted}
                     >
                       <FaChevronDown />
                     </button>

@@ -25,3 +25,5 @@ export interface SuccessMessageType {
 
 export type PostResponseTypeFromSkipTimesVote = SuccessMessageType;
 export type PostResponseTypeFromSkipTimes = SuccessMessageType;
+
+export type VoteType = 'upvote' | 'downvote';

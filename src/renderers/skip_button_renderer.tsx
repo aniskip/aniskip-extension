@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SkipButton from '../components/SkipButton';
-import { SkipTimeType } from '../types/api/skip_time_types';
+import { SkipTimeType } from '../types/api/aniskip_types';
 import { SkipButtonOnClickHandler } from '../types/components/skip_time_button_types';
 
 import BaseRenderer from './base_renderer';

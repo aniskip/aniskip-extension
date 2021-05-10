@@ -1,7 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { Player, Metadata } from '../types/players/player_types';
-import { SkipTimeType } from '../types/api/skip_time_types';
+import { SkipTimeType } from '../types/api/aniskip_types';
 import isInInterval from '../utils/time_utils';
 import SkipTimeIndicatorsRenderer from '../renderers/skip_time_indicators_renderer';
 import MenusButtonsRenderer from '../renderers/menus_buttons_renderer';

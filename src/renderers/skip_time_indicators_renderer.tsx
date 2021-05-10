@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import SkipTimeIndicator from '../components/SkipTimeIndicator';
-import { SkipTimeType } from '../types/api/skip_time_types';
+import { SkipTimeType } from '../types/api/aniskip_types';
 import BaseRenderer from './base_renderer';
 
 class SkipTimeIndicatorsRenderer extends BaseRenderer {
