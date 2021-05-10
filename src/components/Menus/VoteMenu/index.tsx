@@ -4,7 +4,7 @@ import { browser } from 'webextension-polyfill-ts';
 
 import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
 import useFullscreen from '../../../hooks/use_fullscreen';
-import { VoteType } from '../../../types/api/aniskip_types';
+import { SkipTimeType, VoteType } from '../../../types/api/aniskip_types';
 import { VoteMenuProps } from '../../../types/components/vote_menu_types';
 import { secondsToTimeString } from '../../../utils/string_utils';
 import LinkButton from '../../LinkButton';
@@ -16,9 +16,14 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
   const [skipTimesVoted, setSkipTimesVoted] = useState<
     Record<string, VoteType>
   >({});
+  const [filteredSkipTimes, setFilteredSkipTimes] = useState<SkipTimeType[]>(
+    []
+  );
 
   useEffect(() => {
     skipTimes.sort((a, b) => a.interval.start_time - b.interval.end_time);
+    setFilteredSkipTimes([...skipTimes.filter((skipTime) => skipTime.skip_id)]);
+
     (async () => {
       const currentSkipTimesVoted = (
         await browser.storage.local.get({
@@ -59,148 +64,137 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
         </button>
       </div>
       <div className="divide-y divide-gray-300">
-        {skipTimes.length === 0 && (
+        {filteredSkipTimes.length === 0 && (
           <div className="text-xs uppercase font-semibold text-red-500">
             No skip times found
           </div>
         )}
-        {skipTimes.length > 0 &&
-          skipTimes
-            .filter((skipTime) => skipTime.skip_id)
-            .map((skipTime) => {
-              const {
-                skip_id: skipId,
-                interval,
-                skip_type: skipType,
-              } = skipTime;
-              const isUpvoted = skipTimesVoted[skipId] === 'upvote';
-              const isDownvoted = skipTimesVoted[skipId] === 'downvote';
-              const startTimeFormatted = secondsToTimeString(
-                interval.start_time,
-                0
-              );
-              const endTimeFormatted = secondsToTimeString(
-                interval.end_time,
-                0
-              );
+        {filteredSkipTimes.length > 0 &&
+          filteredSkipTimes.map((skipTime) => {
+            const { skip_id: skipId, interval, skip_type: skipType } = skipTime;
+            const isUpvoted = skipTimesVoted[skipId] === 'upvote';
+            const isDownvoted = skipTimesVoted[skipId] === 'downvote';
+            const startTimeFormatted = secondsToTimeString(
+              interval.start_time,
+              0
+            );
+            const endTimeFormatted = secondsToTimeString(interval.end_time, 0);
 
-              let skipTypeFormatted = '';
-              switch (skipType) {
-                case 'op':
-                  skipTypeFormatted = 'Opening';
-                  break;
-                case 'ed':
-                  skipTypeFormatted = 'Ending';
-                  break;
-                default:
-              }
+            let skipTypeFormatted = '';
+            switch (skipType) {
+              case 'op':
+                skipTypeFormatted = 'Opening';
+                break;
+              case 'ed':
+                skipTypeFormatted = 'Ending';
+                break;
+              default:
+            }
 
-              return (
-                <div
-                  className="flex justify-between py-2"
-                  key={`vote-menu-skip-time-${skipId}`}
-                >
-                  <div>
-                    <span className="font-bold uppercase text-xs">
-                      {skipTypeFormatted}
-                    </span>
-                    <br />
-                    <span className="text-sm text-blue-500">
-                      <LinkButton
-                        onClick={setPlayerCurrentTime(interval.start_time)}
-                      >
-                        {startTimeFormatted}
-                      </LinkButton>{' '}
-                      <span className="text-white">-</span>{' '}
-                      <LinkButton
-                        onClick={setPlayerCurrentTime(interval.end_time)}
-                      >
-                        {endTimeFormatted}
-                      </LinkButton>
-                    </span>
-                  </div>
-                  <div className="flex flex-col justify-between py-1">
-                    <button
-                      className={`focus:outline-none hover:text-primary active:opacity-80 ${
-                        isUpvoted && 'text-primary'
-                      }`}
-                      type="button"
-                      onClick={async () => {
-                        if (isUpvoted) {
-                          return;
-                        }
-
-                        const currentSkipTimesVoted = (
-                          await browser.storage.local.get({
-                            skipTimesVoted,
-                          })
-                        ).skipTimesVoted;
-
-                        const updatedSkipTimesVoted = {
-                          ...skipTimesVoted,
-                          ...currentSkipTimesVoted,
-                          [skipId]: 'upvote',
-                        };
-
-                        setSkipTimesVoted(updatedSkipTimesVoted);
-
-                        const response = await aniskipHttpClient.upvote(skipId);
-                        if (response.message === 'success') {
-                          browser.storage.local.set({
-                            skipTimesVoted: updatedSkipTimesVoted,
-                          });
-                        }
-                      }}
-                      disabled={isUpvoted}
+            return (
+              <div
+                className="flex justify-between py-2"
+                key={`vote-menu-skip-time-${skipId}`}
+              >
+                <div>
+                  <span className="font-bold uppercase text-xs">
+                    {skipTypeFormatted}
+                  </span>
+                  <br />
+                  <span className="text-sm text-blue-500">
+                    <LinkButton
+                      onClick={setPlayerCurrentTime(interval.start_time)}
                     >
-                      <FaChevronUp />
-                    </button>
-                    <button
-                      className={`focus:outline-none hover:text-blue-500 active:opacity-80 ${
-                        isDownvoted && 'text-blue-500'
-                      }`}
-                      type="button"
-                      onClick={async () => {
-                        if (isDownvoted) {
-                          return;
-                        }
-
-                        const currentSkipTimesVoted = (
-                          await browser.storage.local.get({
-                            skipTimesVoted,
-                          })
-                        ).skipTimesVoted;
-
-                        const updatedSkipTimesVoted = {
-                          ...skipTimesVoted,
-                          ...currentSkipTimesVoted,
-                          [skipId]: 'downvote',
-                        };
-
-                        setSkipTimesVoted(updatedSkipTimesVoted);
-
-                        browser.runtime.sendMessage({
-                          type: 'player-remove-skip-time',
-                          payload: skipTime,
-                        });
-
-                        const response = await aniskipHttpClient.downvote(
-                          skipId
-                        );
-                        if (response.message === 'success') {
-                          browser.storage.local.set({
-                            skipTimesVoted: updatedSkipTimesVoted,
-                          });
-                        }
-                      }}
-                      disabled={isDownvoted}
+                      {startTimeFormatted}
+                    </LinkButton>{' '}
+                    <span className="text-white">-</span>{' '}
+                    <LinkButton
+                      onClick={setPlayerCurrentTime(interval.end_time)}
                     >
-                      <FaChevronDown />
-                    </button>
-                  </div>
+                      {endTimeFormatted}
+                    </LinkButton>
+                  </span>
                 </div>
-              );
-            })}
+                <div className="flex flex-col justify-between py-1">
+                  <button
+                    className={`focus:outline-none hover:text-primary active:opacity-80 ${
+                      isUpvoted && 'text-primary'
+                    }`}
+                    type="button"
+                    onClick={async () => {
+                      if (isUpvoted) {
+                        return;
+                      }
+
+                      const currentSkipTimesVoted = (
+                        await browser.storage.local.get({
+                          skipTimesVoted,
+                        })
+                      ).skipTimesVoted;
+
+                      const updatedSkipTimesVoted = {
+                        ...skipTimesVoted,
+                        ...currentSkipTimesVoted,
+                        [skipId]: 'upvote',
+                      };
+
+                      setSkipTimesVoted(updatedSkipTimesVoted);
+
+                      const response = await aniskipHttpClient.upvote(skipId);
+                      if (response.message === 'success') {
+                        browser.storage.local.set({
+                          skipTimesVoted: updatedSkipTimesVoted,
+                        });
+                      }
+                    }}
+                    disabled={isUpvoted}
+                  >
+                    <FaChevronUp />
+                  </button>
+                  <button
+                    className={`focus:outline-none hover:text-blue-500 active:opacity-80 ${
+                      isDownvoted && 'text-blue-500'
+                    }`}
+                    type="button"
+                    onClick={async () => {
+                      if (isDownvoted) {
+                        return;
+                      }
+
+                      const currentSkipTimesVoted = (
+                        await browser.storage.local.get({
+                          skipTimesVoted,
+                        })
+                      ).skipTimesVoted;
+
+                      const updatedSkipTimesVoted = {
+                        ...skipTimesVoted,
+                        ...currentSkipTimesVoted,
+                        [skipId]: 'downvote',
+                      };
+
+                      setSkipTimesVoted(updatedSkipTimesVoted);
+
+                      browser.runtime.sendMessage({
+                        type: 'player-remove-skip-time',
+                        payload: skipTime,
+                      });
+
+                      const response = await aniskipHttpClient.downvote(skipId);
+                      if (response.message === 'success') {
+                        browser.storage.local.set({
+                          skipTimesVoted: updatedSkipTimesVoted,
+                        });
+                      }
+                    }}
+                    disabled={isDownvoted}
+                  >
+                    <FaChevronDown />
+                  </button>
+                </div>
+              </div>
+            );
+          })}
       </div>
     </div>
   );
