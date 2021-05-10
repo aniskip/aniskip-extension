@@ -45,8 +45,8 @@ abstract class BaseRenderer implements Renderer {
     const tailwindcssStyle = document.createElement('style');
     // eslint-disable-next-line import/no-webpack-loader-syntax, global-require
     tailwindcssStyle.textContent = require(`!to-string-loader!css-loader?{"esModule":false,"sourceMap":false}!postcss-loader?{"postcssOptions":{"plugins":["postcss-import","tailwindcss","autoprefixer"]},"sourceMap":false}!tailwindcss/tailwind.css`);
-
     shadowRoot.appendChild(tailwindcssStyle);
+
     const playerScriptStyle = document.createElement('style');
     // eslint-disable-next-line import/no-webpack-loader-syntax, global-require
     playerScriptStyle.textContent = require('!to-string-loader!css-loader?{"esModule":false,"sourceMap":false}!sass-loader!../player_script.scss');

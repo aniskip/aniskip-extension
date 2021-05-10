@@ -27,7 +27,11 @@
 
     &--doodstream {
       right: 2.5em;
-      bottom: 9em;
+      bottom: 9.5em;
+
+      form {
+        margin-block-end: 0;
+      }
     }
 
     &-button {
@@ -92,5 +96,10 @@
       right: 4.5em;
       bottom: 9em;
     }
+  }
+
+  &--doodstream {
+    right: 4.3em;
+    bottom: 7em;
   }
 }
