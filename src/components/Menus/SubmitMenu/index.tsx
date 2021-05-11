@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
-import { FaPlay, FaTimes } from 'react-icons/fa';
+import {
+  FaBackward,
+  FaForward,
+  FaPlay,
+  FaRegObjectUngroup,
+  FaTimes,
+} from 'react-icons/fa';
 
 import { SubmitMenuProps } from '../../../types/components/submit_types';
 import {
@@ -29,7 +35,7 @@ const SubmitMenu = ({
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
   const [currentInputFocus, setCurrentInputFocus] =
-    useState<'start-time' | 'end-time'>();
+    useState<'start-time' | 'end-time' | null>(null);
   const inputPatternRegexStringRef = useRef(
     '([0-9]+:)?[0-9]{1,2}:[0-9]{1,2}(.[0-9]{1,3})?'
   );
@@ -170,12 +176,40 @@ const SubmitMenu = ({
       setTime(updatedTimeString);
     };
 
+  const handleSeekTime = (seekOffset: number) => () => {
+    let setTimeFunction = (_newValue: string) => {};
+    let currentTime = '';
+    switch (currentInputFocus) {
+      case 'start-time':
+        setTimeFunction = setStartTime;
+        currentTime = startTime;
+        break;
+      case 'end-time':
+        setTimeFunction = setEndTime;
+        currentTime = endTime;
+        break;
+      default:
+        return;
+    }
+
+    let updatedTime = timeStringToSeconds(currentTime) + seekOffset;
+    if (updatedTime < 0) {
+      updatedTime = 0;
+    }
+
+    setTimeFunction(secondsToTimeString(updatedTime));
+    browser.runtime.sendMessage({
+      type: 'player-set-video-current-time',
+      payload: updatedTime,
+    });
+  };
+
   return (
     <div
-      className={`font-sans w-96 px-5 pt-2 pb-4 z-10 bg-trueGray-800 bg-opacity-80 border border-gray-300 right-5 bottom-28 absolute select-none rounded-md transition-opacity text-white ${
-        hidden && 'opacity-0 pointer-events-none'
+      className={`font-sans w-[26em] px-5 pt-2 pb-4 z-10 bg-trueGray-800 bg-opacity-80 border border-gray-300 right-5 bottom-28 absolute select-none rounded-md transition-opacity text-white ${
+        hidden ? 'opacity-0 pointer-events-none' : ''
       } submit-menu--${variant} ${
-        isFullscreen && `submit-menu--${variant}--fullscreen`
+        isFullscreen ? `submit-menu--${variant}--fullscreen` : ''
       }`}
       role="menu"
     >
@@ -241,61 +275,76 @@ const SubmitMenu = ({
             />
           </div>
         </div>
-        <div className="flex space-x-2">
-          <DefaultButton
-            className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
-            onClick={async () => {
-              const messageType = 'player-get-video-current-time';
-              browser.runtime.sendMessage({ type: messageType });
-              const currentTime: number = (
-                await waitForMessage(`${messageType}-response`)
-              ).payload;
-              if (currentInputFocus === 'start-time') {
-                setStartTime(secondsToTimeString(currentTime));
-              } else if (currentInputFocus === 'end-time') {
-                setEndTime(secondsToTimeString(currentTime));
-              }
-            }}
-          >
-            Now
-          </DefaultButton>
-          <DefaultButton
-            className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
-            onClick={async () => {
-              const messageType = 'player-add-preview-skip-time';
-              browser.runtime.sendMessage({
-                type: messageType,
-                payload: {
-                  interval: {
-                    startTime: timeStringToSeconds(startTime),
-                    endTime: timeStringToSeconds(endTime),
+        <div>
+          <div className="font-bold text-xs uppercase mb-1">Time controls</div>
+          <div className="flex space-x-2">
+            <DefaultButton
+              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
+              onClick={async () => {
+                const messageType = 'player-get-video-current-time';
+                browser.runtime.sendMessage({ type: messageType });
+                const currentTime: number = (
+                  await waitForMessage(`${messageType}-response`)
+                ).payload;
+                if (currentInputFocus === 'start-time') {
+                  setStartTime(secondsToTimeString(currentTime));
+                } else if (currentInputFocus === 'end-time') {
+                  setEndTime(secondsToTimeString(currentTime));
+                }
+              }}
+            >
+              Now
+            </DefaultButton>
+            <DefaultButton
+              className="shadow-sm bg-primary bg-opacity-80 border border-gray-300"
+              onClick={handleSeekTime(-0.25)}
+            >
+              <FaBackward size={16} />
+            </DefaultButton>
+            <DefaultButton
+              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
+              onClick={async () => {
+                const messageType = 'player-add-preview-skip-time';
+                browser.runtime.sendMessage({
+                  type: messageType,
+                  payload: {
+                    interval: {
+                      startTime: timeStringToSeconds(startTime),
+                      endTime: timeStringToSeconds(endTime),
+                    },
+                    skipType,
                   },
-                  skipType,
-                },
-              });
-            }}
-          >
-            Preview
-          </DefaultButton>
-          <DefaultButton
-            className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
-            onClick={async () => {
-              const messageType = 'player-get-video-duration';
-              browser.runtime.sendMessage({ type: messageType });
-              const duration: number = (
-                await waitForMessage(`${messageType}-response`)
-              ).payload;
-              const trimmedDuration = Math.floor(duration);
+                });
+              }}
+            >
+              Preview
+            </DefaultButton>
+            <DefaultButton
+              className="shadow-sm bg-primary bg-opacity-80 border border-gray-300"
+              onClick={handleSeekTime(0.25)}
+            >
+              <FaForward size={16} />
+            </DefaultButton>
+            <DefaultButton
+              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
+              onClick={async () => {
+                const messageType = 'player-get-video-duration';
+                browser.runtime.sendMessage({ type: messageType });
+                const duration: number = (
+                  await waitForMessage(`${messageType}-response`)
+                ).payload;
+                const trimmedDuration = Math.floor(duration);
 
-              if (currentInputFocus === 'start-time') {
-                setStartTime(secondsToTimeString(trimmedDuration));
-              } else if (currentInputFocus === 'end-time') {
-                setEndTime(secondsToTimeString(trimmedDuration));
-              }
-            }}
-          >
-            End
-          </DefaultButton>
+                if (currentInputFocus === 'start-time') {
+                  setStartTime(secondsToTimeString(trimmedDuration));
+                } else if (currentInputFocus === 'end-time') {
+                  setEndTime(secondsToTimeString(trimmedDuration));
+                }
+              }}
+            >
+              End
+            </DefaultButton>
+          </div>
         </div>
         <div>
           <div className="font-bold text-xs uppercase mb-1">Skip type</div>
