@@ -56,7 +56,7 @@ class Crunchyroll extends BasePage {
       );
 
     // The episode number is already in seasonal form
-    if (episodeNumberOffset > episodeNumber) {
+    if (episodeNumberOffset >= episodeNumber) {
       return episodeNumber;
     }
 
