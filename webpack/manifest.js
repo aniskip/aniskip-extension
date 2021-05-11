@@ -83,7 +83,9 @@ module.exports = () => {
       run_at: 'document_start',
     },
   ];
-  manifest.optional_permissions = pageUrls.concat(playerUrls);
+  manifest.optional_permissions = Array.from(
+    new Set(pageUrls.concat(playerUrls))
+  );
 
   switch (process.env.BROWSER) {
     case 'chromium':
