@@ -29,7 +29,7 @@ const SubmitMenu = ({
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
   const [currentInputFocus, setCurrentInputFocus] =
-    useState<'start-time' | 'end-time' | null>(null);
+    useState<'start-time' | 'end-time'>('start-time');
   const inputPatternRegexStringRef = useRef(
     '([0-9]+:)?[0-9]{1,2}:[0-9]{1,2}(.[0-9]{1,3})?'
   );
@@ -280,10 +280,14 @@ const SubmitMenu = ({
                 const currentTime: number = (
                   await waitForMessage(`${messageType}-response`)
                 ).payload;
-                if (currentInputFocus === 'start-time') {
-                  setStartTime(secondsToTimeString(currentTime));
-                } else if (currentInputFocus === 'end-time') {
-                  setEndTime(secondsToTimeString(currentTime));
+                switch (currentInputFocus) {
+                  case 'start-time':
+                    setStartTime(secondsToTimeString(currentTime));
+                    break;
+                  case 'end-time':
+                    setEndTime(secondsToTimeString(currentTime));
+                    break;
+                  default:
                 }
               }}
             >
@@ -329,10 +333,14 @@ const SubmitMenu = ({
                 ).payload;
                 const trimmedDuration = Math.floor(duration);
 
-                if (currentInputFocus === 'start-time') {
-                  setStartTime(secondsToTimeString(trimmedDuration));
-                } else if (currentInputFocus === 'end-time') {
-                  setEndTime(secondsToTimeString(trimmedDuration));
+                switch (currentInputFocus) {
+                  case 'start-time':
+                    setStartTime(secondsToTimeString(trimmedDuration));
+                    break;
+                  case 'end-time':
+                    setEndTime(secondsToTimeString(trimmedDuration));
+                    break;
+                  default:
                 }
               }}
             >
