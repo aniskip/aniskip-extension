@@ -1,12 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
-import {
-  FaBackward,
-  FaForward,
-  FaPlay,
-  FaRegObjectUngroup,
-  FaTimes,
-} from 'react-icons/fa';
+import { FaBackward, FaForward, FaPlay, FaTimes } from 'react-icons/fa';
 
 import { SubmitMenuProps } from '../../../types/components/submit_types';
 import {
