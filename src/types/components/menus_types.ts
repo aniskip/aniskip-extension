@@ -11,6 +11,7 @@ export interface MenusProps {
 }
 
 export interface MenusButtonsProps {
+  variant: string;
   submitMenuButtonProps: {
     active: boolean;
     variant: string;

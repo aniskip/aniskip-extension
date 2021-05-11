@@ -47,7 +47,7 @@ export const secondsToTimeString = (
   remainingSeconds %= 60;
   const secondsFormated = remainingSeconds
     .toFixed(decimalPlaces)
-    .padStart(decimalPlaces + decimalPlaces === 0 ? 2 : 3, '0');
+    .padStart(decimalPlaces + (decimalPlaces === 0 ? 2 : 3), '0');
 
   return `${
     hours ? `${hoursFormatted}:` : ''

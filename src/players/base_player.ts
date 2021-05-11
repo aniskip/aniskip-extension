@@ -14,6 +14,8 @@ abstract class BasePlayer implements Player {
 
   metadata: Metadata;
 
+  isReady: boolean;
+
   menusState: MenusState;
 
   menusRenderer: MenusRenderer;
@@ -24,24 +26,21 @@ abstract class BasePlayer implements Player {
 
   skipTimeIndicatorsRenderer: SkipTimeIndicatorsRenderer;
 
-  videoElement: HTMLVideoElement;
+  videoElement: HTMLVideoElement | null;
 
   timeUpdateEventListeners: Record<string, (event: Event) => void>;
 
-  constructor(
-    document: Document,
-    videoElement: HTMLVideoElement,
-    metadata: Metadata
-  ) {
+  constructor(document: Document, metadata: Metadata) {
     this.document = document;
     this.metadata = metadata;
-    this.videoElement = videoElement;
     this.timeUpdateEventListeners = {};
     this.menusState = {
       isSubmitMenuHidden: true,
       isVoteMenuHidden: true,
       skipTimes: [],
     };
+    this.videoElement = null;
+    this.isReady = false;
 
     this.skipButtonRenderer = new SkipButtonsRenderer(
       'aniskip-player-skip-buttons',
@@ -89,6 +88,10 @@ abstract class BasePlayer implements Player {
   }
 
   addPreviewSkipTime(skipTime: SkipTimeType) {
+    if (!this.videoElement) {
+      return;
+    }
+
     this.clearVideoElementEventListeners(
       Object.values(this.timeUpdateEventListeners)
     );
@@ -113,7 +116,10 @@ abstract class BasePlayer implements Player {
         video.removeEventListener('timeupdate', previewSkipHandler);
         Object.values(this.timeUpdateEventListeners).forEach(
           (functionReference) => {
-            this.videoElement.addEventListener('timeupdate', functionReference);
+            this.videoElement?.addEventListener(
+              'timeupdate',
+              functionReference
+            );
           }
         );
       }
@@ -127,6 +133,10 @@ abstract class BasePlayer implements Player {
   }
 
   addSkipTime(skipTime: SkipTimeType, manual: boolean = false) {
+    if (!this.videoElement) {
+      return;
+    }
+
     this.skipTimeIndicatorsRenderer.addSkipTimeIndicator(skipTime);
     this.setMenusState({
       ...this.menusState,
@@ -152,7 +162,7 @@ abstract class BasePlayer implements Player {
    */
   clearVideoElementEventListeners(eventListeners: EventListener[]) {
     eventListeners.forEach((listener) =>
-      this.videoElement.removeEventListener('timeupdate', listener)
+      this.videoElement?.removeEventListener('timeupdate', listener)
     );
   }
 
@@ -170,11 +180,11 @@ abstract class BasePlayer implements Player {
   }
 
   getDuration() {
-    return this.videoElement.duration;
+    return this.videoElement?.duration || 0;
   }
 
   getCurrentTime() {
-    return this.videoElement.currentTime;
+    return this.videoElement?.currentTime || 0;
   }
 
   /**
@@ -214,7 +224,6 @@ abstract class BasePlayer implements Player {
     this.injectSubmitMenuButton();
     this.injectSkipTimeIndicator();
     this.injectSkipButtons();
-    browser.runtime.sendMessage({ type: 'player-ready' });
   }
 
   /**
@@ -226,7 +235,6 @@ abstract class BasePlayer implements Player {
       settingsButtonElement.parentElement?.appendChild(
         this.skipButtonRenderer.shadowRootContainer
       );
-      this.skipButtonRenderer.setVideoDuration(this.getDuration());
     }
   }
 
@@ -239,7 +247,6 @@ abstract class BasePlayer implements Player {
       seekBarContainer.appendChild(
         this.skipTimeIndicatorsRenderer.shadowRootContainer
       );
-      this.skipTimeIndicatorsRenderer.setVideoDuration(this.getDuration());
     }
   }
 
@@ -269,10 +276,14 @@ abstract class BasePlayer implements Player {
   }
 
   play() {
-    this.videoElement.play();
+    this.videoElement?.play();
   }
 
   removeSkipTime(skipTime: SkipTimeType) {
+    if (!this.videoElement) {
+      return;
+    }
+
     this.skipTimeIndicatorsRenderer.removeSkipTimeIndicator(skipTime);
     this.skipButtonRenderer.removeSkipButton(skipTime);
     this.setMenusState({
@@ -287,6 +298,13 @@ abstract class BasePlayer implements Player {
       'timeupdate',
       this.timeUpdateEventListeners[JSON.stringify(skipTime)]
     );
+  }
+
+  ready() {
+    if (this.videoElement && this.getVideoControlsContainer()) {
+      this.isReady = true;
+      browser.runtime.sendMessage({ type: 'player-ready' });
+    }
   }
 
   reset() {
@@ -309,6 +327,10 @@ abstract class BasePlayer implements Player {
    * @param time Time in seconds to set the player time to
    */
   setCurrentTime(time: number) {
+    if (!this.videoElement) {
+      return;
+    }
+
     this.videoElement.currentTime = time;
   }
 
@@ -323,6 +345,12 @@ abstract class BasePlayer implements Player {
       isVoteButtonActive: !newState.isVoteMenuHidden,
     });
     this.menusRenderer.setMenusState(newState);
+  }
+
+  setVideoElement(videoElement: HTMLVideoElement) {
+    this.videoElement = videoElement;
+    this.skipTimeIndicatorsRenderer.setVideoDuration(this.getDuration());
+    this.skipButtonRenderer.setVideoDuration(this.getDuration());
   }
 
   /**

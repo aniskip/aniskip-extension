@@ -28,9 +28,8 @@ const SubmitMenu = ({
   const [skipType, setSkipType] = useState<SkipType>('op');
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
-  const [currentInputFocus, setCurrentInputFocus] = useState<
-    'start-time' | 'end-time'
-  >();
+  const [currentInputFocus, setCurrentInputFocus] =
+    useState<'start-time' | 'end-time'>();
   const inputPatternRegexStringRef = useRef(
     '([0-9]+:)?[0-9]{1,2}:[0-9]{1,2}(.[0-9]{1,3})?'
   );
@@ -82,20 +81,14 @@ const SubmitMenu = ({
       `${messageType}-response`
     );
 
-    const {
-      userId,
-      openingOption,
-      endingOption,
-    } = await browser.storage.sync.get([
-      'userId',
-      'openingOption',
-      'endingOption',
-    ]);
-    const {
-      malId,
-      episodeNumber,
-      providerName,
-    } = getEpisodeInfoResponse.payload;
+    const { userId, openingOption, endingOption } =
+      await browser.storage.sync.get([
+        'userId',
+        'openingOption',
+        'endingOption',
+      ]);
+    const { malId, episodeNumber, providerName } =
+      getEpisodeInfoResponse.payload;
     const duration = playerGetDurationResponse.payload;
 
     const startTimeSeconds = timeStringToSeconds(startTime);
@@ -132,50 +125,50 @@ const SubmitMenu = ({
    * Handles input on key down events to update input time
    * @param setTime Set time useState function
    */
-  const handleOnKeyDown = (
-    setTime: React.Dispatch<React.SetStateAction<string>>
-  ) => (event: React.KeyboardEvent<HTMLInputElement>) => {
-    const timeString = event.currentTarget.value;
-    const timeSeconds = timeStringToSeconds(timeString);
-    let modifier = 0.25;
-    let updatedSeconds = timeSeconds;
+  const handleOnKeyDown =
+    (setTime: React.Dispatch<React.SetStateAction<string>>) =>
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      const timeString = event.currentTarget.value;
+      const timeSeconds = timeStringToSeconds(timeString);
+      let modifier = 0.25;
+      let updatedSeconds = timeSeconds;
 
-    switch (event.key) {
-      case 'J': {
-        modifier = 0.1;
+      switch (event.key) {
+        case 'J': {
+          modifier = 0.1;
+        }
+        /* falls through */
+        case 'j': {
+          updatedSeconds -= modifier;
+          break;
+        }
+        case 'L': {
+          modifier = 0.1;
+        }
+        /* falls through */
+        case 'l': {
+          updatedSeconds += modifier;
+          break;
+        }
+        default:
       }
-      /* falls through */
-      case 'j': {
-        updatedSeconds -= modifier;
-        break;
+
+      if (updatedSeconds === timeSeconds) {
+        return;
       }
-      case 'L': {
-        modifier = 0.1;
+
+      if (updatedSeconds < 0) {
+        updatedSeconds = 0;
       }
-      /* falls through */
-      case 'l': {
-        updatedSeconds += modifier;
-        break;
-      }
-      default:
-    }
 
-    if (updatedSeconds === timeSeconds) {
-      return;
-    }
+      browser.runtime.sendMessage({
+        type: 'player-set-video-current-time',
+        payload: updatedSeconds,
+      });
 
-    if (updatedSeconds < 0) {
-      updatedSeconds = 0;
-    }
-
-    browser.runtime.sendMessage({
-      type: 'player-set-video-current-time',
-      payload: updatedSeconds,
-    });
-
-    const updatedTimeString = secondsToTimeString(updatedSeconds);
-    setTime(updatedTimeString);
-  };
+      const updatedTimeString = secondsToTimeString(updatedSeconds);
+      setTime(updatedTimeString);
+    };
 
   return (
     <div

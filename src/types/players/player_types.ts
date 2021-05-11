@@ -14,9 +14,7 @@ export interface Player {
 
   metadata: Metadata;
 
-  videoElement: HTMLVideoElement;
-
-  timeUpdateEventListeners: Record<string, (event: Event) => void>;
+  isReady: boolean;
 
   /**
    * Adds a skip time which will run once for preview
@@ -68,8 +66,19 @@ export interface Player {
   reset(): void;
 
   /**
+   * Notify the content script that the player is ready for comminucation
+   */
+  ready(): void;
+
+  /**
    * Sets the video element current time to the input time
    * @param time Time in seconds to set the player time to
    */
   setCurrentTime(time: number): void;
+
+  /**
+   * Sets the video element
+   * @param videoElement Video element of the player
+   */
+  setVideoElement(videoElement: HTMLVideoElement): void;
 }

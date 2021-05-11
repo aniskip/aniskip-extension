@@ -45,6 +45,7 @@ class MenusButtonsRenderer extends BaseRenderer {
   render() {
     ReactDOM.render(
       <Menus.Buttons
+        variant={this.variant}
         submitMenuButtonProps={{
           active: this.state.isSubmitButtonActive,
           variant: this.variant,

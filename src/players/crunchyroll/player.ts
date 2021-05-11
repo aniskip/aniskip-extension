@@ -2,8 +2,8 @@ import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
 class Crunchyroll extends BasePlayer {
-  constructor(document: Document, videoElement: HTMLVideoElement) {
-    super(document, videoElement, metadata);
+  constructor(document: Document) {
+    super(document, metadata);
   }
 
   getSeekBarContainer() {

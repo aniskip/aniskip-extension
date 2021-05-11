@@ -1,10 +1,10 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
+
 import Message from './types/message_type';
 import { SkipTimeType, SkipType } from './types/api/aniskip_types';
 import getPlayer from './utils/player_utils';
-import { Player } from './types/players/player_types';
 
-let player: Player;
+const player = getPlayer(window.location.hostname);
 
 /**
  * Handles messages between the player and the background script
@@ -12,7 +12,7 @@ let player: Player;
  * @param _sender Sender of the message
  */
 const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
-  if (!player) {
+  if (!player.isReady) {
     return;
   }
 
@@ -73,19 +73,29 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
 
 browser.runtime.onMessage.addListener(messageHandler);
 
-// Notify content script when video DOM element has been added
+// Notify content script when video controls are found
+new MutationObserver((_mutations, observer) => {
+  const videoControlsContainer = player.getVideoControlsContainer();
+
+  if (videoControlsContainer) {
+    observer.disconnect();
+    player.initialise();
+  }
+}).observe(document, { subtree: true, childList: true });
+
+// Notify content script when video element is found;
 new MutationObserver((_mutations, observer) => {
   const videoElement = document.getElementsByTagName('video')[0];
-  if (videoElement && videoElement.duration > 60) {
-    player = getPlayer(window.location.hostname, videoElement);
+
+  if (!videoElement) {
+    return;
   }
 
-  if (player) {
-    const videoControlsContainer = player.getVideoControlsContainer();
-
-    if (videoControlsContainer && videoElement) {
+  videoElement.onloadedmetadata = (event) => {
+    if ((event.currentTarget as HTMLVideoElement).duration > 60) {
       observer.disconnect();
-      player.initialise();
+      player.setVideoElement(videoElement);
+      player.ready();
     }
-  }
+  };
 }).observe(document, { subtree: true, childList: true });
