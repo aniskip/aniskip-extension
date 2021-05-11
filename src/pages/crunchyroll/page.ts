@@ -46,76 +46,67 @@ class Crunchyroll extends BasePage {
     malId: number,
     episodeNumber: number
   ): Promise<number> {
-    const {
-      data: { Media: animeDetails },
-    } = await anilistHttpClient.getRelations(malId);
+    const animeDetails = (await anilistHttpClient.getRelations(malId)).data
+      .Media;
 
-    const [prequelEdge] = animeDetails.relations.edges.filter((edge) => {
-      const { relationType, node } = edge;
-      return relationType === 'PREQUEL' && node.format === 'TV';
-    });
-
-    if (prequelEdge) {
-      const { node: prequelNode } = prequelEdge;
-      const episodeNumberOffset = await Crunchyroll.getSeasonalEpisodeNumberHelper(
+    const episodeNumberOffset =
+      await Crunchyroll.getSeasonalEpisodeNumberHelper(
         anilistHttpClient,
-        prequelNode.idMal
+        malId
       );
 
-      // The episode number is already in seasonal form
-      if (episodeNumberOffset > episodeNumber) {
-        return episodeNumber;
-      }
-
-      let seasonalEpisodeNumber = episodeNumber - episodeNumberOffset;
-
-      // Handle season with parts
-      if (seasonalEpisodeNumber > animeDetails.episodes) {
-        const [sequel] = animeDetails.relations.edges.filter((edge) => {
-          const { relationType, node } = edge;
-          return relationType === 'SEQUEL' && node.format === 'TV';
-        });
-        this.malId = sequel.node.idMal;
-        seasonalEpisodeNumber -= animeDetails.episodes;
-      }
-
-      return seasonalEpisodeNumber;
+    // The episode number is already in seasonal form
+    if (episodeNumberOffset === 0) {
+      return episodeNumber;
     }
-    return episodeNumber;
+
+    let seasonalEpisodeNumber = episodeNumber - episodeNumberOffset;
+
+    // Handle season with parts
+    if (seasonalEpisodeNumber > animeDetails.episodes) {
+      const [sequel] = animeDetails.relations.edges.filter((edge) => {
+        const { relationType, node } = edge;
+        return relationType === 'SEQUEL' && node.format === 'TV';
+      });
+      this.malId = sequel.node.idMal;
+      seasonalEpisodeNumber -= animeDetails.episodes;
+    }
+
+    return seasonalEpisodeNumber;
   }
 
   /**
    * Returns the offset to subtract from the episode number
    * @param anilistHttpClient Anilist http client object
+   * @param malId MAL id of the target series
    * @param prequelMalId Prequel MAL identification number
    */
   static async getSeasonalEpisodeNumberHelper(
     anilistHttpClient: AnilistHttpClient,
-    prequelMalId: number
+    malId: number
   ): Promise<number> {
     const { episodeOffsetCache } = await browser.storage.local.get({
       episodeOffsetCache: {},
     });
 
-    if (episodeOffsetCache[prequelMalId]) {
-      return episodeOffsetCache[prequelMalId];
+    if (malId in episodeOffsetCache) {
+      return episodeOffsetCache[malId];
     }
 
-    const {
-      data: { Media: animeDetails },
-    } = await anilistHttpClient.getRelations(prequelMalId);
+    const animeDetails = (await anilistHttpClient.getRelations(malId)).data
+      .Media;
 
     const [prequelEdge] = animeDetails.relations.edges.filter((edge) => {
       const { relationType, node } = edge;
       return relationType === 'PREQUEL' && node.format === 'TV';
     });
 
-    let episodeOffset = animeDetails.episodes;
+    let episodeOffset = 0;
 
     if (prequelEdge) {
-      const { node: prequelNode } = prequelEdge;
+      const prequelNode = prequelEdge.node;
       episodeOffset =
-        animeDetails.episodes +
+        prequelNode.episodes +
         (await Crunchyroll.getSeasonalEpisodeNumberHelper(
           anilistHttpClient,
           prequelNode.idMal
@@ -123,12 +114,13 @@ class Crunchyroll extends BasePage {
     }
 
     // Cache offset
-    const {
-      episodeOffsetCache: updatedEpisodeOffsetCache,
-    } = await browser.storage.local.get({
-      episodeOffsetCache: {},
-    });
-    updatedEpisodeOffsetCache[prequelMalId] = episodeOffset;
+    const updatedEpisodeOffsetCache = (
+      await browser.storage.local.get({
+        episodeOffsetCache: {},
+      })
+    ).episodeOffsetCache;
+    updatedEpisodeOffsetCache[malId] = episodeOffset;
+
     browser.storage.local.set({
       episodeOffsetCache: updatedEpisodeOffsetCache,
     });
