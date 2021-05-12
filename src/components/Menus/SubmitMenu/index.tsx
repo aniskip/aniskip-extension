@@ -63,6 +63,29 @@ const SubmitMenu = ({
   }, [hidden]);
 
   /**
+   * Correct user input errors such as negative time or time greater than video
+   * duration
+   * @param seconds Seconds to error correct
+   */
+  const errorCorrectTime = async (seconds: number) => {
+    let result = seconds;
+    if (seconds < 0) {
+      result = 0;
+    }
+
+    const messageType = 'player-get-video-duration';
+    browser.runtime.sendMessage({ type: messageType });
+    const duration: number = (await waitForMessage(`${messageType}-response`))
+      .payload;
+
+    if (seconds >= duration) {
+      result = Math.floor(duration);
+    }
+
+    return result;
+  };
+
+  /**
    * Handles the form event when the submit button is pressed
    * @param event Form event
    */
@@ -131,11 +154,11 @@ const SubmitMenu = ({
    */
   const handleOnKeyDown =
     (setTime: React.Dispatch<React.SetStateAction<string>>) =>
-    (event: React.KeyboardEvent<HTMLInputElement>) => {
+    async (event: React.KeyboardEvent<HTMLInputElement>) => {
       const timeString = event.currentTarget.value;
       const timeSeconds = timeStringToSeconds(timeString);
       let modifier = 0.25;
-      let updatedSeconds = timeSeconds;
+      let updatedTime = timeSeconds;
 
       switch (event.key) {
         case 'J': {
@@ -143,7 +166,7 @@ const SubmitMenu = ({
         }
         /* falls through */
         case 'j': {
-          updatedSeconds -= modifier;
+          updatedTime -= modifier;
           break;
         }
         case 'L': {
@@ -151,30 +174,32 @@ const SubmitMenu = ({
         }
         /* falls through */
         case 'l': {
-          updatedSeconds += modifier;
+          updatedTime += modifier;
           break;
         }
         default:
       }
 
-      if (updatedSeconds === timeSeconds) {
+      if (updatedTime === timeSeconds) {
         return;
       }
 
-      if (updatedSeconds < 0) {
-        updatedSeconds = 0;
-      }
+      updatedTime = await errorCorrectTime(timeSeconds + modifier);
 
       browser.runtime.sendMessage({
         type: 'player-set-video-current-time',
-        payload: updatedSeconds,
+        payload: updatedTime,
       });
 
-      const updatedTimeString = secondsToTimeString(updatedSeconds);
+      const updatedTimeString = secondsToTimeString(updatedTime);
       setTime(updatedTimeString);
     };
 
-  const handleSeekTime = (seekOffset: number) => () => {
+  /**
+   * Adds the seek offset to the currently highligted time input
+   * @param seekOffset Number to add to current time
+   */
+  const handleSeekTime = (seekOffset: number) => async () => {
     let setTimeFunction = (_newValue: string) => {};
     let currentTime = '';
     switch (currentInputFocus) {
@@ -190,10 +215,9 @@ const SubmitMenu = ({
         return;
     }
 
-    let updatedTime = timeStringToSeconds(currentTime) + seekOffset;
-    if (updatedTime < 0) {
-      updatedTime = 0;
-    }
+    const updatedTime = await errorCorrectTime(
+      timeStringToSeconds(currentTime) + seekOffset
+    );
 
     setTimeFunction(secondsToTimeString(updatedTime));
     browser.runtime.sendMessage({
@@ -201,6 +225,21 @@ const SubmitMenu = ({
       payload: updatedTime,
     });
   };
+
+  /**
+   * Formats time input on blur
+   * @param setTime Set time useState function
+   */
+  const handleOnBlur =
+    (
+      setTime: React.Dispatch<React.SetStateAction<string>>,
+      currentTime: string
+    ) =>
+    async () => {
+      const formatted = formatTimeString(currentTime);
+      const seconds = await errorCorrectTime(timeStringToSeconds(formatted));
+      setTime(secondsToTimeString(seconds));
+    };
 
   return (
     <div
@@ -229,7 +268,11 @@ const SubmitMenu = ({
           <div className="flex-1">
             <div className="font-bold text-xs uppercase mb-1">Start time</div>
             <Input
-              className="shadow-sm w-full text-black text-sm focus:border-primary focus:ring-primary focus:ring-1"
+              className={`shadow-sm w-full text-black text-sm focus:border-primary focus:ring-primary focus:ring-1 ${
+                currentInputFocus === 'start-time'
+                  ? 'border-primary ring-primary ring-1'
+                  : ''
+              }`}
               id="start-time"
               value={startTime}
               pattern={inputPatternRegexStringRef.current}
@@ -245,15 +288,17 @@ const SubmitMenu = ({
               }}
               onKeyDown={handleOnKeyDown(setStartTime)}
               onFocus={() => setCurrentInputFocus('start-time')}
-              onBlur={() =>
-                setStartTime((current) => formatTimeString(current))
-              }
+              onBlur={handleOnBlur(setStartTime, startTime)}
             />
           </div>
           <div className="flex-1">
             <div className="font-bold text-xs uppercase mb-1">End time</div>
             <Input
-              className="shadow-sm w-full text-black text-sm focus:border-primary focus:ring-primary focus:ring-1"
+              className={`shadow-sm w-full text-black text-sm focus:border-primary focus:ring-primary focus:ring-1 ${
+                currentInputFocus === 'end-time'
+                  ? 'border-primary ring-primary ring-1'
+                  : ''
+              }`}
               id="end-time"
               value={endTime}
               pattern={inputPatternRegexStringRef.current}
@@ -269,7 +314,7 @@ const SubmitMenu = ({
               }}
               onKeyDown={handleOnKeyDown(setEndTime)}
               onFocus={() => setCurrentInputFocus('end-time')}
-              onBlur={() => setEndTime((current) => formatTimeString(current))}
+              onBlur={handleOnBlur(setEndTime, endTime)}
             />
           </div>
         </div>
@@ -296,7 +341,7 @@ const SubmitMenu = ({
             </DefaultButton>
             <div className="flex justify-between bg-primary bg-opacity-80 border border-gray-300 rounded">
               <DefaultButton
-                className="group px-2"
+                className="group px-3"
                 onClick={handleSeekTime(-0.25)}
               >
                 <FaBackward
@@ -305,12 +350,14 @@ const SubmitMenu = ({
                 />
               </DefaultButton>
               <DefaultButton
+                className="px-3"
                 onClick={async () => {
                   const messageType = 'player-get-video-current-time';
                   browser.runtime.sendMessage({ type: messageType });
                   const currentTime: number = (
                     await waitForMessage(`${messageType}-response`)
                   ).payload;
+
                   switch (currentInputFocus) {
                     case 'start-time':
                       setStartTime(secondsToTimeString(currentTime));
@@ -325,7 +372,7 @@ const SubmitMenu = ({
                 Now
               </DefaultButton>
               <DefaultButton
-                className="group px-2"
+                className="group px-3"
                 onClick={handleSeekTime(0.25)}
               >
                 <FaForward
