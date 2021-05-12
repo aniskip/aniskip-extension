@@ -1,23 +1,25 @@
-let uBlockOriginLink = '';
+const startUrl = ['crunchyroll.com'];
 
 switch (process.env.BROWSER) {
   case 'chromium':
-    uBlockOriginLink =
-      'chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm';
+    startUrl.push(
+      'chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm'
+    );
     break;
   case 'firefox':
-    uBlockOriginLink = 'addons.mozilla.org/en-US/firefox/addon/ublock-origin/';
+    startUrl.unshift('addons.mozilla.org/en-US/firefox/addon/ublock-origin/');
     break;
   default:
-    uBlockOriginLink =
-      'chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm';
+    startUrl.push(
+      'chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm'
+    );
     break;
 }
 
 module.exports = {
   sourceDir: './dist',
   run: {
-    startUrl: [uBlockOriginLink, 'crunchyroll.com'],
+    startUrl,
     // If uses Edge/Opera etc Chromium based browsers
     //   chromiumBinary:
   },
