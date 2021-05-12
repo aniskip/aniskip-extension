@@ -26,11 +26,13 @@ const SubmitMenu = ({
   const { isFullscreen } = useFullscreen();
   const { aniskipHttpClient } = useAniskipHttpClient();
   const [skipType, setSkipType] = useState<SkipType>('op');
-  const [startTime, setStartTime] = useState<string>('');
-  const [endTime, setEndTime] = useState<string>('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
   const [currentInputFocus, setCurrentInputFocus] =
     useState<'start-time' | 'end-time'>('start-time');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState('');
+  const [serverError, setServerError] = useState('');
   const inputPatternRegexStringRef = useRef(
     '([0-9]+:)?[0-9]{1,2}:[0-9]{1,2}(.[0-9]{1,3})?'
   );
@@ -86,12 +88,38 @@ const SubmitMenu = ({
   };
 
   /**
+   * Validates the form. Returns false if form has errors, otherwise true
+   */
+  const validateForm = () => {
+    const startTimeSeconds = timeStringToSeconds(startTime);
+    const endTimeSeconds = timeStringToSeconds(endTime);
+
+    if (startTimeSeconds > endTimeSeconds) {
+      setFormError('Start time is greater than end time');
+      return false;
+    }
+
+    if (endTime === startTime) {
+      setFormError('Start time and end time are the same');
+      return false;
+    }
+
+    setFormError('');
+
+    return true;
+  };
+
+  /**
    * Handles the form event when the submit button is pressed
    * @param event Form event
    */
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
+    if (!validateForm()) {
+      setIsSubmitting(false);
+      return;
+    }
 
     let messageType = 'get-episode-information';
     browser.runtime.sendMessage({ type: messageType });
@@ -118,34 +146,40 @@ const SubmitMenu = ({
     const startTimeSeconds = timeStringToSeconds(startTime);
     const endTimeSeconds = timeStringToSeconds(endTime);
 
-    await aniskipHttpClient.createSkipTimes(
-      malId,
-      episodeNumber,
-      skipType,
-      providerName,
-      startTimeSeconds,
-      endTimeSeconds,
-      duration,
-      userId
-    );
+    try {
+      await aniskipHttpClient.createSkipTimes(
+        malId,
+        episodeNumber,
+        skipType,
+        providerName,
+        startTimeSeconds,
+        endTimeSeconds,
+        duration,
+        userId
+      );
 
-    const option = skipType === 'op' ? openingOption : endingOption;
+      const option = skipType === 'op' ? openingOption : endingOption;
 
-    browser.runtime.sendMessage({
-      type: `player-add-${option}-time`,
-      payload: {
-        interval: {
-          start_time: startTimeSeconds,
-          end_time: endTimeSeconds,
+      browser.runtime.sendMessage({
+        type: `player-add-${option}-time`,
+        payload: {
+          interval: {
+            start_time: startTimeSeconds,
+            end_time: endTimeSeconds,
+          },
+          skip_type: skipType,
+          skip_id: '',
+          episode_length: duration,
         },
-        skip_type: skipType,
-        skip_id: '',
-        episode_length: duration,
-      },
-    });
+      });
 
-    setIsSubmitting(false);
-    onSubmit();
+      setServerError('');
+      onSubmit();
+    } catch (err) {
+      setServerError('Server error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   /**
@@ -318,6 +352,9 @@ const SubmitMenu = ({
             />
           </div>
         </div>
+        <div className="text-xs uppercase font-semibold text-red-500">
+          {formError}
+        </div>
         <div>
           <div className="font-bold text-xs uppercase mb-1">Time controls</div>
           <div className="flex space-x-2">
@@ -428,6 +465,9 @@ const SubmitMenu = ({
               </DefaultButton>
             </div>
           </div>
+        </div>
+        <div className="text-xs uppercase font-semibold text-red-500">
+          {serverError}
         </div>
       </form>
     </div>

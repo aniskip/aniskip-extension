@@ -23,7 +23,19 @@ export interface SuccessMessageType {
   message: 'success';
 }
 
-export type PostResponseTypeFromSkipTimesVote = SuccessMessageType;
-export type PostResponseTypeFromSkipTimes = SuccessMessageType;
+export interface ServerErrorType {
+  error?: string;
+}
+
+export interface ServerErrorsType {
+  errors?: any[];
+}
+
+export type PostResponseTypeFromSkipTimesVote = SuccessMessageType &
+  ServerErrorType &
+  ServerErrorsType;
+export type PostResponseTypeFromSkipTimes = SuccessMessageType &
+  ServerErrorType &
+  ServerErrorsType;
 
 export type VoteType = 'upvote' | 'downvote';

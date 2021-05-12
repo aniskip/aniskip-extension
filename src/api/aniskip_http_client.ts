@@ -1,5 +1,6 @@
 import {
   GetResponseTypeFromSkipTimes,
+  PostResponseTypeFromSkipTimes,
   PostResponseTypeFromSkipTimesVote,
   SkipType,
   VoteType,
@@ -52,7 +53,7 @@ class AniskipHttpClient extends BaseHttpClient {
     endTime: number,
     episodeLength: number,
     submitterId: string
-  ): Promise<GetResponseTypeFromSkipTimes> {
+  ): Promise<PostResponseTypeFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
     const body = JSON.stringify({
       skip_type: skipType,
@@ -62,8 +63,15 @@ class AniskipHttpClient extends BaseHttpClient {
       episode_length: episodeLength,
       submitter_id: submitterId,
     });
+
     const response = await this.request(route, 'POST', {}, body);
-    return response.json();
+    const { message, error }: PostResponseTypeFromSkipTimes =
+      await response.json();
+    if (error) {
+      throw new Error(error);
+    }
+
+    return { message };
   }
 
   /**
