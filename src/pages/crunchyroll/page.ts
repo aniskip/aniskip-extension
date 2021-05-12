@@ -63,7 +63,10 @@ class Crunchyroll extends BasePage {
     let seasonalEpisodeNumber = episodeNumber - episodeNumberOffset;
 
     // Handle season with parts
-    if (seasonalEpisodeNumber > animeDetails.episodes) {
+    if (
+      animeDetails.episodes &&
+      seasonalEpisodeNumber > animeDetails.episodes
+    ) {
       const [sequel] = animeDetails.relations.edges.filter((edge) => {
         const { relationType, node } = edge;
         return relationType === 'SEQUEL' && node.format === 'TV';
@@ -106,11 +109,12 @@ class Crunchyroll extends BasePage {
     if (prequelEdge) {
       const prequelNode = prequelEdge.node;
       episodeOffset =
-        prequelNode.episodes +
-        (await Crunchyroll.getSeasonalEpisodeNumberHelper(
-          anilistHttpClient,
-          prequelNode.idMal
-        ));
+        prequelNode.episodes ||
+        0 +
+          (await Crunchyroll.getSeasonalEpisodeNumberHelper(
+            anilistHttpClient,
+            prequelNode.idMal
+          ));
     }
 
     // Cache offset

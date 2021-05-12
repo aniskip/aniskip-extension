@@ -5,6 +5,7 @@ const Button = ({
   className,
   children,
   submit,
+  disabled,
   onClick,
   onFocus,
 }: ButtonProps) => (
@@ -13,6 +14,7 @@ const Button = ({
     type={submit ? 'submit' : 'button'}
     onClick={onClick}
     onFocus={onFocus}
+    disabled={disabled}
   >
     {children}
   </button>

@@ -30,6 +30,7 @@ const SubmitMenu = ({
   const [endTime, setEndTime] = useState<string>('');
   const [currentInputFocus, setCurrentInputFocus] =
     useState<'start-time' | 'end-time'>('start-time');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const inputPatternRegexStringRef = useRef(
     '([0-9]+:)?[0-9]{1,2}:[0-9]{1,2}(.[0-9]{1,3})?'
   );
@@ -67,7 +68,7 @@ const SubmitMenu = ({
    */
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit();
+    setIsSubmitting(true);
 
     let messageType = 'get-episode-information';
     browser.runtime.sendMessage({ type: messageType });
@@ -119,6 +120,9 @@ const SubmitMenu = ({
         episode_length: duration,
       },
     });
+
+    setIsSubmitting(false);
+    onSubmit();
   };
 
   /**
@@ -275,33 +279,6 @@ const SubmitMenu = ({
             <DefaultButton
               className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
               onClick={async () => {
-                const messageType = 'player-get-video-current-time';
-                browser.runtime.sendMessage({ type: messageType });
-                const currentTime: number = (
-                  await waitForMessage(`${messageType}-response`)
-                ).payload;
-                switch (currentInputFocus) {
-                  case 'start-time':
-                    setStartTime(secondsToTimeString(currentTime));
-                    break;
-                  case 'end-time':
-                    setEndTime(secondsToTimeString(currentTime));
-                    break;
-                  default:
-                }
-              }}
-            >
-              Now
-            </DefaultButton>
-            <DefaultButton
-              className="shadow-sm bg-primary bg-opacity-80 border border-gray-300"
-              onClick={handleSeekTime(-0.25)}
-            >
-              <FaBackward size={16} />
-            </DefaultButton>
-            <DefaultButton
-              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
-              onClick={async () => {
                 const messageType = 'player-add-preview-skip-time';
                 browser.runtime.sendMessage({
                   type: messageType,
@@ -317,12 +294,46 @@ const SubmitMenu = ({
             >
               Preview
             </DefaultButton>
-            <DefaultButton
-              className="shadow-sm bg-primary bg-opacity-80 border border-gray-300"
-              onClick={handleSeekTime(0.25)}
-            >
-              <FaForward size={16} />
-            </DefaultButton>
+            <div className="flex justify-between bg-primary bg-opacity-80 border border-gray-300 rounded">
+              <DefaultButton
+                className="group px-2"
+                onClick={handleSeekTime(-0.25)}
+              >
+                <FaBackward
+                  className="transition-transform duration-150 transform group-hover:scale-125 group-active:scale-100"
+                  size={16}
+                />
+              </DefaultButton>
+              <DefaultButton
+                onClick={async () => {
+                  const messageType = 'player-get-video-current-time';
+                  browser.runtime.sendMessage({ type: messageType });
+                  const currentTime: number = (
+                    await waitForMessage(`${messageType}-response`)
+                  ).payload;
+                  switch (currentInputFocus) {
+                    case 'start-time':
+                      setStartTime(secondsToTimeString(currentTime));
+                      break;
+                    case 'end-time':
+                      setEndTime(secondsToTimeString(currentTime));
+                      break;
+                    default:
+                  }
+                }}
+              >
+                Now
+              </DefaultButton>
+              <DefaultButton
+                className="group px-2"
+                onClick={handleSeekTime(0.25)}
+              >
+                <FaForward
+                  className="transition-transform duration-150 transform group-hover:scale-125 group-active:scale-100"
+                  size={16}
+                />
+              </DefaultButton>
+            </div>
             <DefaultButton
               className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
               onClick={async () => {
@@ -364,8 +375,9 @@ const SubmitMenu = ({
               <DefaultButton
                 className="w-full h-full shadow-sm bg-primary bg-opacity-80 border border-gray-300"
                 submit
+                disabled={isSubmitting}
               >
-                Submit
+                {isSubmitting ? 'Submitting...' : 'Submit'}
               </DefaultButton>
             </div>
           </div>
