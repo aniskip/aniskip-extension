@@ -1,46 +1,25 @@
 :host {
   all: initial;
-  font-size: 16px;
+  font-size: 16px !important;
 }
 
-.submit {
-  $crunchyroll-submit-button-size: 40px;
-  $jw-submit-button-size: 44px;
-  $doodstream-submit-button-size: 70px;
-  $videojs-submit-button-size: 40px;
+// Override user agent stylesheet
+form {
+  margin-block-end: 0;
+}
 
-  &-container {
-    &--plyr {
-      margin-right: -2px;
-    }
-
-    &--crunchyroll {
-      width: $crunchyroll-submit-button-size;
-      height: $crunchyroll-submit-button-size;
-    }
-
-    &--jw {
-      width: $jw-submit-button-size;
-      height: $jw-submit-button-size;
-    }
-
-    &--doodstream {
-      width: $doodstream-submit-button-size;
-      height: $doodstream-submit-button-size;
-    }
-
-    &--videojs {
-      width: $videojs-submit-button-size;
-      height: $videojs-submit-button-size;
-    }
-
-    &--twistmoe {
-      pointer-events: all;
-      margin-right: -8px;
-    }
-  }
+.submit,
+.vote {
+  $crunchyroll-button-size: 40px;
+  $jw-button-size: 44px;
+  $doodstream-button-size: 70px;
+  $videojs-button-size: 40px;
 
   &-menu {
+    &--crunchyroll {
+      bottom: 10em;
+    }
+
     &--jw {
       bottom: 8em;
       right: 0.5em;
@@ -53,7 +32,44 @@
 
     &--doodstream {
       right: 2.5em;
-      bottom: 9em;
+      bottom: 9.5em;
+    }
+
+    &-button {
+      &--plyr {
+        margin-right: -2px;
+      }
+
+      &--crunchyroll {
+        width: $crunchyroll-button-size;
+        height: $crunchyroll-button-size;
+      }
+
+      &--jw {
+        width: $jw-button-size;
+        height: $jw-button-size;
+      }
+
+      &--doodstream {
+        width: $doodstream-button-size;
+        height: $doodstream-button-size;
+      }
+
+      &--videojs {
+        width: $videojs-button-size;
+        height: $videojs-button-size;
+      }
+
+      &--twistmoe {
+        pointer-events: all;
+        margin-top: 2px;
+      }
+    }
+
+    &-buttons {
+      &--twistmoe {
+        margin-right: -8px;
+      }
     }
   }
 }
@@ -87,5 +103,10 @@
       right: 4.5em;
       bottom: 9em;
     }
+  }
+
+  &--doodstream {
+    right: 4.3em;
+    bottom: 7em;
   }
 }

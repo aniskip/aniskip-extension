@@ -2,12 +2,8 @@ import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
 class Crunchyroll extends BasePlayer {
-  constructor(document: Document, videoElement: HTMLVideoElement) {
-    super(document, videoElement, metadata.variant);
-  }
-
-  getVideoContainer() {
-    return this.document.getElementById(metadata.videoContainerSelectorString);
+  constructor(document: Document) {
+    super(document, metadata);
   }
 
   getSeekBarContainer() {
@@ -16,24 +12,13 @@ class Crunchyroll extends BasePlayer {
 
   initialise() {
     super.initialise();
-    const controlsPackage = document.getElementById(
-      'velocity-controls-package'
-    );
+    const controlsPackage = this.getVideoControlsContainer();
     if (controlsPackage) {
       new MutationObserver(async () => {
-        this.injectSubmitMenu();
+        this.injectSubmitMenuButton();
         this.injectSkipTimeIndicator();
-        this.injectSkipButton();
+        this.injectSkipButtons();
       }).observe(controlsPackage, { childList: true });
-    }
-  }
-
-  injectSubmitMenu() {
-    const referenceNode = document.getElementById(
-      metadata.injectSettingsButtonReferenceNodeSelectorString
-    );
-    if (referenceNode) {
-      this.injectSubmitMenuHelper(referenceNode, metadata.variant);
     }
   }
 }

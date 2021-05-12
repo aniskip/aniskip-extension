@@ -45,7 +45,7 @@ export type Media<
   M extends Partial<Media> | undefined = undefined,
   MT extends Partial<MediaTitle> | undefined = undefined
 > = {
-  episodes: number;
+  episodes: number | null;
   format: MediaFormat;
   idMal: number;
   synonyms: string[];

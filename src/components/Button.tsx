@@ -1,10 +1,11 @@
 import React from 'react';
 import { ButtonProps } from '../types/components/button_types';
 
-const Button: React.FC<ButtonProps> = ({
+const Button = ({
   className,
   children,
   submit,
+  disabled,
   onClick,
   onFocus,
 }: ButtonProps) => (
@@ -13,6 +14,7 @@ const Button: React.FC<ButtonProps> = ({
     type={submit ? 'submit' : 'button'}
     onClick={onClick}
     onFocus={onFocus}
+    disabled={disabled}
   >
     {children}
   </button>

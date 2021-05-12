@@ -1,3 +1,3 @@
 {
-  "page_urls": ["*://*.9anime.to/*"]
+  "page_urls": ["*://*.9anime.to/*", "*://9anime.to/*"]
 }

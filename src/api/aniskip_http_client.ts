@@ -1,7 +1,10 @@
 import {
   GetResponseTypeFromSkipTimes,
+  PostResponseTypeFromSkipTimes,
   PostResponseTypeFromSkipTimesVote,
-} from '../types/api/skip_time_types';
+  SkipType,
+  VoteType,
+} from '../types/api/aniskip_types';
 import BaseHttpClient from './base_http_client';
 
 class AniskipHttpClient extends BaseHttpClient {
@@ -22,7 +25,7 @@ class AniskipHttpClient extends BaseHttpClient {
   async getSkipTimes(
     animeId: number,
     episodeNumber: number,
-    type: 'op' | 'ed'
+    type: SkipType
   ): Promise<GetResponseTypeFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
     const params = { type };
@@ -44,13 +47,13 @@ class AniskipHttpClient extends BaseHttpClient {
   async createSkipTimes(
     animeId: number,
     episodeNumber: number,
-    skipType: 'op' | 'ed',
+    skipType: SkipType,
     providerName: string,
     startTime: number,
     endTime: number,
     episodeLength: number,
     submitterId: string
-  ): Promise<GetResponseTypeFromSkipTimes> {
+  ): Promise<PostResponseTypeFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
     const body = JSON.stringify({
       skip_type: skipType,
@@ -60,8 +63,15 @@ class AniskipHttpClient extends BaseHttpClient {
       episode_length: episodeLength,
       submitter_id: submitterId,
     });
+
     const response = await this.request(route, 'POST', {}, body);
-    return response.json();
+    const { message, error }: PostResponseTypeFromSkipTimes =
+      await response.json();
+    if (error) {
+      throw new Error(error);
+    }
+
+    return { message };
   }
 
   /**
@@ -71,11 +81,11 @@ class AniskipHttpClient extends BaseHttpClient {
    */
   async vote(
     skipId: string,
-    type: 'upvote' | 'downvote'
+    type: VoteType
   ): Promise<PostResponseTypeFromSkipTimesVote> {
     const route = `/skip-times/vote/${skipId}`;
     const body = JSON.stringify({
-      type,
+      vote_type: type,
     });
     const response = await this.request(route, 'POST', {}, body);
     return response.json();

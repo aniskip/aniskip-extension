@@ -1,12 +1,14 @@
 {
   "variant": "plyr",
   "videoContainerSelectorString": "plyr__video-wrapper",
+  "videoControlsContainerSelectorString": "plyr__controls",
   "seekBarContainerSelectorString": "plyr__progress",
   "injectSettingsButtonReferenceNodeSelectorString": "plyr__controls__item plyr__menu",
   "player_urls": [
     "*://aniwatch.me/*",
     "*://streamtape.com/*",
     "*://animixplay.to/v*/*",
-    "*://animixplay.to/api/*"
+    "*://animixplay.to/api/*",
+    "*://akaneshinjou.github.io/play/*"
   ]
 }

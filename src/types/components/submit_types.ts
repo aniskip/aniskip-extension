@@ -1,9 +1,13 @@
+export type SubmitMenuButtonOnClickHandler = (
+  event:
+    | React.MouseEvent<HTMLDivElement, MouseEvent>
+    | React.KeyboardEvent<HTMLDivElement>
+) => void;
+
 export interface SubmitMenuButtonProps {
-  handleClick: (
-    event:
-      | React.MouseEvent<HTMLDivElement, MouseEvent>
-      | React.KeyboardEvent<HTMLDivElement>
-  ) => void;
+  active?: boolean;
+  variant: string;
+  onClick: SubmitMenuButtonOnClickHandler;
 }
 
 export interface SubmitMenuContainerProps {
@@ -12,8 +16,7 @@ export interface SubmitMenuContainerProps {
 
 export interface SubmitMenuProps {
   variant: string;
-  hidden: boolean;
-  fullScreen?: boolean;
+  hidden?: boolean;
   onSubmit: CallableFunction;
   onClose: CallableFunction;
 }
@@ -29,4 +32,5 @@ export interface InputProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }

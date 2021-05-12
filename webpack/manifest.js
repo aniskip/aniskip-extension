@@ -22,7 +22,6 @@ const manifest = {
     '*://api.malsync.moe/*',
     '*://graphql.anilist.co/*',
   ],
-  web_accessible_resources: ['player_script.css'],
   icons: {
     16: 'icon_16.png',
     48: 'icon_48.png',
@@ -84,7 +83,9 @@ module.exports = () => {
       run_at: 'document_start',
     },
   ];
-  manifest.optional_permissions = pageUrls.concat(playerUrls);
+  manifest.optional_permissions = Array.from(
+    new Set(pageUrls.concat(playerUrls))
+  );
 
   switch (process.env.BROWSER) {
     case 'chromium':

@@ -1,4 +1,4 @@
-import Player from '../types/players/player_type';
+import { Player } from '../types/players/player_types';
 import Plyr from '../players/plyr/player';
 import Crunchyroll from '../players/crunchyroll/player';
 import Videojs from '../players/videojs/player';
@@ -9,9 +9,8 @@ import Twistmoe from '../players/twistmoe/player';
 /**
  * Obtains the player object from the domain
  * @param hostname Player's host
- * @param videoElement Player's video element
  */
-const getPlayer = (hostname: string, videoElement: HTMLVideoElement) => {
+const getPlayer = (hostname: string) => {
   const domainName = hostname.replace(/(?:[^.\n]*\.)?([^.\n]*)(\..*)/, '$1');
   let player: Player;
 
@@ -19,27 +18,32 @@ const getPlayer = (hostname: string, videoElement: HTMLVideoElement) => {
     case 'animixplay':
     case 'aniwatch':
     case 'streamtape':
-      player = new Plyr(document, videoElement);
+    case 'github':
+      player = new Plyr(document);
       break;
     case 'crunchyroll':
-      player = new Crunchyroll(document, videoElement);
+      player = new Crunchyroll(document);
       break;
     case 'cloud9':
     case 'fcdn':
     case 'gogo-play':
+    case 'mcloud':
     case 'mcloud2':
     case 'streamsb':
     case 'vidstream':
-      player = new Jw(document, videoElement);
+    case 'streamhd':
+    case 'sbembed':
+      player = new Jw(document);
       break;
     case 'dood':
-      player = new Doodstream(document, videoElement);
+      player = new Doodstream(document);
       break;
+    case 'mixdrop':
     case 'mp4upload':
-      player = new Videojs(document, videoElement);
+      player = new Videojs(document);
       break;
     case 'twist':
-      player = new Twistmoe(document, videoElement);
+      player = new Twistmoe(document);
       break;
     default:
       throw new Error(`Player ${hostname} not supported`);

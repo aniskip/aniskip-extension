@@ -2,13 +2,19 @@ import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
 class Jw extends BasePlayer {
-  constructor(document: Document, videoElement: HTMLVideoElement) {
-    super(document, videoElement, metadata.variant);
+  constructor(document: Document) {
+    super(document, metadata);
   }
 
   getVideoContainer() {
     return this.document.querySelector<HTMLElement>(
       `[aria-label="${metadata.videoContainerSelectorString}"]`
+    );
+  }
+
+  getVideoControlsContainer() {
+    return super.getContainerHelper(
+      metadata.videoControlsContainerSelectorString
     );
   }
 
@@ -23,13 +29,10 @@ class Jw extends BasePlayer {
     return null;
   }
 
-  injectSubmitMenu() {
-    const referenceNode = document.querySelector<HTMLElement>(
+  getSettingsButtonElement() {
+    return this.document.querySelector<HTMLElement>(
       `[aria-label="${metadata.injectSettingsButtonReferenceNodeSelectorString}"]`
     );
-    if (referenceNode) {
-      this.injectSubmitMenuHelper(referenceNode, metadata.variant);
-    }
   }
 }
 

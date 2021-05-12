@@ -1,6 +1,7 @@
 {
   "variant": "jw",
   "videoContainerSelectorString": "Video Player",
+  "videoControlsContainerSelectorString": "jw-controlbar jw-reset",
   "injectSettingsButtonReferenceNodeSelectorString": "Settings",
   "seekBarContainerSelectorString": "Seek",
   "player_urls": [
@@ -8,7 +9,10 @@
     "*://streamsb.net/*",
     "*://cloud9.to/*",
     "*://fcdn.stream/*",
+    "*://mcloud.to/*",
     "*://mcloud2.to/*",
-    "*://vidstream.pro/e/*"
+    "*://vidstream.pro/e/*",
+    "*://*.streamhd.cc/*",
+    "*://sbembed.com/*"
   ]
 }

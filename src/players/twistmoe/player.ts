@@ -2,25 +2,24 @@ import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
 class Twistmoe extends BasePlayer {
-  constructor(document: Document, videoElement: HTMLVideoElement) {
-    super(document, videoElement, metadata.variant);
+  constructor(document: Document) {
+    super(document, metadata);
   }
 
   getVideoContainer() {
     return super.getContainerHelper(metadata.videoContainerSelectorString, 0);
   }
 
-  getSeekBarContainer() {
-    return super.getContainerHelper(metadata.seekBarContainerSelectorString, 0);
+  getVideoControlsContainer() {
+    return super.getContainerHelper(
+      metadata.videoControlsContainerSelectorString
+    );
   }
 
-  injectSubmitMenu() {
-    const referenceNode = document.getElementsByClassName(
+  getSettingsButtonElement() {
+    return super.getContainerHelper(
       metadata.injectSettingsButtonReferenceNodeSelectorString
-    )[0] as HTMLElement;
-    if (referenceNode) {
-      this.injectSubmitMenuHelper(referenceNode, metadata.variant);
-    }
+    );
   }
 }
 

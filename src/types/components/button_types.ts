@@ -6,4 +6,10 @@ export interface ButtonProps {
   onFocus?: (event: React.FocusEvent<HTMLButtonElement>) => void;
   children?: React.ReactNode;
   submit?: boolean;
+  disabled?: boolean;
+}
+
+export interface LinkButtonProps {
+  children?: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }

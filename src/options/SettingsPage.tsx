@@ -50,9 +50,12 @@ const SettingsPage: React.FC = () => {
   }, [setOpeningOption, setEndingOption]);
 
   return (
-    <div className="border border-gray-300 px-8 py-8 rounded-md bg-white">
+    <div className="sm:border sm:rounded-md border-t border-b border-gray-300 px-8 pt-8 pb-12 bg-white">
+      <h1 className="text-lg text-gray-700 uppercase font-bold mb-4">
+        Settings
+      </h1>
       <div className="space-y-2 w-full">
-        <div className="text-xs text-gray-700 uppercase font-bold">
+        <div className="text-xs text-gray-600 uppercase font-bold">
           Opening default action
         </div>
         <Dropdown
@@ -61,7 +64,7 @@ const SettingsPage: React.FC = () => {
           onChange={handleOpeningOptionChange}
           options={skipOptions}
         />
-        <div className="text-xs text-gray-700 uppercase font-bold">
+        <div className="text-xs text-gray-600 uppercase font-bold">
           Ending default action
         </div>
         <Dropdown

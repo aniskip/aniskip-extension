@@ -1,12 +1,10 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
-import Message from './types/message_type';
-import { SkipTime } from './types/api/skip_time_types';
-import getPlayer from './utils/player_utils';
-import Player from './types/players/player_type';
-import 'tailwindcss/tailwind.css';
-import './player_script.scss';
 
-let player: Player;
+import Message from './types/message_type';
+import { SkipTimeType, SkipType } from './types/api/aniskip_types';
+import getPlayer from './utils/player_utils';
+
+const player = getPlayer(window.location.hostname);
 
 /**
  * Handles messages between the player and the background script
@@ -14,23 +12,19 @@ let player: Player;
  * @param _sender Sender of the message
  */
 const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
-  if (!player) {
+  if (!player.isReady) {
     return;
   }
 
   switch (message.type) {
     case 'player-add-auto-skip-time': {
-      const skipTime = message.payload as SkipTime;
+      const skipTime = message.payload as SkipTimeType;
       player.addSkipTime(skipTime, false);
       break;
     }
     case 'player-add-manual-skip-time': {
-      const skipTime = message.payload as SkipTime;
+      const skipTime = message.payload as SkipTimeType;
       player.addSkipTime(skipTime, true);
-      break;
-    }
-    case 'player-clear-skip-times': {
-      player.reset();
       break;
     }
     case 'player-get-video-duration': {
@@ -53,12 +47,12 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
     }
     case 'player-add-preview-skip-time': {
       const { payload } = message;
-      const skipTime: SkipTime = {
+      const skipTime: SkipTimeType = {
         interval: {
           start_time: payload.interval.startTime as number,
           end_time: payload.interval.endTime as number,
         },
-        skip_type: payload.skipType as 'op' | 'ed',
+        skip_type: payload.skipType as SkipType,
         skip_id: '',
         episode_length: player.getDuration(),
       };
@@ -69,26 +63,39 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
       player.play();
       break;
     }
+    case 'player-remove-skip-time': {
+      player.removeSkipTime(message.payload);
+      break;
+    }
     default:
   }
 };
 
 browser.runtime.onMessage.addListener(messageHandler);
 
-// Notify content script when video DOM element has been added
+// Notify content script when video controls are found
 new MutationObserver((_mutations, observer) => {
-  // eslint-disable-next-line prefer-destructuring
+  const videoControlsContainer = player.getVideoControlsContainer();
+
+  if (videoControlsContainer) {
+    observer.disconnect();
+    player.initialise();
+  }
+}).observe(document, { subtree: true, childList: true });
+
+// Notify content script when video element is found;
+new MutationObserver((_mutations, observer) => {
   const videoElement = document.getElementsByTagName('video')[0];
-  if (videoElement) {
-    player = getPlayer(window.location.hostname, videoElement);
+
+  if (!videoElement) {
+    return;
   }
 
-  if (player) {
-    const videoContainer = player.getVideoContainer();
-
-    if (videoContainer && videoElement) {
+  videoElement.onloadedmetadata = (event) => {
+    if ((event.currentTarget as HTMLVideoElement).duration > 60) {
       observer.disconnect();
-      player.initialise();
+      player.setVideoElement(videoElement);
+      player.ready();
     }
-  }
+  };
 }).observe(document, { subtree: true, childList: true });

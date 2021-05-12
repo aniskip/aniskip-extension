@@ -1,6 +1,7 @@
 {
   "variant": "twistmoe",
   "videoContainerSelectorString": "AT-player",
+  "videoControlsContainerSelectorString": "controls",
   "seekBarContainerSelectorString": "slider seeker",
   "injectSettingsButtonReferenceNodeSelectorString": "theater show-on-extended",
   "player_urls": ["*://twist.moe/*"]

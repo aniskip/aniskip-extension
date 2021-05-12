@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputProps } from '../types/components/submit_types';
 
-const Input: React.FC<InputProps> = ({
+const Input = ({
   className,
   value,
   id,
@@ -12,6 +12,7 @@ const Input: React.FC<InputProps> = ({
   onChange,
   onFocus,
   onBlur,
+  onKeyDown,
 }: InputProps) => (
   <input
     className={`rounded px-3 py-2 block min-w-0 border border-gray-300 focus:outline-none ${className}`}
@@ -26,6 +27,7 @@ const Input: React.FC<InputProps> = ({
     onChange={onChange}
     onFocus={onFocus}
     onBlur={onBlur}
+    onKeyDown={onKeyDown}
   />
 );
 

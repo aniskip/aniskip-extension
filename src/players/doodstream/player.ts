@@ -2,23 +2,20 @@ import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
 class Doodstream extends BasePlayer {
-  constructor(document: Document, videoElement: HTMLVideoElement) {
-    super(document, videoElement, metadata.variant);
+  constructor(document: Document) {
+    super(document, metadata);
   }
 
-  getVideoContainer() {
-    return this.document.getElementById(metadata.videoContainerSelectorString);
+  getVideoControlsContainer() {
+    return super.getContainerHelper(
+      metadata.videoControlsContainerSelectorString
+    );
   }
 
-  getSeekBarContainer() {
-    return super.getContainerHelper(metadata.seekBarContainerSelectorString, 0);
-  }
-
-  injectSubmitMenu() {
-    const referenceNode = document.getElementsByClassName(
+  getSettingsButtonElement() {
+    return super.getContainerHelper(
       metadata.injectSettingsButtonReferenceNodeSelectorString
-    )[0] as HTMLElement;
-    this.injectSubmitMenuHelper(referenceNode, metadata.variant);
+    );
   }
 }
 

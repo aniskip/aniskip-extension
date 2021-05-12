@@ -1,6 +1,7 @@
 {
   "variant": "doodstream",
   "videoContainerSelectorString": "video_player",
+  "videoControlsContainerSelectorString": "vjs-control-bar",
   "injectSettingsButtonReferenceNodeSelectorString": "vjs-fullscreen-control vjs-control vjs-button",
   "seekBarContainerSelectorString": "vjs-progress-holder vjs-slider vjs-slider-horizontal",
   "player_urls": ["*://dood.to/*"]

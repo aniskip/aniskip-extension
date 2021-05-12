@@ -1,66 +1,97 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 import { browser } from 'webextension-polyfill-ts';
-import Player from '../types/players/player_type';
-import SubmitMenuContainer from '../components/SubmitMenuContainer';
-import { SubmitMenuContainerProps } from '../types/components/submit_types';
-import { SkipTimeIndicatorContainerProps } from '../types/components/skip_time_indicator_types';
-import SkipTimeIndicatorContainer from '../components/SkipTimeIndicatorContainer';
-import { SkipTime } from '../types/api/skip_time_types';
+
+import { Player, Metadata } from '../types/players/player_types';
+import { SkipTimeType } from '../types/api/aniskip_types';
 import isInInterval from '../utils/time_utils';
-import { SkipTimeButtonProps } from '../types/components/skip_time_button_types';
-import SkipButton from '../components/SkipButton';
+import SkipTimeIndicatorsRenderer from '../renderers/skip_time_indicators_renderer';
+import MenusButtonsRenderer from '../renderers/menus_buttons_renderer';
+import MenusRenderer from '../renderers/menus_renderer';
+import SkipButtonsRenderer from '../renderers/skip_button_renderer';
+import { MenusState } from '../types/components/menus_types';
 
 abstract class BasePlayer implements Player {
   document: Document;
 
-  variant: string;
+  metadata: Metadata;
 
-  submitMenuContainer: HTMLDivElement;
+  isReady: boolean;
 
-  skipButtonContainer: HTMLDivElement;
+  menusState: MenusState;
 
-  skipTimeIndicatorContainer: HTMLDivElement;
+  menusRenderer: MenusRenderer;
 
-  skipTimes: SkipTime[];
+  menusButtonsRenderer: MenusButtonsRenderer;
 
-  videoElement: HTMLVideoElement;
+  skipButtonRenderer: SkipButtonsRenderer;
+
+  skipTimeIndicatorsRenderer: SkipTimeIndicatorsRenderer;
+
+  videoElement: HTMLVideoElement | null;
 
   timeUpdateEventListeners: Record<string, (event: Event) => void>;
 
-  constructor(
-    document: Document,
-    videoElement: HTMLVideoElement,
-    variant: string
-  ) {
+  constructor(document: Document, metadata: Metadata) {
     this.document = document;
-    this.variant = variant;
-    this.submitMenuContainer = this.createContainer(
-      'aniskip-player-submit-menu',
-      ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']
-    );
-    this.skipTimeIndicatorContainer = this.createContainer(
-      'aniskip-player-skip-time-indicator'
-    );
-    this.skipButtonContainer = this.createContainer(
-      'aniskip-player-skip-button',
-      ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']
-    );
-    this.skipTimes = [];
-    this.videoElement = videoElement;
+    this.metadata = metadata;
     this.timeUpdateEventListeners = {};
+    this.menusState = {
+      isSubmitMenuHidden: true,
+      isVoteMenuHidden: true,
+      skipTimes: [],
+    };
+    this.videoElement = null;
+    this.isReady = false;
+
+    this.skipButtonRenderer = new SkipButtonsRenderer(
+      'aniskip-player-skip-buttons',
+      this.metadata.variant
+    );
+    this.menusRenderer = new MenusRenderer(
+      'aniskip-player-menus',
+      this.metadata.variant,
+      () =>
+        this.setMenusState({
+          ...this.menusState,
+          isSubmitMenuHidden: true,
+        }),
+      () =>
+        this.setMenusState({
+          ...this.menusState,
+          isSubmitMenuHidden: true,
+        }),
+      () =>
+        this.setMenusState({
+          ...this.menusState,
+          isVoteMenuHidden: true,
+        })
+    );
+    this.menusButtonsRenderer = new MenusButtonsRenderer(
+      'aniskip-player-submit-menu-button',
+      this.metadata.variant,
+      () =>
+        this.setMenusState({
+          ...this.menusState,
+          isSubmitMenuHidden: !this.menusState.isSubmitMenuHidden,
+          isVoteMenuHidden: true,
+        }),
+      () =>
+        this.setMenusState({
+          ...this.menusState,
+          isSubmitMenuHidden: true,
+          isVoteMenuHidden: !this.menusState.isVoteMenuHidden,
+        })
+    );
+    this.skipTimeIndicatorsRenderer = new SkipTimeIndicatorsRenderer(
+      'aniskip-player-skip-time-indicator',
+      this.metadata.variant
+    );
   }
 
-  abstract getVideoContainer(): HTMLElement | null;
+  addPreviewSkipTime(skipTime: SkipTimeType) {
+    if (!this.videoElement) {
+      return;
+    }
 
-  /**
-   * Returns the seek bar container element
-   */
-  abstract getSeekBarContainer(): HTMLElement | null;
-
-  abstract injectSubmitMenu(): void;
-
-  addPreviewSkipTime(skipTime: SkipTime) {
     this.clearVideoElementEventListeners(
       Object.values(this.timeUpdateEventListeners)
     );
@@ -85,7 +116,10 @@ abstract class BasePlayer implements Player {
         video.removeEventListener('timeupdate', previewSkipHandler);
         Object.values(this.timeUpdateEventListeners).forEach(
           (functionReference) => {
-            this.videoElement.addEventListener('timeupdate', functionReference);
+            this.videoElement?.addEventListener(
+              'timeupdate',
+              functionReference
+            );
           }
         );
       }
@@ -98,21 +132,28 @@ abstract class BasePlayer implements Player {
     this.videoElement.play();
   }
 
-  addSkipTime(skipTime: SkipTime, manual: boolean = false) {
-    this.skipTimes.push(skipTime);
+  addSkipTime(skipTime: SkipTimeType, manual: boolean = false) {
+    if (!this.videoElement) {
+      return;
+    }
+
+    this.skipTimeIndicatorsRenderer.addSkipTimeIndicator(skipTime);
+    this.setMenusState({
+      ...this.menusState,
+      skipTimes: [...this.menusState.skipTimes, skipTime],
+    });
+    const endTime = skipTime.interval.end_time;
+    const offset = this.getDuration() - skipTime.episode_length;
+    if (manual) {
+      this.skipButtonRenderer.addSkipButton(skipTime, () => {
+        this.setCurrentTime(endTime + offset);
+        this.play();
+      });
+    }
     this.videoElement.addEventListener(
       'timeupdate',
       this.skipIfInInterval(skipTime, manual)
     );
-    this.renderSkipTimeIndicator();
-  }
-
-  /**
-   * Removes all the skip times from the player
-   */
-  clearSkipTimeIndicators() {
-    this.skipTimes = [];
-    this.renderSkipTimeIndicator();
   }
 
   /**
@@ -121,36 +162,8 @@ abstract class BasePlayer implements Player {
    */
   clearVideoElementEventListeners(eventListeners: EventListener[]) {
     eventListeners.forEach((listener) =>
-      this.videoElement.removeEventListener('timeupdate', listener)
+      this.videoElement?.removeEventListener('timeupdate', listener)
     );
-  }
-
-  /**
-   * Returns a new div container with a shadow root initialised
-   * @param id Id of the newly created container
-   * @param stopPropagationEvents Events to stop propagation of
-   */
-  createContainer(id: string, stopPropagationEvents: string[] = []) {
-    const container = this.document.createElement('div');
-    container.setAttribute('id', id);
-    container.attachShadow({ mode: 'open' });
-
-    stopPropagationEvents.forEach((eventName) => {
-      container.addEventListener(eventName, (event) => {
-        event.stopPropagation();
-      });
-    });
-
-    (async () => {
-      const cssUrl = browser.runtime.getURL('player_script.css');
-      const response = await fetch(cssUrl, { method: 'GET' });
-      const cssString = await response.text();
-      const style = document.createElement('style');
-      style.innerHTML = cssString;
-      container.shadowRoot?.appendChild(style);
-    })();
-
-    return container;
   }
 
   /**
@@ -160,144 +173,153 @@ abstract class BasePlayer implements Player {
    */
   getContainerHelper(
     selectorString: string,
-    index: number
+    index: number = 0
   ): HTMLElement | null {
     const containers = this.document.getElementsByClassName(selectorString);
     return containers[index] as HTMLElement;
   }
 
   getDuration() {
-    return this.videoElement.duration;
+    return this.videoElement?.duration || 0;
   }
 
   getCurrentTime() {
-    return this.videoElement.currentTime;
+    return this.videoElement?.currentTime || 0;
+  }
+
+  /**
+   * Returns the root video container element
+   */
+  getVideoContainer() {
+    return this.document.getElementById(
+      this.metadata.videoContainerSelectorString
+    );
+  }
+
+  getVideoControlsContainer() {
+    return this.document.getElementById(
+      this.metadata.videoControlsContainerSelectorString
+    );
+  }
+
+  /**
+   * Returns the seek bar container element
+   */
+  getSeekBarContainer() {
+    return this.getContainerHelper(
+      this.metadata.seekBarContainerSelectorString,
+      0
+    );
+  }
+
+  getSettingsButtonElement() {
+    return this.document.getElementById(
+      this.metadata.injectSettingsButtonReferenceNodeSelectorString
+    );
   }
 
   initialise() {
-    this.videoElement.onloadedmetadata = () => {
-      this.reset();
-      this.injectSubmitMenu();
-      this.injectSkipTimeIndicator();
-      this.injectSkipButton();
-      browser.runtime.sendMessage({ type: 'player-ready' });
-    };
+    this.reset();
+    this.injectSubmitMenu();
+    this.injectSubmitMenuButton();
+    this.injectSkipTimeIndicator();
+    this.injectSkipButtons();
   }
 
-  injectSkipButton() {
-    const submitMenuParentElement = this.submitMenuContainer.parentElement;
-    const shadowRootContainer = this.skipButtonContainer;
-    if (submitMenuParentElement && shadowRootContainer) {
-      this.injectContainerHelper(submitMenuParentElement, shadowRootContainer);
+  /**
+   * Injects the skip button into the player
+   */
+  injectSkipButtons() {
+    const settingsButtonElement = this.getSettingsButtonElement();
+    if (settingsButtonElement) {
+      settingsButtonElement.parentElement?.appendChild(
+        this.skipButtonRenderer.shadowRootContainer
+      );
     }
   }
 
+  /**
+   * Injects the skip time indicators into the player seek bar
+   */
   injectSkipTimeIndicator() {
     const seekBarContainer = this.getSeekBarContainer();
-    const shadowRootContainer = this.skipTimeIndicatorContainer;
-    if (seekBarContainer && shadowRootContainer) {
-      const { id } = shadowRootContainer;
-      const reactRootId = `${id}-root`;
-      this.injectContainerHelper(
-        seekBarContainer,
-        shadowRootContainer,
-        reactRootId
+    if (seekBarContainer) {
+      seekBarContainer.appendChild(
+        this.skipTimeIndicatorsRenderer.shadowRootContainer
       );
-      this.renderSkipTimeIndicator();
     }
   }
 
   /**
-   * Helper function to inject containers into the player
-   * @param target Div element to put the shadow root element into
-   * @param shadowRootContainer Container element which contains the shadow root
-   * @param reactRootId If specified, a div element is created for the react root
+   * Injects the submit menu button into the player controls
    */
-  injectContainerHelper(
-    target: HTMLElement,
-    shadowRootContainer: HTMLElement,
-    reactRootId?: string
-  ): void {
-    const { id, shadowRoot } = shadowRootContainer;
-    if (this.document.getElementById(id) || !shadowRoot) {
-      return;
+  injectSubmitMenu() {
+    const videoContainer = this.getVideoContainer();
+    if (videoContainer) {
+      videoContainer.appendChild(this.menusRenderer.shadowRootContainer);
+      this.menusRenderer.render();
     }
-
-    if (reactRootId && !shadowRoot.getElementById(reactRootId)) {
-      const root = this.document.createElement('div');
-      root.setAttribute('id', reactRootId);
-      shadowRoot.appendChild(root);
-    }
-
-    target.appendChild(shadowRootContainer);
   }
 
   /**
-   * Helper function to inject the submit button
-   * @param referenceNode Reference node to put the submit button beside. Submit button will be placed on the left side of the reference node
-   * @param variant Variant of submit button based on the provider name
+   * Injects the submit menu button into the player
    */
-  injectSubmitMenuHelper(
-    referenceNode: HTMLElement,
-    variant: string
-  ): HTMLDivElement | null {
-    const { id, shadowRoot } = this.submitMenuContainer;
-    if (this.document.getElementById(id) || !referenceNode || !shadowRoot) {
-      return null;
-    }
-
-    const reactRootId = `${id}-root`;
-    if (!shadowRoot.getElementById(reactRootId)) {
-      const root = this.document.createElement('div');
-      root.setAttribute('id', reactRootId);
-      shadowRoot.appendChild(root);
-
-      const submitMenuContainer = React.createElement<SubmitMenuContainerProps>(
-        SubmitMenuContainer,
-        { variant }
+  injectSubmitMenuButton() {
+    const settingsButtonElement = this.getSettingsButtonElement();
+    if (settingsButtonElement) {
+      settingsButtonElement.insertAdjacentElement(
+        'beforebegin',
+        this.menusButtonsRenderer.shadowRootContainer
       );
-
-      ReactDOM.render(submitMenuContainer, root);
+      this.menusButtonsRenderer.render();
     }
-
-    referenceNode.insertAdjacentElement(
-      'beforebegin',
-      this.submitMenuContainer
-    );
-
-    return this.submitMenuContainer;
   }
 
   play() {
-    this.videoElement.play();
+    this.videoElement?.play();
   }
 
-  /**
-   * Renders the skip time indicator react element
-   */
-  renderSkipTimeIndicator() {
-    const { id, shadowRoot } = this.skipTimeIndicatorContainer;
-    const reactRoot = shadowRoot?.getElementById(`${id}-root`);
-    const offset = this.getDuration() - this.skipTimes[0]?.episode_length || 0;
-    if (reactRoot) {
-      const skipTimeIndicatorElement = React.createElement<SkipTimeIndicatorContainerProps>(
-        SkipTimeIndicatorContainer,
-        {
-          skipTimes: this.skipTimes,
-          offset,
-          variant: this.variant,
-        }
-      );
-      ReactDOM.render(skipTimeIndicatorElement, reactRoot);
+  removeSkipTime(skipTime: SkipTimeType) {
+    if (!this.videoElement) {
+      return;
+    }
+
+    this.skipTimeIndicatorsRenderer.removeSkipTimeIndicator(skipTime);
+    this.skipButtonRenderer.removeSkipButton(skipTime);
+    this.setMenusState({
+      ...this.menusState,
+      skipTimes: [
+        ...this.menusState.skipTimes.filter(
+          ({ skip_id: currentSkipId }) => currentSkipId !== skipTime.skip_id
+        ),
+      ],
+    });
+    this.videoElement.removeEventListener(
+      'timeupdate',
+      this.timeUpdateEventListeners[JSON.stringify(skipTime)]
+    );
+  }
+
+  ready() {
+    if (this.videoElement && this.getVideoControlsContainer()) {
+      this.isReady = true;
+      browser.runtime.sendMessage({ type: 'player-ready' });
     }
   }
 
   reset() {
-    this.clearSkipTimeIndicators();
+    this.skipTimeIndicatorsRenderer.clearSkipTimeIndicators();
+    this.skipButtonRenderer.clearSkipButtons();
+    this.menusRenderer.resetState();
     this.clearVideoElementEventListeners(
       Object.values(this.timeUpdateEventListeners)
     );
     this.timeUpdateEventListeners = {};
+    this.menusState = {
+      isSubmitMenuHidden: true,
+      isVoteMenuHidden: true,
+      skipTimes: [],
+    };
   }
 
   /**
@@ -305,14 +327,37 @@ abstract class BasePlayer implements Player {
    * @param time Time in seconds to set the player time to
    */
   setCurrentTime(time: number) {
+    if (!this.videoElement) {
+      return;
+    }
+
     this.videoElement.currentTime = time;
+  }
+
+  /**
+   * Set menus state
+   * @param newState New state of menus
+   */
+  setMenusState(newState: MenusState) {
+    this.menusState = newState;
+    this.menusButtonsRenderer.setState({
+      isSubmitButtonActive: !newState.isSubmitMenuHidden,
+      isVoteButtonActive: !newState.isVoteMenuHidden,
+    });
+    this.menusRenderer.setMenusState(newState);
+  }
+
+  setVideoElement(videoElement: HTMLVideoElement) {
+    this.videoElement = videoElement;
+    this.skipTimeIndicatorsRenderer.setVideoDuration(this.getDuration());
+    this.skipButtonRenderer.setVideoDuration(this.getDuration());
   }
 
   /**
    * Skips the time in the interval if it is within the interval range
    * @param skipTime Skip time object containing the intervals
    */
-  skipIfInInterval(skipTime: SkipTime, manual: boolean) {
+  skipIfInInterval(skipTime: SkipTimeType, manual: boolean) {
     const skipTimeString = JSON.stringify(skipTime);
     // Ensures player event handlers can be removed
     const timeUpdateEventListener =
@@ -322,46 +367,20 @@ abstract class BasePlayer implements Player {
         const video = event.currentTarget as HTMLVideoElement;
         const { interval, episode_length: episodeLength } = skipTime;
         const { start_time: startTime, end_time: endTime } = interval;
-        const skipTimeIntervalLength = endTime - startTime;
-        const checkIntervalLength = manual ? skipTimeIntervalLength : 1;
         const offset = video.duration - episodeLength;
         const { currentTime } = video;
         const inInterval = isInInterval(
           startTime + offset,
           currentTime,
           margin,
-          checkIntervalLength
+          1
         );
 
-        if (manual) {
-          const { id, shadowRoot } = this.skipButtonContainer;
-          if (shadowRoot) {
-            const reactRootId = `${id}-${skipTime.skip_type}-root`;
-            if (!shadowRoot.getElementById(reactRootId)) {
-              const root = this.document.createElement('div');
-              root.setAttribute('id', reactRootId);
-              shadowRoot.appendChild(root);
-            }
-            const reactRoot = shadowRoot.getElementById(reactRootId);
-            if (reactRoot) {
-              const skipButton = React.createElement<SkipTimeButtonProps>(
-                SkipButton,
-                {
-                  variant: this.variant,
-                  hidden: !inInterval,
-                  onClick: () => {
-                    this.setCurrentTime(endTime + offset + margin);
-                    this.play();
-                  },
-                },
-                skipTime.skip_type === 'op' ? 'Skip Opening' : 'Skip Ending'
-              );
-              ReactDOM.render(skipButton, reactRoot);
-            }
-          }
-        } else if (inInterval) {
+        if (!manual && inInterval) {
           this.setCurrentTime(endTime + offset + margin);
         }
+
+        this.skipButtonRenderer.setCurrentTime(currentTime);
       });
 
     return timeUpdateEventListener;
