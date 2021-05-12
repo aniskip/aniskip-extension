@@ -352,7 +352,7 @@ const SubmitMenu = ({
             />
           </div>
         </div>
-        <div className="text-xs uppercase font-semibold text-red-500">
+        <div className="text-xs uppercase font-bold text-red-500">
           {formError}
         </div>
         <div>
@@ -466,7 +466,7 @@ const SubmitMenu = ({
             </div>
           </div>
         </div>
-        <div className="text-xs uppercase font-semibold text-red-500">
+        <div className="text-xs uppercase font-bold text-red-500">
           {serverError}
         </div>
       </form>
