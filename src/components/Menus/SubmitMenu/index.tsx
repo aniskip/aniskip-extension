@@ -184,7 +184,7 @@ const SubmitMenu = ({
         return;
       }
 
-      updatedTime = await errorCorrectTime(timeSeconds + modifier);
+      updatedTime = await errorCorrectTime(updatedTime);
 
       browser.runtime.sendMessage({
         type: 'player-set-video-current-time',
