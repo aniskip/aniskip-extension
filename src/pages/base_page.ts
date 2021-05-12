@@ -76,8 +76,9 @@ abstract class BasePage implements Page {
    */
   static async findClosestMalId(title: string): Promise<number> {
     const anilistHttpClient = new AnilistHttpClient();
+    const sanitisedTitle = title.replace(/\(.*\)/, '').trim();
 
-    const searchResponse = await anilistHttpClient.search(title);
+    const searchResponse = await anilistHttpClient.search(sanitisedTitle);
     const {
       data: {
         Page: { media: searchResults },
