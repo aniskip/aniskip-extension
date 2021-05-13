@@ -10,12 +10,19 @@ abstract class BaseHttpClient implements HttpClient {
   async request(
     route: string,
     method: string,
-    params: Record<string, string> = {},
+    params: Record<string, string | string[]> = {},
     body: string = ''
   ): Promise<Response> {
     const url = new URL(`${this.baseUrl}${route}`);
-    Object.entries(params).forEach(([key, value]) => {
-      url.searchParams.append(key, value);
+    Object.entries(params).forEach(([key, param]) => {
+      if (Array.isArray(param)) {
+        param.forEach((value) => {
+          url.searchParams.append(key, value);
+        });
+        return;
+      }
+
+      url.searchParams.append(key, param);
     });
     const options: RequestInit = {
       method,

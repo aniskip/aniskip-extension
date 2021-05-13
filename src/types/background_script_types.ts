@@ -3,8 +3,8 @@ import { SkipOptionType } from './options/skip_option_type';
 
 export interface DefaultOptionsType {
   userId: string;
-  openingOption: SkipOptionType;
-  endingOption: SkipOptionType;
+  opOption: SkipOptionType;
+  edOption: SkipOptionType;
 }
 
 export interface LocalDefaultOptionsType {

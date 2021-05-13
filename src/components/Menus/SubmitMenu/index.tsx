@@ -133,12 +133,11 @@ const SubmitMenu = ({
       `${messageType}-response`
     );
 
-    const { userId, openingOption, endingOption } =
-      await browser.storage.sync.get([
-        'userId',
-        'openingOption',
-        'endingOption',
-      ]);
+    const { userId, opOption, edOption } = await browser.storage.sync.get([
+      'userId',
+      'opOption',
+      'edOption',
+    ]);
     const { malId, episodeNumber, providerName } =
       getEpisodeInfoResponse.payload;
     const duration = playerGetDurationResponse.payload;
@@ -158,7 +157,7 @@ const SubmitMenu = ({
         userId
       );
 
-      const option = skipType === 'op' ? openingOption : endingOption;
+      const option = skipType === 'op' ? opOption : edOption;
 
       browser.runtime.sendMessage({
         type: `player-add-${option}-time`,

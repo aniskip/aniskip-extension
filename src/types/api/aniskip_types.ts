@@ -10,14 +10,10 @@ export interface SkipTimeType {
   episode_length: number;
 }
 
-export type GetResponseTypeFromSkipTimes =
-  | {
-      found: false;
-    }
-  | {
-      found: true;
-      result: SkipTimeType;
-    };
+export type GetResponseTypeFromSkipTimes = {
+  found: boolean;
+  results: SkipTimeType[];
+};
 
 export interface SuccessMessageType {
   message: 'success';
@@ -27,15 +23,14 @@ export interface ServerErrorType {
   error?: string;
 }
 
-export interface ServerErrorsType {
-  errors?: any[];
-}
-
 export type PostResponseTypeFromSkipTimesVote = SuccessMessageType &
-  ServerErrorType &
-  ServerErrorsType;
+  ServerErrorType;
+
 export type PostResponseTypeFromSkipTimes = SuccessMessageType &
-  ServerErrorType &
-  ServerErrorsType;
+  ServerErrorType;
 
 export type VoteType = 'upvote' | 'downvote';
+
+export type HttpClientErrorCode =
+  | 'vote/rate-limited'
+  | 'skip-times/parameter-error';
