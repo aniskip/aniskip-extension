@@ -4,8 +4,9 @@ import {
   PostResponseTypeFromSkipTimesVote,
   SkipType,
   VoteType,
-} from '../types/api/aniskip_types';
-import BaseHttpClient from './base_http_client';
+} from '../../types/api/aniskip_types';
+import BaseHttpClient from '../base_http_client';
+import AniskipHttpClientError from './error';
 
 class AniskipHttpClient extends BaseHttpClient {
   constructor() {
@@ -25,10 +26,10 @@ class AniskipHttpClient extends BaseHttpClient {
   async getSkipTimes(
     animeId: number,
     episodeNumber: number,
-    type: SkipType
+    types: SkipType[]
   ): Promise<GetResponseTypeFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
-    const params = { type };
+    const params = { types };
     const response = await this.request(route, 'GET', params);
     return response.json();
   }
@@ -68,7 +69,7 @@ class AniskipHttpClient extends BaseHttpClient {
     const { message, error }: PostResponseTypeFromSkipTimes =
       await response.json();
     if (error) {
-      throw new Error(error);
+      throw new AniskipHttpClientError(error, 'skip-times/parameter-error');
     }
 
     return { message };
@@ -88,6 +89,9 @@ class AniskipHttpClient extends BaseHttpClient {
       vote_type: type,
     });
     const response = await this.request(route, 'POST', {}, body);
+    if (response.status === 429) {
+      throw new AniskipHttpClientError('Rate limited', 'vote/rate-limited');
+    }
     return response.json();
   }
 

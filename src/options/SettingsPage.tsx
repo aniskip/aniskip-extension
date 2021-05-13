@@ -4,20 +4,16 @@ import Dropdown from '../components/Dropdown';
 import { SkipOptionType } from '../types/options/skip_option_type';
 
 const SettingsPage: React.FC = () => {
-  const [openingOption, setOpeningOption] = useState<SkipOptionType>(
-    'manual-skip'
-  );
-  const [endingOption, setEndingOption] = useState<SkipOptionType>(
-    'manual-skip'
-  );
+  const [opOption, setOpOption] = useState<SkipOptionType>('manual-skip');
+  const [edOption, setEdOption] = useState<SkipOptionType>('manual-skip');
 
   const handleOpeningOptionChange = (skipOption: SkipOptionType) => {
-    browser.storage.sync.set({ openingOption: skipOption });
-    setOpeningOption(skipOption);
+    browser.storage.sync.set({ opOption: skipOption });
+    setOpOption(skipOption);
   };
   const handleEndingOptionChange = (skipOption: SkipOptionType) => {
-    browser.storage.sync.set({ endingOption: skipOption });
-    setEndingOption(skipOption);
+    browser.storage.sync.set({ edOption: skipOption });
+    setEdOption(skipOption);
   };
 
   const skipOptions = [
@@ -37,17 +33,15 @@ const SettingsPage: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const {
-        openingOption: openingOptionRetrieved,
-        endingOption: endingOptionRetrieved,
-      } = await browser.storage.sync.get({
-        openingOption: 'manual-skip',
-        endingOption: 'manual-skip',
-      });
-      setOpeningOption(openingOptionRetrieved);
-      setEndingOption(endingOptionRetrieved);
+      const { opOption: opOptionRetrieved, edOption: edOptionRetrieved } =
+        await browser.storage.sync.get({
+          opOption: 'manual-skip',
+          edOption: 'manual-skip',
+        });
+      setOpOption(opOptionRetrieved);
+      setEdOption(edOptionRetrieved);
     })();
-  }, [setOpeningOption, setEndingOption]);
+  }, [setOpOption, setEdOption]);
 
   return (
     <div className="sm:border sm:rounded-md border-t border-b border-gray-300 px-8 pt-8 pb-12 bg-white">
@@ -60,7 +54,7 @@ const SettingsPage: React.FC = () => {
         </div>
         <Dropdown
           className="text-sm w-full"
-          value={openingOption}
+          value={opOption}
           onChange={handleOpeningOptionChange}
           options={skipOptions}
         />
@@ -69,7 +63,7 @@ const SettingsPage: React.FC = () => {
         </div>
         <Dropdown
           className="text-sm w-full"
-          value={endingOption}
+          value={edOption}
           onChange={handleEndingOptionChange}
           options={skipOptions}
         />

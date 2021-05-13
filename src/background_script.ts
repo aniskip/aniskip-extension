@@ -28,8 +28,8 @@ browser.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
     const defaultOptions: DefaultOptionsType = {
       userId: uuidv4(),
-      openingOption: 'manual-skip',
-      endingOption: 'manual-skip',
+      opOption: 'manual-skip',
+      edOption: 'manual-skip',
     };
 
     browser.storage.sync.set(defaultOptions);

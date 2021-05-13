@@ -3,7 +3,7 @@ import Message from './types/message_type';
 import AniskipHttpClient from './api/aniskip_http_client';
 import getPage from './utils/page_utils';
 import { SkipOptionType } from './types/options/skip_option_type';
-import { SkipType } from './types/api/aniskip_types';
+import { SkipTimeType, SkipType } from './types/api/aniskip_types';
 
 /**
  * Returns the MAL id, episode number and provider name
@@ -25,46 +25,49 @@ const getEpisodeInformation = async () => {
 
 /**
  * Adds the skip time to the player
- * @param aniskipHttpClient AniskipHttpClient object
- * @param malId MAL idenfitication number
- * @param episodeNumber Episode number
- * @param type Type of time to add, either 'op' or 'ed'
+ * @param skipTime Skip time to add
+ * @param userOption User option of the skip time
  */
 const addSkipTime = async (
-  aniskipHttpClient: AniskipHttpClient,
-  malId: number,
-  episodeNumber: number,
-  type: SkipType,
-  option: SkipOptionType
+  skipTime: SkipTimeType,
+  userOption: SkipOptionType
 ) => {
-  if (option === 'disabled') {
-    return;
-  }
-  const skipTimesResponse = await aniskipHttpClient.getSkipTimes(
-    malId,
-    episodeNumber,
-    type
-  );
-  if (skipTimesResponse.found) {
-    browser.runtime.sendMessage({
-      type: `player-add-${option}-time`,
-      payload: skipTimesResponse.result,
-    });
-  }
+  browser.runtime.sendMessage({
+    type: `player-add-${userOption}-time`,
+    payload: skipTime,
+  });
 };
 
 /**
  * Adds the opening and ending skip invervals
  */
 const initialiseSkipTimes = async () => {
+  const skipTypes: SkipType[] = ['op', 'ed'];
   const aniskipHttpClient = new AniskipHttpClient();
   const { malId, episodeNumber } = await getEpisodeInformation();
-  const { openingOption, endingOption } = await browser.storage.sync.get([
-    'openingOption',
-    'endingOption',
-  ]);
-  addSkipTime(aniskipHttpClient, malId, episodeNumber, 'op', openingOption);
-  addSkipTime(aniskipHttpClient, malId, episodeNumber, 'ed', endingOption);
+  const skipTimeOptions = await browser.storage.sync.get(
+    skipTypes.map((type) => `${type}Option`)
+  );
+
+  const skipTimeTypes: SkipType[] = [];
+  Object.entries(skipTimeOptions).forEach(([key, value]) => {
+    const skipType = key.replace('Option', '') as SkipType;
+    if (value !== 'disabled') {
+      skipTimeTypes.push(skipType);
+    }
+  });
+
+  const getSkipTimesResponse = await aniskipHttpClient.getSkipTimes(
+    malId,
+    episodeNumber,
+    skipTimeTypes
+  );
+
+  if (getSkipTimesResponse.found) {
+    getSkipTimesResponse.results.forEach((skipTime) =>
+      addSkipTime(skipTime, skipTimeOptions[`${skipTime.skip_type}Option`])
+    );
+  }
 };
 
 /**

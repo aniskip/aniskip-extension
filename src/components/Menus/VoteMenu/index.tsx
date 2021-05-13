@@ -140,11 +140,19 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
 
                       setSkipTimesVoted(updatedSkipTimesVoted);
 
-                      const response = await aniskipHttpClient.upvote(skipId);
-                      if (response.message === 'success') {
-                        browser.storage.local.set({
-                          skipTimesVoted: updatedSkipTimesVoted,
-                        });
+                      try {
+                        const response = await aniskipHttpClient.upvote(skipId);
+                        if (response.message === 'success') {
+                          browser.storage.local.set({
+                            skipTimesVoted: updatedSkipTimesVoted,
+                          });
+                        }
+                      } catch (err) {
+                        if (err.code === 'vote/rate-limited') {
+                          browser.storage.local.set({
+                            skipTimesVoted: updatedSkipTimesVoted,
+                          });
+                        }
                       }
                     }}
                     disabled={isUpvoted}
@@ -180,11 +188,21 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
                         payload: skipTime,
                       });
 
-                      const response = await aniskipHttpClient.downvote(skipId);
-                      if (response.message === 'success') {
-                        browser.storage.local.set({
-                          skipTimesVoted: updatedSkipTimesVoted,
-                        });
+                      try {
+                        const response = await aniskipHttpClient.downvote(
+                          skipId
+                        );
+                        if (response.message === 'success') {
+                          browser.storage.local.set({
+                            skipTimesVoted: updatedSkipTimesVoted,
+                          });
+                        }
+                      } catch (err) {
+                        if (err.code === 'vote/rate-limited') {
+                          browser.storage.local.set({
+                            skipTimesVoted: updatedSkipTimesVoted,
+                          });
+                        }
                       }
                     }}
                     disabled={isDownvoted}
