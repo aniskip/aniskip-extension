@@ -109,12 +109,11 @@ class Crunchyroll extends BasePage {
     if (prequelEdge) {
       const prequelNode = prequelEdge.node;
       episodeOffset =
-        prequelNode.episodes ||
-        0 +
-          (await Crunchyroll.getSeasonalEpisodeNumberHelper(
-            anilistHttpClient,
-            prequelNode.idMal
-          ));
+        (prequelNode.episodes || 0) +
+        (await Crunchyroll.getSeasonalEpisodeNumberHelper(
+          anilistHttpClient,
+          prequelNode.idMal
+        ));
     }
 
     // Cache offset
