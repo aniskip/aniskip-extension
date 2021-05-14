@@ -45,3 +45,6 @@ dist
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# web-ext
+web-ext-artifacts
