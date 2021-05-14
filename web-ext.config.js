@@ -1,3 +1,5 @@
+const manifestJson = require('./dist/manifest.json');
+
 const startUrl = ['crunchyroll.com'];
 
 switch (process.env.BROWSER) {
@@ -22,5 +24,11 @@ module.exports = {
     startUrl,
     // If uses Edge/Opera etc Chromium based browsers
     //   chromiumBinary:
+  },
+  build: {
+    filename: `${manifestJson.name.toLocaleLowerCase()}-${
+      process.env.BROWSER
+    }-${manifestJson.version}.zip`,
+    overwriteDest: true,
   },
 };
