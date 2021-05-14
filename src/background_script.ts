@@ -41,5 +41,7 @@ browser.runtime.onInstalled.addListener((details) => {
     };
 
     browser.storage.local.set(localDefaultOptions);
+
+    browser.runtime.openOptionsPage();
   }
 });
