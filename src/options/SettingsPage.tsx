@@ -44,7 +44,7 @@ const SettingsPage: React.FC = () => {
   }, [setOpOption, setEdOption]);
 
   return (
-    <div className="sm:border sm:rounded-md border-t border-b border-gray-300 px-8 pt-8 pb-12 bg-white">
+    <div className="sm:border sm:rounded-md border-gray-300 px-8 pt-8 pb-12 sm:bg-white">
       <h1 className="text-lg text-gray-700 uppercase font-bold mb-4">
         Settings
       </h1>
