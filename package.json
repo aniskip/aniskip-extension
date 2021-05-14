@@ -15,7 +15,7 @@
     "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.config.js",
     "build:chrome": "cross-env NODE_ENV=production BROWSER=chromium webpack --config ./webpack/webpack.prod.config.js",
     "build:firefox": "cross-env NODE_ENV=production BROWSER=firefox webpack --config ./webpack/webpack.prod.config.js",
-    "clean": "shx rm -rf ./dist && shx rm -rf ./web-ext-artifacts",
+    "clean": "shx rm -rf ./dist ./web-ext-artifacts ./aniskip-source.zip",
     "dev": "cross-env NODE_ENV=development webpack --config ./webpack/webpack.dev.config.js --watch",
     "dev:chrome": "cross-env NODE_ENV=development BROWSER=chromium webpack --config ./webpack/webpack.dev.config.js --watch",
     "dev:firefox": "cross-env NODE_ENV=development BROWSER=firefox webpack --config ./webpack/webpack.dev.config.js --watch",
@@ -28,7 +28,8 @@
     "package:chrome": "run-s build:chrome zip:chrome",
     "package:firefox": "run-s build:firefox zip:firefox",
     "zip:chrome": "cross-env BROWSER=chrome web-ext --config=web-ext.config.js build",
-    "zip:firefox": "cross-env BROWSER=firefox web-ext --config=web-ext.config.js build"
+    "zip:firefox": "cross-env BROWSER=firefox web-ext --config=web-ext.config.js build",
+    "zip:source": "git archive -o aniskip-source.zip HEAD"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.139",
