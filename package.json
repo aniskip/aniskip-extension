@@ -15,7 +15,7 @@
     "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.config.js",
     "build:chrome": "cross-env NODE_ENV=production BROWSER=chromium webpack --config ./webpack/webpack.prod.config.js",
     "build:firefox": "cross-env NODE_ENV=production BROWSER=firefox webpack --config ./webpack/webpack.prod.config.js",
-    "clean": "shx rm -rf ./dist",
+    "clean": "shx rm -rf ./dist && shx rm -rf ./web-ext-artifacts",
     "dev": "cross-env NODE_ENV=development webpack --config ./webpack/webpack.dev.config.js --watch",
     "dev:chrome": "cross-env NODE_ENV=development BROWSER=chromium webpack --config ./webpack/webpack.dev.config.js --watch",
     "dev:firefox": "cross-env NODE_ENV=development BROWSER=firefox webpack --config ./webpack/webpack.dev.config.js --watch",
