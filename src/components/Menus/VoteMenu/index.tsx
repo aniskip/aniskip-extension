@@ -6,6 +6,7 @@ import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
 import useFullscreen from '../../../hooks/use_fullscreen';
 import { SkipTimeType, VoteType } from '../../../types/api/aniskip_types';
 import { VoteMenuProps } from '../../../types/components/vote_menu_types';
+import waitForMessage from '../../../utils/message_utils';
 import { secondsToTimeString } from '../../../utils/string_utils';
 import LinkButton from '../../LinkButton';
 import Button from './Button';
@@ -19,6 +20,7 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
   const [filteredSkipTimes, setFilteredSkipTimes] = useState<SkipTimeType[]>(
     []
   );
+  const [playerDuration, setPlayerDuration] = useState(0);
 
   useEffect(() => {
     skipTimes.sort((a, b) => a.interval.start_time - b.interval.end_time);
@@ -30,8 +32,13 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
           skipTimesVoted: {},
         })
       ).skipTimesVoted;
-
       setSkipTimesVoted(currentSkipTimesVoted);
+
+      const messageType = 'player-get-video-duration';
+      browser.runtime.sendMessage({ type: messageType });
+      const duration: number = (await waitForMessage(`${messageType}-response`))
+        .payload;
+      setPlayerDuration(duration);
     })();
   }, [skipTimes]);
 
@@ -71,14 +78,23 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
         )}
         {filteredSkipTimes.length > 0 &&
           filteredSkipTimes.map((skipTime) => {
-            const { skip_id: skipId, interval, skip_type: skipType } = skipTime;
+            const {
+              skip_id: skipId,
+              interval,
+              skip_type: skipType,
+              episode_length: episodeLength,
+            } = skipTime;
+            const offset = playerDuration - episodeLength;
             const isUpvoted = skipTimesVoted[skipId] === 'upvote';
             const isDownvoted = skipTimesVoted[skipId] === 'downvote';
             const startTimeFormatted = secondsToTimeString(
-              interval.start_time,
+              interval.start_time + offset,
               0
             );
-            const endTimeFormatted = secondsToTimeString(interval.end_time, 0);
+            const endTimeFormatted = secondsToTimeString(
+              interval.end_time + offset,
+              0
+            );
 
             let skipTypeFormatted = '';
             switch (skipType) {
@@ -103,13 +119,15 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
                   <br />
                   <span className="text-sm text-blue-500">
                     <LinkButton
-                      onClick={setPlayerCurrentTime(interval.start_time)}
+                      onClick={setPlayerCurrentTime(
+                        interval.start_time + offset
+                      )}
                     >
                       {startTimeFormatted}
                     </LinkButton>{' '}
                     <span className="text-white">-</span>{' '}
                     <LinkButton
-                      onClick={setPlayerCurrentTime(interval.end_time)}
+                      onClick={setPlayerCurrentTime(interval.end_time + offset)}
                     >
                       {endTimeFormatted}
                     </LinkButton>
