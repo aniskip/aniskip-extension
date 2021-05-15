@@ -41,6 +41,7 @@ const getPlayer = (hostname: string) => {
     case 'mixdrop':
     case 'mp4upload':
     case '4anime':
+    case 'mp4':
       player = new Videojs(document);
       break;
     case 'twist':

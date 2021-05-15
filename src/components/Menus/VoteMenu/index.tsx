@@ -112,11 +112,10 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
                 className="flex justify-between py-2"
                 key={`vote-menu-skip-time-${skipId}`}
               >
-                <div>
+                <div className="flex flex-col justify-between">
                   <span className="font-bold uppercase text-xs">
                     {skipTypeFormatted}
                   </span>
-                  <br />
                   <span className="text-sm text-blue-500">
                     <LinkButton
                       onClick={setPlayerCurrentTime(

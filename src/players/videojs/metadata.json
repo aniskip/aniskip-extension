@@ -7,6 +7,7 @@
   "player_urls": [
     "*://www.mp4upload.com/embed-*",
     "*://mixdrop.co/e/*",
-    "*://4anime.to/*"
+    "*://4anime.to/*",
+    "*://mp4.sh/*"
   ]
 }
