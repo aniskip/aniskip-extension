@@ -5,9 +5,10 @@ interface Page {
 
   document: Document;
 
-  providerName: string;
-
-  malId: number;
+  /**
+   * Fetches and applies the episode number redirection rules
+   */
+  applyRules(): Promise<void>;
 
   /**
    * Returns the title
@@ -27,7 +28,7 @@ interface Page {
   /**
    * Returns the episode number from the url
    */
-  getEpisodeNumber(): Promise<number>;
+  getEpisodeNumber(): number;
 
   /**
    * Returns the MAL identification id from the url

@@ -10,10 +10,25 @@ export interface SkipTimeType {
   episode_length: number;
 }
 
-export type GetResponseTypeFromSkipTimes = {
+export interface GetResponseTypeFromSkipTimes {
   found: boolean;
   results: SkipTimeType[];
-};
+}
+
+export interface RangeType {
+  start: number;
+  end?: number;
+}
+
+export interface RuleType {
+  from: RangeType;
+  to: { malId: number } & RangeType;
+}
+
+export interface GetResponseTypeFromRules {
+  found: boolean;
+  rules: RuleType[];
+}
 
 export interface SuccessMessageType {
   message: 'success';

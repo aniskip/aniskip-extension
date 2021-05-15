@@ -1,4 +1,5 @@
 import {
+  GetResponseTypeFromRules,
   GetResponseTypeFromSkipTimes,
   PostResponseTypeFromSkipTimes,
   PostResponseTypeFromSkipTimesVote,
@@ -31,6 +32,16 @@ class AniskipHttpClient extends BaseHttpClient {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
     const params = { types };
     const response = await this.request(route, 'GET', params);
+    return response.json();
+  }
+
+  /**
+   * Gets anime episode number redirection rules
+   * @param animeId MAL id to get the episode number rules of
+   */
+  async getRules(animeId: number): Promise<GetResponseTypeFromRules> {
+    const route = `/rules/${animeId}`;
+    const response = await this.request(route, 'GET');
     return response.json();
   }
 

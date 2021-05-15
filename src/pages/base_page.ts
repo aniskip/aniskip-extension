@@ -2,6 +2,7 @@ import stringSimilarity from 'string-similarity';
 import { browser } from 'webextension-polyfill-ts';
 
 import AnilistHttpClient from '../api/anilist_http_client';
+import AniskipHttpClient from '../api/aniskip_http_client';
 import MalsyncHttpClient from '../api/malsync_http_client';
 import Page from '../types/pages/page_type';
 import { capitalizeFirstLetter } from '../utils/string_utils';
@@ -17,6 +18,8 @@ abstract class BasePage implements Page {
 
   malId: number;
 
+  episodeNumber: number;
+
   constructor(hostname: string, pathname: string, document: Document) {
     this.hostname = hostname;
     this.pathname = pathname;
@@ -27,23 +30,58 @@ abstract class BasePage implements Page {
     );
     this.providerName = capitalizeFirstLetter(domainName);
     this.malId = 0;
+    this.episodeNumber = 0;
   }
 
   abstract getIdentifier(): string;
 
-  abstract getEpisodeNumber(): Promise<number>;
+  abstract getRawEpisodeNumber(): number;
 
-  getTitle(): string {
+  async applyRules() {
+    const aniskipHttpClient = new AniskipHttpClient();
+    const malId = await this.getMalId();
+    const { rules } = await aniskipHttpClient.getRules(malId);
+    let rawEpisodeNumber = this.getRawEpisodeNumber();
+    this.episodeNumber = rawEpisodeNumber;
+
+    rules.forEach((rule) => {
+      const { start, end: endOrUndefined } = rule.from;
+      const end = endOrUndefined || Infinity;
+      const { malId: toMalId } = rule.to;
+
+      // Handle seasons with multiple parts and continuous counting
+      if (malId === toMalId && rawEpisodeNumber > end) {
+        const seasonLength = end - (start - 1);
+        const episodeOverflow = rawEpisodeNumber - end;
+        rawEpisodeNumber = episodeOverflow + seasonLength;
+      }
+
+      if (rawEpisodeNumber >= start && rawEpisodeNumber <= end) {
+        this.malId = toMalId;
+        this.episodeNumber = rawEpisodeNumber - (start - 1);
+      }
+    });
+  }
+
+  getEpisodeNumber() {
+    return this.episodeNumber;
+  }
+
+  getTitle() {
     return this.getIdentifier();
   }
 
-  getProviderName(): string {
+  getProviderName() {
     return this.providerName;
   }
 
-  async getMalId(): Promise<number> {
-    const identifier = this.getIdentifier();
+  async getMalId() {
+    // Episode redirection rules applied
+    if (this.malId > 0) {
+      return this.malId;
+    }
 
+    const identifier = this.getIdentifier();
     this.malId = (await BasePage.getMalIdCached(identifier)) || 0;
 
     if (this.malId > 0) {
@@ -74,7 +112,7 @@ abstract class BasePage implements Page {
    * Search MAL and find the closest MAL id to the identifier
    * @param titleVariant Title from the provider
    */
-  static async findClosestMalId(title: string): Promise<number> {
+  static async findClosestMalId(title: string) {
     const anilistHttpClient = new AnilistHttpClient();
     const sanitisedTitle = title.replace(/\(.*\)/, '').trim();
 

@@ -1,13 +1,12 @@
 import BasePage from '../base_page';
 
 class Aniwatch extends BasePage {
-  getIdentifier(): string {
+  getIdentifier() {
     return this.pathname.split('/')[2];
   }
 
-  getEpisodeNumber(): Promise<number> {
-    const episodeNumber = parseInt(this.pathname.split('/')[3], 10);
-    return Promise.resolve(episodeNumber);
+  getRawEpisodeNumber() {
+    return parseInt(this.pathname.split('/')[3], 10);
   }
 }
 

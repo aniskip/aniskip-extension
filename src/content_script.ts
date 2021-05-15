@@ -12,9 +12,10 @@ const getEpisodeInformation = async () => {
   const { pathname, hostname } = window.location;
   const page = getPage(pathname, hostname);
 
-  const providerName = page.getProviderName();
-  const episodeNumber = await page.getEpisodeNumber();
+  await page.applyRules();
   const malId = await page.getMalId();
+  const providerName = page.getProviderName();
+  const episodeNumber = page.getEpisodeNumber();
 
   return {
     malId,

@@ -8,7 +8,6 @@ export interface DefaultOptionsType {
 }
 
 export interface LocalDefaultOptionsType {
-  episodeOffsetCache: Record<string, number>;
   malIdCache: Record<string, number>;
   skipTimesVoted: Record<string, VoteType>;
 }
