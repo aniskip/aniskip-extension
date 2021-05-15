@@ -13,7 +13,10 @@ import DefaultButton from '../../Button';
 import MenuButton from './Button';
 import waitForMessage from '../../../utils/message_utils';
 import Input from '../../Input';
-import { SkipType } from '../../../types/api/aniskip_types';
+import {
+  HttpClientErrorCode,
+  SkipType,
+} from '../../../types/api/aniskip_types';
 import useFullscreen from '../../../hooks/use_fullscreen';
 import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
 
@@ -175,7 +178,17 @@ const SubmitMenu = ({
       setServerError('');
       onSubmit();
     } catch (err) {
-      setServerError('Server error');
+      switch (err.code as HttpClientErrorCode) {
+        case 'skip-times/parameter-error':
+          setServerError('Input errors, please double check your skip times');
+          break;
+        case 'skip-times/rate-limited':
+          setServerError('Created too many skip times, please try again later');
+          break;
+        case 'skip-times/internal-server-error':
+        default:
+          setServerError('Internal server error');
+      }
     } finally {
       setIsSubmitting(false);
     }

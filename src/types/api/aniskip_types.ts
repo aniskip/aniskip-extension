@@ -48,4 +48,6 @@ export type VoteType = 'upvote' | 'downvote';
 
 export type HttpClientErrorCode =
   | 'vote/rate-limited'
-  | 'skip-times/parameter-error';
+  | 'skip-times/parameter-error'
+  | 'skip-times/rate-limited'
+  | 'skip-times/internal-server-error';
