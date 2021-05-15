@@ -84,7 +84,7 @@ new MutationObserver((_mutations, observer) => {
 }).observe(document, { subtree: true, childList: true });
 
 // Notify content script when video element is found;
-new MutationObserver((_mutations, observer) => {
+new MutationObserver(() => {
   const videoElements = document.getElementsByTagName('video');
 
   for (let i = 0; i < videoElements.length; i += 1) {
@@ -92,7 +92,6 @@ new MutationObserver((_mutations, observer) => {
     videoElement.onloadedmetadata = (event) => {
       const target = event.currentTarget as HTMLVideoElement;
       if (target.duration > 60) {
-        observer.disconnect();
         player.setVideoElement(target);
         player.initialise();
         player.ready();
