@@ -66,7 +66,7 @@ abstract class BasePlayer implements Player {
         })
     );
     this.menusButtonsRenderer = new MenusButtonsRenderer(
-      'aniskip-player-submit-menu-button',
+      'aniskip-player-menus-buttons',
       this.metadata.variant,
       () =>
         this.setMenusState({
@@ -231,7 +231,10 @@ abstract class BasePlayer implements Player {
    */
   injectSkipButtons() {
     const settingsButtonElement = this.getSettingsButtonElement();
-    if (settingsButtonElement) {
+    if (
+      settingsButtonElement &&
+      !this.document.getElementById(this.skipButtonRenderer.id)
+    ) {
       settingsButtonElement.parentElement?.appendChild(
         this.skipButtonRenderer.shadowRootContainer
       );
@@ -243,7 +246,10 @@ abstract class BasePlayer implements Player {
    */
   injectSkipTimeIndicator() {
     const seekBarContainer = this.getSeekBarContainer();
-    if (seekBarContainer) {
+    if (
+      seekBarContainer &&
+      !this.document.getElementById(this.skipTimeIndicatorsRenderer.id)
+    ) {
       seekBarContainer.appendChild(
         this.skipTimeIndicatorsRenderer.shadowRootContainer
       );
@@ -255,7 +261,10 @@ abstract class BasePlayer implements Player {
    */
   injectSubmitMenu() {
     const videoContainer = this.getVideoContainer();
-    if (videoContainer) {
+    if (
+      videoContainer &&
+      !this.document.getElementById(this.menusButtonsRenderer.id)
+    ) {
       videoContainer.appendChild(this.menusRenderer.shadowRootContainer);
       this.menusRenderer.render();
     }
@@ -266,7 +275,10 @@ abstract class BasePlayer implements Player {
    */
   injectSubmitMenuButton() {
     const settingsButtonElement = this.getSettingsButtonElement();
-    if (settingsButtonElement) {
+    if (
+      settingsButtonElement &&
+      !this.document.getElementById(this.menusButtonsRenderer.id)
+    ) {
       settingsButtonElement.insertAdjacentElement(
         'beforebegin',
         this.menusButtonsRenderer.shadowRootContainer
