@@ -1,3 +1,15 @@
 {
-  "page_urls": ["*://*.9anime.to/*", "*://9anime.to/*"]
+  "page_urls": [
+    "*://*.9anime.to/*",
+    "*://9anime.to/*",
+    "*://9anime.pw/*",
+    "*://9anime.at/*",
+    "*://9anime.video/*",
+    "*://9anime.page/*",
+    "*://9anime.life/*",
+    "*://9anime.live/*",
+    "*://9anime.one/*",
+    "*://9anime.love/*",
+    "*://9anime.app/*"
+  ]
 }
