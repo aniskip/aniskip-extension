@@ -2,7 +2,6 @@ import BaseHttpClient from './base_http_client';
 import {
   Media,
   MediaTitle,
-  PostResponseTypeFromMedia,
   PostResponseTypeFromPage,
 } from '../types/api/anilist_types';
 
@@ -26,45 +25,6 @@ class AnilistHttpClient extends BaseHttpClient {
       variables,
     });
     return this.request(route, 'POST', undefined, body);
-  }
-
-  /**
-   * Returns the relations an anime has
-   * @param malId MAL id of anime to get relations of
-   */
-  async getRelations(
-    malId: number
-  ): Promise<
-    PostResponseTypeFromMedia<
-      Pick<
-        Media<Pick<Media, 'episodes' | 'format' | 'idMal'>>,
-        'episodes' | 'idMal' | 'relations'
-      >
-    >
-  > {
-    const query = `
-      query ($malId: Int) {
-        Media (idMal: $malId, type: ANIME) {
-          episodes
-          idMal
-          relations {
-            edges {
-              node {
-                format
-                episodes
-                idMal
-              }
-              relationType
-            }
-          }
-        }
-      }
-    `;
-    const variables = {
-      malId,
-    };
-    const response = await this.query(query, variables);
-    return response.json();
   }
 
   /**

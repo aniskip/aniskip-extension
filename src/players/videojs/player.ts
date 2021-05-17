@@ -7,9 +7,9 @@ class Videojs extends BasePlayer {
   }
 
   getVideoContainer() {
-    return this.document.querySelector<HTMLElement>(
-      `[aria-label="${metadata.videoContainerSelectorString}"]`
-    );
+    const videoControlsContainer = this.getVideoControlsContainer();
+
+    return videoControlsContainer?.parentElement as HTMLVideoElement | null;
   }
 
   getVideoControlsContainer() {

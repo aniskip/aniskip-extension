@@ -64,6 +64,13 @@ module.exports = {
       80: '20em',
       96: '24em',
     },
+    borderRadius: {
+      none: '0',
+      sm: '0.125em',
+      DEFAULT: '0.25em',
+      md: '0.375em',
+      lg: '0.5em',
+    },
     extend: {
       spacing: {
         '3/2': '150%',

@@ -45,3 +45,9 @@ dist
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# web-ext
+web-ext-artifacts
+
+# source file zip
+aniskip-source.zip

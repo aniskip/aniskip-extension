@@ -84,18 +84,18 @@ new MutationObserver((_mutations, observer) => {
 }).observe(document, { subtree: true, childList: true });
 
 // Notify content script when video element is found;
-new MutationObserver((_mutations, observer) => {
-  const videoElement = document.getElementsByTagName('video')[0];
+new MutationObserver(() => {
+  const videoElements = document.getElementsByTagName('video');
 
-  if (!videoElement) {
-    return;
+  for (let i = 0; i < videoElements.length; i += 1) {
+    const videoElement = videoElements[i];
+    videoElement.onloadedmetadata = (event) => {
+      const target = event.currentTarget as HTMLVideoElement;
+      if (target.duration > 60) {
+        player.setVideoElement(target);
+        player.initialise();
+        player.ready();
+      }
+    };
   }
-
-  videoElement.onloadedmetadata = (event) => {
-    if ((event.currentTarget as HTMLVideoElement).duration > 60) {
-      observer.disconnect();
-      player.setVideoElement(videoElement);
-      player.ready();
-    }
-  };
 }).observe(document, { subtree: true, childList: true });

@@ -1,7 +1,7 @@
 {
   "name": "typescript-aniskip-extension",
   "extensionName": "Aniskip",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "An extension which gives the option to skip anime opening and endings on various streaming sites",
   "main": "content_script.ts",
   "repository": "https://github.com/lexesjan/typescript-aniskip-extension",
@@ -15,7 +15,7 @@
     "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.config.js",
     "build:chrome": "cross-env NODE_ENV=production BROWSER=chromium webpack --config ./webpack/webpack.prod.config.js",
     "build:firefox": "cross-env NODE_ENV=production BROWSER=firefox webpack --config ./webpack/webpack.prod.config.js",
-    "clean": "shx rm -rf ./dist",
+    "clean": "shx rm -rf ./dist ./web-ext-artifacts ./aniskip-source.zip",
     "dev": "cross-env NODE_ENV=development webpack --config ./webpack/webpack.dev.config.js --watch",
     "dev:chrome": "cross-env NODE_ENV=development BROWSER=chromium webpack --config ./webpack/webpack.dev.config.js --watch",
     "dev:firefox": "cross-env NODE_ENV=development BROWSER=firefox webpack --config ./webpack/webpack.dev.config.js --watch",
@@ -24,7 +24,12 @@
     "start:dev:chrome": "yarn clean && run-p dev:chrome start:chrome",
     "start:dev:firefox": "yarn clean && run-p dev:firefox start:firefox",
     "start:prod:chrome": "run-s build:chrome start:chrome",
-    "start:prod:firefox": "run-s build:firefox start:firefox"
+    "start:prod:firefox": "run-s build:firefox start:firefox",
+    "package:chrome": "run-s build:chrome zip:chrome",
+    "package:firefox": "run-s build:firefox zip:firefox",
+    "zip:chrome": "cross-env BROWSER=chrome web-ext --config=web-ext.config.js build",
+    "zip:firefox": "cross-env BROWSER=firefox web-ext --config=web-ext.config.js build",
+    "zip:source": "git archive -o aniskip-source.zip HEAD"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.139",

@@ -1,4 +1,5 @@
 import {
+  GetResponseTypeFromRules,
   GetResponseTypeFromSkipTimes,
   PostResponseTypeFromSkipTimes,
   PostResponseTypeFromSkipTimesVote,
@@ -31,6 +32,16 @@ class AniskipHttpClient extends BaseHttpClient {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
     const params = { types };
     const response = await this.request(route, 'GET', params);
+    return response.json();
+  }
+
+  /**
+   * Gets anime episode number redirection rules
+   * @param animeId MAL id to get the episode number rules of
+   */
+  async getRules(animeId: number): Promise<GetResponseTypeFromRules> {
+    const route = `/rules/${animeId}`;
+    const response = await this.request(route, 'GET');
     return response.json();
   }
 
@@ -68,8 +79,20 @@ class AniskipHttpClient extends BaseHttpClient {
     const response = await this.request(route, 'POST', {}, body);
     const { message, error }: PostResponseTypeFromSkipTimes =
       await response.json();
-    if (error) {
-      throw new AniskipHttpClientError(error, 'skip-times/parameter-error');
+
+    if (!response.ok && error) {
+      switch (response.status) {
+        case 429:
+          throw new AniskipHttpClientError(error, 'skip-times/rate-limited');
+        case 400:
+          throw new AniskipHttpClientError(error, 'skip-times/parameter-error');
+        case 500:
+        default:
+          throw new AniskipHttpClientError(
+            'Internal Server Error',
+            'skip-times/internal-server-error'
+          );
+      }
     }
 
     return { message };

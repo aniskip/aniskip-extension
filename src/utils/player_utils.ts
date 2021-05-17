@@ -40,6 +40,7 @@ const getPlayer = (hostname: string) => {
       break;
     case 'mixdrop':
     case 'mp4upload':
+    case 'mp4':
       player = new Videojs(document);
       break;
     case 'twist':

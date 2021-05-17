@@ -1,6 +1,7 @@
 import AniMixPlay from '../pages/animixplay/page';
 import Aniwatch from '../pages/aniwatch/page';
 import Crunchyroll from '../pages/crunchyroll/page';
+import FourAnime from '../pages/fouranime/page';
 import Gogoanime from '../pages/gogoanime/page';
 import Nineanime from '../pages/nineanime/page';
 import Twistmoe from '../pages/twistmoe/page';
@@ -33,6 +34,9 @@ const getPage = (pathname: string, hostname: string) => {
       break;
     case 'twist':
       page = new Twistmoe(hostname, pathname, document);
+      break;
+    case '4anime':
+      page = new FourAnime(hostname, pathname, document);
       break;
     default:
       throw new Error(`Page ${hostname} not supported`);

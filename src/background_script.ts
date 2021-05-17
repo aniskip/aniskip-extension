@@ -35,11 +35,12 @@ browser.runtime.onInstalled.addListener((details) => {
     browser.storage.sync.set(defaultOptions);
 
     const localDefaultOptions: LocalDefaultOptionsType = {
-      episodeOffsetCache: {},
       malIdCache: {},
       skipTimesVoted: {},
     };
 
     browser.storage.local.set(localDefaultOptions);
+
+    browser.runtime.openOptionsPage();
   }
 });
