@@ -390,6 +390,7 @@ const SubmitMenu = ({
             </DefaultButton>
             <div className="flex justify-between bg-primary bg-opacity-80 border border-gray-300 rounded">
               <DefaultButton
+                title="Seek -0.25s"
                 className="group px-3"
                 onClick={handleSeekTime(-0.25)}
               >
@@ -421,6 +422,7 @@ const SubmitMenu = ({
                 Now
               </DefaultButton>
               <DefaultButton
+                title="Seek +0.25s"
                 className="group px-3"
                 onClick={handleSeekTime(0.25)}
               >
