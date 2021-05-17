@@ -27,6 +27,7 @@
     "start:prod:firefox": "run-s build:firefox start:firefox",
     "package:chrome": "run-s build:chrome zip:chrome",
     "package:firefox": "run-s build:firefox zip:firefox",
+    "zip": "run-s build:chrome zip:chrome build:firefox zip:firefox zip:source",
     "zip:chrome": "cross-env BROWSER=chrome web-ext --config=web-ext.config.js build",
     "zip:firefox": "cross-env BROWSER=firefox web-ext --config=web-ext.config.js build",
     "zip:source": "git archive -o aniskip-source.zip HEAD"
