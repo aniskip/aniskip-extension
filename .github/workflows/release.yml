@@ -30,7 +30,7 @@ jobs:
           yarn zip:chrome
 
       - name: publish
-        run: yarn webstore upload --source ./web-ext-artifacts/aniskip-chrome-${{ env.EXTENSION_VERSION }}.zip --auto-publish
+        run: yarn webstore upload --source ./web-ext-artifacts/*.zip --auto-publish
         env:
           EXTENSION_ID: ${{ env.CHROME_EXTENSION_ID }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
