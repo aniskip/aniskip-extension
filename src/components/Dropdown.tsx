@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 
 import { DropdownProps } from '../types/components/dropdown_types';
@@ -7,7 +7,10 @@ import useHandleOutsideClick from '../hooks/use_handle_outside_click';
 const Dropdown = ({ className, value, onChange, options }: DropdownProps) => {
   const [hidden, setHidden] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  useHandleOutsideClick(dropdownRef, () => setHidden(true));
+  useHandleOutsideClick(
+    dropdownRef,
+    useCallback(() => setHidden(true), [])
+  );
 
   const handleClick = (valueId: string) => () => {
     setHidden(true);
