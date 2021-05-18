@@ -1,9 +1,9 @@
-import Plyr from './plyr/player';
-import Crunchyroll from './crunchyroll/player';
-import Videojs from './videojs/player';
-import Doodstream from './doodstream/player';
-import Jw from './jw/player';
-import Twistmoe from './twistmoe/player';
+import Plyr from './plyr';
+import Crunchyroll from './crunchyroll';
+import Videojs from './videojs';
+import Doodstream from './doodstream';
+import Jw from './jw';
+import Twistmoe from './twistmoe';
 
 class PlayerFactory {
   /**
