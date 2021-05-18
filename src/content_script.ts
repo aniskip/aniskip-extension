@@ -1,16 +1,17 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
+
 import Message from './types/message_type';
 import AniskipHttpClient from './api/aniskip_http_client';
-import getPage from './utils/page_utils';
 import { SkipOptionType } from './types/options/skip_option_type';
 import { SkipTimeType, SkipType } from './types/api/aniskip_types';
+import PageFactory from './pages/page_factory';
 
 /**
  * Returns the MAL id, episode number and provider name
  */
 const getEpisodeInformation = async () => {
   const { pathname, hostname } = window.location;
-  const page = getPage(pathname, hostname);
+  const page = PageFactory.getPage(pathname, hostname);
 
   await page.applyRules();
   const malId = await page.getMalId();

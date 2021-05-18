@@ -2,9 +2,9 @@ import { browser, Runtime } from 'webextension-polyfill-ts';
 
 import Message from './types/message_type';
 import { SkipTimeType, SkipType } from './types/api/aniskip_types';
-import getPlayer from './utils/player_utils';
+import PlayerFactory from './players/player_factory';
 
-const player = getPlayer(window.location.hostname);
+const player = PlayerFactory.getPlayer(window.location.hostname);
 
 /**
  * Handles messages between the player and the background script
