@@ -1,6 +1,6 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 
-import Message from './types/message_type';
+import { Message } from './types/message_type';
 import { SkipTimeType, SkipType } from './types/api/aniskip_types';
 import PlayerFactory from './players/player_factory';
 
@@ -27,21 +27,21 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
       player.addSkipTime(skipTime, true);
       break;
     }
-    case 'player-get-video-duration': {
+    case 'player-get-duration': {
       browser.runtime.sendMessage({
         type: `${message.type}-response`,
         payload: player.getDuration(),
-      });
+      } as Message);
       break;
     }
-    case 'player-get-video-current-time': {
+    case 'player-get-current-time': {
       browser.runtime.sendMessage({
         type: `${message.type}-response`,
         payload: player.getCurrentTime(),
-      });
+      } as Message);
       break;
     }
-    case 'player-set-video-current-time': {
+    case 'player-set-current-time': {
       player.setCurrentTime(message.payload);
       break;
     }

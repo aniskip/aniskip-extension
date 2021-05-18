@@ -6,6 +6,7 @@ import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
 import useFullscreen from '../../../hooks/use_fullscreen';
 import { SkipTimeType, VoteType } from '../../../types/api/aniskip_types';
 import { VoteMenuProps } from '../../../types/components/vote_menu_types';
+import { Message } from '../../../types/message_type';
 import waitForMessage from '../../../utils/message_utils';
 import { secondsToTimeString } from '../../../utils/string_utils';
 import LinkButton from '../../LinkButton';
@@ -34,19 +35,19 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
       ).skipTimesVoted;
       setSkipTimesVoted(currentSkipTimesVoted);
 
-      const messageType = 'player-get-video-duration';
-      browser.runtime.sendMessage({ type: messageType });
-      const duration: number = (await waitForMessage(`${messageType}-response`))
-        .payload;
+      browser.runtime.sendMessage({ type: 'player-get-duration' } as Message);
+      const duration: number = (
+        await waitForMessage('player-get-duration-response')
+      ).payload;
       setPlayerDuration(duration);
     })();
   }, [skipTimes]);
 
   const setPlayerCurrentTime = (time: number) => () => {
     browser.runtime.sendMessage({
-      type: 'player-set-video-current-time',
+      type: 'player-set-current-time',
       payload: time,
-    });
+    } as Message);
   };
 
   return (
@@ -203,7 +204,7 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
                       browser.runtime.sendMessage({
                         type: 'player-remove-skip-time',
                         payload: skipTime,
-                      });
+                      } as Message);
 
                       try {
                         const response = await aniskipHttpClient.downvote(

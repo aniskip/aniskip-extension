@@ -1,6 +1,6 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 
-import Message from './types/message_type';
+import { Message } from './types/message_type';
 import AniskipHttpClient from './api/aniskip_http_client';
 import { SkipOptionType } from './types/options/skip_option_type';
 import { SkipTimeType, SkipType } from './types/api/aniskip_types';
@@ -37,7 +37,7 @@ const addSkipTime = async (
   browser.runtime.sendMessage({
     type: `player-add-${userOption}-time`,
     payload: skipTime,
-  });
+  } as Message);
 };
 
 /**
@@ -85,10 +85,13 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
     }
     case 'get-episode-information': {
       getEpisodeInformation()
-        .then((episodeInformation) => ({
-          type: `${message.type}-response`,
-          payload: episodeInformation,
-        }))
+        .then(
+          (episodeInformation) =>
+            ({
+              type: `${message.type}-response`,
+              payload: episodeInformation,
+            } as Message)
+        )
         .then((response) => browser.runtime.sendMessage(response));
       break;
     }

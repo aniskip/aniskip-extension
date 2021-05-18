@@ -1,6 +1,6 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 import { v4 as uuidv4 } from 'uuid';
-import Message from './types/message_type';
+import { Message } from './types/message_type';
 import {
   DefaultOptionsType,
   LocalDefaultOptionsType,

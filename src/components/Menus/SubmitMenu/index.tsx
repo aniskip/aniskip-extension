@@ -19,6 +19,7 @@ import {
 } from '../../../types/api/aniskip_types';
 import useFullscreen from '../../../hooks/use_fullscreen';
 import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
+import { Message } from '../../../types/message_type';
 
 const SubmitMenu = ({
   variant,
@@ -44,16 +45,14 @@ const SubmitMenu = ({
   useEffect(() => {
     if (!hidden) {
       (async () => {
-        let messageType = 'player-get-video-duration';
-        browser.runtime.sendMessage({ type: messageType });
+        browser.runtime.sendMessage({ type: 'player-get-duration' } as Message);
         const duration: number = (
-          await waitForMessage(`${messageType}-response`)
+          await waitForMessage('player-get-duration-response')
         ).payload;
 
-        messageType = 'player-get-video-current-time';
-        browser.runtime.sendMessage({ type: messageType });
+        browser.runtime.sendMessage({ type: 'player-get-duration' } as Message);
         const currentTime: number = (
-          await waitForMessage(`${messageType}-response`)
+          await waitForMessage('player-get-duration-response')
         ).payload;
 
         setStartTime(secondsToTimeString(currentTime));
@@ -78,10 +77,10 @@ const SubmitMenu = ({
       result = 0;
     }
 
-    const messageType = 'player-get-video-duration';
-    browser.runtime.sendMessage({ type: messageType });
-    const duration: number = (await waitForMessage(`${messageType}-response`))
-      .payload;
+    browser.runtime.sendMessage({ type: 'player-get-duration' } as Message);
+    const duration: number = (
+      await waitForMessage('player-get-duration-response')
+    ).payload;
 
     if (seconds >= duration) {
       result = Math.floor(duration);
@@ -124,16 +123,14 @@ const SubmitMenu = ({
       return;
     }
 
-    let messageType = 'get-episode-information';
-    browser.runtime.sendMessage({ type: messageType });
+    browser.runtime.sendMessage({ type: 'get-episode-information' } as Message);
     const getEpisodeInfoResponse = await waitForMessage(
-      `${messageType}-response`
+      'get-episode-information-response'
     );
 
-    messageType = 'player-get-video-duration';
-    browser.runtime.sendMessage({ type: messageType });
+    browser.runtime.sendMessage({ type: 'player-get-duration' } as Message);
     const playerGetDurationResponse = await waitForMessage(
-      `${messageType}-response`
+      'player-get-duration-response'
     );
 
     const { userId, opOption, edOption } = await browser.storage.sync.get([
@@ -173,7 +170,7 @@ const SubmitMenu = ({
           skip_id: '',
           episode_length: duration,
         },
-      });
+      } as Message);
 
       setServerError('');
       onSubmit();
@@ -233,9 +230,9 @@ const SubmitMenu = ({
       updatedTime = await errorCorrectTime(updatedTime);
 
       browser.runtime.sendMessage({
-        type: 'player-set-video-current-time',
+        type: 'player-set-current-time',
         payload: updatedTime,
-      });
+      } as Message);
 
       const updatedTimeString = secondsToTimeString(updatedTime);
       setTime(updatedTimeString);
@@ -267,9 +264,9 @@ const SubmitMenu = ({
 
     setTimeFunction(secondsToTimeString(updatedTime));
     browser.runtime.sendMessage({
-      type: 'player-set-video-current-time',
+      type: 'player-set-current-time',
       payload: updatedTime,
-    });
+    } as Message);
   };
 
   /**
@@ -383,7 +380,7 @@ const SubmitMenu = ({
                     },
                     skipType,
                   },
-                });
+                } as Message);
               }}
             >
               Preview
@@ -402,10 +399,11 @@ const SubmitMenu = ({
               <DefaultButton
                 className="px-3"
                 onClick={async () => {
-                  const messageType = 'player-get-video-current-time';
-                  browser.runtime.sendMessage({ type: messageType });
+                  browser.runtime.sendMessage({
+                    type: 'player-get-current-time',
+                  } as Message);
                   const currentTime: number = (
-                    await waitForMessage(`${messageType}-response`)
+                    await waitForMessage('player-get-current-time-response')
                   ).payload;
 
                   switch (currentInputFocus) {
@@ -435,10 +433,11 @@ const SubmitMenu = ({
             <DefaultButton
               className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
               onClick={async () => {
-                const messageType = 'player-get-video-duration';
-                browser.runtime.sendMessage({ type: messageType });
+                browser.runtime.sendMessage({
+                  type: 'player-get-duration',
+                } as Message);
                 const duration: number = (
-                  await waitForMessage(`${messageType}-response`)
+                  await waitForMessage('player-get-duration-response')
                 ).payload;
                 const trimmedDuration = Math.floor(duration);
 

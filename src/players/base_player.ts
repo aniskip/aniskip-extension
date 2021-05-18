@@ -8,6 +8,7 @@ import MenusButtonsRenderer from '../renderers/menus_buttons_renderer';
 import MenusRenderer from '../renderers/menus_renderer';
 import SkipButtonsRenderer from '../renderers/skip_button_renderer';
 import { MenusState } from '../types/components/menus_types';
+import { Message } from '../types/message_type';
 
 abstract class BasePlayer implements Player {
   document: Document;
@@ -315,7 +316,7 @@ abstract class BasePlayer implements Player {
   ready() {
     if (this.videoElement && this.getVideoControlsContainer()) {
       this.isReady = true;
-      browser.runtime.sendMessage({ type: 'player-ready' });
+      browser.runtime.sendMessage({ type: 'player-ready' } as Message);
     }
   }
 
