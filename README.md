@@ -6,7 +6,7 @@
 <a href="https://chrome.google.com/webstore/detail/aniskip/npfcdmjgaocepmpdnmliimijgfjbgcdd" target="_blank"><img src="https://imgur.com/EuDp4vP.png" width="64" height="64"></a>
 <a href="https://chrome.google.com/webstore/detail/aniskip/npfcdmjgaocepmpdnmliimijgfjbgcdd" target="_blank"><img src="https://imgur.com/z8yjLZ2.png" width="64" height="64"></a>
 
-<img src=".github/images/banner.gif">
+![banner](https://i.imgur.com/qCODUA8.gif)
 
 Web browser extension to skip anime openings and endings
 
