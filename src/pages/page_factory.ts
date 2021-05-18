@@ -1,10 +1,10 @@
-import AniMixPlay from './animixplay/page';
-import Aniwatch from './aniwatch/page';
-import Crunchyroll from './crunchyroll/page';
-import FourAnime from './fouranime/page';
-import Gogoanime from './gogoanime/page';
-import Nineanime from './nineanime/page';
-import Twistmoe from './twistmoe/page';
+import AniMixPlay from './animixplay';
+import Aniwatch from './aniwatch';
+import Crunchyroll from './crunchyroll';
+import FourAnime from './fouranime';
+import Gogoanime from './gogoanime';
+import Nineanime from './nineanime';
+import Twistmoe from './twistmoe';
 
 class PageFactory {
   /**
