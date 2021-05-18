@@ -4,7 +4,7 @@ import { browser } from 'webextension-polyfill-ts';
 import AnilistHttpClient from '../api/anilist_http_client';
 import AniskipHttpClient from '../api/aniskip_http_client';
 import MalsyncHttpClient from '../api/malsync_http_client';
-import Page from '../types/pages/page_type';
+import Page from '../types/page_type';
 import { capitalizeFirstLetter } from '../utils/string_utils';
 
 abstract class BasePage implements Page {

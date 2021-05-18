@@ -1,4 +1,4 @@
-import { SkipTimeType } from '../api/aniskip_types';
+import { SkipTimeType } from './api/aniskip_types';
 
 export interface Metadata {
   variant: string;

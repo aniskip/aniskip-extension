@@ -1,6 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { Player, Metadata } from '../types/players/player_types';
+import { Player, Metadata } from '../types/player_types';
 import { SkipTimeType } from '../types/api/aniskip_types';
 import isInInterval from '../utils/time_utils';
 import SkipTimeIndicatorsRenderer from '../renderers/skip_time_indicators_renderer';
@@ -9,7 +9,7 @@ import MenusRenderer from '../renderers/menus_renderer';
 import SkipButtonsRenderer from '../renderers/skip_button_renderer';
 import { MenusState } from '../types/components/menus_types';
 import { Message } from '../types/message_type';
-import { SkipOptionType } from '../types/options/skip_option_type';
+import { SkipOptionType } from '../types/skip_option_type';
 
 abstract class BasePlayer implements Player {
   document: Document;
