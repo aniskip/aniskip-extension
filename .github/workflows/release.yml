@@ -29,10 +29,6 @@ jobs:
           yarn build:chrome
           yarn zip:chrome
 
-      - name: set extension version
-        if: env.EXTENSION_VERSION == ''
-        run: echo "EXTENSION_VERSION=$(jq -r .version ./package.json)" | tee -a $GITHUB_ENV
-
       - name: publish
         run: yarn webstore upload --source ./web-ext-artifacts/aniskip-chrome-${{ env.EXTENSION_VERSION }}.zip --auto-publish
         env:
@@ -44,7 +40,7 @@ jobs:
       - name: upload asset
         uses: JasonEtco/upload-to-release@master
         with:
-          args: ./web-ext-artifacts/aniskip-chrome-${{ env.EXTENSION_VERSION }}.zip
+          args: ./web-ext-artifacts/*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
