@@ -50,9 +50,11 @@ const SubmitMenu = ({
           await waitForMessage('player-get-duration-response')
         ).payload;
 
-        browser.runtime.sendMessage({ type: 'player-get-duration' } as Message);
+        browser.runtime.sendMessage({
+          type: 'player-get-current-time',
+        } as Message);
         const currentTime: number = (
-          await waitForMessage('player-get-duration-response')
+          await waitForMessage('player-get-current-time-response')
         ).payload;
 
         setStartTime(secondsToTimeString(currentTime));
@@ -133,11 +135,7 @@ const SubmitMenu = ({
       'player-get-duration-response'
     );
 
-    const { userId, opOption, edOption } = await browser.storage.sync.get([
-      'userId',
-      'opOption',
-      'edOption',
-    ]);
+    const { userId } = await browser.storage.sync.get('userId');
     const { malId, episodeNumber, providerName } =
       getEpisodeInfoResponse.payload;
     const duration = playerGetDurationResponse.payload;
@@ -157,10 +155,8 @@ const SubmitMenu = ({
         userId
       );
 
-      const option = skipType === 'op' ? opOption : edOption;
-
       browser.runtime.sendMessage({
-        type: `player-add-${option}-time`,
+        type: `player-add-skip-time`,
         payload: {
           interval: {
             start_time: startTimeSeconds,

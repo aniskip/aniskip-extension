@@ -17,14 +17,9 @@ const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
   }
 
   switch (message.type) {
-    case 'player-add-auto-skip-time': {
+    case 'player-add-skip-time': {
       const skipTime = message.payload as SkipTimeType;
-      player.addSkipTime(skipTime, false);
-      break;
-    }
-    case 'player-add-manual-skip-time': {
-      const skipTime = message.payload as SkipTimeType;
-      player.addSkipTime(skipTime, true);
+      player.addSkipTime(skipTime);
       break;
     }
     case 'player-get-duration': {

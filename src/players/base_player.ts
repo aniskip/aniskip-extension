@@ -9,6 +9,7 @@ import MenusRenderer from '../renderers/menus_renderer';
 import SkipButtonsRenderer from '../renderers/skip_button_renderer';
 import { MenusState } from '../types/components/menus_types';
 import { Message } from '../types/message_type';
+import { SkipOptionType } from '../types/options/skip_option_type';
 
 abstract class BasePlayer implements Player {
   document: Document;
@@ -133,10 +134,16 @@ abstract class BasePlayer implements Player {
     this.videoElement.play();
   }
 
-  addSkipTime(skipTime: SkipTimeType, manual: boolean = false) {
+  async addSkipTime(skipTime: SkipTimeType) {
     if (!this.videoElement) {
       return;
     }
+
+    const skipType = skipTime.skip_type;
+    const skipOption: SkipOptionType = (
+      await browser.storage.sync.get(`${skipType}Option`)
+    )[`${skipType}Option`];
+    const manual = skipOption === 'manual-skip';
 
     this.skipTimeIndicatorsRenderer.addSkipTimeIndicator(skipTime);
     this.setMenusState({
