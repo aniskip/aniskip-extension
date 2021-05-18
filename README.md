@@ -42,7 +42,7 @@ You will need to have installed:
 
 This will start a chromium browser with the built extension loaded. This script will reload the extension on file change. You can replace `chrome` with `firefox` to build for firefox.
 
-#### Running for production
+#### Building for production
 
 1. Clone the repo
 
@@ -60,7 +60,7 @@ This will start a chromium browser with the built extension loaded. This script 
 
    ```
    yarn install
-   yarn start:prod:chrome
+   yarn build:chrome
    ```
 
-This will start a chromium browser with the built extension loaded. You can replace `chrome` with `firefox` to build for firefox.
+This will build an unpacked extension in the `dist` folder. You can replace `chrome` with `firefox` to build for firefox.
