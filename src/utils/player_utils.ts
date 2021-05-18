@@ -33,6 +33,7 @@ const getPlayer = (hostname: string) => {
     case 'vidstream':
     case 'streamhd':
     case 'sbembed':
+    case 'kimanime':
       player = new Jw(document);
       break;
     case 'dood':
