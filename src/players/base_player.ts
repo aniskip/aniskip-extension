@@ -222,7 +222,7 @@ abstract class BasePlayer implements Player {
 
   getSettingsButtonElement() {
     return this.document.getElementById(
-      this.metadata.injectSettingsButtonReferenceNodeSelectorString
+      this.metadata.injectMenusButtonsReferenceNodeSelectorString
     );
   }
 

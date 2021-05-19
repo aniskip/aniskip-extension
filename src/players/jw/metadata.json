@@ -2,7 +2,7 @@
   "variant": "jw",
   "videoContainerSelectorString": "Video Player",
   "videoControlsContainerSelectorString": "jw-controlbar jw-reset",
-  "injectSettingsButtonReferenceNodeSelectorString": "Settings",
+  "injectMenusButtonsReferenceNodeSelectorString": "Settings",
   "seekBarContainerSelectorString": "Seek",
   "player_urls": [
     "*://gogo-play.net/*",

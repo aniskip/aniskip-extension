@@ -20,7 +20,7 @@ class Videojs extends BasePlayer {
 
   getSettingsButtonElement() {
     return super.getContainerHelper(
-      metadata.injectSettingsButtonReferenceNodeSelectorString
+      metadata.injectMenusButtonsReferenceNodeSelectorString
     );
   }
 }
