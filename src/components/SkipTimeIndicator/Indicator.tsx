@@ -24,7 +24,7 @@ const Indicator = ({
 
   return (
     <div
-      className={`absolute h-full z-10 pointer-events-none skip-indicator--${variant} skip-indicator--${domainName} ${className}`}
+      className={`absolute h-full z-10 pointer-events-none skip-indicators--${variant} skip-indicators--${domainName} ${className}`}
       style={{
         left: `${calculateTranslation() * 100}%`,
         width: `${calculateWidth() * 100}%`,
