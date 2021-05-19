@@ -29,13 +29,13 @@ jobs:
           yarn build:chrome
           yarn zip:chrome
 
-#       - name: publish
-#         run: yarn webstore upload --source ./web-ext-artifacts/*.zip --auto-publish
-#         env:
-#           EXTENSION_ID: ${{ env.CHROME_EXTENSION_ID }}
-#           CLIENT_ID: ${{ env.CHROME_CLIENT_ID }}
-#           CLIENT_SECRET: ${{ env.CHROME_CLIENT_SECRET }}
-#           REFRESH_TOKEN: ${{ env.CHROME_REFRESH_TOKEN }}
+      - name: publish
+        run: yarn webstore upload --source ./web-ext-artifacts/*.zip --auto-publish
+        env:
+          EXTENSION_ID: ${{ env.CHROME_EXTENSION_ID }}
+          CLIENT_ID: ${{ env.CHROME_CLIENT_ID }}
+          CLIENT_SECRET: ${{ env.CHROME_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ env.CHROME_REFRESH_TOKEN }}
           
       - name: evaluate path
         run: echo "CHROME_ASSET_PATH=$(echo ./web-ext-artifacts/*.zip)" >> $GITHUB_ENV
