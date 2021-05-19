@@ -14,33 +14,35 @@ import waitForMessage from './utils/message_utils';
  */
 const messageHandler = (message: Message, sender: Runtime.MessageSender) => {
   const tabId = sender.tab?.id;
-  if (tabId) {
-    switch (message.type) {
-      case 'fetch': {
-        const { url, options } = message.payload;
-        return (async () => {
-          try {
-            const response = await fetch(url, options);
-            const body = await response.text();
 
-            return { body, status: response.status, ok: response.ok };
-          } catch (err) {
-            return { error: err };
-          }
-        })();
-      }
-      default: {
-        return (async () => {
-          const uuid = uuidv4();
-          browser.tabs.sendMessage(tabId, { ...message, uuid });
-          const response = await waitForMessage(uuid);
+  if (!tabId) {
+    return Promise.reject(new Error('Tab id not found'));
+  }
 
-          return response?.payload;
-        })();
-      }
+  switch (message.type) {
+    case 'fetch': {
+      return (async () => {
+        try {
+          const { url, options } = message.payload;
+          const response = await fetch(url, options);
+          const body = await response.text();
+
+          return { body, status: response.status, ok: response.ok };
+        } catch (err) {
+          return { error: err };
+        }
+      })();
+    }
+    default: {
+      return (async () => {
+        const uuid = uuidv4();
+        browser.tabs.sendMessage(tabId, { ...message, uuid });
+        const response = await waitForMessage(uuid);
+
+        return response?.payload;
+      })();
     }
   }
-  return Promise.reject(new Error('Tab id not found'));
 };
 
 browser.runtime.onMessage.addListener(messageHandler);
