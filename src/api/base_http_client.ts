@@ -38,15 +38,12 @@ abstract class BaseHttpClient implements HttpClient {
       options.body = body;
     }
 
-    const { payload } = await browser.runtime.sendMessage({
+    const response = await browser.runtime.sendMessage({
       type: 'fetch',
       payload: { url: url.toString(), options },
     } as Message);
 
-    return {
-      ...payload,
-      json: <T>() => JSON.parse(payload.body) as T,
-    };
+    return { ...response, json: <T>() => JSON.parse(response.body) as T };
   }
 }
 

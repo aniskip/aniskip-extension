@@ -23,15 +23,15 @@ const messageHandler = (message: Message) => {
     }
     case 'player-get-duration': {
       browser.runtime.sendMessage({
-        type: `${message.type}-response`,
         payload: player.getDuration(),
+        uuid: message.uuid,
       } as Message);
       break;
     }
     case 'player-get-current-time': {
       browser.runtime.sendMessage({
-        type: `${message.type}-response`,
         payload: player.getCurrentTime(),
+        uuid: message.uuid,
       } as Message);
       break;
     }

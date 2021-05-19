@@ -1,20 +1,19 @@
-import { browser, Runtime } from 'webextension-polyfill-ts';
+import { browser } from 'webextension-polyfill-ts';
 
-import { Message, MessageType } from '../types/message_type';
+import { Message } from '../types/message_type';
 
 /**
  * Waits for a message with the specified type
- * @param type Message type to wait for
+ * @param uuid UUID of the message to wait for
  */
-const waitForMessage = (type: MessageType) =>
-  new Promise<Message>((resolve, reject) => {
+const waitForMessage = (uuid: string) =>
+  new Promise<Message | null>((resolve) => {
     const timeout = setTimeout(() => {
-      const err = new Error('No messaged was received after 500ms');
-      reject(err);
+      resolve(null);
     }, 500);
 
-    const handler = (message: Message, _sender: Runtime.MessageSender) => {
-      if (message.type === type) {
+    const handler = (message: Message) => {
+      if (message.uuid === uuid) {
         clearTimeout(timeout);
         resolve(message);
         browser.runtime.onMessage.removeListener(handler);

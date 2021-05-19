@@ -1,6 +1,6 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 import { v4 as uuidv4 } from 'uuid';
-import { Message, MessageType } from './types/message_type';
+import { Message } from './types/message_type';
 import {
   DefaultOptionsType,
   LocalDefaultOptionsType,
@@ -22,25 +22,17 @@ const messageHandler = (message: Message, sender: Runtime.MessageSender) => {
           try {
             const response = await fetch(url, options);
             const body = await response.text();
-            return {
-              type: 'fetch-response',
-              payload: {
-                body,
-                status: response.status,
-                ok: response.ok,
-              },
-            } as Message;
+
+            return { body, status: response.status, ok: response.ok };
           } catch (err) {
-            return {
-              type: 'fetch-response',
-              payload: { error: err },
-            } as Message;
+            return { error: err };
           }
         })();
       }
       default: {
-        browser.tabs.sendMessage(tabId, message);
-        return waitForMessage(`${message.type}-response` as MessageType);
+        const uuid = uuidv4();
+        browser.tabs.sendMessage(tabId, { ...message, uuid });
+        return waitForMessage(uuid);
       }
     }
   }

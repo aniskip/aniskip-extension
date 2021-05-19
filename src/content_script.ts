@@ -74,8 +74,8 @@ const messageHandler = (message: Message) => {
         .then(
           (episodeInformation) =>
             ({
-              type: `${message.type}-response`,
               payload: episodeInformation,
+              uuid: message.uuid,
             } as Message)
         )
         .then((response) => browser.runtime.sendMessage(response));
