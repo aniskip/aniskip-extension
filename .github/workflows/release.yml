@@ -33,9 +33,9 @@ jobs:
         run: yarn webstore upload --source ./web-ext-artifacts/*.zip --auto-publish
         env:
           EXTENSION_ID: ${{ env.CHROME_EXTENSION_ID }}
-          CLIENT_ID: ${{ secrets.CLIENT_ID }}
-          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          CLIENT_ID: ${{ env.CHROME_CLIENT_ID }}
+          CLIENT_SECRET: ${{ env.CHROME_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ env.CHROME_REFRESH_TOKEN }}
 
       - name: upload asset
         uses: JasonEtco/upload-to-release@master
