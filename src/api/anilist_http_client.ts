@@ -24,7 +24,9 @@ class AnilistHttpClient extends BaseHttpClient {
       query,
       variables,
     });
-    return this.request<T>(route, 'POST', undefined, body);
+    const response = await this.request<T>(route, 'POST', undefined, body);
+
+    return response.json;
   }
 
   /**

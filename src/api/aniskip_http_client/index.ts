@@ -31,7 +31,13 @@ class AniskipHttpClient extends BaseHttpClient {
   ): Promise<GetResponseTypeFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
     const params = { types };
-    return this.request<GetResponseTypeFromSkipTimes>(route, 'GET', params);
+    const response = await this.request<GetResponseTypeFromSkipTimes>(
+      route,
+      'GET',
+      params
+    );
+
+    return response.json;
   }
 
   /**
@@ -40,7 +46,9 @@ class AniskipHttpClient extends BaseHttpClient {
    */
   async getRules(animeId: number): Promise<GetResponseTypeFromRules> {
     const route = `/rules/${animeId}`;
-    return this.request<GetResponseTypeFromRules>(route, 'GET');
+    const response = await this.request<GetResponseTypeFromRules>(route, 'GET');
+
+    return response.json;
   }
 
   /**
@@ -74,9 +82,13 @@ class AniskipHttpClient extends BaseHttpClient {
       submitter_id: submitterId,
     });
 
-    const { message, error, status } = await this.request<
-      PostResponseTypeFromSkipTimes & { status: number }
-    >(route, 'POST', {}, body);
+    const { json, status } = await this.request<PostResponseTypeFromSkipTimes>(
+      route,
+      'POST',
+      {},
+      body
+    );
+    const { error } = json;
 
     if (error) {
       switch (status) {
@@ -93,7 +105,7 @@ class AniskipHttpClient extends BaseHttpClient {
       }
     }
 
-    return { message };
+    return json;
   }
 
   /**
@@ -109,13 +121,17 @@ class AniskipHttpClient extends BaseHttpClient {
     const body = JSON.stringify({
       vote_type: type,
     });
-    const { message, status } = await this.request<
-      PostResponseTypeFromSkipTimesVote & { status: number }
-    >(route, 'POST', {}, body);
+    const response = await this.request<PostResponseTypeFromSkipTimesVote>(
+      route,
+      'POST',
+      {},
+      body
+    );
+    const { json, status } = response;
     if (status === 429) {
       throw new AniskipHttpClientError('Rate limited', 'vote/rate-limited');
     }
-    return { message };
+    return json;
   }
 
   /**

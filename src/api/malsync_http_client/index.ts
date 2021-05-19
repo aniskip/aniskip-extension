@@ -1,5 +1,6 @@
 import { GetResponseTypeFromPage } from '../../types/api/malsync_types';
 import BaseHttpClient from '../base_http_client';
+import MalsyncHttpClientError from './error';
 
 class MalsyncHttpClient extends BaseHttpClient {
   constructor() {
@@ -16,7 +17,12 @@ class MalsyncHttpClient extends BaseHttpClient {
     identifier: string
   ): Promise<GetResponseTypeFromPage> {
     const route = `/page/${providerName}/${identifier}`;
-    return this.request<GetResponseTypeFromPage>(route, 'GET');
+    const response = await this.request<GetResponseTypeFromPage>(route, 'GET');
+    if (!response.ok) {
+      throw new MalsyncHttpClientError('MAL id not found', 'page/not-found');
+    }
+
+    return response.json;
   }
 
   /**
@@ -26,6 +32,7 @@ class MalsyncHttpClient extends BaseHttpClient {
    */
   async getMalId(providerName: string, identifier: string): Promise<number> {
     const pageDetails = await this.getMalPageDetails(providerName, identifier);
+
     return pageDetails.malId;
   }
 }

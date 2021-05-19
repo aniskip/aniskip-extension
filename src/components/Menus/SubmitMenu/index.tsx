@@ -144,7 +144,7 @@ const SubmitMenu = ({
     const endTimeSeconds = timeStringToSeconds(endTime);
 
     try {
-      await aniskipHttpClient.createSkipTimes(
+      const { skip_id: skipId } = await aniskipHttpClient.createSkipTimes(
         malId,
         episodeNumber,
         skipType,
@@ -163,7 +163,7 @@ const SubmitMenu = ({
             end_time: endTimeSeconds,
           },
           skip_type: skipType,
-          skip_id: '',
+          skip_id: skipId,
           episode_length: duration,
         },
       } as Message);

@@ -17,14 +17,25 @@ const messageHandler = (message: Message, sender: Runtime.MessageSender) => {
     switch (message.type) {
       case 'fetch': {
         const { url, options } = message.payload;
-        return fetch(url, options)
-          .then((response) => response.json())
-          .then((response) =>
+        return (async () => {
+          try {
+            const response = await fetch(url, options);
+            const json = await response.json();
             browser.tabs.sendMessage(tabId, {
               type: 'fetch-response',
-              payload: response,
-            } as Message)
-          );
+              payload: {
+                json,
+                status: response.status,
+                ok: response.ok,
+              },
+            } as Message);
+          } catch (err) {
+            browser.tabs.sendMessage(tabId, {
+              type: 'fetch-response',
+              payload: { json: { error: err.message } },
+            } as Message);
+          }
+        })();
       }
       default: {
         return browser.tabs.sendMessage(tabId, message);

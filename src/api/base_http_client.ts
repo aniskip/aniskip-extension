@@ -1,5 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
-import HttpClient from '../types/api/http_client_type';
+
+import { Response, HttpClient } from '../types/api/http_client_type';
 import { Message } from '../types/message_type';
 import waitForMessage from '../utils/message_utils';
 
@@ -15,7 +16,7 @@ abstract class BaseHttpClient implements HttpClient {
     method: string,
     params: Record<string, string | string[]> = {},
     body: string = ''
-  ): Promise<T> {
+  ): Promise<Response<T>> {
     const url = new URL(`${this.baseUrl}${route}`);
     Object.entries(params).forEach(([key, param]) => {
       if (Array.isArray(param)) {
