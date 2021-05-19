@@ -5,6 +5,7 @@ import { FaBackward, FaForward, FaPlay, FaTimes } from 'react-icons/fa';
 import { SubmitMenuProps } from '../../../types/components/submit_types';
 import {
   formatTimeString,
+  getDomainName,
   secondsToTimeString,
   timeStringToSeconds,
 } from '../../../utils/string_utils';
@@ -280,13 +281,15 @@ const SubmitMenu = ({
       setTime(secondsToTimeString(seconds));
     };
 
+  const domainName = getDomainName(window.location.hostname);
+
   return (
     <div
       className={`font-sans w-[26em] px-5 pt-2 pb-4 z-10 bg-trueGray-800 bg-opacity-80 border border-gray-300 right-5 bottom-28 absolute select-none rounded-md transition-opacity text-white ${
         hidden ? 'opacity-0 pointer-events-none' : ''
       } submit-menu--${variant} ${
         isFullscreen ? `submit-menu--${variant}--fullscreen` : ''
-      }`}
+      } submit-menu--${domainName}`}
       role="menu"
     >
       <div className="flex justify-between items-center w-full h-auto mb-4">

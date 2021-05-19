@@ -37,6 +37,12 @@ form {
       bottom: 9.5em;
     }
 
+    &--4anime {
+      @media (max-width: 900px) {
+        bottom: 9em;
+      }
+    }
+
     &-button {
       &--plyr {
         margin-right: -2px;
@@ -77,46 +83,54 @@ form {
   }
 }
 
-.skip-indicators {
-  &--plyr {
-    top: 50%;
-    height: 5px;
-    margin-top: -2.5px;
-  }
+.skip {
+  &-indicators {
+    &--plyr {
+      top: 50%;
+      height: 5px;
+      margin-top: -2.5px;
+    }
 
-  &--jw {
-    top: 50%;
-    margin-top: -2px;
-    height: 4px;
-  }
+    &--jw {
+      top: 50%;
+      margin-top: -2px;
+      height: 4px;
+    }
 
-  &--mp4upload {
-    top: 50%;
-    margin-top: -4px;
-    height: 8px;
-  }
+    &--mp4upload {
+      top: 50%;
+      margin-top: -4px;
+      height: 8px;
+    }
 
-  &--twistmoe {
-    top: 50%;
-    margin-top: -1px;
-    height: 2px;
-  }
-}
-
-.skip-button {
-  &--jw {
-    right: 2em;
-    bottom: 5em;
-
-    &--fullscreen {
-      right: 4.5em;
-      bottom: 9em;
+    &--twistmoe {
+      top: 50%;
+      margin-top: -1px;
+      height: 2px;
     }
   }
 
-  &--doodstream {
-    right: 4.3em;
-    bottom: 7em;
+  &-button {
+    &--jw {
+      right: 2em;
+      bottom: 5em;
+
+      &--fullscreen {
+        right: 4.5em;
+        bottom: 9em;
+      }
+    }
+
+    &--doodstream {
+      right: 4.3em;
+      bottom: 7em;
+    }
+
+    &--4anime {
+      @media (max-width: 900px) {
+        bottom: 6em;
+      }
+    }
   }
 }
 
@@ -126,7 +140,7 @@ form {
     top: 2.5px;
     right: 47.5px;
     @media (min-width: 901px) {
-      top: -0.2px;
+      top: 0px;
       right: 125px;
     }
   }

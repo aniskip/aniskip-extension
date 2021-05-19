@@ -20,11 +20,11 @@ const messageHandler = (message: Message, sender: Runtime.MessageSender) => {
         return (async () => {
           try {
             const response = await fetch(url, options);
-            const json = await response.json();
+            const body = await response.text();
             browser.tabs.sendMessage(tabId, {
               type: 'fetch-response',
               payload: {
-                json,
+                body,
                 status: response.status,
                 ok: response.ok,
               },
@@ -32,7 +32,7 @@ const messageHandler = (message: Message, sender: Runtime.MessageSender) => {
           } catch (err) {
             browser.tabs.sendMessage(tabId, {
               type: 'fetch-response',
-              payload: { json: { error: err.message } },
+              payload: { error: err },
             } as Message);
           }
         })();

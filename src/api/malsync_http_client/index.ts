@@ -17,12 +17,12 @@ class MalsyncHttpClient extends BaseHttpClient {
     identifier: string
   ): Promise<GetResponseTypeFromPage> {
     const route = `/page/${providerName}/${identifier}`;
-    const response = await this.request<GetResponseTypeFromPage>(route, 'GET');
-    if (!response.ok) {
-      throw new MalsyncHttpClientError('MAL id not found', 'page/not-found');
+    const response = await this.request(route, 'GET');
+    if (response.status === 400 && response.error) {
+      throw new MalsyncHttpClientError(response.error, 'page/not-found');
     }
 
-    return response.json;
+    return response.json<GetResponseTypeFromPage>();
   }
 
   /**

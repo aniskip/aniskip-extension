@@ -1,7 +1,9 @@
-export interface Response<T> {
-  json: T;
+export interface Response {
+  body: string;
+  json: <T>() => T;
   ok: boolean;
   status: number;
+  error?: string;
 }
 
 export interface HttpClient {
@@ -14,10 +16,10 @@ export interface HttpClient {
    * @param params Url search parameters to add
    * @param body The body of the request
    */
-  request<T>(
+  request(
     route: string,
     method: string,
     params: Record<string, string>,
     body: string
-  ): Promise<Response<T>>;
+  ): Promise<Response>;
 }

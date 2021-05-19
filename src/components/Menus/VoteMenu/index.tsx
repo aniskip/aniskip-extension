@@ -8,7 +8,10 @@ import { SkipTimeType, VoteType } from '../../../types/api/aniskip_types';
 import { VoteMenuProps } from '../../../types/components/vote_menu_types';
 import { Message } from '../../../types/message_type';
 import waitForMessage from '../../../utils/message_utils';
-import { secondsToTimeString } from '../../../utils/string_utils';
+import {
+  getDomainName,
+  secondsToTimeString,
+} from '../../../utils/string_utils';
 import LinkButton from '../../LinkButton';
 import Button from './Button';
 
@@ -50,13 +53,15 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
     } as Message);
   };
 
+  const domainName = getDomainName(window.location.hostname);
+
   return (
     <div
       className={`font-sans w-60 px-5 py-2 z-10 bg-trueGray-800 bg-opacity-80 border border-gray-300 absolute right-5 bottom-28 select-none rounded-md transition-opacity text-white ${
         hidden && 'opacity-0 pointer-events-none'
       } vote-menu--${variant} ${
         isFullscreen && `vote-menu--${variant}--fullscreen`
-      }`}
+      } submit-menu--${domainName}`}
     >
       <div className="flex justify-between items-center w-full h-auto mb-2">
         <div className="flex items-center space-x-1 outline-none">

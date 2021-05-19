@@ -11,12 +11,12 @@ abstract class BaseHttpClient implements HttpClient {
     this.baseUrl = baseUrl;
   }
 
-  async request<T>(
+  async request(
     route: string,
     method: string,
     params: Record<string, string | string[]> = {},
     body: string = ''
-  ): Promise<Response<T>> {
+  ): Promise<Response> {
     const url = new URL(`${this.baseUrl}${route}`);
     Object.entries(params).forEach(([key, param]) => {
       if (Array.isArray(param)) {
@@ -31,18 +31,24 @@ abstract class BaseHttpClient implements HttpClient {
     const options: RequestInit = {
       method,
     };
+
     if (method === 'POST' && body) {
       options.headers = {
         'Content-Type': 'application/json',
       };
       options.body = body;
     }
+
     browser.runtime.sendMessage({
       type: 'fetch',
       payload: { url: url.toString(), options },
     } as Message);
-    const response = (await waitForMessage('fetch-response')).payload;
-    return response;
+    const { payload } = await waitForMessage('fetch-response');
+
+    return {
+      ...payload,
+      json: <T>() => JSON.parse(payload.body) as T,
+    };
   }
 }
 
