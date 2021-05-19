@@ -29,13 +29,13 @@ jobs:
           yarn build:chrome
           yarn zip:chrome
 
-      - name: publish
-        run: yarn webstore upload --source ./web-ext-artifacts/*.zip --auto-publish
-        env:
-          EXTENSION_ID: ${{ env.CHROME_EXTENSION_ID }}
-          CLIENT_ID: ${{ env.CHROME_CLIENT_ID }}
-          CLIENT_SECRET: ${{ env.CHROME_CLIENT_SECRET }}
-          REFRESH_TOKEN: ${{ env.CHROME_REFRESH_TOKEN }}
+#       - name: publish
+#         run: yarn webstore upload --source ./web-ext-artifacts/*.zip --auto-publish
+#         env:
+#           EXTENSION_ID: ${{ env.CHROME_EXTENSION_ID }}
+#           CLIENT_ID: ${{ env.CHROME_CLIENT_ID }}
+#           CLIENT_SECRET: ${{ env.CHROME_CLIENT_SECRET }}
+#           REFRESH_TOKEN: ${{ env.CHROME_REFRESH_TOKEN }}
           
       - name: evaluate path
         run: echo "CHROME_ASSET_PATH=$(echo ./web-ext-artifacts/*.zip)" >> $GITHUB_ENV
@@ -59,14 +59,14 @@ jobs:
       - name: build
         run: yarn build:firefox
 
-      - name: publish
-        # yarn 2 does not work with web-ext-submit
-        run: |
-          sudo npm install -g web-ext-submit
-          web-ext-submit --source-dir ./dist
-        env:
-          WEB_EXT_API_KEY: ${{ env.WEB_EXT_API_KEY }}
-          WEB_EXT_API_SECRET: ${{ env.WEB_EXT_API_SECRET }}
+#       - name: publish
+#         # yarn 2 does not work with web-ext-submit
+#         run: |
+#           sudo npm install -g web-ext-submit
+#           web-ext-submit --source-dir ./dist
+#         env:
+#           WEB_EXT_API_KEY: ${{ env.WEB_EXT_API_KEY }}
+#           WEB_EXT_API_SECRET: ${{ env.WEB_EXT_API_SECRET }}
       
       - name: evaluate path
         run: echo "FIREFOX_ASSET_PATH=$(echo ./web-ext-artifacts/*.xpi)" >> $GITHUB_ENV
