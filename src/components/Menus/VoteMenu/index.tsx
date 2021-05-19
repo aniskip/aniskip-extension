@@ -7,7 +7,6 @@ import useFullscreen from '../../../hooks/use_fullscreen';
 import { SkipTimeType, VoteType } from '../../../types/api/aniskip_types';
 import { VoteMenuProps } from '../../../types/components/vote_menu_types';
 import { Message } from '../../../types/message_type';
-import waitForMessage from '../../../utils/message_utils';
 import {
   getDomainName,
   secondsToTimeString,
@@ -38,9 +37,10 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
       ).skipTimesVoted;
       setSkipTimesVoted(currentSkipTimesVoted);
 
-      browser.runtime.sendMessage({ type: 'player-get-duration' } as Message);
-      const duration: number = (
-        await waitForMessage('player-get-duration-response')
+      const duration = (
+        await browser.runtime.sendMessage({
+          type: 'player-get-duration',
+        } as Message)
       ).payload;
       setPlayerDuration(duration);
     })();

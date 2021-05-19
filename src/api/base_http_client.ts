@@ -2,7 +2,6 @@ import { browser } from 'webextension-polyfill-ts';
 
 import { Response, HttpClient } from '../types/api/http_client_type';
 import { Message } from '../types/message_type';
-import waitForMessage from '../utils/message_utils';
 
 abstract class BaseHttpClient implements HttpClient {
   baseUrl: string;
@@ -39,11 +38,10 @@ abstract class BaseHttpClient implements HttpClient {
       options.body = body;
     }
 
-    browser.runtime.sendMessage({
+    const { payload } = await browser.runtime.sendMessage({
       type: 'fetch',
       payload: { url: url.toString(), options },
     } as Message);
-    const { payload } = await waitForMessage('fetch-response');
 
     return {
       ...payload,
