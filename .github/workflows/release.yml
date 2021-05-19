@@ -36,16 +36,22 @@ jobs:
 #           CLIENT_ID: ${{ env.CHROME_CLIENT_ID }}
 #           CLIENT_SECRET: ${{ env.CHROME_CLIENT_SECRET }}
 #           REFRESH_TOKEN: ${{ env.CHROME_REFRESH_TOKEN }}
-          
-      - name: evaluate path
-        run: echo "CHROME_ASSET_PATH=$(echo ./web-ext-artifacts/*.zip)" >> $GITHUB_ENV
+
+      - name: evaluate path and filename
+        run: |
+          echo "CHROME_ASSET_PATH=$(echo ./web-ext-artifacts/*.zip)" >> $GITHUB_ENV
+          echo "CHROME_ASSET_FILENAME=$(basename ./web-ext-artifacts/*.zip)" >> $GITHUB_ENV
 
       - name: upload asset
-        uses: JasonEtco/upload-to-release@master
-        with:
-          args: ${{ env.CHROME_ASSET_PATH }}
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }} 
+          asset_path: ${{ env.CHROME_ASSET_PATH }}
+          asset_name: ${{ env.CHROME_ASSET_FILENAME }}
+          asset_content_type: application/zip
 
   release-firefox:
     runs-on: ubuntu-latest
@@ -67,13 +73,19 @@ jobs:
 #         env:
 #           WEB_EXT_API_KEY: ${{ env.WEB_EXT_API_KEY }}
 #           WEB_EXT_API_SECRET: ${{ env.WEB_EXT_API_SECRET }}
-      
-      - name: evaluate path
-        run: echo "FIREFOX_ASSET_PATH=$(echo ./web-ext-artifacts/*.xpi)" >> $GITHUB_ENV
+
+      - name: evaluate path and filename
+        run: |
+          echo "FIREFOX_ASSET_PATH=$(echo ./web-ext-artifacts/*.xpi)" >> $GITHUB_ENV
+          echo "FIREFOX_ASSET_FILENAME=$(basename ./web-ext-artifacts/*.xpi)" >> $GITHUB_ENV
 
       - name: upload asset
-        uses: JasonEtco/upload-to-release@master
-        with:
-          args: ${{ env.FIREFOX_ASSET_PATH }}
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }} 
+          asset_path: ${{ env.FIREFOX_ASSET_PATH }}
+          asset_name: ${{ env.FIREFOX_ASSET_FILENAME }}
+          asset_content_type: application/zip
