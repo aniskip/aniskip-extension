@@ -1,4 +1,5 @@
 import { getDomainName } from '../utils/string_utils';
+import Animepahe from './animepahe';
 import AniMixPlay from './animixplay';
 import Aniwatch from './aniwatch';
 import Crunchyroll from './crunchyroll';
@@ -21,6 +22,8 @@ class PageFactory {
         return new AniMixPlay(hostname, pathname, document);
       case 'aniwatch':
         return new Aniwatch(hostname, pathname, document);
+      case 'animepahe':
+        return new Animepahe(hostname, pathname, document);
       case 'gogoanime':
         return new Gogoanime(hostname, pathname, document);
       case '9anime':
