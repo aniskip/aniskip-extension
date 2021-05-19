@@ -120,17 +120,14 @@ const SubmitMenu = ({
       return;
     }
 
-    const getEpisodeInfoResponse = await browser.runtime.sendMessage({
-      type: 'get-episode-information',
-    } as Message);
-
+    const { userId } = await browser.storage.sync.get('userId');
+    const { malId, episodeNumber, providerName } =
+      await browser.runtime.sendMessage({
+        type: 'get-episode-information',
+      } as Message);
     const duration = await browser.runtime.sendMessage({
       type: 'player-get-duration',
     } as Message);
-
-    const { userId } = await browser.storage.sync.get('userId');
-    const { malId, episodeNumber, providerName } =
-      getEpisodeInfoResponse.payload;
 
     const startTimeSeconds = timeStringToSeconds(startTime);
     const endTimeSeconds = timeStringToSeconds(endTime);

@@ -37,7 +37,7 @@ const messageHandler = (message: Message, sender: Runtime.MessageSender) => {
     default: {
       return (async () => {
         const uuid = uuidv4();
-        browser.tabs.sendMessage(tabId, { ...message, uuid });
+        browser.tabs.sendMessage(tabId, { ...message, uuid } as Message);
         const response = await waitForMessage(uuid);
 
         return response?.payload;
