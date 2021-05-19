@@ -1,0 +1,70 @@
+name: Release
+
+env:
+  CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+  CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+  CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+  CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+  WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
+  WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
+
+on:
+  release:
+    types: [published]
+
+  workflow_dispatch:
+
+jobs:
+  release-chrome:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: install dependencies
+        run: yarn install
+
+      - name: build and zip
+        run: |
+          yarn build:chrome
+          yarn zip:chrome
+
+      - name: publish
+        run: yarn webstore upload --source ./web-ext-artifacts/*.zip --auto-publish
+        env:
+          EXTENSION_ID: ${{ env.CHROME_EXTENSION_ID }}
+          CLIENT_ID: ${{ env.CHROME_CLIENT_ID }}
+          CLIENT_SECRET: ${{ env.CHROME_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ env.CHROME_REFRESH_TOKEN }}
+
+      - name: upload asset
+        uses: JasonEtco/upload-to-release@master
+        with:
+          args: ./web-ext-artifacts/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release-firefox:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: install dependencies
+        run: yarn install
+
+      - name: build
+        run: yarn build:firefox
+
+      - name: publish
+        run: yarn web-ext-submit --source-dir ./dist
+        env:
+          WEB_EXT_API_KEY: ${{ env.WEB_EXT_API_KEY }}
+          WEB_EXT_API_SECRET: ${{ env.WEB_EXT_API_SECRET }}
+
+      - name: upload asset
+        uses: JasonEtco/upload-to-release@master
+        with:
+          args: ./web-ext-artifacts/*.xpi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
