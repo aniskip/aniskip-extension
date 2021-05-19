@@ -45,17 +45,13 @@ const SubmitMenu = ({
   useEffect(() => {
     if (!hidden) {
       (async () => {
-        const duration = (
-          await browser.runtime.sendMessage({
-            type: 'player-get-duration',
-          } as Message)
-        ).payload;
+        const duration = await browser.runtime.sendMessage({
+          type: 'player-get-duration',
+        } as Message);
 
-        const currentTime = (
-          await browser.runtime.sendMessage({
-            type: 'player-get-current-time',
-          } as Message)
-        ).payload;
+        const currentTime = await browser.runtime.sendMessage({
+          type: 'player-get-current-time',
+        } as Message);
 
         setStartTime(secondsToTimeString(currentTime));
         let newEndTime = currentTime + 90;
@@ -79,11 +75,9 @@ const SubmitMenu = ({
       result = 0;
     }
 
-    const duration = (
-      await browser.runtime.sendMessage({
-        type: 'player-get-duration',
-      } as Message)
-    ).payload;
+    const duration = await browser.runtime.sendMessage({
+      type: 'player-get-duration',
+    } as Message);
 
     if (seconds >= duration) {
       result = Math.floor(duration);
@@ -130,11 +124,9 @@ const SubmitMenu = ({
       type: 'get-episode-information',
     } as Message);
 
-    const duration = (
-      await browser.runtime.sendMessage({
-        type: 'player-get-duration',
-      } as Message)
-    ).payload;
+    const duration = await browser.runtime.sendMessage({
+      type: 'player-get-duration',
+    } as Message);
 
     const { userId } = await browser.storage.sync.get('userId');
     const { malId, episodeNumber, providerName } =
@@ -397,11 +389,9 @@ const SubmitMenu = ({
               <DefaultButton
                 className="px-3"
                 onClick={async () => {
-                  const currentTime = (
-                    await browser.runtime.sendMessage({
-                      type: 'player-get-current-time',
-                    } as Message)
-                  ).payload;
+                  const currentTime = await browser.runtime.sendMessage({
+                    type: 'player-get-current-time',
+                  } as Message);
 
                   switch (currentInputFocus) {
                     case 'start-time':
@@ -430,11 +420,9 @@ const SubmitMenu = ({
             <DefaultButton
               className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
               onClick={async () => {
-                const duration = (
-                  await browser.runtime.sendMessage({
-                    type: 'player-get-duration',
-                  } as Message)
-                ).payload;
+                const duration = await browser.runtime.sendMessage({
+                  type: 'player-get-duration',
+                } as Message);
                 const trimmedDuration = Math.floor(duration);
 
                 switch (currentInputFocus) {

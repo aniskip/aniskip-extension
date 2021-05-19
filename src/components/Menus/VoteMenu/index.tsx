@@ -41,11 +41,9 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
         return;
       }
 
-      const duration = (
-        await browser.runtime.sendMessage({
-          type: 'player-get-duration',
-        } as Message)
-      ).payload;
+      const duration = await browser.runtime.sendMessage({
+        type: 'player-get-duration',
+      } as Message);
       setPlayerDuration(duration);
     })();
   }, [skipTimes]);
