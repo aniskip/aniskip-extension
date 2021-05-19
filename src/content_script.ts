@@ -70,15 +70,13 @@ const messageHandler = (message: Message) => {
       break;
     }
     case 'get-episode-information': {
-      getEpisodeInformation()
-        .then(
-          (episodeInformation) =>
-            ({
-              payload: episodeInformation,
-              uuid: message.uuid,
-            } as Message)
-        )
-        .then((response) => browser.runtime.sendMessage(response));
+      (async () => {
+        const episodeInformation = await getEpisodeInformation();
+        browser.runtime.sendMessage({
+          payload: episodeInformation,
+          uuid: message.uuid,
+        } as Message);
+      })();
       break;
     }
     default:
