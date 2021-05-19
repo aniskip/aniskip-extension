@@ -6,8 +6,11 @@ import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
 import useFullscreen from '../../../hooks/use_fullscreen';
 import { SkipTimeType, VoteType } from '../../../types/api/aniskip_types';
 import { VoteMenuProps } from '../../../types/components/vote_menu_types';
-import waitForMessage from '../../../utils/message_utils';
-import { secondsToTimeString } from '../../../utils/string_utils';
+import { Message } from '../../../types/message_type';
+import {
+  getDomainName,
+  secondsToTimeString,
+} from '../../../utils/string_utils';
 import LinkButton from '../../LinkButton';
 import Button from './Button';
 
@@ -34,20 +37,26 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
       ).skipTimesVoted;
       setSkipTimesVoted(currentSkipTimesVoted);
 
-      const messageType = 'player-get-video-duration';
-      browser.runtime.sendMessage({ type: messageType });
-      const duration: number = (await waitForMessage(`${messageType}-response`))
-        .payload;
+      if (skipTimes.length === 0) {
+        return;
+      }
+
+      const duration = await browser.runtime.sendMessage({
+        type: 'player-get-duration',
+      } as Message);
       setPlayerDuration(duration);
     })();
   }, [skipTimes]);
 
   const setPlayerCurrentTime = (time: number) => () => {
     browser.runtime.sendMessage({
-      type: 'player-set-video-current-time',
+      type: 'player-set-current-time',
       payload: time,
-    });
+    } as Message);
+    browser.runtime.sendMessage({ type: 'player-play' } as Message);
   };
+
+  const domainName = getDomainName(window.location.hostname);
 
   return (
     <div
@@ -55,7 +64,7 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
         hidden && 'opacity-0 pointer-events-none'
       } vote-menu--${variant} ${
         isFullscreen && `vote-menu--${variant}--fullscreen`
-      }`}
+      } submit-menu--${domainName}`}
     >
       <div className="flex justify-between items-center w-full h-auto mb-2">
         <div className="flex items-center space-x-1 outline-none">
@@ -203,7 +212,7 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
                       browser.runtime.sendMessage({
                         type: 'player-remove-skip-time',
                         payload: skipTime,
-                      });
+                      } as Message);
 
                       try {
                         const response = await aniskipHttpClient.downvote(

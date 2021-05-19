@@ -31,7 +31,7 @@ class Jw extends BasePlayer {
 
   getSettingsButtonElement() {
     return this.document.querySelector<HTMLElement>(
-      `[aria-label="${metadata.injectSettingsButtonReferenceNodeSelectorString}"]`
+      `[aria-label="${metadata.injectMenusButtonsReferenceNodeSelectorString}"]`
     );
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { SkipTimeIndicatorProps } from '../../types/components/skip_time_indicator_types';
+import { getDomainName } from '../../utils/string_utils';
 
 const Indicator = ({
   startTime,
@@ -19,9 +20,11 @@ const Indicator = ({
    */
   const calculateWidth = () => (endTime - startTime) / episodeLength;
 
+  const domainName = getDomainName(window.location.hostname);
+
   return (
     <div
-      className={`absolute z-10 top-1/2 pointer-events-none skip-indicator skip-indicator--${variant} ${className}`}
+      className={`absolute h-full z-10 pointer-events-none skip-indicators--${variant} skip-indicators--${domainName} ${className}`}
       style={{
         left: `${calculateTranslation() * 100}%`,
         width: `${calculateWidth() * 100}%`,

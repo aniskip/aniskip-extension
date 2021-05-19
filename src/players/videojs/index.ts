@@ -1,13 +1,15 @@
 import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
-class Twistmoe extends BasePlayer {
+class Videojs extends BasePlayer {
   constructor(document: Document) {
     super(document, metadata);
   }
 
   getVideoContainer() {
-    return super.getContainerHelper(metadata.videoContainerSelectorString, 0);
+    const videoControlsContainer = this.getVideoControlsContainer();
+
+    return videoControlsContainer?.parentElement as HTMLVideoElement | null;
   }
 
   getVideoControlsContainer() {
@@ -18,9 +20,9 @@ class Twistmoe extends BasePlayer {
 
   getSettingsButtonElement() {
     return super.getContainerHelper(
-      metadata.injectSettingsButtonReferenceNodeSelectorString
+      metadata.injectMenusButtonsReferenceNodeSelectorString
     );
   }
 }
 
-export default Twistmoe;
+export default Videojs;

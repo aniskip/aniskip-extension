@@ -64,3 +64,10 @@ export const formatTimeString = (timeString: string) => {
   const seconds = isNumber ? timeStringNumber : timeStringToSeconds(timeString);
   return secondsToTimeString(seconds);
 };
+
+/**
+ * Returns the domain name from the host name
+ * @param hostname Host name to parse
+ */
+export const getDomainName = (hostname: string) =>
+  hostname.replace(/(?:[^.\n]*\.)?([^.\n]*)(\..*)/, '$1');

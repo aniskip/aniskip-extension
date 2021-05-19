@@ -41,12 +41,14 @@ export interface ServerErrorType {
 export type PostResponseTypeFromSkipTimesVote = SuccessMessageType &
   ServerErrorType;
 
-export type PostResponseTypeFromSkipTimes = SuccessMessageType &
+export type PostResponseTypeFromSkipTimes = {
+  skip_id: string;
+} & SuccessMessageType &
   ServerErrorType;
 
 export type VoteType = 'upvote' | 'downvote';
 
-export type HttpClientErrorCode =
+export type AniskipHttpClientErrorCode =
   | 'vote/rate-limited'
   | 'skip-times/parameter-error'
   | 'skip-times/rate-limited'

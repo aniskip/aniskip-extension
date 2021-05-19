@@ -1,15 +1,13 @@
 import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
-class Videojs extends BasePlayer {
+class Plyr extends BasePlayer {
   constructor(document: Document) {
     super(document, metadata);
   }
 
   getVideoContainer() {
-    const videoControlsContainer = this.getVideoControlsContainer();
-
-    return videoControlsContainer?.parentElement as HTMLVideoElement | null;
+    return super.getContainerHelper(metadata.videoContainerSelectorString);
   }
 
   getVideoControlsContainer() {
@@ -20,9 +18,9 @@ class Videojs extends BasePlayer {
 
   getSettingsButtonElement() {
     return super.getContainerHelper(
-      metadata.injectSettingsButtonReferenceNodeSelectorString
+      metadata.injectMenusButtonsReferenceNodeSelectorString
     );
   }
 }
 
-export default Videojs;
+export default Plyr;

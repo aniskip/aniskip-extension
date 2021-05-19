@@ -1,47 +1,41 @@
-import { browser, Runtime } from 'webextension-polyfill-ts';
+import { browser } from 'webextension-polyfill-ts';
 
-import Message from './types/message_type';
+import { Message } from './types/message_type';
 import { SkipTimeType, SkipType } from './types/api/aniskip_types';
-import getPlayer from './utils/player_utils';
+import PlayerFactory from './players/player_factory';
 
-const player = getPlayer(window.location.hostname);
+const player = PlayerFactory.getPlayer(window.location.hostname);
 
 /**
  * Handles messages between the player and the background script
  * @param message Message containing the type of action and the payload
- * @param _sender Sender of the message
  */
-const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
+const messageHandler = (message: Message) => {
   if (!player.isReady) {
     return;
   }
 
   switch (message.type) {
-    case 'player-add-auto-skip-time': {
+    case 'player-add-skip-time': {
       const skipTime = message.payload as SkipTimeType;
-      player.addSkipTime(skipTime, false);
+      player.addSkipTime(skipTime);
       break;
     }
-    case 'player-add-manual-skip-time': {
-      const skipTime = message.payload as SkipTimeType;
-      player.addSkipTime(skipTime, true);
-      break;
-    }
-    case 'player-get-video-duration': {
+    case 'player-get-duration': {
       browser.runtime.sendMessage({
-        type: `${message.type}-response`,
         payload: player.getDuration(),
-      });
+        uuid: message.uuid,
+      } as Message);
       break;
     }
-    case 'player-get-video-current-time': {
+    case 'player-get-current-time': {
       browser.runtime.sendMessage({
-        type: `${message.type}-response`,
         payload: player.getCurrentTime(),
-      });
+        uuid: message.uuid,
+      } as Message);
       break;
     }
-    case 'player-set-video-current-time': {
+    case 'player-set-current-time': {
       player.setCurrentTime(message.payload);
       break;
     }

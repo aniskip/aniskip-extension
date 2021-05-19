@@ -2,7 +2,7 @@
   "variant": "videojs",
   "videoContainerSelectorString": "Video Player",
   "videoControlsContainerSelectorString": "vjs-control-bar",
-  "injectSettingsButtonReferenceNodeSelectorString": "vjs-fullscreen-control",
+  "injectMenusButtonsReferenceNodeSelectorString": "vjs-fullscreen-control",
   "seekBarContainerSelectorString": "vjs-progress-holder vjs-slider",
   "player_urls": [
     "*://www.mp4upload.com/embed-*",

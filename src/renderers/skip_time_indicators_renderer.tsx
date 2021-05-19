@@ -18,6 +18,11 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
     this.variant = variant;
     this.videoDuration = 0;
     this.skipTimes = [];
+    const reactRoot = this.shadowRoot.getElementById(this.reactRootId);
+    if (reactRoot) {
+      reactRoot.style.width = '100%';
+      reactRoot.style.height = '100%';
+    }
   }
 
   /**

@@ -4,8 +4,8 @@ import { browser } from 'webextension-polyfill-ts';
 import AnilistHttpClient from '../api/anilist_http_client';
 import AniskipHttpClient from '../api/aniskip_http_client';
 import MalsyncHttpClient from '../api/malsync_http_client';
-import Page from '../types/pages/page_type';
-import { capitalizeFirstLetter } from '../utils/string_utils';
+import Page from '../types/page_type';
+import { capitalizeFirstLetter, getDomainName } from '../utils/string_utils';
 
 abstract class BasePage implements Page {
   hostname: string;
@@ -24,10 +24,7 @@ abstract class BasePage implements Page {
     this.hostname = hostname;
     this.pathname = pathname;
     this.document = document;
-    const domainName = this.hostname.replace(
-      /(?:[^.\n]*\.)?([^.\n]*)(\..*)/,
-      '$1'
-    );
+    const domainName = getDomainName(this.hostname);
     this.providerName = capitalizeFirstLetter(domainName);
     this.malId = 0;
     this.episodeNumber = 0;
@@ -82,6 +79,9 @@ abstract class BasePage implements Page {
     }
 
     const identifier = this.getIdentifier();
+    if (!identifier) {
+      return 0;
+    }
     this.malId = (await BasePage.getMalIdCached(identifier)) || 0;
 
     if (this.malId > 0) {
@@ -89,12 +89,15 @@ abstract class BasePage implements Page {
     }
 
     try {
-      const malsyncHttpClient = new MalsyncHttpClient();
       const providerName = this.getProviderName();
+      const malsyncHttpClient = new MalsyncHttpClient();
       this.malId = await malsyncHttpClient.getMalId(providerName, identifier);
     } catch {
       // MALSync was not able to find the id
       const title = this.getTitle();
+      if (!title) {
+        return 0;
+      }
       this.malId = await BasePage.findClosestMalId(title);
     }
 
@@ -155,12 +158,12 @@ abstract class BasePage implements Page {
    * Returns a MAL id from the cache
    * @param identifier Provider anime identifier
    */
-  static async getMalIdCached(identifier: string): Promise<number | undefined> {
+  static async getMalIdCached(identifier: string): Promise<number> {
     const { malIdCache } = await browser.storage.local.get({
       malIdCache: {},
     });
 
-    return malIdCache[identifier];
+    return malIdCache[identifier] || 0;
   }
 }
 

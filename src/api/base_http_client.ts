@@ -1,4 +1,7 @@
-import HttpClient from '../types/api/http_client_type';
+import { browser } from 'webextension-polyfill-ts';
+
+import { Response, HttpClient } from '../types/api/http_client_type';
+import { Message } from '../types/message_type';
 
 abstract class BaseHttpClient implements HttpClient {
   baseUrl: string;
@@ -27,13 +30,20 @@ abstract class BaseHttpClient implements HttpClient {
     const options: RequestInit = {
       method,
     };
+
     if (method === 'POST' && body) {
       options.headers = {
         'Content-Type': 'application/json',
       };
       options.body = body;
     }
-    return fetch(url.toString(), options);
+
+    const response = await browser.runtime.sendMessage({
+      type: 'fetch',
+      payload: { url: url.toString(), options },
+    } as Message);
+
+    return { ...response, json: <T>() => JSON.parse(response.body) as T };
   }
 }
 

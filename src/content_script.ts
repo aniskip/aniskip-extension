@@ -1,16 +1,16 @@
-import { browser, Runtime } from 'webextension-polyfill-ts';
-import Message from './types/message_type';
+import { browser } from 'webextension-polyfill-ts';
+
+import { Message } from './types/message_type';
 import AniskipHttpClient from './api/aniskip_http_client';
-import getPage from './utils/page_utils';
-import { SkipOptionType } from './types/options/skip_option_type';
-import { SkipTimeType, SkipType } from './types/api/aniskip_types';
+import { SkipType } from './types/api/aniskip_types';
+import PageFactory from './pages/page_factory';
 
 /**
  * Returns the MAL id, episode number and provider name
  */
 const getEpisodeInformation = async () => {
   const { pathname, hostname } = window.location;
-  const page = getPage(pathname, hostname);
+  const page = PageFactory.getPage(pathname, hostname);
 
   await page.applyRules();
   const malId = await page.getMalId();
@@ -22,21 +22,6 @@ const getEpisodeInformation = async () => {
     episodeNumber,
     providerName,
   };
-};
-
-/**
- * Adds the skip time to the player
- * @param skipTime Skip time to add
- * @param userOption User option of the skip time
- */
-const addSkipTime = async (
-  skipTime: SkipTimeType,
-  userOption: SkipOptionType
-) => {
-  browser.runtime.sendMessage({
-    type: `player-add-${userOption}-time`,
-    payload: skipTime,
-  });
 };
 
 /**
@@ -66,7 +51,10 @@ const initialiseSkipTimes = async () => {
 
   if (getSkipTimesResponse.found) {
     getSkipTimesResponse.results.forEach((skipTime) =>
-      addSkipTime(skipTime, skipTimeOptions[`${skipTime.skip_type}Option`])
+      browser.runtime.sendMessage({
+        type: 'player-add-skip-time',
+        payload: skipTime,
+      } as Message)
     );
   }
 };
@@ -74,21 +62,21 @@ const initialiseSkipTimes = async () => {
 /**
  * Handles messages between the player and the background script
  * @param message Message containing the type of action and the payload
- * @param _sender Sender of the message
  */
-const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
+const messageHandler = (message: Message) => {
   switch (message.type) {
     case 'player-ready': {
       initialiseSkipTimes();
       break;
     }
     case 'get-episode-information': {
-      getEpisodeInformation()
-        .then((episodeInformation) => ({
-          type: `${message.type}-response`,
+      (async () => {
+        const episodeInformation = await getEpisodeInformation();
+        browser.runtime.sendMessage({
           payload: episodeInformation,
-        }))
-        .then((response) => browser.runtime.sendMessage(response));
+          uuid: message.uuid,
+        } as Message);
+      })();
       break;
     }
     default:

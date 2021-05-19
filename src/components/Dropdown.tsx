@@ -1,30 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useCallback, useRef, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
+
 import { DropdownProps } from '../types/components/dropdown_types';
+import useHandleOutsideClick from '../hooks/use_handle_outside_click';
 
 const Dropdown = ({ className, value, onChange, options }: DropdownProps) => {
   const [hidden, setHidden] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  useHandleOutsideClick(
+    dropdownRef,
+    useCallback(() => setHidden(true), [])
+  );
 
   const handleClick = (valueId: string) => () => {
     setHidden(true);
     onChange(valueId);
   };
-
-  const handleOutsideClick = (event: MouseEvent) => {
-    const target = event.target as HTMLElement;
-    const dropdownClicked = !!dropdownRef.current?.contains(target);
-    if (!dropdownClicked) {
-      setHidden(true);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleOutsideClick);
-
-    return () => document.removeEventListener('mousedown', handleOutsideClick);
-  }, []);
 
   return (
     <div ref={dropdownRef} className={`relative ${className}`}>
@@ -64,7 +55,7 @@ const Dropdown = ({ className, value, onChange, options }: DropdownProps) => {
           <button
             className="text-black w-full px-3 py-2 text-left focus:outline-none hover:bg-primary hover:border-primary hover:text-white"
             type="button"
-            key={uuidv4()}
+            key={valueId}
             onClick={handleClick(valueId)}
           >
             {label}

@@ -1,13 +1,13 @@
 import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
-class Plyr extends BasePlayer {
+class Twistmoe extends BasePlayer {
   constructor(document: Document) {
     super(document, metadata);
   }
 
   getVideoContainer() {
-    return super.getContainerHelper(metadata.videoContainerSelectorString);
+    return super.getContainerHelper(metadata.videoContainerSelectorString, 0);
   }
 
   getVideoControlsContainer() {
@@ -18,9 +18,9 @@ class Plyr extends BasePlayer {
 
   getSettingsButtonElement() {
     return super.getContainerHelper(
-      metadata.injectSettingsButtonReferenceNodeSelectorString
+      metadata.injectMenusButtonsReferenceNodeSelectorString
     );
   }
 }
 
-export default Plyr;
+export default Twistmoe;

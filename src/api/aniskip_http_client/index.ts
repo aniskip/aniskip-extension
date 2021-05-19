@@ -32,7 +32,8 @@ class AniskipHttpClient extends BaseHttpClient {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
     const params = { types };
     const response = await this.request(route, 'GET', params);
-    return response.json();
+
+    return response.json<GetResponseTypeFromSkipTimes>();
   }
 
   /**
@@ -42,7 +43,8 @@ class AniskipHttpClient extends BaseHttpClient {
   async getRules(animeId: number): Promise<GetResponseTypeFromRules> {
     const route = `/rules/${animeId}`;
     const response = await this.request(route, 'GET');
-    return response.json();
+
+    return response.json<GetResponseTypeFromRules>();
   }
 
   /**
@@ -77,15 +79,20 @@ class AniskipHttpClient extends BaseHttpClient {
     });
 
     const response = await this.request(route, 'POST', {}, body);
-    const { message, error }: PostResponseTypeFromSkipTimes =
-      await response.json();
+    const json = response.json<PostResponseTypeFromSkipTimes>();
 
-    if (!response.ok && error) {
+    if (response.error) {
       switch (response.status) {
         case 429:
-          throw new AniskipHttpClientError(error, 'skip-times/rate-limited');
+          throw new AniskipHttpClientError(
+            response.error,
+            'skip-times/rate-limited'
+          );
         case 400:
-          throw new AniskipHttpClientError(error, 'skip-times/parameter-error');
+          throw new AniskipHttpClientError(
+            response.error,
+            'skip-times/parameter-error'
+          );
         case 500:
         default:
           throw new AniskipHttpClientError(
@@ -95,7 +102,7 @@ class AniskipHttpClient extends BaseHttpClient {
       }
     }
 
-    return { message };
+    return json;
   }
 
   /**
@@ -112,10 +119,11 @@ class AniskipHttpClient extends BaseHttpClient {
       vote_type: type,
     });
     const response = await this.request(route, 'POST', {}, body);
-    if (response.status === 429) {
+    const { json, status } = response;
+    if (status === 429) {
       throw new AniskipHttpClientError('Rate limited', 'vote/rate-limited');
     }
-    return response.json();
+    return json<PostResponseTypeFromSkipTimesVote>();
   }
 
   /**

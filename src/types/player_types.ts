@@ -1,10 +1,10 @@
-import { SkipTimeType } from '../api/aniskip_types';
+import { SkipTimeType } from './api/aniskip_types';
 
 export interface Metadata {
   variant: string;
   videoContainerSelectorString: string;
   videoControlsContainerSelectorString: string;
-  injectSettingsButtonReferenceNodeSelectorString: string;
+  injectMenusButtonsReferenceNodeSelectorString: string;
   seekBarContainerSelectorString: string;
   player_urls: string[];
 }

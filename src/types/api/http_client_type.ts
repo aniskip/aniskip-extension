@@ -1,4 +1,12 @@
-interface HttpClient {
+export interface Response {
+  body: string;
+  json: <T>() => T;
+  ok: boolean;
+  status: number;
+  error?: string;
+}
+
+export interface HttpClient {
   baseUrl: string;
 
   /**
@@ -15,5 +23,3 @@ interface HttpClient {
     body: string
   ): Promise<Response>;
 }
-
-export default HttpClient;

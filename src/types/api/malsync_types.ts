@@ -18,3 +18,5 @@ export interface GetResponseTypeFromPage {
   malUrl: string;
   ttl: number;
 }
+
+export type MalsyncHttpClientErrorCode = 'page/not-found';
