@@ -63,7 +63,7 @@ jobs:
         # yarn 2 does not work with web-ext-submit
         run: |
           npm install -g web-ext-submit
-          web-ext-submit --source-dir dist
+          web-ext-submit --source-dir ./dist
         env:
           WEB_EXT_API_KEY: ${{ env.WEB_EXT_API_KEY }}
           WEB_EXT_API_SECRET: ${{ env.WEB_EXT_API_SECRET }}
