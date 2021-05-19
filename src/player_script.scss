@@ -67,7 +67,7 @@ form {
         margin-top: 2px;
       }
 
-      @media (min-width: 900px) {
+      @media (min-width: 901px) {
         &--4anime {
           width: $fouranime-button-size;
           height: $fouranime-button-size;
@@ -119,7 +119,7 @@ form {
     position: absolute;
     top: 2.5px;
     right: 47.5px;
-    @media (min-width: 900px) {
+    @media (min-width: 901px) {
       top: -0.2px;
       right: 125px;
     }

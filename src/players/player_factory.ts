@@ -5,6 +5,7 @@ import Videojs from './videojs';
 import Doodstream from './doodstream';
 import Jw from './jw';
 import Twistmoe from './twistmoe';
+import FourAnime from './videojs/fouranime';
 
 class PlayerFactory {
   /**
@@ -37,8 +38,9 @@ class PlayerFactory {
       case 'mixdrop':
       case 'mp4upload':
       case 'mp4':
-      case '4anime':
         return new Videojs(document);
+      case '4anime':
+        return new FourAnime(document);
       case 'twist':
         return new Twistmoe(document);
       default:
