@@ -4,7 +4,7 @@ import BasePage from '../base_page';
 class Animepahe extends BasePage {
   constructor(hostname: string, pathname: string, document: Document) {
     super(hostname, pathname, document);
-    const domainName = getDomainName(pathname);
+    const domainName = getDomainName(hostname);
     this.providerName = domainName;
   }
 
