@@ -17,27 +17,28 @@ class PlayerFactory {
     switch (domainName) {
       case 'animixplay':
       case 'aniwatch':
-      case 'streamtape':
       case 'github':
+      case 'streamtape':
         return new Plyr(document);
       case 'crunchyroll':
         return new Crunchyroll(document);
       case 'cloud9':
       case 'fcdn':
       case 'gogo-play':
+      case 'kimanime':
       case 'mcloud':
       case 'mcloud2':
+      case 'sbembed':
+      case 'sbvideo':
+      case 'streamhd':
       case 'streamsb':
       case 'vidstream':
-      case 'streamhd':
-      case 'sbembed':
-      case 'kimanime':
         return new Jw(document);
       case 'dood':
         return new Doodstream(document);
       case 'mixdrop':
-      case 'mp4upload':
       case 'mp4':
+      case 'mp4upload':
         return new Videojs(document);
       case '4anime':
         return new FourAnime(document);
