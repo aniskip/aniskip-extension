@@ -53,6 +53,7 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
       type: 'player-set-current-time',
       payload: time,
     } as Message);
+    browser.runtime.sendMessage({ type: 'player-play' } as Message);
   };
 
   const domainName = getDomainName(window.location.hostname);
