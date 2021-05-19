@@ -78,22 +78,22 @@ form {
 }
 
 .skip-indicator {
-  margin-top: -2.5px;
-  height: 5px;
+  &--plyr {
+    top: 50%;
+    height: 5px;
+    margin-top: -2.5px;
+  }
 
   &--jw {
+    top: 50%;
     margin-top: -2px;
     height: 4px;
   }
 
-  &--videojs {
+  &--mp4upload {
+    top: 50%;
     margin-top: -4px;
     height: 8px;
-  }
-
-  &--twistmoe {
-    margin-top: -1px;
-    height: 2px;
   }
 }
 
