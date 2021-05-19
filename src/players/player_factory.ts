@@ -1,3 +1,4 @@
+import { getDomainName } from '../utils/string_utils';
 import Plyr from './plyr';
 import Crunchyroll from './crunchyroll';
 import Videojs from './videojs';
@@ -11,7 +12,7 @@ class PlayerFactory {
    * @param hostname Player's host
    */
   static getPlayer(hostname: string) {
-    const domainName = hostname.replace(/(?:[^.\n]*\.)?([^.\n]*)(\..*)/, '$1');
+    const domainName = getDomainName(hostname);
     switch (domainName) {
       case 'animixplay':
       case 'aniwatch':
@@ -36,6 +37,7 @@ class PlayerFactory {
       case 'mixdrop':
       case 'mp4upload':
       case 'mp4':
+      case '4anime':
         return new Videojs(document);
       case 'twist':
         return new Twistmoe(document);

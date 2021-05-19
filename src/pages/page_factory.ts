@@ -1,3 +1,4 @@
+import { getDomainName } from '../utils/string_utils';
 import AniMixPlay from './animixplay';
 import Aniwatch from './aniwatch';
 import Crunchyroll from './crunchyroll';
@@ -13,7 +14,7 @@ class PageFactory {
    * @param hostname Provider's host
    */
   static getPage(pathname: string, hostname: string) {
-    const domainName = hostname.replace(/(?:[^.\n]*\.)?([^.\n]*)(\..*)/, '$1');
+    const domainName = getDomainName(hostname);
 
     switch (domainName) {
       case 'animixplay':

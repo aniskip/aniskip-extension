@@ -5,7 +5,7 @@ import AnilistHttpClient from '../api/anilist_http_client';
 import AniskipHttpClient from '../api/aniskip_http_client';
 import MalsyncHttpClient from '../api/malsync_http_client';
 import Page from '../types/page_type';
-import { capitalizeFirstLetter } from '../utils/string_utils';
+import { capitalizeFirstLetter, getDomainName } from '../utils/string_utils';
 
 abstract class BasePage implements Page {
   hostname: string;
@@ -24,10 +24,7 @@ abstract class BasePage implements Page {
     this.hostname = hostname;
     this.pathname = pathname;
     this.document = document;
-    const domainName = this.hostname.replace(
-      /(?:[^.\n]*\.)?([^.\n]*)(\..*)/,
-      '$1'
-    );
+    const domainName = getDomainName(this.hostname);
     this.providerName = capitalizeFirstLetter(domainName);
     this.malId = 0;
     this.episodeNumber = 0;

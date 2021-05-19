@@ -15,6 +15,7 @@ form {
   $jw-button-size: 44px;
   $doodstream-button-size: 70px;
   $videojs-button-size: 40px;
+  $fouranime-button-size: 30px;
 
   &-menu {
     &--crunchyroll {
@@ -65,11 +66,12 @@ form {
         pointer-events: all;
         margin-top: 2px;
       }
-    }
 
-    &-buttons {
-      &--twistmoe {
-        margin-right: -8px;
+      @media (min-width: 900px) {
+        &--4anime {
+          width: $fouranime-button-size;
+          height: $fouranime-button-size;
+        }
       }
     }
   }
@@ -109,5 +111,17 @@ form {
   &--doodstream {
     right: 4.3em;
     bottom: 7em;
+  }
+}
+
+.menu-buttons {
+  &--4anime {
+    position: absolute;
+    top: 2.5px;
+    right: 47.5px;
+    @media (min-width: 900px) {
+      top: -0.2px;
+      right: 125px;
+    }
   }
 }
