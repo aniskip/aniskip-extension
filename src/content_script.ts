@@ -1,4 +1,4 @@
-import { browser, Runtime } from 'webextension-polyfill-ts';
+import { browser } from 'webextension-polyfill-ts';
 
 import { Message } from './types/message_type';
 import AniskipHttpClient from './api/aniskip_http_client';
@@ -62,9 +62,8 @@ const initialiseSkipTimes = async () => {
 /**
  * Handles messages between the player and the background script
  * @param message Message containing the type of action and the payload
- * @param _sender Sender of the message
  */
-const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
+const messageHandler = (message: Message) => {
   switch (message.type) {
     case 'player-ready': {
       initialiseSkipTimes();

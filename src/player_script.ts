@@ -1,4 +1,4 @@
-import { browser, Runtime } from 'webextension-polyfill-ts';
+import { browser } from 'webextension-polyfill-ts';
 
 import { Message } from './types/message_type';
 import { SkipTimeType, SkipType } from './types/api/aniskip_types';
@@ -9,9 +9,8 @@ const player = PlayerFactory.getPlayer(window.location.hostname);
 /**
  * Handles messages between the player and the background script
  * @param message Message containing the type of action and the payload
- * @param _sender Sender of the message
  */
-const messageHandler = (message: Message, _sender: Runtime.MessageSender) => {
+const messageHandler = (message: Message) => {
   if (!player.isReady) {
     return;
   }
