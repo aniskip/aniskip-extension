@@ -31,8 +31,7 @@ class AniskipHttpClient extends BaseHttpClient {
   ): Promise<GetResponseTypeFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
     const params = { types };
-    const response = await this.request(route, 'GET', params);
-    return response.json();
+    return this.request<GetResponseTypeFromSkipTimes>(route, 'GET', params);
   }
 
   /**
@@ -41,8 +40,7 @@ class AniskipHttpClient extends BaseHttpClient {
    */
   async getRules(animeId: number): Promise<GetResponseTypeFromRules> {
     const route = `/rules/${animeId}`;
-    const response = await this.request(route, 'GET');
-    return response.json();
+    return this.request<GetResponseTypeFromRules>(route, 'GET');
   }
 
   /**
@@ -76,12 +74,12 @@ class AniskipHttpClient extends BaseHttpClient {
       submitter_id: submitterId,
     });
 
-    const response = await this.request(route, 'POST', {}, body);
-    const { message, error }: PostResponseTypeFromSkipTimes =
-      await response.json();
+    const { message, error, status } = await this.request<
+      PostResponseTypeFromSkipTimes & { status: number }
+    >(route, 'POST', {}, body);
 
-    if (!response.ok && error) {
-      switch (response.status) {
+    if (error) {
+      switch (status) {
         case 429:
           throw new AniskipHttpClientError(error, 'skip-times/rate-limited');
         case 400:
@@ -111,11 +109,13 @@ class AniskipHttpClient extends BaseHttpClient {
     const body = JSON.stringify({
       vote_type: type,
     });
-    const response = await this.request(route, 'POST', {}, body);
-    if (response.status === 429) {
+    const { message, status } = await this.request<
+      PostResponseTypeFromSkipTimesVote & { status: number }
+    >(route, 'POST', {}, body);
+    if (status === 429) {
       throw new AniskipHttpClientError('Rate limited', 'vote/rate-limited');
     }
-    return response.json();
+    return { message };
   }
 
   /**

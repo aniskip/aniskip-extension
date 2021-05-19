@@ -15,16 +15,16 @@ class AnilistHttpClient extends BaseHttpClient {
    * @param query Query string for grapql api
    * @param variables Variables used in query
    */
-  async query(
+  async query<T>(
     query: string,
     variables: Record<string, string | number>
-  ): Promise<Response> {
+  ): Promise<T> {
     const route = '/';
     const body = JSON.stringify({
       query,
       variables,
     });
-    return this.request(route, 'POST', undefined, body);
+    return this.request<T>(route, 'POST', undefined, body);
   }
 
   /**
@@ -62,8 +62,14 @@ class AnilistHttpClient extends BaseHttpClient {
     const variables = {
       title,
     };
-    const response = await this.query(query, variables);
-    return response.json();
+    return this.query<
+      PostResponseTypeFromPage<
+        Pick<
+          Media<undefined, Pick<MediaTitle, 'english' | 'romaji' | 'native'>>,
+          'idMal' | 'title' | 'synonyms'
+        >
+      >
+    >(query, variables);
   }
 }
 

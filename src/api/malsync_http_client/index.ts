@@ -1,5 +1,5 @@
-import { GetResponseTypeFromPage } from '../types/api/malsync_types';
-import BaseHttpClient from './base_http_client';
+import { GetResponseTypeFromPage } from '../../types/api/malsync_types';
+import BaseHttpClient from '../base_http_client';
 
 class MalsyncHttpClient extends BaseHttpClient {
   constructor() {
@@ -16,8 +16,7 @@ class MalsyncHttpClient extends BaseHttpClient {
     identifier: string
   ): Promise<GetResponseTypeFromPage> {
     const route = `/page/${providerName}/${identifier}`;
-    const response = await this.request(route, 'GET');
-    return response.json();
+    return this.request<GetResponseTypeFromPage>(route, 'GET');
   }
 
   /**

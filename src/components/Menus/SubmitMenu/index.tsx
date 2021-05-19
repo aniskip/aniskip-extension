@@ -14,7 +14,7 @@ import MenuButton from './Button';
 import waitForMessage from '../../../utils/message_utils';
 import Input from '../../Input';
 import {
-  HttpClientErrorCode,
+  AniskipHttpClientErrorCode,
   SkipType,
 } from '../../../types/api/aniskip_types';
 import useFullscreen from '../../../hooks/use_fullscreen';
@@ -171,7 +171,7 @@ const SubmitMenu = ({
       setServerError('');
       onSubmit();
     } catch (err) {
-      switch (err.code as HttpClientErrorCode) {
+      switch (err.code as AniskipHttpClientErrorCode) {
         case 'skip-times/parameter-error':
           setServerError('Input errors, please double check your skip times');
           break;

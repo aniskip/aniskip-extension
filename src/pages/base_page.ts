@@ -89,8 +89,8 @@ abstract class BasePage implements Page {
     }
 
     try {
-      const malsyncHttpClient = new MalsyncHttpClient();
       const providerName = this.getProviderName();
+      const malsyncHttpClient = new MalsyncHttpClient();
       this.malId = await malsyncHttpClient.getMalId(providerName, identifier);
     } catch {
       // MALSync was not able to find the id
@@ -158,12 +158,12 @@ abstract class BasePage implements Page {
    * Returns a MAL id from the cache
    * @param identifier Provider anime identifier
    */
-  static async getMalIdCached(identifier: string): Promise<number | undefined> {
+  static async getMalIdCached(identifier: string): Promise<number> {
     const { malIdCache } = await browser.storage.local.get({
       malIdCache: {},
     });
 
-    return malIdCache[identifier];
+    return malIdCache[identifier] || 0;
   }
 }
 

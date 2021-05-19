@@ -46,7 +46,7 @@ export type PostResponseTypeFromSkipTimes = SuccessMessageType &
 
 export type VoteType = 'upvote' | 'downvote';
 
-export type HttpClientErrorCode =
+export type AniskipHttpClientErrorCode =
   | 'vote/rate-limited'
   | 'skip-times/parameter-error'
   | 'skip-times/rate-limited'

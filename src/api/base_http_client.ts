@@ -1,4 +1,7 @@
+import { browser } from 'webextension-polyfill-ts';
 import HttpClient from '../types/api/http_client_type';
+import { Message } from '../types/message_type';
+import waitForMessage from '../utils/message_utils';
 
 abstract class BaseHttpClient implements HttpClient {
   baseUrl: string;
@@ -7,12 +10,12 @@ abstract class BaseHttpClient implements HttpClient {
     this.baseUrl = baseUrl;
   }
 
-  async request(
+  async request<T>(
     route: string,
     method: string,
     params: Record<string, string | string[]> = {},
     body: string = ''
-  ): Promise<Response> {
+  ): Promise<T> {
     const url = new URL(`${this.baseUrl}${route}`);
     Object.entries(params).forEach(([key, param]) => {
       if (Array.isArray(param)) {
@@ -33,7 +36,12 @@ abstract class BaseHttpClient implements HttpClient {
       };
       options.body = body;
     }
-    return fetch(url.toString(), options);
+    browser.runtime.sendMessage({
+      type: 'fetch',
+      payload: { url: url.toString(), options },
+    } as Message);
+    const response = (await waitForMessage('fetch-response')).payload;
+    return response;
   }
 }
 

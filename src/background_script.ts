@@ -14,7 +14,22 @@ import {
 const messageHandler = (message: Message, sender: Runtime.MessageSender) => {
   const tabId = sender.tab?.id;
   if (tabId) {
-    return browser.tabs.sendMessage(tabId, message);
+    switch (message.type) {
+      case 'fetch': {
+        const { url, options } = message.payload;
+        return fetch(url, options)
+          .then((response) => response.json())
+          .then((response) =>
+            browser.tabs.sendMessage(tabId, {
+              type: 'fetch-response',
+              payload: response,
+            } as Message)
+          );
+      }
+      default: {
+        return browser.tabs.sendMessage(tabId, message);
+      }
+    }
   }
   return Promise.reject(new Error('Tab id not found'));
 };
