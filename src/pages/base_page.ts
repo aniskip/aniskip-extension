@@ -79,6 +79,9 @@ abstract class BasePage implements Page {
     }
 
     const identifier = this.getIdentifier();
+    if (!identifier) {
+      return 0;
+    }
     this.malId = (await BasePage.getMalIdCached(identifier)) || 0;
 
     if (this.malId > 0) {
@@ -92,6 +95,9 @@ abstract class BasePage implements Page {
     } catch {
       // MALSync was not able to find the id
       const title = this.getTitle();
+      if (!title) {
+        return 0;
+      }
       this.malId = await BasePage.findClosestMalId(title);
     }
 
