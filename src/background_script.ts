@@ -1,5 +1,6 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 import { v4 as uuidv4 } from 'uuid';
+
 import { Message } from './types/message_type';
 import {
   DefaultOptionsType,
@@ -48,7 +49,7 @@ const messageHandler = (message: Message, sender: Runtime.MessageSender) => {
 browser.runtime.onMessage.addListener(messageHandler);
 
 /**
- * Set the user id on installation
+ * Set default user settings on installation
  */
 browser.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
