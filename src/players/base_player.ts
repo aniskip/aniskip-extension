@@ -48,29 +48,18 @@ abstract class BasePlayer implements Player {
       'aniskip-player-skip-buttons',
       this.metadata.variant
     );
+    const toggleSubmitMenu = (hidden: boolean) => () =>
+      this.setMenusState({
+        ...this.menusState,
+        isSubmitMenuHidden: hidden,
+      });
     this.menusRenderer = new MenusRenderer(
       'aniskip-player-menus',
       this.metadata.variant,
-      () =>
-        this.setMenusState({
-          ...this.menusState,
-          isSubmitMenuHidden: true,
-        }),
-      () =>
-        this.setMenusState({
-          ...this.menusState,
-          isSubmitMenuHidden: true,
-        }),
-      () =>
-        this.setMenusState({
-          ...this.menusState,
-          isSubmitMenuHidden: false,
-        }),
-      () =>
-        this.setMenusState({
-          ...this.menusState,
-          isVoteMenuHidden: true,
-        })
+      toggleSubmitMenu(true),
+      toggleSubmitMenu(true),
+      toggleSubmitMenu(false),
+      toggleSubmitMenu(true)
     );
     this.menusButtonsRenderer = new MenusButtonsRenderer(
       'aniskip-player-menus-buttons',
