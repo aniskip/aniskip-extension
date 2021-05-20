@@ -66,6 +66,7 @@ class MenusRenderer extends BaseRenderer {
   render() {
     ReactDOM.render(
       <Menus
+        variant={this.variant}
         submitMenuProps={{
           variant: this.variant,
           hidden: this.state.isSubmitMenuHidden,

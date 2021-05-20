@@ -17,7 +17,7 @@ const Buttons = ({
 
   return (
     <div
-      className={`hidden sm:flex items-center justify-center menu-buttons--${variant} menu-buttons--${domainName} ${
+      className={`hidden sm:flex items-center justify-center menus-buttons--${variant} menus-buttons--${domainName} ${
         isFullscreen ? 'flex' : ''
       }`}
     >
