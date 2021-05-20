@@ -15,16 +15,18 @@ const Button = ({ skipType, variant, hidden, onClick }: SkipButtonProps) => {
   const domainName = getDomainName(window.location.hostname);
 
   return (
-    <DefaultButton
-      className={`transition-opacity font-sans whitespace-nowrap text-white bg-trueGray-800 bg-opacity-80 py-3 absolute top-auto bottom-16 left-auto right-11 border border-gray-300 font-bold uppercase ${
-        hidden && 'opacity-0 pointer-events-none'
-      } skip-button--${variant} ${
-        isFullscreen && `skip-button--${variant}--fullscreen`
-      } skip-button--${domainName} `}
-      onClick={onClick}
-    >
-      {`Skip ${skipTypeFullNames[skipType]}`}
-    </DefaultButton>
+    <div className="absolute right-11 bottom-16">
+      <DefaultButton
+        className={`transition-opacity font-sans whitespace-nowrap text-white bg-trueGray-800 bg-opacity-80 py-3 border border-gray-300 font-bold uppercase ${
+          hidden ? 'opacity-0 pointer-events-none' : ''
+        } skip-button--${variant} ${
+          isFullscreen ? `skip-button--${variant}--fullscreen` : ''
+        } skip-button--${domainName} `}
+        onClick={onClick}
+      >
+        {`Skip ${skipTypeFullNames[skipType]}`}
+      </DefaultButton>
+    </div>
   );
 };
 export default Button;

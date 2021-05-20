@@ -6,7 +6,7 @@ import SubmitMenu from './SubmitMenu';
 import VoteMenu from './VoteMenu';
 
 const Menus = ({ submitMenuProps, voteMenuProps }: MenusProps) => (
-  <>
+  <div className="text-sm md:text-base">
     <SubmitMenu
       variant={submitMenuProps.variant}
       hidden={submitMenuProps.hidden}
@@ -19,7 +19,7 @@ const Menus = ({ submitMenuProps, voteMenuProps }: MenusProps) => (
       skipTimes={voteMenuProps.skipTimes}
       onClose={voteMenuProps.onClose}
     />
-  </>
+  </div>
 );
 
 Menus.Buttons = Buttons;

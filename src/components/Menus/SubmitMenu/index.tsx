@@ -273,11 +273,13 @@ const SubmitMenu = ({
 
   return (
     <div
-      className={`font-sans w-[26em] px-5 pt-2 pb-4 z-10 bg-trueGray-800 bg-opacity-80 border border-gray-300 right-5 bottom-28 absolute select-none rounded-md transition-opacity text-white ${
+      className={`font-sans w-[26em] px-5 pt-2 pb-4 z-10 bg-trueGray-800 bg-opacity-80 border border-gray-300 left-5 bottom-16 md:left-auto md:right-5 md:bottom-32 absolute select-none rounded-md transition-opacity text-white ${
         hidden ? 'opacity-0 pointer-events-none' : ''
-      } submit-menu--${variant} ${
-        isFullscreen ? `submit-menu--${variant}--fullscreen` : ''
-      } submit-menu--${domainName}`}
+      } submit-menu--${variant} submit-menu--${domainName} ${
+        isFullscreen
+          ? `submit-menu--${variant}--fullscreen submit-menu--${domainName}--fullscreen`
+          : ''
+      }`}
       role="menu"
     >
       <div className="flex justify-between items-center w-full h-auto mb-4">

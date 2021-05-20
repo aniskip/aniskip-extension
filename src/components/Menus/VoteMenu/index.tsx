@@ -60,7 +60,7 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
 
   return (
     <div
-      className={`font-sans w-60 px-5 py-2 z-10 bg-trueGray-800 bg-opacity-80 border border-gray-300 absolute right-5 bottom-28 select-none rounded-md transition-opacity text-white ${
+      className={`font-sans w-60 px-5 py-2 z-10 bg-trueGray-800 bg-opacity-80 border border-gray-300 absolute left-5 bottom-16 md:left-auto md:right-5 md:bottom-32 select-none rounded-md transition-opacity text-white ${
         hidden && 'opacity-0 pointer-events-none'
       } vote-menu--${variant} ${
         isFullscreen && `vote-menu--${variant}--fullscreen`

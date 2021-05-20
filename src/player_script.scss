@@ -1,3 +1,9 @@
+// Media queries
+$sm: '640px';
+$md: '768px';
+$lg: '1024px';
+$xl: '1280px';
+
 // Override custom player styles
 :host {
   all: initial !important;
@@ -13,32 +19,69 @@ form {
 .vote {
   $crunchyroll-button-size: 40px;
   $jw-button-size: 44px;
-  $doodstream-button-size: 70px;
+  $doodstream-button-size: 60px;
   $videojs-button-size: 40px;
   $fouranime-button-size: 30px;
 
   &-menu {
     &--crunchyroll {
-      bottom: 10em;
+      bottom: 7rem;
+      @media (min-width: $md) {
+        bottom: 11rem;
+      }
     }
 
     &--jw {
-      bottom: 8em;
-      right: 0.5em;
-
+      bottom: 6rem;
+      @media (min-width: $md) {
+        bottom: 10rem;
+        right: 0.5rem;
+      }
       &--fullscreen {
-        right: 3em;
-        bottom: 12em;
+        @media (min-width: $xl) {
+          right: 3rem;
+          bottom: 13rem;
+        }
       }
     }
 
     &--doodstream {
-      right: 2.5em;
-      bottom: 9.5em;
+      right: 2.5rem;
+      bottom: 9rem;
+      @media (min-width: $md) {
+        bottom: 13rem;
+      }
     }
 
     &--4anime {
-      @media (max-width: 900px) {
+      bottom: 6rem;
+      @media (min-width: $md) {
+        bottom: 9rem;
+      }
+      @media (min-width: 901px) {
+        bottom: 7rem;
+      }
+    }
+
+    &--streamhd {
+      bottom: 9rem;
+      @media (min-width: $md) {
+        bottom: 16rem;
+      }
+    }
+
+    &--fcdn {
+      bottom: 6rem;
+      right: 0.5rem;
+      @media (min-width: $md) {
+        bottom: 10rem;
+      }
+    }
+
+    &--streamtape,
+    &--mixdrop {
+      bottom: 5rem;
+      @media (min-width: $md) {
         bottom: 9em;
       }
     }
@@ -112,24 +155,41 @@ form {
 
   &-button {
     &--jw {
-      right: 2em;
-      bottom: 5em;
+      right: 2rem;
+      bottom: 6rem;
 
       &--fullscreen {
-        right: 4.5em;
-        bottom: 9em;
+        @media (min-width: $xl) {
+          right: 4.5rem;
+          bottom: 9rem;
+        }
       }
     }
 
     &--doodstream {
-      right: 4.3em;
-      bottom: 7em;
+      right: 3.9rem;
+      bottom: 9rem;
     }
 
     &--4anime {
-      @media (max-width: 900px) {
-        bottom: 6em;
-      }
+      bottom: 6rem;
+    }
+
+    &--streamhd {
+      bottom: 9rem;
+    }
+
+    &--fcdn {
+      bottom: 6rem;
+      right: 2rem;
+    }
+
+    &--streamtape {
+      bottom: 5rem;
+    }
+
+    &--mixdrop {
+      bottom: 6rem;
     }
   }
 }
