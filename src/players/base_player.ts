@@ -59,7 +59,11 @@ abstract class BasePlayer implements Player {
       toggleSubmitMenu(true),
       toggleSubmitMenu(true),
       toggleSubmitMenu(false),
-      toggleSubmitMenu(true)
+      () =>
+        this.setMenusState({
+          ...this.menusState,
+          isVoteMenuHidden: true,
+        })
     );
     this.menusButtonsRenderer = new MenusButtonsRenderer(
       'aniskip-player-menus-buttons',
