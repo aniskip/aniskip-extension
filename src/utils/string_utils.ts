@@ -36,6 +36,9 @@ export const secondsToTimeString = (
   decimalPlaces: number = 3
 ) => {
   let remainingSeconds = seconds;
+  if (remainingSeconds < 0) {
+    remainingSeconds = 0;
+  }
 
   const hours = Math.floor(remainingSeconds / (60 * 60));
   const hoursFormatted = hours.toString();
