@@ -64,6 +64,11 @@ abstract class BasePlayer implements Player {
       () =>
         this.setMenusState({
           ...this.menusState,
+          isSubmitMenuHidden: false,
+        }),
+      () =>
+        this.setMenusState({
+          ...this.menusState,
           isVoteMenuHidden: true,
         })
     );

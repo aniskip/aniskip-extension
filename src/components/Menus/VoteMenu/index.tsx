@@ -10,7 +10,12 @@ import { secondsToTimeString } from '../../../utils/string_utils';
 import LinkButton from '../../LinkButton';
 import Button from './Button';
 
-const VoteMenu = ({ hidden, skipTimes, onClose }: VoteMenuProps) => {
+const VoteMenu = ({
+  hidden,
+  skipTimes,
+  onClose,
+  submitMenuOpen,
+}: VoteMenuProps) => {
   const { aniskipHttpClient } = useAniskipHttpClient();
   const [skipTimesVoted, setSkipTimesVoted] = useState<
     Record<string, VoteType>
@@ -72,8 +77,19 @@ const VoteMenu = ({ hidden, skipTimes, onClose }: VoteMenuProps) => {
       </div>
       <div className="divide-y divide-gray-300">
         {filteredSkipTimes.length === 0 && (
-          <div className="text-xs uppercase font-semibold text-red-500">
-            No skip times found
+          <div className="text-xs space-y-1 mt-4">
+            <div className="text-gray-200 uppercase font-semibold">
+              No skip times found
+            </div>
+            <LinkButton
+              className="text-blue-500 uppercase font-bold hover:no-underline"
+              onClick={() => {
+                onClose();
+                submitMenuOpen();
+              }}
+            >
+              Submit here
+            </LinkButton>
           </div>
         )}
         {filteredSkipTimes.length > 0 &&

@@ -5,6 +5,7 @@ export interface VoteMenuProps {
   hidden?: boolean;
   skipTimes: SkipTimeType[];
   onClose: CallableFunction;
+  submitMenuOpen: CallableFunction;
 }
 
 export type VoteMenuButtonOnClickHandler = (

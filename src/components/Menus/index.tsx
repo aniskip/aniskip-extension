@@ -43,6 +43,7 @@ const Menus = ({ variant, submitMenuProps, voteMenuProps }: MenusProps) => (
         hidden={voteMenuProps.hidden}
         skipTimes={voteMenuProps.skipTimes}
         onClose={voteMenuProps.onClose}
+        submitMenuOpen={voteMenuProps.submitMenuOpen}
       />
     </MenuContainer>
   </>
