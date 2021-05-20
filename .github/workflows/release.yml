@@ -18,18 +18,18 @@ jobs:
   release-chrome:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v2
 
-      - name: install dependencies
+      - name: Install dependencies
         run: yarn install
 
-      - name: build and zip
+      - name: Build and zip
         run: |
           yarn build:chrome
           yarn zip:chrome
 
-      - name: publish
+      - name: Publish
         run: yarn webstore upload --source ./web-ext-artifacts/*.zip --auto-publish
         env:
           EXTENSION_ID: ${{ env.CHROME_EXTENSION_ID }}
@@ -37,12 +37,12 @@ jobs:
           CLIENT_SECRET: ${{ env.CHROME_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ env.CHROME_REFRESH_TOKEN }}
 
-      - name: evaluate path and filename
+      - name: Evaluate path and filename
         run: |
           echo "CHROME_ASSET_PATH=$(echo ./web-ext-artifacts/*.zip)" >> $GITHUB_ENV
           echo "CHROME_ASSET_FILENAME=$(basename ./web-ext-artifacts/*.zip)" >> $GITHUB_ENV
 
-      - name: upload asset
+      - name: Upload asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
@@ -56,16 +56,16 @@ jobs:
   release-firefox:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v2
 
-      - name: install dependencies
+      - name: Install dependencies
         run: yarn install
 
-      - name: build
+      - name: Build
         run: yarn build:firefox
 
-      - name: publish
+      - name: Publish
         # yarn 2 does not work with web-ext-submit
         run: |
           sudo npm install -g web-ext-submit
@@ -74,12 +74,12 @@ jobs:
           WEB_EXT_API_KEY: ${{ env.WEB_EXT_API_KEY }}
           WEB_EXT_API_SECRET: ${{ env.WEB_EXT_API_SECRET }}
 
-      - name: evaluate path and filename
+      - name: Evaluate path and filename
         run: |
           echo "FIREFOX_ASSET_PATH=$(echo ./web-ext-artifacts/*.xpi)" >> $GITHUB_ENV
           echo "FIREFOX_ASSET_FILENAME=$(basename ./web-ext-artifacts/*.xpi)" >> $GITHUB_ENV
 
-      - name: upload asset
+      - name: Upload asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
