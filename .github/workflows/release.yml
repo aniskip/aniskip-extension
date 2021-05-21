@@ -66,10 +66,7 @@ jobs:
         run: yarn build:firefox
 
       - name: Publish
-        # yarn 2 does not work with web-ext-submit
-        run: |
-          sudo npm install -g web-ext-submit
-          web-ext-submit --source-dir ./dist
+        run: yarn web-ext --config=web-ext.config.js sign
         env:
           WEB_EXT_API_KEY: ${{ env.WEB_EXT_API_KEY }}
           WEB_EXT_API_SECRET: ${{ env.WEB_EXT_API_SECRET }}
