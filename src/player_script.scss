@@ -1,3 +1,9 @@
+// Media queries
+$sm: '640px';
+$md: '768px';
+$lg: '1024px';
+$xl: '1280px';
+
 // Override custom player styles
 :host {
   all: initial !important;
@@ -13,36 +19,11 @@ form {
 .vote {
   $crunchyroll-button-size: 40px;
   $jw-button-size: 44px;
-  $doodstream-button-size: 70px;
+  $doodstream-button-size: 60px;
   $videojs-button-size: 40px;
   $fouranime-button-size: 30px;
 
   &-menu {
-    &--crunchyroll {
-      bottom: 10em;
-    }
-
-    &--jw {
-      bottom: 8em;
-      right: 0.5em;
-
-      &--fullscreen {
-        right: 3em;
-        bottom: 12em;
-      }
-    }
-
-    &--doodstream {
-      right: 2.5em;
-      bottom: 9.5em;
-    }
-
-    &--4anime {
-      @media (max-width: 900px) {
-        bottom: 9em;
-      }
-    }
-
     &-button {
       &--plyr {
         margin-right: -2px;
@@ -113,35 +94,106 @@ form {
   &-button {
     &--jw {
       right: 2em;
-      bottom: 5em;
+      bottom: 6em;
 
       &--fullscreen {
-        right: 4.5em;
-        bottom: 9em;
+        @media (min-width: $xl) {
+          right: 4.5em;
+          bottom: 9em;
+        }
+      }
+    }
+
+    &--streamhd--fullscreen,
+    &--fcdn--fullscreen {
+      @media (min-width: $xl) {
+        bottom: 6em;
       }
     }
 
     &--doodstream {
-      right: 4.3em;
-      bottom: 7em;
+      right: 3.9em;
+      bottom: 9em;
     }
 
     &--4anime {
-      @media (max-width: 900px) {
-        bottom: 6em;
+      bottom: 6em;
+      @media (min-width: 901px) {
+        bottom: 4em;
       }
+    }
+
+    &--streamtape,
+    &--mixdrop {
+      bottom: 5em;
     }
   }
 }
 
-.menu-buttons {
+.menus {
+  &--crunchyroll {
+    bottom: 7em;
+    @media (min-width: $md) {
+      bottom: 11em;
+    }
+  }
+
+  &--jw {
+    bottom: 6em;
+    @media (min-width: $md) {
+      bottom: 10em;
+      right: 0.5em;
+    }
+    &--fullscreen {
+      @media (min-width: $xl) {
+        right: 3em;
+        bottom: 13em;
+      }
+    }
+  }
+
+  &--streamhd--fullscreen,
+  &--fcdn--fullscreen {
+    @media (min-width: $xl) {
+      bottom: 10em;
+    }
+  }
+
+  &--doodstream {
+    right: 2.5em;
+    bottom: 9em;
+    @media (min-width: $md) {
+      bottom: 13em;
+    }
+  }
+
   &--4anime {
-    position: absolute;
-    top: 2.5px;
-    right: 47.5px;
+    bottom: 6em;
+    @media (min-width: $md) {
+      bottom: 10em;
+    }
     @media (min-width: 901px) {
-      top: 0px;
-      right: 125px;
+      bottom: 8em;
+    }
+  }
+
+  &--streamtape,
+  &--mixdrop {
+    bottom: 5em;
+    @media (min-width: $md) {
+      bottom: 9em;
+    }
+  }
+
+  &-buttons {
+    &--4anime {
+      position: absolute;
+      top: 2.5px;
+      right: 47.5px;
+      @media (min-width: 901px) {
+        top: 0px;
+        right: 125px;
+      }
     }
   }
 }

@@ -1,3 +1,4 @@
+import React from 'react';
 import { SkipTimeType } from '../api/aniskip_types';
 import {
   SubmitMenuButtonOnClickHandler,
@@ -6,6 +7,7 @@ import {
 import { VoteMenuButtonOnClickHandler, VoteMenuProps } from './vote_menu_types';
 
 export interface MenusProps {
+  variant: string;
   submitMenuProps: SubmitMenuProps;
   voteMenuProps: VoteMenuProps;
 }
@@ -33,4 +35,9 @@ export interface MenusState {
 export interface MenusButtonsState {
   isSubmitButtonActive: boolean;
   isVoteButtonActive: boolean;
+}
+
+export interface MenuContainerProps {
+  variant: string;
+  children: React.ReactNode;
 }

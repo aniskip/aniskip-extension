@@ -5,7 +5,6 @@ import { FaBackward, FaForward, FaPlay, FaTimes } from 'react-icons/fa';
 import { SubmitMenuProps } from '../../../types/components/submit_types';
 import {
   formatTimeString,
-  getDomainName,
   secondsToTimeString,
   timeStringToSeconds,
 } from '../../../utils/string_utils';
@@ -17,17 +16,10 @@ import {
   AniskipHttpClientErrorCode,
   SkipType,
 } from '../../../types/api/aniskip_types';
-import useFullscreen from '../../../hooks/use_fullscreen';
 import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
 import { Message } from '../../../types/message_type';
 
-const SubmitMenu = ({
-  variant,
-  hidden,
-  onSubmit,
-  onClose,
-}: SubmitMenuProps) => {
-  const { isFullscreen } = useFullscreen();
+const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
   const { aniskipHttpClient } = useAniskipHttpClient();
   const [skipType, setSkipType] = useState<SkipType>('op');
   const [startTime, setStartTime] = useState('');
@@ -269,15 +261,11 @@ const SubmitMenu = ({
       setTime(secondsToTimeString(seconds));
     };
 
-  const domainName = getDomainName(window.location.hostname);
-
   return (
     <div
-      className={`font-sans w-[26em] px-5 pt-2 pb-4 z-10 bg-trueGray-800 bg-opacity-80 border border-gray-300 right-5 bottom-28 absolute select-none rounded-md transition-opacity text-white ${
-        hidden ? 'opacity-0 pointer-events-none' : ''
-      } submit-menu--${variant} ${
-        isFullscreen ? `submit-menu--${variant}--fullscreen` : ''
-      } submit-menu--${domainName}`}
+      className={`text-sm md:text-base font-sans w-[26em] px-5 pt-2 pb-4 bg-trueGray-800 bg-opacity-80 border border-gray-300 select-none rounded-md transition-opacity text-white opacity-0 pointer-events-none ${
+        !hidden ? 'sm:opacity-100 sm:pointer-events-auto' : ''
+      }`}
       role="menu"
     >
       <div className="flex justify-between items-center w-full h-auto mb-4">

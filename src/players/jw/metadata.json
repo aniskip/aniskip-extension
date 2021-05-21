@@ -6,6 +6,7 @@
   "seekBarContainerSelectorString": "Seek",
   "player_urls": [
     "*://gogo-play.net/*",
+    "*://gogo-play.tv/*",
     "*://streamsb.net/*",
     "*://cloud9.to/*",
     "*://fcdn.stream/*",

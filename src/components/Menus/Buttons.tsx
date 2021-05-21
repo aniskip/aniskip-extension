@@ -4,17 +4,22 @@ import SubmitMenu from './SubmitMenu';
 import VoteMenu from './VoteMenu';
 import { MenusButtonsProps } from '../../types/components/menus_types';
 import { getDomainName } from '../../utils/string_utils';
+import useFullscreen from '../../hooks/use_fullscreen';
 
 const Buttons = ({
   variant,
   submitMenuButtonProps,
   voteMenuButtonProps,
 }: MenusButtonsProps) => {
+  const { isFullscreen } = useFullscreen();
+
   const domainName = getDomainName(window.location.hostname);
 
   return (
     <div
-      className={`flex items-center justify-center menu-buttons--${variant} menu-buttons--${domainName}`}
+      className={`hidden sm:flex items-center justify-center menus-buttons--${variant} menus-buttons--${domainName} ${
+        isFullscreen ? 'flex' : ''
+      }`}
     >
       <SubmitMenu.Button
         active={submitMenuButtonProps.active}

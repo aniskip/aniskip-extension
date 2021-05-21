@@ -3,19 +3,19 @@ import { FaChevronDown, FaChevronUp, FaPlay, FaTimes } from 'react-icons/fa';
 import { browser } from 'webextension-polyfill-ts';
 
 import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
-import useFullscreen from '../../../hooks/use_fullscreen';
 import { SkipTimeType, VoteType } from '../../../types/api/aniskip_types';
 import { VoteMenuProps } from '../../../types/components/vote_menu_types';
 import { Message } from '../../../types/message_type';
-import {
-  getDomainName,
-  secondsToTimeString,
-} from '../../../utils/string_utils';
+import { secondsToTimeString } from '../../../utils/string_utils';
 import LinkButton from '../../LinkButton';
 import Button from './Button';
 
-const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
-  const { isFullscreen } = useFullscreen();
+const VoteMenu = ({
+  hidden,
+  skipTimes,
+  onClose,
+  submitMenuOpen,
+}: VoteMenuProps) => {
   const { aniskipHttpClient } = useAniskipHttpClient();
   const [skipTimesVoted, setSkipTimesVoted] = useState<
     Record<string, VoteType>
@@ -56,15 +56,11 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
     browser.runtime.sendMessage({ type: 'player-play' } as Message);
   };
 
-  const domainName = getDomainName(window.location.hostname);
-
   return (
     <div
-      className={`font-sans w-60 px-5 py-2 z-10 bg-trueGray-800 bg-opacity-80 border border-gray-300 absolute right-5 bottom-28 select-none rounded-md transition-opacity text-white ${
-        hidden && 'opacity-0 pointer-events-none'
-      } vote-menu--${variant} ${
-        isFullscreen && `vote-menu--${variant}--fullscreen`
-      } submit-menu--${domainName}`}
+      className={`text-sm md:text-base font-sans w-60 px-5 py-2 z-10 bg-trueGray-800 bg-opacity-80 border border-gray-300 select-none rounded-md transition-opacity text-white opacity-0 pointer-events-none ${
+        !hidden ? 'sm:opacity-100 sm:pointer-events-auto' : ''
+      }`}
     >
       <div className="flex justify-between items-center w-full h-auto mb-2">
         <div className="flex items-center space-x-1 outline-none">
@@ -81,8 +77,19 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
       </div>
       <div className="divide-y divide-gray-300">
         {filteredSkipTimes.length === 0 && (
-          <div className="text-xs uppercase font-semibold text-red-500">
-            No skip times found
+          <div className="text-xs space-y-1 mt-4">
+            <div className="text-gray-200 uppercase font-semibold">
+              No skip times found
+            </div>
+            <LinkButton
+              className="text-blue-500 uppercase font-bold hover:no-underline"
+              onClick={() => {
+                onClose();
+                submitMenuOpen();
+              }}
+            >
+              Submit here
+            </LinkButton>
           </div>
         )}
         {filteredSkipTimes.length > 0 &&
@@ -141,7 +148,7 @@ const VoteMenu = ({ variant, hidden, skipTimes, onClose }: VoteMenuProps) => {
                     </LinkButton>
                   </span>
                 </div>
-                <div className="flex flex-col justify-between py-1">
+                <div className="flex flex-col justify-between">
                   <button
                     className={`focus:outline-none hover:text-primary active:opacity-80 ${
                       isUpvoted && 'text-primary'

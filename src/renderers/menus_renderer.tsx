@@ -14,6 +14,8 @@ class MenusRenderer extends BaseRenderer {
 
   submitMenuOnClose: CallableFunction;
 
+  submitMenuOpen: CallableFunction;
+
   voteMenuOnClose: CallableFunction;
 
   constructor(
@@ -21,6 +23,7 @@ class MenusRenderer extends BaseRenderer {
     variant: string,
     submitMenuOnSubmit: CallableFunction,
     submitMenuOnClose: CallableFunction,
+    submitMenuOpen: CallableFunction,
     voteMenuOnClose: CallableFunction
   ) {
     super(id, [
@@ -40,6 +43,7 @@ class MenusRenderer extends BaseRenderer {
     };
     this.submitMenuOnSubmit = submitMenuOnSubmit;
     this.submitMenuOnClose = submitMenuOnClose;
+    this.submitMenuOpen = submitMenuOpen;
     this.voteMenuOnClose = voteMenuOnClose;
   }
 
@@ -66,6 +70,7 @@ class MenusRenderer extends BaseRenderer {
   render() {
     ReactDOM.render(
       <Menus
+        variant={this.variant}
         submitMenuProps={{
           variant: this.variant,
           hidden: this.state.isSubmitMenuHidden,
@@ -77,6 +82,7 @@ class MenusRenderer extends BaseRenderer {
           hidden: this.state.isVoteMenuHidden,
           skipTimes: this.state.skipTimes,
           onClose: this.voteMenuOnClose,
+          submitMenuOpen: this.submitMenuOpen,
         }}
       />,
       this.shadowRoot.getElementById(this.reactRootId)
