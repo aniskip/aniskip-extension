@@ -82,8 +82,8 @@ abstract class BasePage implements Page {
     if (!identifier) {
       return 0;
     }
-    this.malId = (await BasePage.getMalIdCached(identifier)) || 0;
 
+    this.malId = await BasePage.getMalIdCached(identifier);
     if (this.malId > 0) {
       return this.malId;
     }
@@ -102,11 +102,9 @@ abstract class BasePage implements Page {
     }
 
     // Cache MAL id
-    const { malIdCache: updatedMalIdCache } = await browser.storage.local.get({
-      malIdCache: {},
-    });
-    updatedMalIdCache[identifier] = this.malId;
-    browser.storage.local.set({ malIdCache: updatedMalIdCache });
+    const { malIdCache } = await browser.storage.local.get('malIdCache');
+    malIdCache[identifier] = this.malId;
+    browser.storage.local.set({ malIdCache });
 
     return this.malId;
   }
@@ -159,9 +157,7 @@ abstract class BasePage implements Page {
    * @param identifier Provider anime identifier
    */
   static async getMalIdCached(identifier: string): Promise<number> {
-    const { malIdCache } = await browser.storage.local.get({
-      malIdCache: {},
-    });
+    const { malIdCache } = await browser.storage.local.get('malIdCache');
 
     return malIdCache[identifier] || 0;
   }

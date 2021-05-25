@@ -52,22 +52,41 @@ browser.runtime.onMessage.addListener(messageHandler);
  * Set default user settings on installation
  */
 browser.runtime.onInstalled.addListener((details) => {
-  if (details.reason === 'install') {
-    const defaultOptions: DefaultOptionsType = {
-      userId: uuidv4(),
-      opOption: 'manual-skip',
-      edOption: 'manual-skip',
-    };
+  const defaultOptions: DefaultOptionsType = {
+    userId: uuidv4(),
+    skipOptions: {
+      op: 'manual-skip',
+      ed: 'manual-skip',
+    },
+  };
 
-    browser.storage.sync.set(defaultOptions);
+  const localDefaultOptions: LocalDefaultOptionsType = {
+    malIdCache: {},
+    skipTimesVoted: {},
+  };
 
-    const localDefaultOptions: LocalDefaultOptionsType = {
-      malIdCache: {},
-      skipTimesVoted: {},
-    };
-
-    browser.storage.local.set(localDefaultOptions);
-
-    browser.runtime.openOptionsPage();
+  switch (details.reason) {
+    case 'install': {
+      browser.storage.sync.set(defaultOptions);
+      browser.storage.local.set(localDefaultOptions);
+      browser.runtime.openOptionsPage();
+      break;
+    }
+    case 'update': {
+      Promise.all([
+        (async () => {
+          const currentOptions = await browser.storage.sync.get(defaultOptions);
+          browser.storage.sync.set(currentOptions);
+        })(),
+        (async () => {
+          const currentLocalOptions = await browser.storage.local.get(
+            localDefaultOptions
+          );
+          browser.storage.local.set(currentLocalOptions);
+        })(),
+      ]);
+      break;
+    }
+    default:
   }
 });

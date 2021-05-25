@@ -139,8 +139,8 @@ abstract class BasePlayer implements Player {
 
     const skipType = skipTime.skip_type;
     const skipOption: SkipOptionType = (
-      await browser.storage.sync.get(`${skipType}Option`)
-    )[`${skipType}Option`];
+      await browser.storage.sync.get('skipOptions')
+    ).skipOptions[skipType];
     const manual = skipOption === 'manual-skip';
 
     this.skipTimeIndicatorsRenderer.addSkipTimeIndicator(skipTime);

@@ -30,11 +30,8 @@ const VoteMenu = ({
     setFilteredSkipTimes([...skipTimes.filter((skipTime) => skipTime.skip_id)]);
 
     (async () => {
-      const currentSkipTimesVoted = (
-        await browser.storage.local.get({
-          skipTimesVoted: {},
-        })
-      ).skipTimesVoted;
+      const { skipTimesVoted: currentSkipTimesVoted } =
+        await browser.storage.local.get('skipTimesVoted');
       setSkipTimesVoted(currentSkipTimesVoted);
 
       if (skipTimes.length === 0) {
@@ -159,11 +156,8 @@ const VoteMenu = ({
                         return;
                       }
 
-                      const currentSkipTimesVoted = (
-                        await browser.storage.local.get({
-                          skipTimesVoted,
-                        })
-                      ).skipTimesVoted;
+                      const { skipTimesVoted: currentSkipTimesVoted } =
+                        await browser.storage.local.get('skipTimesVoted');
 
                       const updatedSkipTimesVoted = {
                         ...skipTimesVoted,
@@ -202,11 +196,8 @@ const VoteMenu = ({
                         return;
                       }
 
-                      const currentSkipTimesVoted = (
-                        await browser.storage.local.get({
-                          skipTimesVoted,
-                        })
-                      ).skipTimesVoted;
+                      const { skipTimesVoted: currentSkipTimesVoted } =
+                        await browser.storage.local.get('skipTimesVoted');
 
                       const updatedSkipTimesVoted = {
                         ...skipTimesVoted,

@@ -8,15 +8,15 @@ const SettingsPage: React.FC = () => {
   const [edOption, setEdOption] = useState<SkipOptionType>('manual-skip');
 
   const handleOpeningOptionChange = (skipOption: SkipOptionType) => {
-    browser.storage.sync.set({ opOption: skipOption });
+    browser.storage.sync.set({ skipOptions: { op: skipOption, ed: edOption } });
     setOpOption(skipOption);
   };
   const handleEndingOptionChange = (skipOption: SkipOptionType) => {
-    browser.storage.sync.set({ edOption: skipOption });
+    browser.storage.sync.set({ skipOptions: { op: opOption, ed: skipOption } });
     setEdOption(skipOption);
   };
 
-  const skipOptions = [
+  const dropdownOptions = [
     {
       value: 'disabled',
       label: 'Disabled',
@@ -33,15 +33,11 @@ const SettingsPage: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const { opOption: opOptionRetrieved, edOption: edOptionRetrieved } =
-        await browser.storage.sync.get({
-          opOption: 'manual-skip',
-          edOption: 'manual-skip',
-        });
-      setOpOption(opOptionRetrieved);
-      setEdOption(edOptionRetrieved);
+      const { skipOptions } = await browser.storage.sync.get('skipOptions');
+      setOpOption(skipOptions.op);
+      setEdOption(skipOptions.ed);
     })();
-  }, [setOpOption, setEdOption]);
+  }, []);
 
   return (
     <div className="sm:border sm:rounded-md border-gray-300 px-8 pt-8 pb-12 sm:bg-white">
@@ -56,7 +52,7 @@ const SettingsPage: React.FC = () => {
           className="text-sm w-full"
           value={opOption}
           onChange={handleOpeningOptionChange}
-          options={skipOptions}
+          options={dropdownOptions}
         />
         <div className="text-xs text-gray-600 uppercase font-bold">
           Ending default action
@@ -65,7 +61,7 @@ const SettingsPage: React.FC = () => {
           className="text-sm w-full"
           value={edOption}
           onChange={handleEndingOptionChange}
-          options={skipOptions}
+          options={dropdownOptions}
         />
       </div>
     </div>
