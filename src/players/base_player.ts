@@ -97,22 +97,15 @@ abstract class BasePlayer implements Player {
     );
 
     const previewSkipHandler = (event: Event) => {
-      const margin = 0;
       const video = event.currentTarget as HTMLVideoElement;
-      const checkIntervalLength = 5;
       const { interval, episode_length: episodeLength } = skipTime;
       const { start_time: startTime, end_time: endTime } = interval;
       const offset = video.duration - episodeLength;
       const { currentTime } = video;
-      const inInterval = isInInterval(
-        startTime,
-        currentTime,
-        margin,
-        checkIntervalLength
-      );
+      const inInterval = isInInterval(startTime, startTime + 1, currentTime);
 
       if (inInterval) {
-        this.setCurrentTime(endTime + offset + margin);
+        this.setCurrentTime(endTime + offset);
         video.removeEventListener('timeupdate', previewSkipHandler);
         Object.values(this.timeUpdateEventListeners).forEach(
           (functionReference) => {
@@ -381,21 +374,20 @@ abstract class BasePlayer implements Player {
     const timeUpdateEventListener =
       this.timeUpdateEventListeners[skipTimeString] ||
       (this.timeUpdateEventListeners[skipTimeString] = (event: Event) => {
-        const margin = 0;
         const video = event.currentTarget as HTMLVideoElement;
         const { interval, episode_length: episodeLength } = skipTime;
         const { start_time: startTime, end_time: endTime } = interval;
         const offset = video.duration - episodeLength;
         const { currentTime } = video;
         const inInterval = isInInterval(
-          startTime + offset,
+          startTime,
+          startTime + 1,
           currentTime,
-          margin,
-          1
+          offset
         );
 
         if (!manual && inInterval) {
-          this.setCurrentTime(endTime + offset + margin);
+          this.setCurrentTime(endTime + offset);
         }
 
         this.skipButtonRenderer.setCurrentTime(currentTime);
