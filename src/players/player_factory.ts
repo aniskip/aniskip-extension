@@ -31,6 +31,7 @@ class PlayerFactory {
       case 'mcloud2':
       case 'sbembed':
       case 'sbvideo':
+      case 'streamani':
       case 'streamhd':
       case 'streamsb':
       case 'vidstream':
