@@ -30,7 +30,7 @@ abstract class BasePlayer implements Player {
 
   videoElement: HTMLVideoElement | null;
 
-  timeUpdateEventListeners: Record<string, (event: Event) => void>;
+  timeUpdateEventListeners: Record<string, EventListener>;
 
   constructor(document: Document, metadata: Metadata) {
     this.document = document;
