@@ -311,9 +311,13 @@ abstract class BasePlayer implements Player {
     );
   }
 
-  ready() {
+  onReady() {
     if (this.videoElement && this.getVideoControlsContainer()) {
       this.isReady = true;
+      this.videoElement.addEventListener('timeupdate', (event) => {
+        const { currentTime } = event.currentTarget as HTMLVideoElement;
+        this.skipButtonRenderer.setCurrentTime(currentTime);
+      });
       browser.runtime.sendMessage({ type: 'player-ready' } as Message);
     }
   }
@@ -389,8 +393,6 @@ abstract class BasePlayer implements Player {
         if (!manual && inInterval) {
           this.setCurrentTime(endTime + offset);
         }
-
-        this.skipButtonRenderer.setCurrentTime(currentTime);
       });
 
     return timeUpdateEventListener;

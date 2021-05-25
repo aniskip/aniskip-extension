@@ -88,7 +88,7 @@ new MutationObserver(() => {
       if (target.duration > 60) {
         player.setVideoElement(target);
         player.initialise();
-        player.ready();
+        player.onReady();
       }
     };
   }

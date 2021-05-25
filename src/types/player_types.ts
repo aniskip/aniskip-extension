@@ -68,7 +68,7 @@ export interface Player {
   /**
    * Notify the content script that the player is ready for comminucation
    */
-  ready(): void;
+  onReady(): void;
 
   /**
    * Sets the video element current time to the input time
