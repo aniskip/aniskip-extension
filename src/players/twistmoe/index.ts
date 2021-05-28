@@ -7,7 +7,7 @@ class Twistmoe extends BasePlayer {
   }
 
   getVideoContainer() {
-    return super.getContainerHelper(metadata.videoContainerSelectorString, 0);
+    return super.getContainerHelper(metadata.videoContainerSelectorString);
   }
 
   getVideoControlsContainer() {

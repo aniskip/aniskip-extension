@@ -66,7 +66,8 @@ export interface Player {
   reset(): void;
 
   /**
-   * Notify the content script that the player is ready for comminucation
+   * Notify the content script that the player is ready for comminucation and
+   * initialise event listeners
    */
   onReady(): void;
 

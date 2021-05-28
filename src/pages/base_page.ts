@@ -118,11 +118,7 @@ abstract class BasePage implements Page {
     const sanitisedTitle = title.replace(/\(.*\)/, '').trim();
 
     const searchResponse = await anilistHttpClient.search(sanitisedTitle);
-    const {
-      data: {
-        Page: { media: searchResults },
-      },
-    } = searchResponse;
+    const searchResults = searchResponse.data.Page.media;
 
     let closest = 0;
     let bestSimilarity = 0;
