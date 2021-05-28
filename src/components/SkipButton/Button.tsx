@@ -10,6 +10,7 @@ const Button = ({ skipType, variant, hidden, onClick }: SkipButtonProps) => {
   const skipTypeFullNames = {
     op: 'Opening',
     ed: 'Ending',
+    preview: 'Preview',
   };
 
   const domainName = getDomainName(window.location.hostname);

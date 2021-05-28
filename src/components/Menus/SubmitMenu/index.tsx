@@ -14,6 +14,7 @@ import MenuButton from './Button';
 import Input from '../../Input';
 import {
   AniskipHttpClientErrorCode,
+  SkipTimeType,
   SkipType,
 } from '../../../types/api/aniskip_types';
 import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
@@ -345,16 +346,20 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
             <DefaultButton
               className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
               onClick={async () => {
-                const messageType = 'player-add-preview-skip-time';
+                const episodeLength = await browser.runtime.sendMessage({
+                  type: 'player-get-duration',
+                } as Message);
                 browser.runtime.sendMessage({
-                  type: messageType,
+                  type: 'player-add-skip-time',
                   payload: {
                     interval: {
-                      startTime: timeStringToSeconds(startTime),
-                      endTime: timeStringToSeconds(endTime),
+                      start_time: timeStringToSeconds(startTime),
+                      end_time: timeStringToSeconds(endTime),
                     },
-                    skipType,
-                  },
+                    skip_type: 'preview',
+                    skip_id: '',
+                    episode_length: episodeLength,
+                  } as SkipTimeType,
                 } as Message);
               }}
             >

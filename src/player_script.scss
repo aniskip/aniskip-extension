@@ -93,7 +93,6 @@ form {
 
   &-button {
     &--jw {
-      right: 2em;
       bottom: 6em;
 
       &--fullscreen {
@@ -142,7 +141,6 @@ form {
     bottom: 6em;
     @media (min-width: $md) {
       bottom: 10em;
-      right: 0.5em;
     }
     &--fullscreen {
       @media (min-width: $xl) {

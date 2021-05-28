@@ -5,11 +5,11 @@
   "seekBarContainerSelectorString": "plyr__progress",
   "injectMenusButtonsReferenceNodeSelectorString": "plyr__controls__item plyr__menu",
   "player_urls": [
-    "*://aniwatch.me/*",
-    "*://streamtape.com/*",
-    "*://animixplay.to/v*/*",
-    "*://animixplay.to/api/*",
     "*://akaneshinjou.github.io/play/*",
-    "*://kwik.cx/e/*"
+    "*://animixplay.to/api/*",
+    "*://animixplay.to/v*/*",
+    "*://aniwatch.me/*",
+    "*://kwik.cx/e/*",
+    "*://streamtape.com/*"
   ]
 }

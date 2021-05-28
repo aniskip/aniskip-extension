@@ -28,20 +28,20 @@ const getEpisodeInformation = async () => {
  * Adds the opening and ending skip invervals
  */
 const initialiseSkipTimes = async () => {
-  const skipTypes: SkipType[] = ['op', 'ed'];
   const aniskipHttpClient = new AniskipHttpClient();
   const { malId, episodeNumber } = await getEpisodeInformation();
-  const skipTimeOptions = await browser.storage.sync.get(
-    skipTypes.map((type) => `${type}Option`)
-  );
+  const { skipOptions } = await browser.storage.sync.get('skipOptions');
 
   const skipTimeTypes: SkipType[] = [];
-  Object.entries(skipTimeOptions).forEach(([key, value]) => {
-    const skipType = key.replace('Option', '') as SkipType;
+  Object.entries(skipOptions).forEach(([skipType, value]) => {
     if (value !== 'disabled') {
-      skipTimeTypes.push(skipType);
+      skipTimeTypes.push(skipType as SkipType);
     }
   });
+
+  if (skipTimeTypes.length === 0) {
+    return;
+  }
 
   const getSkipTimesResponse = await aniskipHttpClient.getSkipTimes(
     malId,

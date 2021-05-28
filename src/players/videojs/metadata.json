@@ -5,9 +5,9 @@
   "injectMenusButtonsReferenceNodeSelectorString": "vjs-fullscreen-control",
   "seekBarContainerSelectorString": "vjs-progress-holder vjs-slider",
   "player_urls": [
-    "*://www.mp4upload.com/embed-*",
-    "*://mixdrop.co/e/*",
     "*://4anime.to/*",
-    "*://mp4.sh/*"
+    "*://mixdrop.co/e/*",
+    "*://mp4.sh/*",
+    "*://www.mp4upload.com/embed-*"
   ]
 }

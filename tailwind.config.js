@@ -11,8 +11,8 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {
-      primary: colors.amber[500],
       ...colors,
+      primary: colors.amber[500],
     },
     fontSize: {
       xs: '0.75em',

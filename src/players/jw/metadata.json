@@ -5,17 +5,18 @@
   "injectMenusButtonsReferenceNodeSelectorString": "Settings",
   "seekBarContainerSelectorString": "Seek",
   "player_urls": [
-    "*://gogo-play.net/*",
-    "*://gogo-play.tv/*",
-    "*://streamsb.net/*",
+    "*://*.streamhd.cc/*",
     "*://cloud9.to/*",
     "*://fcdn.stream/*",
+    "*://gogo-play.net/*",
+    "*://gogo-play.tv/*",
+    "*://kimanime.ru/AnimeIframe/*",
     "*://mcloud.to/*",
     "*://mcloud2.to/*",
-    "*://vidstream.pro/e/*",
-    "*://*.streamhd.cc/*",
     "*://sbembed.com/*",
-    "*://kimanime.ru/AnimeIframe/*",
-    "*://sbvideo.net/*"
+    "*://sbvideo.net/*",
+    "*://streamani.net/*",
+    "*://streamsb.net/*",
+    "*://vidstream.pro/e/*"
   ]
 }

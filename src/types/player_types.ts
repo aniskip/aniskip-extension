@@ -17,12 +17,6 @@ export interface Player {
   isReady: boolean;
 
   /**
-   * Adds a skip time which will run once for preview
-   * @param skipTime Skip time to preview
-   */
-  addPreviewSkipTime(skipTime: SkipTimeType): void;
-
-  /**
    * Adds a skip time into the player
    * @param skipTime Skip time to add
    * @param manual True if the user has to click skip opening / ending button, false if auto skip
@@ -66,9 +60,10 @@ export interface Player {
   reset(): void;
 
   /**
-   * Notify the content script that the player is ready for comminucation
+   * Notify the content script that the player is ready for comminucation and
+   * initialise event listeners
    */
-  ready(): void;
+  onReady(): void;
 
   /**
    * Sets the video element current time to the input time

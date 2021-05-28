@@ -26,10 +26,10 @@ const SkipButtonContainer = ({
         const offset = videoDuration - episodeLength;
 
         const inInterval = isInInterval(
-          startTime + offset,
+          startTime,
+          endTime,
           currentTime,
-          0,
-          endTime - startTime
+          offset
         );
 
         return (

@@ -1,4 +1,4 @@
-export type SkipType = 'op' | 'ed';
+export type SkipType = 'op' | 'ed' | 'preview';
 
 export interface SkipTimeType {
   interval: {
