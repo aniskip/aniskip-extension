@@ -43,12 +43,12 @@ jobs:
           echo "CHROME_ASSET_FILENAME=$(basename ./web-ext-artifacts/*.zip)" >> $GITHUB_ENV
 
       - name: Upload asset
-        id: upload-release-asset 
+        id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }} 
+          upload_url: ${{ github.event.release.upload_url }}
           asset_path: ${{ env.CHROME_ASSET_PATH }}
           asset_name: ${{ env.CHROME_ASSET_FILENAME }}
           asset_content_type: application/zip
@@ -62,27 +62,32 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build
-        run: yarn build:firefox
+      - name: Build and zip
+        run: |
+          yarn build:firefox
+          yarn zip:firefox
 
       - name: Publish
-        run: yarn web-ext --config=web-ext.config.js sign
+        # yarn 2 does not work with web-ext-submit
+        run: |
+          sudo npm install -g web-ext-submit
+          web-ext-submit --source-dir ./dist
         env:
           WEB_EXT_API_KEY: ${{ env.WEB_EXT_API_KEY }}
           WEB_EXT_API_SECRET: ${{ env.WEB_EXT_API_SECRET }}
 
       - name: Evaluate path and filename
         run: |
-          echo "FIREFOX_ASSET_PATH=$(echo ./web-ext-artifacts/*.xpi)" >> $GITHUB_ENV
-          echo "FIREFOX_ASSET_FILENAME=$(basename ./web-ext-artifacts/*.xpi)" >> $GITHUB_ENV
+          echo "FIREFOX_ASSET_PATH=$(echo ./web-ext-artifacts/*.zip)" >> $GITHUB_ENV
+          echo "FIREFOX_ASSET_FILENAME=$(basename ./web-ext-artifacts/*.zip)" >> $GITHUB_ENV
 
       - name: Upload asset
-        id: upload-release-asset 
+        id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }} 
+          upload_url: ${{ github.event.release.upload_url }}
           asset_path: ${{ env.FIREFOX_ASSET_PATH }}
           asset_name: ${{ env.FIREFOX_ASSET_FILENAME }}
           asset_content_type: application/zip
