@@ -395,7 +395,7 @@ abstract class BasePlayer implements Player {
     }
 
     this.scheduledSkipTime = setTimeout(() => {
-      if (skipType) {
+      if (skipType === 'preview') {
         this.skipTimes = this.skipTimes.filter(
           ({ skip_type: currentSkipType }) => currentSkipType !== 'preview'
         );
