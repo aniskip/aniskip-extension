@@ -395,12 +395,13 @@ abstract class BasePlayer implements Player {
     }
 
     this.scheduledSkipTime = setTimeout(() => {
+      this.setCurrentTime(endTime + offset);
+
       if (skipType === 'preview') {
         this.skipTimes = this.skipTimes.filter(
           ({ skip_type: currentSkipType }) => currentSkipType !== 'preview'
         );
       }
-      this.setCurrentTime(endTime + offset);
     }, timeUntilSkipTime * 1000);
   }
 
