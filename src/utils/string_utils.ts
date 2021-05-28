@@ -47,10 +47,17 @@ export const secondsToTimeString = (
   const minutes = Math.floor(remainingSeconds / 60);
   const minutesFormatted = minutes.toString().padStart(hours ? 2 : 1, '0');
 
+  let secondsZeroPadding = decimalPlaces + 3;
+  if (decimalPlaces === 0) {
+    secondsZeroPadding = 2;
+    // ensure that toFixed does not round
+    remainingSeconds = Math.floor(remainingSeconds);
+  }
+
   remainingSeconds %= 60;
   const secondsFormated = remainingSeconds
     .toFixed(decimalPlaces)
-    .padStart(decimalPlaces + (decimalPlaces === 0 ? 2 : 3), '0');
+    .padStart(secondsZeroPadding, '0');
 
   return `${
     hours ? `${hoursFormatted}:` : ''
