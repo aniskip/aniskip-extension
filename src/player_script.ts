@@ -1,7 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { Message } from './types/message_type';
-import { SkipTimeType, SkipType } from './types/api/aniskip_types';
+import { SkipTimeType } from './types/api/aniskip_types';
 import PlayerFactory from './players/player_factory';
 
 const player = PlayerFactory.getPlayer(window.location.hostname);
@@ -37,20 +37,6 @@ const messageHandler = (message: Message) => {
     }
     case 'player-set-current-time': {
       player.setCurrentTime(message.payload);
-      break;
-    }
-    case 'player-add-preview-skip-time': {
-      const { payload } = message;
-      const skipTime: SkipTimeType = {
-        interval: {
-          start_time: payload.interval.startTime as number,
-          end_time: payload.interval.endTime as number,
-        },
-        skip_type: payload.skipType as SkipType,
-        skip_id: '',
-        episode_length: player.getDuration(),
-      };
-      player.addPreviewSkipTime(skipTime);
       break;
     }
     case 'player-play': {

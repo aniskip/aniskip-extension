@@ -106,26 +106,18 @@ abstract class BasePlayer implements Player {
     );
   }
 
-  addPreviewSkipTime(skipTime: SkipTimeType) {
-    if (!this.videoElement) {
-      return;
-    }
-
-    this.skipTimes.push(skipTime);
-
-    const { start_time: startTime } = skipTime.interval;
-
-    this.setCurrentTime(startTime - 2);
-    this.play();
-    this.scheduleSkipTimes();
-  }
-
   async addSkipTime(skipTime: SkipTimeType) {
     if (!this.videoElement) {
       return;
     }
 
     this.skipTimes.push(skipTime);
+    if (skipTime.skip_type === 'preview') {
+      this.setCurrentTime(skipTime.interval.start_time - 2);
+      this.play();
+      return;
+    }
+
     this.skipTimeIndicatorsRenderer.addSkipTimeIndicator(skipTime);
     this.setMenusState({
       ...this.menusState,
@@ -180,12 +172,16 @@ abstract class BasePlayer implements Player {
 
     for (let i = 0; i < this.skipTimes.length; i += 1) {
       const skipTime = this.skipTimes[i];
-      if (skipTime.skip_id === '') {
+      if (skipTime.skip_type === 'preview') {
         return skipTime;
       }
     }
 
     this.skipTimes.forEach((skipTime) => {
+      if (skipTime.skip_type === 'preview') {
+        return;
+      }
+
       const { skip_type: skipType, interval } = skipTime;
       const { start_time: startTime } = interval;
       const isAutoSkip = this.skipOptions[skipType] === 'auto-skip';
@@ -381,7 +377,7 @@ abstract class BasePlayer implements Player {
     const {
       interval,
       episode_length: episodeLength,
-      skip_id: skipId,
+      skip_type: skipType,
     } = nextSkipTime;
     const { start_time: startTime, end_time: endTime } = interval;
     const offset = this.getDuration() - episodeLength;
@@ -399,11 +395,9 @@ abstract class BasePlayer implements Player {
     }
 
     this.scheduledSkipTime = setTimeout(() => {
-      // TODO: refactor review skip time
-      // remove preview skip time
-      if (skipId === '') {
+      if (skipType) {
         this.skipTimes = this.skipTimes.filter(
-          ({ skip_id: currentSkipId }) => currentSkipId !== ''
+          ({ skip_type: currentSkipType }) => currentSkipType !== 'preview'
         );
       }
       this.setCurrentTime(endTime + offset);
