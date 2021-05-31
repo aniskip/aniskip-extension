@@ -18,7 +18,7 @@ class FourAnime extends BasePage {
       return episodeNumber;
     }
 
-    return 0;
+    return 1;
   }
 }
 
