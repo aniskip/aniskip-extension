@@ -49,6 +49,12 @@ form {
         height: $videojs-button-size;
       }
 
+      &--vidstream,
+      &--vidstreamz {
+        margin-left: -5px;
+        margin-right: -5px;
+      }
+
       &--twistmoe {
         pointer-events: all;
         margin-top: 2px;
