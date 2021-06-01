@@ -15,16 +15,16 @@ class Crunchyroll extends BasePage {
       return episodeNumber;
     }
 
-    return 0;
+    return 1;
   }
 
   getTitle() {
-    const title = this.document
-      .querySelector('[name="title"]')
-      ?.getAttribute('content')
-      ?.split(' Episode')[0];
+    const metadata = JSON.parse(
+      this.document.querySelector('[type="application/ld+json"]')?.innerHTML ||
+        '{}'
+    );
 
-    return title || '';
+    return metadata.partOfSeason.name || '';
   }
 }
 

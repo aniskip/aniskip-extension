@@ -35,6 +35,7 @@ class PlayerFactory {
       case 'streamhd':
       case 'streamsb':
       case 'vidstream':
+      case 'vidstreamz':
         return new Jw(document);
       case 'dood':
         return new Doodstream(document);
