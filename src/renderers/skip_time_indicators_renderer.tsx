@@ -36,11 +36,11 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
 
   /**
    * Removes a skip time indicator into the player
-   * @param skipTime Skip time to remove
+   * @param skipId SkipId of the skip time to remove
    */
-  removeSkipTimeIndicator(skipTime: SkipTimeType) {
+  removeSkipTimeIndicator(skipId: string) {
     this.skipTimes = this.skipTimes.filter(
-      ({ skip_id: currentSkipId }) => currentSkipId !== skipTime.skip_id
+      ({ skip_id: currentSkipId }) => currentSkipId !== skipId
     );
     this.render();
   }

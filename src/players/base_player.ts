@@ -9,6 +9,7 @@ import { Message } from '../types/message_type';
 import { Player, Metadata } from '../types/player_types';
 import { SkipOptionsType } from '../types/skip_option_type';
 import { SkipTimeType } from '../types/api/aniskip_types';
+import isInInterval from '../utils/time_utils';
 
 abstract class BasePlayer implements Player {
   document: Document;
@@ -106,7 +107,7 @@ abstract class BasePlayer implements Player {
     );
   }
 
-  async addSkipTime(skipTime: SkipTimeType) {
+  addSkipTime(skipTime: SkipTimeType) {
     if (!this.videoElement) {
       return;
     }
@@ -134,6 +135,17 @@ abstract class BasePlayer implements Player {
         this.setCurrentTime(endTime + offset);
         this.play();
       });
+
+      return;
+    }
+
+    const startTime = skipTime.interval.start_time;
+    const currentTime = this.getCurrentTime();
+
+    // Skip time loaded late
+    if (isInInterval(startTime, endTime, currentTime, offset)) {
+      this.setCurrentTime(endTime + offset);
+      this.play();
     }
   }
 
@@ -164,7 +176,7 @@ abstract class BasePlayer implements Player {
   /**
    * Returns the next skip time to be scheduled
    */
-  getNextSkipTime(): SkipTimeType | null {
+  getNextSkipTime() {
     let nextSkipTime: SkipTimeType | null = null;
     let earliestStartTime = Infinity;
 
@@ -182,14 +194,19 @@ abstract class BasePlayer implements Player {
         return;
       }
 
-      const { skip_type: skipType, interval } = skipTime;
+      const {
+        skip_type: skipType,
+        interval,
+        episode_length: episodeLength,
+      } = skipTime;
       const { start_time: startTime } = interval;
+      const offset = this.getDuration() - episodeLength;
       const isAutoSkip = this.skipOptions[skipType] === 'auto-skip';
 
       if (
         isAutoSkip &&
-        currentTime <= startTime + 0.5 &&
-        startTime <= earliestStartTime
+        currentTime < startTime + offset &&
+        startTime + offset < earliestStartTime
       ) {
         earliestStartTime = startTime;
         nextSkipTime = skipTime;
@@ -310,16 +327,24 @@ abstract class BasePlayer implements Player {
     this.videoElement?.play();
   }
 
-  removeSkipTime(skipTime: SkipTimeType) {
+  removeSkipTime(skipId: string, isPreview?: boolean) {
     if (!this.videoElement) {
       return;
     }
 
-    this.skipTimeIndicatorsRenderer.removeSkipTimeIndicator(skipTime);
-    this.skipButtonRenderer.removeSkipButton(skipTime);
+    if (isPreview) {
+      this.skipTimes = this.skipTimes.filter(
+        ({ skip_type: skipType }) => skipType !== 'preview'
+      );
+
+      return;
+    }
+
+    this.skipTimeIndicatorsRenderer.removeSkipTimeIndicator(skipId);
+    this.skipButtonRenderer.removeSkipButton(skipId);
 
     this.skipTimes = this.skipTimes.filter(
-      ({ skip_id: currentSkipId }) => currentSkipId !== skipTime.skip_id
+      ({ skip_id: currentSkipId }) => currentSkipId !== skipId
     );
 
     this.setMenusState({
@@ -389,18 +414,11 @@ abstract class BasePlayer implements Player {
     const timeUntilSkipTime =
       (startTime + offset - currentTime) / playbackSpeed;
 
-    if (timeUntilSkipTime <= 0) {
-      this.setCurrentTime(endTime + offset);
-      return;
-    }
-
     this.scheduledSkipTime = setTimeout(() => {
       this.setCurrentTime(endTime + offset);
 
       if (skipType === 'preview') {
-        this.skipTimes = this.skipTimes.filter(
-          ({ skip_type: currentSkipType }) => currentSkipType !== 'preview'
-        );
+        this.removeSkipTime('', true);
       }
     }, timeUntilSkipTime * 1000);
   }

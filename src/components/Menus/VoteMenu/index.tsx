@@ -132,7 +132,8 @@ const VoteMenu = ({
                   <span className="text-sm text-blue-500">
                     <LinkButton
                       onClick={setPlayerCurrentTime(
-                        interval.start_time + offset
+                        // Ensure that it won't be auto-skipped
+                        interval.start_time + offset + 0.01
                       )}
                     >
                       {startTimeFormatted}
@@ -209,7 +210,7 @@ const VoteMenu = ({
 
                       browser.runtime.sendMessage({
                         type: 'player-remove-skip-time',
-                        payload: skipTime,
+                        payload: skipId,
                       } as Message);
 
                       try {
