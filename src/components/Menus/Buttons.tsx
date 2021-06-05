@@ -4,14 +4,14 @@ import SubmitMenu from './SubmitMenu';
 import VoteMenu from './VoteMenu';
 import { MenusButtonsProps } from '../../types/components/menus_types';
 import { getDomainName } from '../../utils/string_utils';
-import useFullscreen from '../../hooks/use_fullscreen';
+import useFullscreenState from '../../hooks/use_fullscreen_state';
 
 const Buttons = ({
   variant,
   submitMenuButtonProps,
   voteMenuButtonProps,
 }: MenusButtonsProps) => {
-  const { isFullscreen } = useFullscreen();
+  const { isFullscreen } = useFullscreenState();
 
   const domainName = getDomainName(window.location.hostname);
 

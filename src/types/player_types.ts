@@ -6,6 +6,7 @@ export interface Metadata {
   videoControlsContainerSelectorString: string;
   injectMenusButtonsReferenceNodeSelectorString: string;
   seekBarContainerSelectorString: string;
+  seekBarContainerSelectorStringMobile?: string;
   player_urls: string[];
 }
 

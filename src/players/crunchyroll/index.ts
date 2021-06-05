@@ -7,10 +7,29 @@ class Crunchyroll extends BasePlayer {
     super(document, metadata);
   }
 
+  injectSkipButtons() {
+    if (isMobile()) {
+      const seekBarContainer = this.getSeekBarContainer();
+
+      if (
+        seekBarContainer &&
+        !this.document.getElementById(this.skipButtonRenderer.id)
+      ) {
+        seekBarContainer.parentElement?.appendChild(
+          this.skipButtonRenderer.shadowRootContainer
+        );
+      }
+
+      return;
+    }
+
+    super.injectSkipButtons();
+  }
+
   getSeekBarContainer() {
     if (isMobile()) {
       return super.getContainerHelper(
-        'css-1dbjc4n r-13awgt0 r-18u37iz r-1udh08x r-13qz1uu'
+        metadata.seekBarContainerSelectorStringMobile
       );
     }
 

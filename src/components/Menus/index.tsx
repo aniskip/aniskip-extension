@@ -1,5 +1,6 @@
 import React from 'react';
-import useFullscreen from '../../hooks/use_fullscreen';
+import useFullscreenState from '../../hooks/use_fullscreen_state';
+import useMobileState from '../../hooks/use_mobile_state';
 
 import {
   MenuContainerProps,
@@ -11,7 +12,8 @@ import SubmitMenu from './SubmitMenu';
 import VoteMenu from './VoteMenu';
 
 const MenuContainer = ({ variant, children }: MenuContainerProps) => {
-  const { isFullscreen } = useFullscreen();
+  const { isFullscreen } = useFullscreenState();
+  const { isMobile } = useMobileState();
   const domainName = getDomainName(window.location.hostname);
 
   return (
@@ -20,7 +22,7 @@ const MenuContainer = ({ variant, children }: MenuContainerProps) => {
         isFullscreen
           ? `menus--${variant}--fullscreen menus--${domainName}--fullscreen`
           : ''
-      }`}
+      } ${isMobile ? `menus--${variant}--mobile` : ''}`}
     >
       {children}
     </div>

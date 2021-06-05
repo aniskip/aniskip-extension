@@ -4,5 +4,6 @@
   "videoControlsContainerSelectorString": "velocity-controls-package",
   "injectMenusButtonsReferenceNodeSelectorString": "settingsControl",
   "seekBarContainerSelectorString": "r-13awgt0 r-18u37iz r-1udh08x r-13qz1uu css-1dbjc4n",
+  "seekBarContainerSelectorStringMobile": "css-1dbjc4n r-13awgt0 r-18u37iz r-1udh08x r-13qz1uu",
   "player_urls": ["*://static.crunchyroll.com/*"]
 }
