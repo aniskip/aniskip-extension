@@ -22,7 +22,11 @@ const MenuContainer = ({ variant, children }: MenuContainerProps) => {
         isFullscreen
           ? `menus--${variant}--fullscreen menus--${domainName}--fullscreen`
           : ''
-      } ${isMobile ? `menus--${variant}--mobile` : ''}`}
+      } ${
+        isMobile
+          ? `menus--mobile menus--${variant}--mobile menus--${domainName}--mobile`
+          : ''
+      }`}
     >
       {children}
     </div>

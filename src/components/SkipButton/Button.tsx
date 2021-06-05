@@ -23,7 +23,11 @@ const Button = ({ skipType, variant, hidden, onClick }: SkipButtonProps) => {
         isFullscreen
           ? `skip-button--${variant}--fullscreen skip-button--${domainName}--fullscreen`
           : ''
-      } ${isMobile ? `skip-button--${variant}--mobile` : ''}`}
+      } ${
+        isMobile
+          ? `skip-button--mobile skip-button--${variant}--mobile skip-button--${domainName}--mobile`
+          : ''
+      }`}
     >
       <DefaultButton
         className={`transition-opacity font-sans whitespace-nowrap text-white bg-trueGray-800 bg-opacity-80 py-3 border border-gray-300 font-bold uppercase ${
