@@ -98,6 +98,15 @@ form {
   }
 
   &-button {
+    &--mobile {
+      right: 1.25em;
+      bottom: 4em;
+    }
+
+    &--crunchyroll--mobile {
+      right: 0px;
+    }
+
     &--jw {
       bottom: 6em;
 
@@ -126,6 +135,10 @@ form {
       @media (min-width: 901px) {
         bottom: 4em;
       }
+
+      &--mobile {
+        bottom: 5em;
+      }
     }
 
     &--streamtape,
@@ -136,23 +149,40 @@ form {
 }
 
 .menus {
+  &--mobile {
+    left: 1.25em;
+    right: 0px;
+    bottom: 4em;
+  }
+
   &--crunchyroll {
     bottom: 7em;
+
     @media (min-width: $md) {
       bottom: 11em;
+    }
+
+    &--mobile {
+      bottom: 4em;
     }
   }
 
   &--jw {
     bottom: 6em;
+
     @media (min-width: $md) {
       bottom: 10em;
     }
+
     &--fullscreen {
       @media (min-width: $xl) {
         right: 3em;
         bottom: 13em;
       }
+    }
+
+    &--mobile {
+      bottom: 6em;
     }
   }
 
@@ -166,26 +196,42 @@ form {
   &--doodstream {
     right: 2.5em;
     bottom: 9em;
+
     @media (min-width: $md) {
       bottom: 13em;
+    }
+
+    &--mobile {
+      bottom: 9em;
     }
   }
 
   &--4anime {
     bottom: 6em;
+
     @media (min-width: $md) {
       bottom: 10em;
     }
+
     @media (min-width: 901px) {
       bottom: 8em;
+    }
+
+    &--mobile {
+      bottom: 5em;
     }
   }
 
   &--streamtape,
   &--mixdrop {
     bottom: 5em;
+
     @media (min-width: $md) {
       bottom: 9em;
+    }
+
+    &--mobile {
+      bottom: 5em;
     }
   }
 

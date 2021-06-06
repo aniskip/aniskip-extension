@@ -1,11 +1,13 @@
 import React from 'react';
-import useFullscreen from '../../hooks/use_fullscreen';
+import useFullscreenState from '../../hooks/use_fullscreen_state';
+import useMobileState from '../../hooks/use_mobile_state';
 import { SkipButtonProps } from '../../types/components/skip_time_button_types';
 import { getDomainName } from '../../utils/string_utils';
 import DefaultButton from '../Button';
 
 const Button = ({ skipType, variant, hidden, onClick }: SkipButtonProps) => {
-  const { isFullscreen } = useFullscreen();
+  const { isFullscreen } = useFullscreenState();
+  const { isMobile } = useMobileState();
 
   const skipTypeFullNames = {
     op: 'Opening',
@@ -20,6 +22,10 @@ const Button = ({ skipType, variant, hidden, onClick }: SkipButtonProps) => {
       className={`absolute right-11 bottom-16 z-10 pointer-events-none skip-button--${variant} skip-button--${domainName} ${
         isFullscreen
           ? `skip-button--${variant}--fullscreen skip-button--${domainName}--fullscreen`
+          : ''
+      } ${
+        isMobile
+          ? `skip-button--mobile skip-button--${variant}--mobile skip-button--${domainName}--mobile`
           : ''
       }`}
     >

@@ -1,3 +1,4 @@
+import isMobile from '../../utils/responsive_utils';
 import BasePlayer from '../base_player';
 import metadata from './metadata.json';
 
@@ -6,7 +7,32 @@ class Crunchyroll extends BasePlayer {
     super(document, metadata);
   }
 
+  injectSkipButtons() {
+    if (isMobile()) {
+      const seekBarContainer = this.getSeekBarContainer();
+
+      if (
+        seekBarContainer &&
+        !this.document.getElementById(this.skipButtonRenderer.id)
+      ) {
+        seekBarContainer.parentElement?.appendChild(
+          this.skipButtonRenderer.shadowRootContainer
+        );
+      }
+
+      return;
+    }
+
+    super.injectSkipButtons();
+  }
+
   getSeekBarContainer() {
+    if (isMobile()) {
+      return super.getContainerHelper(
+        metadata.seekBarContainerSelectorStringMobile
+      );
+    }
+
     return super.getContainerHelper(metadata.seekBarContainerSelectorString, 1);
   }
 
