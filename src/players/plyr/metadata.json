@@ -6,6 +6,7 @@
   "injectMenusButtonsReferenceNodeSelectorString": "plyr__controls__item plyr__menu",
   "player_urls": [
     "*://akaneshinjou.github.io/play/*",
+    "*://akane-shinjou.github.io/*",
     "*://animixplay.to/api/*",
     "*://animixplay.to/v*/*",
     "*://aniwatch.me/*",
