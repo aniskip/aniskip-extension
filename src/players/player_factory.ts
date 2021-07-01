@@ -18,6 +18,7 @@ class PlayerFactory {
       case 'animixplay':
       case 'aniwatch':
       case 'github':
+      case 'googleapis':
       case 'kwik':
       case 'streamtape':
         return new Plyr(document);
