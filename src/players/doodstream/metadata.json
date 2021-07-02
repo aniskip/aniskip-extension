@@ -4,5 +4,5 @@
   "videoControlsContainerSelectorString": "vjs-control-bar",
   "injectMenusButtonsReferenceNodeSelectorString": "vjs-fullscreen-control vjs-control vjs-button",
   "seekBarContainerSelectorString": "vjs-progress-holder vjs-slider vjs-slider-horizontal",
-  "player_urls": ["*://dood.to/*"]
+  "player_urls": ["*://dood.to/*", "*://dood.la/*"]
 }

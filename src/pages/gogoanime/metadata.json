@@ -3,6 +3,7 @@
     "*://gogoanime.so/*",
     "*://gogoanime.sh/*",
     "*://*.gogoanime.sh/*",
-    "*://*.gogoanime.ai/*"
+    "*://*.gogoanime.ai/*",
+    "*://*.gogoanime.pe/*"
   ]
 }
