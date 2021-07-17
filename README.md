@@ -66,3 +66,7 @@ This will start a chromium browser with the built extension loaded. This script 
    ```
 
 This will build an unpacked extension in the `dist` folder. You can replace `chrome` with `firefox` to build for firefox.
+
+## Discord
+
+We now have Discord! Want to contribute, need help or just want to ask questions? Join the Aniskip [Discord](https://discord.gg/UqT55CbrbE).
