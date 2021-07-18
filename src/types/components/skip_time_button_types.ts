@@ -1,5 +1,5 @@
 import React from 'react';
-import { SkipTimeType, SkipType } from '../api/aniskip_types';
+import { SkipTime, SkipType } from '../../api';
 
 export type SkipButtonOnClickHandler = (
   event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -13,7 +13,7 @@ export interface SkipButtonProps {
 }
 
 export interface SkipButtonContainerProps {
-  skipTimes: SkipTimeType[];
+  skipTimes: SkipTime[];
   currentTime: number;
   videoDuration: number;
   variant: string;

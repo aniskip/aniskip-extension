@@ -1,7 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { Message } from './types/message_type';
-import { SkipTimeType } from './types/api/aniskip_types';
+import { SkipTime } from './api';
 import PlayerFactory from './players/player_factory';
 
 const player = PlayerFactory.getPlayer(window.location.hostname);
@@ -18,7 +18,7 @@ const messageHandler = (message: Message): void => {
 
   switch (message.type) {
     case 'player-add-skip-time': {
-      const skipTime = message.payload as SkipTimeType;
+      const skipTime = message.payload as SkipTime;
       player.addSkipTime(skipTime);
       break;
     }

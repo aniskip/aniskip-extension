@@ -12,11 +12,7 @@ import Dropdown from '../../Dropdown';
 import DefaultButton from '../../Button';
 import MenuButton from './Button';
 import Input from '../../Input';
-import {
-  AniskipHttpClientErrorCode,
-  SkipTimeType,
-  SkipType,
-} from '../../../types/api/aniskip_types';
+import { AniskipHttpClientErrorCode, SkipTime, SkipType } from '../../../api';
 import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
 import { Message } from '../../../types/message_type';
 
@@ -370,7 +366,7 @@ const SubmitMenu = ({
                     skip_type: 'preview',
                     skip_id: '',
                     episode_length: episodeLength,
-                  } as SkipTimeType,
+                  } as SkipTime,
                 } as Message);
               }}
             >

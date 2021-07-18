@@ -3,7 +3,7 @@ import { FaChevronDown, FaChevronUp, FaPlay, FaTimes } from 'react-icons/fa';
 import { browser } from 'webextension-polyfill-ts';
 
 import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
-import { SkipTimeType, VoteType } from '../../../types/api/aniskip_types';
+import { SkipTime, VoteType } from '../../../api';
 import { VoteMenuProps } from '../../../types/components/vote_menu_types';
 import { Message } from '../../../types/message_type';
 import { secondsToTimeString } from '../../../utils/string_utils';
@@ -20,9 +20,7 @@ const VoteMenu = ({
   const [skipTimesVoted, setSkipTimesVoted] = useState<
     Record<string, VoteType>
   >({});
-  const [filteredSkipTimes, setFilteredSkipTimes] = useState<SkipTimeType[]>(
-    []
-  );
+  const [filteredSkipTimes, setFilteredSkipTimes] = useState<SkipTime[]>([]);
   const [playerDuration, setPlayerDuration] = useState(0);
 
   useEffect(() => {

@@ -8,7 +8,7 @@ import { MenusState } from '../types/components/menus_types';
 import { Message } from '../types/message_type';
 import { Player, Metadata } from '../types/player_types';
 import { SkipOptionsType } from '../types/skip_option_type';
-import { SkipTimeType } from '../types/api/aniskip_types';
+import { SkipTime } from '../api';
 import isInInterval from '../utils/time_utils';
 
 abstract class BasePlayer implements Player {
@@ -30,7 +30,7 @@ abstract class BasePlayer implements Player {
 
   skipOptions: SkipOptionsType;
 
-  skipTimes: SkipTimeType[];
+  skipTimes: SkipTime[];
 
   skipTimeIndicatorsRenderer: SkipTimeIndicatorsRenderer;
 
@@ -107,7 +107,7 @@ abstract class BasePlayer implements Player {
     );
   }
 
-  addSkipTime(skipTime: SkipTimeType): void {
+  addSkipTime(skipTime: SkipTime): void {
     if (!this.videoElement) {
       return;
     }
@@ -177,8 +177,8 @@ abstract class BasePlayer implements Player {
   /**
    * Returns the next skip time to be scheduled.
    */
-  getNextSkipTime(): SkipTimeType | null {
-    let nextSkipTime: SkipTimeType | null = null;
+  getNextSkipTime(): SkipTime | null {
+    let nextSkipTime: SkipTime | null = null;
     let earliestStartTime = Infinity;
 
     const currentTime = this.getCurrentTime();

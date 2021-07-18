@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import SkipTimeIndicator from '../components/SkipTimeIndicator';
-import { SkipTimeType } from '../types/api/aniskip_types';
+import { SkipTime } from '../api';
 import BaseRenderer from './base_renderer';
 
 class SkipTimeIndicatorsRenderer extends BaseRenderer {
@@ -10,7 +10,7 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
 
   videoDuration: number;
 
-  skipTimes: SkipTimeType[];
+  skipTimes: SkipTime[];
 
   constructor(id: string, variant: string) {
     super(id);
@@ -30,7 +30,7 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
    *
    * @param skipTime Skip time to add.
    */
-  addSkipTimeIndicator(skipTime: SkipTimeType): void {
+  addSkipTimeIndicator(skipTime: SkipTime): void {
     this.skipTimes.push(skipTime);
     this.render();
   }

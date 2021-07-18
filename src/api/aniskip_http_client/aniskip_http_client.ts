@@ -1,11 +1,11 @@
 import {
-  GetResponseTypeFromRules,
-  GetResponseTypeFromSkipTimes,
-  PostResponseTypeFromSkipTimes,
-  PostResponseTypeFromSkipTimesVote,
+  GetResponseFromRules,
+  GetResponseFromSkipTimes,
+  PostResponseFromSkipTimes,
+  PostResponseFromSkipTimesVote,
   SkipType,
   VoteType,
-} from '../../types/api/aniskip_types';
+} from './aniskip_http_client.types';
 import { BaseHttpClient } from '../base_http_client';
 import { AniskipHttpClientError } from './error';
 
@@ -29,12 +29,12 @@ export class AniskipHttpClient extends BaseHttpClient {
     animeId: number,
     episodeNumber: number,
     types: SkipType[]
-  ): Promise<GetResponseTypeFromSkipTimes> {
+  ): Promise<GetResponseFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
     const params = { types };
     const response = await this.request(route, 'GET', params);
 
-    return response.json<GetResponseTypeFromSkipTimes>();
+    return response.json<GetResponseFromSkipTimes>();
   }
 
   /**
@@ -42,11 +42,11 @@ export class AniskipHttpClient extends BaseHttpClient {
    *
    * @param animeId MAL id to get the episode number rules of.
    */
-  async getRules(animeId: number): Promise<GetResponseTypeFromRules> {
+  async getRules(animeId: number): Promise<GetResponseFromRules> {
     const route = `/rules/${animeId}`;
     const response = await this.request(route, 'GET');
 
-    return response.json<GetResponseTypeFromRules>();
+    return response.json<GetResponseFromRules>();
   }
 
   /**
@@ -70,7 +70,7 @@ export class AniskipHttpClient extends BaseHttpClient {
     endTime: number,
     episodeLength: number,
     submitterId: string
-  ): Promise<PostResponseTypeFromSkipTimes> {
+  ): Promise<PostResponseFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
     const body = JSON.stringify({
       skip_type: skipType,
@@ -82,7 +82,7 @@ export class AniskipHttpClient extends BaseHttpClient {
     });
 
     const response = await this.request(route, 'POST', {}, body);
-    const json = response.json<PostResponseTypeFromSkipTimes>();
+    const json = response.json<PostResponseFromSkipTimes>();
 
     if (response.error) {
       switch (response.status) {
@@ -117,7 +117,7 @@ export class AniskipHttpClient extends BaseHttpClient {
   async vote(
     skipId: string,
     type: VoteType
-  ): Promise<PostResponseTypeFromSkipTimesVote> {
+  ): Promise<PostResponseFromSkipTimesVote> {
     const route = `/skip-times/vote/${skipId}`;
     const body = JSON.stringify({
       vote_type: type,
@@ -127,7 +127,7 @@ export class AniskipHttpClient extends BaseHttpClient {
     if (status === 429) {
       throw new AniskipHttpClientError('Rate limited', 'vote/rate-limited');
     }
-    return json<PostResponseTypeFromSkipTimesVote>();
+    return json<PostResponseFromSkipTimesVote>();
   }
 
   /**
@@ -135,7 +135,7 @@ export class AniskipHttpClient extends BaseHttpClient {
    *
    * @param skipId UUID of the skip time to vote on.
    */
-  async upvote(skipId: string): Promise<PostResponseTypeFromSkipTimesVote> {
+  async upvote(skipId: string): Promise<PostResponseFromSkipTimesVote> {
     return this.vote(skipId, 'upvote');
   }
 
@@ -144,7 +144,7 @@ export class AniskipHttpClient extends BaseHttpClient {
    *
    * @param skipId UUID of the skip time to vote on.
    */
-  async downvote(skipId: string): Promise<PostResponseTypeFromSkipTimesVote> {
+  async downvote(skipId: string): Promise<PostResponseFromSkipTimesVote> {
     return this.vote(skipId, 'downvote');
   }
 }

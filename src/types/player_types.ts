@@ -1,4 +1,4 @@
-import { SkipTimeType } from './api/aniskip_types';
+import { SkipTime } from '../api';
 
 export interface Metadata {
   variant: string;
@@ -23,7 +23,7 @@ export interface Player {
    * @param skipTime Skip time to add.
    * @param manual True if the user has to click skip opening / ending button, false if auto skip.
    */
-  addSkipTime(skipTime: SkipTimeType, manual?: boolean): void;
+  addSkipTime(skipTime: SkipTime, manual?: boolean): void;
 
   /**
    * Returns the video element duration.

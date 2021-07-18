@@ -1,5 +1,5 @@
 import React from 'react';
-import { SkipTimeType } from '../api/aniskip_types';
+import { SkipTime } from '../../api';
 import {
   SubmitMenuButtonOnClickHandler,
   SubmitMenuProps,
@@ -29,7 +29,7 @@ export interface MenusButtonsProps {
 export interface MenusState {
   isSubmitMenuHidden: boolean;
   isVoteMenuHidden: boolean;
-  skipTimes: SkipTimeType[];
+  skipTimes: SkipTime[];
 }
 
 export interface MenusButtonsState {

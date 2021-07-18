@@ -1,9 +1,9 @@
-import { SkipTimeType } from '../api/aniskip_types';
+import { SkipTime } from '../../api';
 
 export interface VoteMenuProps {
   variant: string;
   hidden?: boolean;
-  skipTimes: SkipTimeType[];
+  skipTimes: SkipTime[];
   onClose: CallableFunction;
   submitMenuOpen: CallableFunction;
 }

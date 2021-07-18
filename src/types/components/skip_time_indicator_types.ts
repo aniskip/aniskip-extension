@@ -1,4 +1,4 @@
-import { SkipTimeType } from '../api/aniskip_types';
+import { SkipTime } from '../../api';
 
 export interface SkipTimeIndicatorProps {
   startTime: number;
@@ -9,7 +9,7 @@ export interface SkipTimeIndicatorProps {
 }
 
 export interface SkipTimeIndicatorContainerProps {
-  skipTimes: SkipTimeType[];
+  skipTimes: SkipTime[];
   videoDuration: number;
   variant: string;
 }

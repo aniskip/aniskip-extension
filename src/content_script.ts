@@ -1,8 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { Message } from './types/message_type';
-import { AniskipHttpClient } from './api';
-import { SkipType } from './types/api/aniskip_types';
+import { AniskipHttpClient, SkipType } from './api';
 import PageFactory from './pages/page_factory';
 
 /**

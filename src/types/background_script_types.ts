@@ -1,4 +1,4 @@
-import { VoteType } from './api/aniskip_types';
+import { VoteType } from '../api';
 import { SkipOptionsType } from './skip_option_type';
 
 export interface DefaultOptionsType {

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SkipButton from '../components/SkipButton';
-import { SkipTimeType } from '../types/api/aniskip_types';
+import { SkipTime } from '../api';
 import { SkipButtonOnClickHandler } from '../types/components/skip_time_button_types';
 
 import BaseRenderer from './base_renderer';
@@ -11,7 +11,7 @@ class SkipButtonsRenderer extends BaseRenderer {
 
   isHidden: boolean;
 
-  skipTimes: SkipTimeType[];
+  skipTimes: SkipTime[];
 
   onClickHandlers: SkipButtonOnClickHandler[];
 
@@ -37,7 +37,7 @@ class SkipButtonsRenderer extends BaseRenderer {
    * @param onClickHandler On click handler for skip button.
    */
   addSkipButton(
-    skipTime: SkipTimeType,
+    skipTime: SkipTime,
     onClickHandler: SkipButtonOnClickHandler
   ): void {
     this.skipTimes.push(skipTime);
