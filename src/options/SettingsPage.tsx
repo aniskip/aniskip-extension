@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
-import Dropdown from '../components/Dropdown';
+
+import { Dropdown } from '../components';
 import { SkipOptionType } from '../types/skip_option_type';
 
 const SettingsPage = (): JSX.Element => {

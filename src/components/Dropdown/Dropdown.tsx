@@ -1,10 +1,10 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 
-import { DropdownProps } from '../types/components/dropdown_types';
-import useHandleOutsideClick from '../hooks/use_handle_outside_click';
+import { DropdownProps } from './Dropdown.types';
+import useHandleOutsideClick from '../../hooks/use_handle_outside_click';
 
-const Dropdown = ({
+export const Dropdown = ({
   className,
   value,
   onChange,
@@ -70,4 +70,3 @@ const Dropdown = ({
     </div>
   );
 };
-export default Dropdown;
