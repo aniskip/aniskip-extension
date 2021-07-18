@@ -1,7 +1,7 @@
 import React from 'react';
-import { LinkButtonProps } from '../types/components/button_types';
+import { LinkButtonProps } from './LinkButton.types';
 
-const LinkButton = ({
+export const LinkButton = ({
   className,
   children,
   onClick,
@@ -14,5 +14,3 @@ const LinkButton = ({
     {children}
   </button>
 );
-
-export default LinkButton;
