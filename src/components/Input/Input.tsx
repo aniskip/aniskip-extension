@@ -1,7 +1,7 @@
 import React from 'react';
-import { InputProps } from '../types/components/submit_types';
+import { InputProps } from './Input.types';
 
-const Input = ({
+export const Input = ({
   className,
   value,
   id,
@@ -17,18 +17,18 @@ const Input = ({
   <input
     className={`rounded px-3 py-2 block min-w-0 border border-gray-300 focus:outline-none ${className}`}
     type="text"
-    id={id}
     autoComplete="off"
-    value={value}
-    pattern={pattern}
-    title={title}
-    placeholder={placeholder}
-    required={required}
-    onChange={onChange}
-    onFocus={onFocus}
-    onBlur={onBlur}
-    onKeyDown={onKeyDown}
+    {...{
+      id,
+      value,
+      pattern,
+      title,
+      placeholder,
+      required,
+      onChange,
+      onFocus,
+      onBlur,
+      onKeyDown,
+    }}
   />
 );
-
-export default Input;

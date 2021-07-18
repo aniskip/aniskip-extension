@@ -11,7 +11,7 @@ import {
 import { Dropdown } from '../../Dropdown';
 import { DefaultButton } from '../../DefaultButton';
 import MenuButton from './Button';
-import Input from '../../Input';
+import { Input } from '../../Input';
 import { AniskipHttpClientErrorCode, SkipTime, SkipType } from '../../../api';
 import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
 import { Message } from '../../../types/message_type';
