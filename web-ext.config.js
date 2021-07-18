@@ -22,7 +22,7 @@ module.exports = {
   sourceDir: './dist',
   run: {
     startUrl,
-    // If uses Edge/Opera etc Chromium based browsers
+    // If using Edge/Opera etc Chromium based browsers.
     //   chromiumBinary:
   },
   build: {

@@ -6,7 +6,7 @@ import { SkipType } from './types/api/aniskip_types';
 import PageFactory from './pages/page_factory';
 
 /**
- * Returns the MAL id, episode number and provider name
+ * Returns the MAL id, episode number and provider name.
  */
 const getEpisodeInformation = async (): Promise<{
   malId: number;
@@ -29,7 +29,7 @@ const getEpisodeInformation = async (): Promise<{
 };
 
 /**
- * Adds the opening and ending skip invervals
+ * Adds the opening and ending skip invervals.
  */
 const initialiseSkipTimes = async (): Promise<void> => {
   const aniskipHttpClient = new AniskipHttpClient();
@@ -64,8 +64,9 @@ const initialiseSkipTimes = async (): Promise<void> => {
 };
 
 /**
- * Handles messages between the player and the background script
- * @param message Message containing the type of action and the payload
+ * Handles messages between the player and the background script.
+ *
+ * @param message Message containing the type of action and the payload.
  */
 const messageHandler = (message: Message): any => {
   switch (message.type) {

@@ -19,10 +19,11 @@ class AniskipHttpClient extends BaseHttpClient {
   }
 
   /**
-   * Retrieves a skip time for the specified anime episode
-   * @param animeId MAL id to get the skip times of
-   * @param episodeNumber Episode number of the anime to get the skip times of
-   * @param type Type of skip times to get, either 'op' or 'ed'
+   * Retrieves a skip time for the specified anime episode.
+   *
+   * @param animeId MAL id to get the skip times of.
+   * @param episodeNumber Episode number of the anime to get the skip times of.
+   * @param type Type of skip times to get, either 'op' or 'ed'.
    */
   async getSkipTimes(
     animeId: number,
@@ -37,8 +38,9 @@ class AniskipHttpClient extends BaseHttpClient {
   }
 
   /**
-   * Gets anime episode number redirection rules
-   * @param animeId MAL id to get the episode number rules of
+   * Gets anime episode number redirection rules.
+   *
+   * @param animeId MAL id to get the episode number rules of.
    */
   async getRules(animeId: number): Promise<GetResponseTypeFromRules> {
     const route = `/rules/${animeId}`;
@@ -48,15 +50,16 @@ class AniskipHttpClient extends BaseHttpClient {
   }
 
   /**
-   * Creates a skip time for the specified anime episode
-   * @param animeId MAL id to get the skip times of
-   * @param episodeNumber Episode number of the anime to get the skip times of
-   * @param skipType Type of skip times to get, either 'op' or 'ed'
-   * @param providerName Name of the provider
-   * @param startTime Start time of the skip
-   * @param endTime End time of the skip
-   * @param episodeLength Length of the episode
-   * @param submitterId UUID of the submitter
+   * Creates a skip time for the specified anime episode.
+   *
+   * @param animeId MAL id to get the skip times of.
+   * @param episodeNumber Episode number of the anime to get the skip times of.
+   * @param skipType Type of skip times to get, either 'op' or 'ed'.
+   * @param providerName Name of the provider.
+   * @param startTime Start time of the skip.
+   * @param endTime End time of the skip.
+   * @param episodeLength Length of the episode.
+   * @param submitterId UUID of the submitter.
    */
   async createSkipTimes(
     animeId: number,
@@ -106,9 +109,10 @@ class AniskipHttpClient extends BaseHttpClient {
   }
 
   /**
-   * Vote on a skip time
-   * @param skipId UUID of the skip time to vote on
-   * @param type Type of voting, either 'upvote' or 'downvote'
+   * Vote on a skip time.
+   *
+   * @param skipId UUID of the skip time to vote on.
+   * @param type Type of voting, either 'upvote' or 'downvote'.
    */
   async vote(
     skipId: string,
@@ -127,16 +131,18 @@ class AniskipHttpClient extends BaseHttpClient {
   }
 
   /**
-   * Upvote on a skip time
-   * @param skipId UUID of the skip time to vote on
+   * Upvote on a skip time.
+   *
+   * @param skipId UUID of the skip time to vote on.
    */
   async upvote(skipId: string): Promise<PostResponseTypeFromSkipTimesVote> {
     return this.vote(skipId, 'upvote');
   }
 
   /**
-   * Downvote on a skip time
-   * @param skipId UUID of the skip time to vote on
+   * Downvote on a skip time.
+   *
+   * @param skipId UUID of the skip time to vote on.
    */
   async downvote(skipId: string): Promise<PostResponseTypeFromSkipTimesVote> {
     return this.vote(skipId, 'downvote');

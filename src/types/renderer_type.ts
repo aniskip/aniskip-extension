@@ -1,6 +1,6 @@
 interface Renderer {
   /**
-   * Renders the JSX element
+   * Renders the JSX element.
    */
   render(): void;
 }

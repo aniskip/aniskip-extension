@@ -26,8 +26,9 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
   }
 
   /**
-   * Adds a skip time indicator into the player
-   * @param skipTime Skip time to add
+   * Adds a skip time indicator into the player.
+   *
+   * @param skipTime Skip time to add.
    */
   addSkipTimeIndicator(skipTime: SkipTimeType): void {
     this.skipTimes.push(skipTime);
@@ -35,8 +36,9 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
   }
 
   /**
-   * Removes a skip time indicator into the player
-   * @param skipId SkipId of the skip time to remove
+   * Removes a skip time indicator into the player.
+   *
+   * @param skipId SkipId of the skip time to remove.
    */
   removeSkipTimeIndicator(skipId: string): void {
     this.skipTimes = this.skipTimes.filter(
@@ -46,7 +48,7 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
   }
 
   /**
-   * Removes all the skip time indicators from the player
+   * Removes all the skip time indicators from the player.
    */
   clearSkipTimeIndicators(): void {
     this.skipTimes = [];
@@ -54,8 +56,9 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
   }
 
   /**
-   * Sets video duration
-   * @param videoDuration Video duration
+   * Sets video duration.
+   *
+   * @param videoDuration Video duration.
    */
   setVideoDuration(videoDuration: number): void {
     this.videoDuration = videoDuration;

@@ -142,7 +142,7 @@ abstract class BasePlayer implements Player {
     const startTime = skipTime.interval.start_time;
     const currentTime = this.getCurrentTime();
 
-    // Skip time loaded late
+    // Skip time loaded late.
     if (isInInterval(startTime, endTime, currentTime, offset)) {
       this.setCurrentTime(endTime + offset);
       this.play();
@@ -150,7 +150,7 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Cancels the current scheduled skip time
+   * Cancels the current scheduled skip time.
    */
   clearScheduledSkipTime(): void {
     if (this.scheduledSkipTime !== null) {
@@ -161,9 +161,10 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Returns the container element with the given query string
-   * @param selectorString Selector string to retrieve the node
-   * @param index Index of the container from the query result
+   * Returns the container element with the given query string.
+   *
+   * @param selectorString Selector string to retrieve the node.
+   * @param index Index of the container from the query result.
    */
   getContainerHelper(
     selectorString: string,
@@ -174,7 +175,7 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Returns the next skip time to be scheduled
+   * Returns the next skip time to be scheduled.
    */
   getNextSkipTime(): SkipTimeType | null {
     let nextSkipTime: SkipTimeType | null = null;
@@ -225,7 +226,7 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Returns the root video container element
+   * Returns the root video container element.
    */
   getVideoContainer(): HTMLElement | null {
     return this.document.getElementById(
@@ -240,7 +241,7 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Returns the seek bar container element
+   * Returns the seek bar container element.
    */
   getSeekBarContainer(): HTMLElement | null {
     return this.getContainerHelper(
@@ -263,7 +264,7 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Injects the skip button into the player
+   * Injects the skip button into the player.
    */
   injectSkipButtons(): void {
     const settingsButtonElement = this.getSettingsButtonElement();
@@ -278,7 +279,7 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Injects the skip time indicators into the player seek bar
+   * Injects the skip time indicators into the player seek bar.
    */
   injectSkipTimeIndicator(): void {
     const seekBarContainer = this.getSeekBarContainer();
@@ -293,7 +294,7 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Injects the submit menu button into the player controls
+   * Injects the submit menu button into the player controls.
    */
   injectSubmitMenu(): void {
     const videoContainer = this.getVideoContainer();
@@ -307,7 +308,7 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Injects the submit menu button into the player
+   * Injects the submit menu button into the player.
    */
   injectSubmitMenuButton(): void {
     const settingsButtonElement = this.getSettingsButtonElement();
@@ -383,9 +384,10 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Schedule the next skip time for auto skipping
-   * @param skipTime Optional skip time to schedule
-   * @param callback Optional callback on successful time change
+   * Schedule the next skip time for auto skipping.
+   *
+   * @param skipTime Optional skip time to schedule.
+   * @param callback Optional callback on successful time change.
    */
   scheduleSkipTimes(): void {
     if (!this.videoElement) {
@@ -408,7 +410,7 @@ abstract class BasePlayer implements Player {
     const offset = this.getDuration() - episodeLength;
 
     const currentTime = this.getCurrentTime();
-    // Some players set playback speed to 0 when seeking
+    // Some players set playback speed to 0 when seeking.
     const playbackSpeed = this.videoElement.playbackRate || 1;
 
     const timeUntilSkipTime =
@@ -424,8 +426,9 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Sets the video element current time to the input time
-   * @param time Time in seconds to set the player time to
+   * Sets the video element current time to the input time.
+   *
+   * @param time Time in seconds to set the player time to.
    */
   setCurrentTime(time: number): void {
     if (!this.videoElement) {
@@ -436,8 +439,9 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Set menus state
-   * @param newState New state of menus
+   * Set menus state.
+   *
+   * @param newState New state of menus.
    */
   setMenusState(newState: MenusState): void {
     this.menusState = newState;

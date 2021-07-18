@@ -11,12 +11,12 @@ const Indicator = ({
   variant,
 }: SkipTimeIndicatorProps): JSX.Element => {
   /**
-   * Calculates the percentage the skip time indicator has to be translated on the x axis
+   * Calculates the percentage the skip time indicator has to be translated on the x axis.
    */
   const calculateTranslation = (): number => startTime / episodeLength;
 
   /**
-   * Calculates the width of the skip time indicator
+   * Calculates the width of the skip time indicator.
    */
   const calculateWidth = (): number => (endTime - startTime) / episodeLength;
 

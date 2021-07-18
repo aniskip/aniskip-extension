@@ -85,7 +85,7 @@ const SubmitMenu = ({
   };
 
   /**
-   * Validates the form. Returns false if form has errors, otherwise true
+   * Validates the form. Returns false if form has errors, otherwise true.
    */
   const validateForm = (): boolean => {
     const startTimeSeconds = timeStringToSeconds(startTime);
@@ -107,8 +107,9 @@ const SubmitMenu = ({
   };
 
   /**
-   * Handles the form event when the submit button is pressed
-   * @param event Form event
+   * Handles the form event when the submit button is pressed.
+   *
+   * @param event Form event.
    */
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
@@ -177,8 +178,9 @@ const SubmitMenu = ({
   };
 
   /**
-   * Handles input on key down events to update input time
-   * @param setTime Set time useState function
+   * Handles input on key down events to update input time.
+   *
+   * @param setTime Set time useState function.
    */
   const handleOnKeyDown =
     (setTime: React.Dispatch<React.SetStateAction<string>>) =>
@@ -224,8 +226,9 @@ const SubmitMenu = ({
     };
 
   /**
-   * Adds the seek offset to the currently highligted time input
-   * @param seekOffset Number to add to current time
+   * Adds the seek offset to the currently highligted time input.
+   *
+   * @param seekOffset Number to add to current time.
    */
   const handleSeekTime = (seekOffset: number) => async (): Promise<void> => {
     let setTimeFunction = (_newValue: string): void => {};
@@ -255,8 +258,9 @@ const SubmitMenu = ({
   };
 
   /**
-   * Formats time input on blur
-   * @param setTime Set time useState function
+   * Formats time input on blur.
+   *
+   * @param setTime Set time useState function.
    */
   const handleOnBlur =
     (

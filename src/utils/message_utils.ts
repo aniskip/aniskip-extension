@@ -3,8 +3,9 @@ import { browser } from 'webextension-polyfill-ts';
 import { Message } from '../types/message_type';
 
 /**
- * Waits for a message with the specified type
- * @param uuid UUID of the message to wait for
+ * Waits for a message with the specified type.
+ *
+ * @param uuid UUID of the message to wait for.
  */
 const waitForMessage = (uuid: string): Promise<Message | null> =>
   new Promise<Message | null>((resolve) => {

@@ -54,7 +54,7 @@ const messageHandler = (message: Message): void => {
 
 browser.runtime.onMessage.addListener(messageHandler);
 
-// Notify content script when video controls are found
+// Notify content script when video controls are found.
 new MutationObserver((_mutations, observer) => {
   const videoControlsContainer = player.getVideoControlsContainer();
 
@@ -64,7 +64,7 @@ new MutationObserver((_mutations, observer) => {
   }
 }).observe(document, { subtree: true, childList: true });
 
-// Notify content script when video element is found;
+// Notify content script when video element is found.
 new MutationObserver(() => {
   const videoElements = document.getElementsByTagName('video');
 

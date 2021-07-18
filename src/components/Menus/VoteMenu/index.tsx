@@ -132,7 +132,7 @@ const VoteMenu = ({
                   <span className="text-sm text-blue-500">
                     <LinkButton
                       onClick={setPlayerCurrentTime(
-                        // Ensure that it won't be auto-skipped
+                        // Ensure that it won't be auto-skipped.
                         interval.start_time + offset + 0.01
                       )}
                     >

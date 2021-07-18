@@ -11,9 +11,10 @@ class AnilistHttpClient extends BaseHttpClient {
   }
 
   /**
-   * Queries the graphql endpoint
-   * @param query Query string for grapql api
-   * @param variables Variables used in query
+   * Queries the graphql endpoint.
+   *
+   * @param query Query string for grapql api.
+   * @param variables Variables used in query.
    */
   async query<T>(
     query: string,
@@ -30,10 +31,11 @@ class AnilistHttpClient extends BaseHttpClient {
   }
 
   /**
-   * Searches Anilist
-   * @param type Specify what to search
-   * @param q Query to search
-   * @param limit search result limit
+   * Searches Anilist.
+   *
+   * @param type Specify what to search.
+   * @param q Query to search.
+   * @param limit search result limit.
    */
   async search(
     title: string

@@ -31,9 +31,10 @@ class SkipButtonsRenderer extends BaseRenderer {
   }
 
   /**
-   * Adds a skip button into the player
-   * @param skipTime Skip time for the skip button
-   * @param onClickHandler On click handler for skip button
+   * Adds a skip button into the player.
+   *
+   * @param skipTime Skip time for the skip button.
+   * @param onClickHandler On click handler for skip button.
    */
   addSkipButton(
     skipTime: SkipTimeType,
@@ -45,8 +46,9 @@ class SkipButtonsRenderer extends BaseRenderer {
   }
 
   /**
-   * Removes a skip button into the player
-   * @param skipId Skip id of skip time of the skip button to remove
+   * Removes a skip button into the player.
+   *
+   * @param skipId Skip id of skip time of the skip button to remove.
    */
   removeSkipButton(skipId: string): void {
     const skipTimeIndex = this.skipTimes.findIndex(
@@ -60,8 +62,9 @@ class SkipButtonsRenderer extends BaseRenderer {
   }
 
   /**
-   * Sets video duration
-   * @param videoDuration Video duration
+   * Sets video duration.
+   *
+   * @param videoDuration Video duration.
    */
   setVideoDuration(videoDuration: number): void {
     this.videoDuration = videoDuration;
@@ -69,8 +72,9 @@ class SkipButtonsRenderer extends BaseRenderer {
   }
 
   /**
-   * Sets current time
-   * @param currentTime Current time of the video
+   * Sets current time.
+   *
+   * @param currentTime Current time of the video.
    */
   setCurrentTime(currentTime: number): void {
     this.currentTime = currentTime;
@@ -78,7 +82,7 @@ class SkipButtonsRenderer extends BaseRenderer {
   }
 
   /**
-   * Removes all the skip buttons from the player
+   * Removes all the skip buttons from the player.
    */
   clearSkipButtons(): void {
     this.skipTimes = [];

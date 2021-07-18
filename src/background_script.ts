@@ -9,9 +9,10 @@ import {
 import waitForMessage from './utils/message_utils';
 
 /**
- * Relay messages between content scripts
- * @param message Message containing the type of action and the payload
- * @param sender Sender of the message
+ * Relay messages between content scripts.
+ *
+ * @param message Message containing the type of action and the payload.
+ * @param sender Sender of the message.
  */
 const messageHandler = (
   message: Message,
@@ -52,7 +53,7 @@ const messageHandler = (
 browser.runtime.onMessage.addListener(messageHandler);
 
 /**
- * Set default user settings on installation
+ * Set default user settings on installation.
  */
 browser.runtime.onInstalled.addListener((details) => {
   const defaultOptions: DefaultOptionsType = {

@@ -46,7 +46,7 @@ abstract class BasePage implements Page {
       const end = endOrUndefined || Infinity;
       const { malId: toMalId } = rule.to;
 
-      // Handle seasons with multiple parts and continuous counting
+      // Handle seasons with multiple parts and continuous counting.
       if (malId === toMalId && rawEpisodeNumber > end) {
         const seasonLength = end - (start - 1);
         const episodeOverflow = rawEpisodeNumber - end;
@@ -73,7 +73,7 @@ abstract class BasePage implements Page {
   }
 
   async getMalId(): Promise<number> {
-    // Episode redirection rules applied
+    // Episode redirection rules applied.
     if (this.malId > 0) {
       return this.malId;
     }
@@ -93,7 +93,7 @@ abstract class BasePage implements Page {
       const malsyncHttpClient = new MalsyncHttpClient();
       this.malId = await malsyncHttpClient.getMalId(providerName, identifier);
     } catch {
-      // MALSync was not able to find the id
+      // MALSync was not able to find the id.
       const title = this.getTitle();
       if (!title) {
         return 0;
@@ -101,7 +101,7 @@ abstract class BasePage implements Page {
       this.malId = await BasePage.findClosestMalId(title);
     }
 
-    // Cache MAL id
+    // Cache MAL id.
     const { malIdCache } = await browser.storage.local.get('malIdCache');
     malIdCache[identifier] = this.malId;
     browser.storage.local.set({ malIdCache });
@@ -110,8 +110,9 @@ abstract class BasePage implements Page {
   }
 
   /**
-   * Search MAL and find the closest MAL id to the identifier
-   * @param titleVariant Title from the provider
+   * Search MAL and find the closest MAL id to the identifier.
+   *
+   * @param titleVariant Title from the provider.
    */
   static async findClosestMalId(title: string): Promise<number> {
     const anilistHttpClient = new AnilistHttpClient();
@@ -149,8 +150,9 @@ abstract class BasePage implements Page {
   }
 
   /**
-   * Returns a MAL id from the cache
-   * @param identifier Provider anime identifier
+   * Returns a MAL id from the cache.
+   *
+   * @param identifier Provider anime identifier.
    */
   static async getMalIdCached(identifier: string): Promise<number> {
     const { malIdCache } = await browser.storage.local.get('malIdCache');

@@ -1,18 +1,18 @@
-// Media queries
+// Media queries.
 $sm: '640px';
 $md: '768px';
 $lg: '1024px';
 $xl: '1280px';
 
-// Override custom player styles
+// Override custom player styles.
 :host {
   all: initial !important;
   font-size: 16px !important;
 }
 
-// Override user agent stylesheet
+// Override user agent stylesheet.
 form {
-  margin-block-end: 0;
+  margin-block-end: 0 !important;
 }
 
 .submit,

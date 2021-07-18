@@ -1,16 +1,18 @@
 /**
- * Capitalizes the first letter of the input string
- * @param str String to capitalize the first letter of
+ * Capitalizes the first letter of the input string.
+ *
+ * @param str String to capitalize the first letter of.
  */
 export const capitalizeFirstLetter = (str: string): string =>
   str[0].toUpperCase() + str.slice(1);
 
 /**
- * Converts a time string into seconds
- * @param timeString Time in a string format of '(<hours>:)(<minutes>:)<seconds>'
+ * Converts a time string into seconds.
+ *
+ * @param timeString Time in a string format of '(<hours>:)(<minutes>:)<seconds>'.
  */
 export const timeStringToSeconds = (timeString: string): number => {
-  // seconds, days, minutes
+  // Seconds, days, minutes.
   const timeUnitToSeconds = [1, 60, 60 * 60];
   let seconds = 0;
   const times = timeString.split(':');
@@ -28,8 +30,9 @@ export const timeStringToSeconds = (timeString: string): number => {
 };
 
 /**
- * Converts seconds into a time string
- * @param seconds Number of seconds to convert to the format of '(<hours>:)<minutes>:<seconds>'
+ * Converts seconds into a time string.
+ *
+ * @param seconds Number of seconds to convert to the format of '(<hours>:)<minutes>:<seconds>'.
  */
 export const secondsToTimeString = (
   seconds: number,
@@ -50,7 +53,7 @@ export const secondsToTimeString = (
   let secondsZeroPadding = decimalPlaces + 3;
   if (decimalPlaces === 0) {
     secondsZeroPadding = 2;
-    // ensure that toFixed does not round
+    // Ensure that toFixed does not round.
     remainingSeconds = Math.floor(remainingSeconds);
   }
 
@@ -65,8 +68,9 @@ export const secondsToTimeString = (
 };
 
 /**
- * Formats a time string to be in the format of '<minutes>:<seconds>'
- * @param timeString Unformatted time string
+ * Formats a time string to be in the format of '<minutes>:<seconds>'.
+ *
+ * @param timeString Unformatted time string.
  */
 export const formatTimeString = (timeString: string): string => {
   const timeStringNumber = Number(timeString);

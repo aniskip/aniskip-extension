@@ -48,8 +48,9 @@ class MenusRenderer extends BaseRenderer {
   }
 
   /**
-   * Set menus state
-   * @param newState New state of menus
+   * Set menus state.
+   *
+   * @param newState New state of menus.
    */
   setMenusState(newState: MenusState): void {
     this.state = newState;
@@ -57,7 +58,7 @@ class MenusRenderer extends BaseRenderer {
   }
 
   /**
-   * Reset menus state
+   * Reset menus state.
    */
   resetState(): void {
     this.setMenusState({

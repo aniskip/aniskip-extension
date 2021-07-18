@@ -34,8 +34,9 @@ class MenusButtonsRenderer extends BaseRenderer {
   }
 
   /**
-   * Set is submit button active field
-   * @param newState Is submit button active new value
+   * Set is submit button active field.
+   *
+   * @param newState Is submit button active new value.
    */
   setState(newState: MenusButtonsState): void {
     this.state = newState;

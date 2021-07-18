@@ -8,9 +8,10 @@ class MalsyncHttpClient extends BaseHttpClient {
   }
 
   /**
-   * Retrieves the MAL details from a provider and identifier
-   * @param providerName Name of provider
-   * @param identifier Provider anime identifier
+   * Retrieves the MAL details from a provider and identifier.
+   *
+   * @param providerName Name of provider.
+   * @param identifier Provider anime identifier.
    */
   async getMalPageDetails(
     providerName: string,
@@ -26,9 +27,10 @@ class MalsyncHttpClient extends BaseHttpClient {
   }
 
   /**
-   * Retrieves the MAL id from a provider and identifier
-   * @param providerName Name of provider
-   * @param identifier Provider anime identifier
+   * Retrieves the MAL id from a provider and identifier.
+   *
+   * @param providerName Name of provider.
+   * @param identifier Provider anime identifier.
    */
   async getMalId(providerName: string, identifier: string): Promise<number> {
     const pageDetails = await this.getMalPageDetails(providerName, identifier);
