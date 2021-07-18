@@ -1,4 +1,4 @@
-import { GetResponseTypeFromPage } from '../../types/api/malsync_types';
+import { GetResponseTypeFromPage } from './malsync_http_client.types';
 import { MalsyncHttpClientError } from './error';
 import { BaseHttpClient } from '../base_http_client';
 
