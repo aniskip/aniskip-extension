@@ -25,21 +25,21 @@ export type MediaFormat =
   | 'NOVEL'
   | 'ONE_SHOT';
 
-export interface MediaEdge<M extends Partial<Media> | undefined> {
+export type MediaEdge<M extends Partial<Media> | undefined> = {
   node: M;
   relationType: MediaRelation;
-}
+};
 
-export interface MediaConnection<M extends Partial<Media> | undefined> {
+export type MediaConnection<M extends Partial<Media> | undefined> = {
   edges: MediaEdge<M>[];
-}
+};
 
-export interface MediaTitle {
+export type MediaTitle = {
   romaji: string;
   english: string;
   native: string;
   userPreferred: string;
-}
+};
 
 export type Media<
   M extends Partial<Media> | undefined = undefined,
@@ -60,16 +60,16 @@ export type Media<
         title: MT;
       });
 
-export interface PostResponseFromMedia<M extends Partial<Media>> {
+export type PostResponseFromMedia<M extends Partial<Media>> = {
   data: {
     Media: M;
   };
-}
+};
 
-export interface PostResponseFromPage<M extends Partial<Media>> {
+export type PostResponseFromPage<M extends Partial<Media>> = {
   data: {
     Page: {
       media: M[];
     };
   };
-}
+};
