@@ -2,8 +2,8 @@ import { BaseHttpClient } from '../base_http_client';
 import {
   Media,
   MediaTitle,
-  PostResponseTypeFromPage,
-} from '../../types/api/anilist_types';
+  PostResponseFromPage,
+} from './anilist_http_client.types';
 
 export class AnilistHttpClient extends BaseHttpClient {
   constructor() {
@@ -40,7 +40,7 @@ export class AnilistHttpClient extends BaseHttpClient {
   async search(
     title: string
   ): Promise<
-    PostResponseTypeFromPage<
+    PostResponseFromPage<
       Pick<
         Media<undefined, Pick<MediaTitle, 'english' | 'romaji' | 'native'>>,
         'idMal' | 'title' | 'synonyms'
@@ -67,7 +67,7 @@ export class AnilistHttpClient extends BaseHttpClient {
       title,
     };
     return this.query<
-      PostResponseTypeFromPage<
+      PostResponseFromPage<
         Pick<
           Media<undefined, Pick<MediaTitle, 'english' | 'romaji' | 'native'>>,
           'idMal' | 'title' | 'synonyms'

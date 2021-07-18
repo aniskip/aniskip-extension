@@ -60,13 +60,13 @@ export type Media<
         title: MT;
       });
 
-export interface PostResponseTypeFromMedia<M extends Partial<Media>> {
+export interface PostResponseFromMedia<M extends Partial<Media>> {
   data: {
     Media: M;
   };
 }
 
-export interface PostResponseTypeFromPage<M extends Partial<Media>> {
+export interface PostResponseFromPage<M extends Partial<Media>> {
   data: {
     Page: {
       media: M[];
