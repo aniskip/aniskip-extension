@@ -1,11 +1,11 @@
-import BaseHttpClient from './base_http_client';
+import { BaseHttpClient } from '../base_http_client';
 import {
   Media,
   MediaTitle,
   PostResponseTypeFromPage,
-} from '../types/api/anilist_types';
+} from '../../types/api/anilist_types';
 
-class AnilistHttpClient extends BaseHttpClient {
+export class AnilistHttpClient extends BaseHttpClient {
   constructor() {
     super('https://graphql.anilist.co');
   }
@@ -76,5 +76,3 @@ class AnilistHttpClient extends BaseHttpClient {
     >(query, variables);
   }
 }
-
-export default AnilistHttpClient;

@@ -1,9 +1,11 @@
 import stringSimilarity from 'string-similarity';
 import { browser } from 'webextension-polyfill-ts';
 
-import AnilistHttpClient from '../api/anilist_http_client';
-import AniskipHttpClient from '../api/aniskip_http_client';
-import MalsyncHttpClient from '../api/malsync_http_client';
+import {
+  AniskipHttpClient,
+  MalsyncHttpClient,
+  AnilistHttpClient,
+} from '../api';
 import Page from '../types/page_type';
 import { capitalizeFirstLetter, getDomainName } from '../utils/string_utils';
 

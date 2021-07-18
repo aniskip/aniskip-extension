@@ -1,9 +1,9 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { Response, HttpClient } from '../types/api/http_client_type';
-import { Message } from '../types/message_type';
+import { Response, HttpClient } from '../../types/api/http_client_type';
+import { Message } from '../../types/message_type';
 
-abstract class BaseHttpClient implements HttpClient {
+export abstract class BaseHttpClient implements HttpClient {
   baseUrl: string;
 
   constructor(baseUrl: string) {
@@ -46,5 +46,3 @@ abstract class BaseHttpClient implements HttpClient {
     return { ...response, json: <T>(): T => JSON.parse(response.body) as T };
   }
 }
-
-export default BaseHttpClient;

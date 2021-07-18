@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import AniskipHttpClient from '../api/aniskip_http_client';
+
+import { AniskipHttpClient } from '../api';
 
 /**
  * Hook to return Aniskip HTTP client.
