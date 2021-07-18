@@ -1,12 +1,9 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Message } from './types/message_type';
-import {
-  DefaultOptionsType,
-  LocalDefaultOptionsType,
-} from './types/background_script_types';
-import waitForMessage from './utils/message_utils';
+import { Message } from '../../types/message_type';
+import { DefaultOptions, LocalDefaultOptions } from './types';
+import waitForMessage from '../../utils/message_utils';
 
 /**
  * Relay messages between content scripts.
@@ -56,7 +53,7 @@ browser.runtime.onMessage.addListener(messageHandler);
  * Set default user settings on installation.
  */
 browser.runtime.onInstalled.addListener((details) => {
-  const defaultOptions: DefaultOptionsType = {
+  const defaultOptions: DefaultOptions = {
     userId: uuidv4(),
     skipOptions: {
       op: 'manual-skip',
@@ -64,7 +61,7 @@ browser.runtime.onInstalled.addListener((details) => {
     },
   };
 
-  const localDefaultOptions: LocalDefaultOptionsType = {
+  const localDefaultOptions: LocalDefaultOptions = {
     malIdCache: {},
     skipTimesVoted: {},
   };

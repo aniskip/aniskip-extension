@@ -1,8 +1,8 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { Message } from './types/message_type';
-import { SkipTime } from './api';
-import PlayerFactory from './players/player_factory';
+import { Message } from '../../types/message_type';
+import { SkipTime } from '../../api';
+import PlayerFactory from '../../players/player_factory';
 
 const player = PlayerFactory.getPlayer(window.location.hostname);
 
