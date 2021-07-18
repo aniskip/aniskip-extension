@@ -3,7 +3,7 @@ import useFullscreenState from '../../hooks/use_fullscreen_state';
 import useMobileState from '../../hooks/use_mobile_state';
 import { SkipButtonProps } from '../../types/components/skip_time_button_types';
 import { getDomainName } from '../../utils/string_utils';
-import DefaultButton from '../Button';
+import { DefaultButton } from '../DefaultButton';
 
 const Button = ({
   skipType,

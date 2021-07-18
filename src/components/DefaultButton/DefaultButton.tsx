@@ -1,7 +1,7 @@
 import React from 'react';
-import { ButtonProps } from '../types/components/button_types';
+import { DefaultButtonProps } from './DefaultButton.types';
 
-const Button = ({
+export const DefaultButton = ({
   className,
   children,
   title,
@@ -9,7 +9,7 @@ const Button = ({
   disabled,
   onClick,
   onFocus,
-}: ButtonProps): JSX.Element => (
+}: DefaultButtonProps): JSX.Element => (
   <button
     className={`px-4 py-2 border-transparent rounded text-sm font-semibold focus:outline-none ${className}`}
     type={submit ? 'submit' : 'button'}
@@ -21,5 +21,3 @@ const Button = ({
     {children}
   </button>
 );
-
-export default Button;
