@@ -12,7 +12,16 @@ module.exports = {
         depth: 3,
       },
     ],
+    '@typescript-eslint/explicit-function-return-type': 'off',
   },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        '@typescript-eslint/explicit-function-return-type': ['error'],
+      },
+    },
+  ],
   extends: ['airbnb-typescript', 'plugin:react-hooks/recommended', 'prettier'],
   parserOptions: {
     project: './tsconfig.json',
