@@ -1,12 +1,12 @@
-export interface Response {
+export type Response = {
   body: string;
   json: <T>() => T;
   ok: boolean;
   status: number;
   error?: string;
-}
+};
 
-export interface HttpClient {
+export type HttpClient = {
   baseUrl: string;
 
   /**
@@ -23,4 +23,4 @@ export interface HttpClient {
     params: Record<string, string>,
     body: string
   ): Promise<Response>;
-}
+};

@@ -1,6 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { Response, HttpClient } from '../../types/api/http_client_type';
+import { Response, HttpClient } from './base_http_client.types';
 import { Message } from '../../types/message_type';
 
 export abstract class BaseHttpClient implements HttpClient {
