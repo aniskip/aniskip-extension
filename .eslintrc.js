@@ -13,6 +13,7 @@ module.exports = {
       },
     ],
     '@typescript-eslint/explicit-function-return-type': 'off',
+    'react/jsx-props-no-spreading': 'off',
   },
   overrides: [
     {
