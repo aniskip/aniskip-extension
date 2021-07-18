@@ -4,7 +4,12 @@ import { FaChevronDown } from 'react-icons/fa';
 import { DropdownProps } from '../types/components/dropdown_types';
 import useHandleOutsideClick from '../hooks/use_handle_outside_click';
 
-const Dropdown = ({ className, value, onChange, options }: DropdownProps) => {
+const Dropdown = ({
+  className,
+  value,
+  onChange,
+  options,
+}: DropdownProps): JSX.Element => {
   const [hidden, setHidden] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
   useHandleOutsideClick(
@@ -12,7 +17,7 @@ const Dropdown = ({ className, value, onChange, options }: DropdownProps) => {
     useCallback(() => setHidden(true), [])
   );
 
-  const handleClick = (valueId: string) => () => {
+  const handleClick = (valueId: string) => (): void => {
     setHidden(true);
     onChange(valueId);
   };
@@ -24,7 +29,7 @@ const Dropdown = ({ className, value, onChange, options }: DropdownProps) => {
           hidden ? 'border-gray-300' : 'ring-1 ring-primary border-primary'
         } focus:outline-none`}
         type="button"
-        onClick={() => setHidden((current) => !current)}
+        onClick={(): void => setHidden((current) => !current)}
       >
         <span className="invisible pointer-events-none px-3 py-2">
           {

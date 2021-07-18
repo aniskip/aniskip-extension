@@ -51,7 +51,7 @@ class MenusRenderer extends BaseRenderer {
    * Set menus state
    * @param newState New state of menus
    */
-  setMenusState(newState: MenusState) {
+  setMenusState(newState: MenusState): void {
     this.state = newState;
     this.render();
   }
@@ -59,7 +59,7 @@ class MenusRenderer extends BaseRenderer {
   /**
    * Reset menus state
    */
-  resetState() {
+  resetState(): void {
     this.setMenusState({
       isSubmitMenuHidden: true,
       isVoteMenuHidden: true,
@@ -67,7 +67,7 @@ class MenusRenderer extends BaseRenderer {
     });
   }
 
-  render() {
+  render(): void {
     ReactDOM.render(
       <Menus
         variant={this.variant}

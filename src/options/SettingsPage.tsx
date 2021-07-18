@@ -3,15 +3,15 @@ import { browser } from 'webextension-polyfill-ts';
 import Dropdown from '../components/Dropdown';
 import { SkipOptionType } from '../types/skip_option_type';
 
-const SettingsPage: React.FC = () => {
+const SettingsPage = (): JSX.Element => {
   const [opOption, setOpOption] = useState<SkipOptionType>('manual-skip');
   const [edOption, setEdOption] = useState<SkipOptionType>('manual-skip');
 
-  const handleOpeningOptionChange = (skipOption: SkipOptionType) => {
+  const handleOpeningOptionChange = (skipOption: SkipOptionType): void => {
     browser.storage.sync.set({ skipOptions: { op: skipOption, ed: edOption } });
     setOpOption(skipOption);
   };
-  const handleEndingOptionChange = (skipOption: SkipOptionType) => {
+  const handleEndingOptionChange = (skipOption: SkipOptionType): void => {
     browser.storage.sync.set({ skipOptions: { op: opOption, ed: skipOption } });
     setEdOption(skipOption);
   };
@@ -32,7 +32,7 @@ const SettingsPage: React.FC = () => {
   ];
 
   useEffect(() => {
-    (async () => {
+    (async (): Promise<void> => {
       const { skipOptions } = await browser.storage.sync.get('skipOptions');
       setOpOption(skipOptions.op);
       setEdOption(skipOptions.ed);

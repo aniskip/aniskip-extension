@@ -34,7 +34,7 @@ abstract class BasePage implements Page {
 
   abstract getRawEpisodeNumber(): number;
 
-  async applyRules() {
+  async applyRules(): Promise<void> {
     const aniskipHttpClient = new AniskipHttpClient();
     const malId = await this.getMalId();
     const { rules } = await aniskipHttpClient.getRules(malId);
@@ -60,19 +60,19 @@ abstract class BasePage implements Page {
     });
   }
 
-  getEpisodeNumber() {
+  getEpisodeNumber(): number {
     return this.episodeNumber;
   }
 
-  getTitle() {
+  getTitle(): string {
     return this.getIdentifier();
   }
 
-  getProviderName() {
+  getProviderName(): string {
     return this.providerName;
   }
 
-  async getMalId() {
+  async getMalId(): Promise<number> {
     // Episode redirection rules applied
     if (this.malId > 0) {
       return this.malId;
@@ -113,7 +113,7 @@ abstract class BasePage implements Page {
    * Search MAL and find the closest MAL id to the identifier
    * @param titleVariant Title from the provider
    */
-  static async findClosestMalId(title: string) {
+  static async findClosestMalId(title: string): Promise<number> {
     const anilistHttpClient = new AnilistHttpClient();
     const sanitisedTitle = title.replace(/\(.*\)/, '').trim();
 

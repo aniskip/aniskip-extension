@@ -5,7 +5,12 @@ import { SkipButtonProps } from '../../types/components/skip_time_button_types';
 import { getDomainName } from '../../utils/string_utils';
 import DefaultButton from '../Button';
 
-const Button = ({ skipType, variant, hidden, onClick }: SkipButtonProps) => {
+const Button = ({
+  skipType,
+  variant,
+  hidden,
+  onClick,
+}: SkipButtonProps): JSX.Element => {
   const { isFullscreen } = useFullscreenState();
   const { isMobile } = useMobileState();
 

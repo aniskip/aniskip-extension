@@ -11,7 +11,10 @@ import Buttons from './Buttons';
 import SubmitMenu from './SubmitMenu';
 import VoteMenu from './VoteMenu';
 
-const MenuContainer = ({ variant, children }: MenuContainerProps) => {
+const MenuContainer = ({
+  variant,
+  children,
+}: MenuContainerProps): JSX.Element => {
   const { isFullscreen } = useFullscreenState();
   const { isMobile } = useMobileState();
   const domainName = getDomainName(window.location.hostname);
@@ -33,7 +36,11 @@ const MenuContainer = ({ variant, children }: MenuContainerProps) => {
   );
 };
 
-const Menus = ({ variant, submitMenuProps, voteMenuProps }: MenusProps) => (
+const Menus = ({
+  variant,
+  submitMenuProps,
+  voteMenuProps,
+}: MenusProps): JSX.Element => (
   <>
     <MenuContainer variant={variant}>
       <SubmitMenu

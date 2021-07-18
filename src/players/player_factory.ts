@@ -6,13 +6,15 @@ import Doodstream from './doodstream';
 import Jw from './jw';
 import Twistmoe from './twistmoe';
 import FourAnime from './videojs/fouranime';
+import { Player } from '../types/player_types';
 
 class PlayerFactory {
   /**
-   * Obtains the player object from the domain
-   * @param hostname Player's host
+   * Obtains the player object from the domain.
+   *
+   * @param hostname Player's host.
    */
-  static getPlayer(hostname: string) {
+  static getPlayer(hostname: string): Player {
     const domainName = getDomainName(hostname);
     switch (domainName) {
       case 'animixplay':

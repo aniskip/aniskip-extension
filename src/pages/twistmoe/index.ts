@@ -1,15 +1,15 @@
 import BasePage from '../base_page';
 
 class Twistmoe extends BasePage {
-  getProviderName() {
+  getProviderName(): string {
     return `${super.getProviderName()}moe`;
   }
 
-  getIdentifier() {
+  getIdentifier(): string {
     return this.pathname.split('/')[2];
   }
 
-  getRawEpisodeNumber() {
+  getRawEpisodeNumber(): number {
     return parseInt(this.pathname.split('/')[3], 10);
   }
 }

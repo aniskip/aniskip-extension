@@ -29,7 +29,7 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
    * Adds a skip time indicator into the player
    * @param skipTime Skip time to add
    */
-  addSkipTimeIndicator(skipTime: SkipTimeType) {
+  addSkipTimeIndicator(skipTime: SkipTimeType): void {
     this.skipTimes.push(skipTime);
     this.render();
   }
@@ -38,7 +38,7 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
    * Removes a skip time indicator into the player
    * @param skipId SkipId of the skip time to remove
    */
-  removeSkipTimeIndicator(skipId: string) {
+  removeSkipTimeIndicator(skipId: string): void {
     this.skipTimes = this.skipTimes.filter(
       ({ skip_id: currentSkipId }) => currentSkipId !== skipId
     );
@@ -48,7 +48,7 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
   /**
    * Removes all the skip time indicators from the player
    */
-  clearSkipTimeIndicators() {
+  clearSkipTimeIndicators(): void {
     this.skipTimes = [];
     this.render();
   }
@@ -57,12 +57,12 @@ class SkipTimeIndicatorsRenderer extends BaseRenderer {
    * Sets video duration
    * @param videoDuration Video duration
    */
-  setVideoDuration(videoDuration: number) {
+  setVideoDuration(videoDuration: number): void {
     this.videoDuration = videoDuration;
     this.render();
   }
 
-  render() {
+  render(): void {
     ReactDOM.render(
       <SkipTimeIndicator
         skipTimes={this.skipTimes}

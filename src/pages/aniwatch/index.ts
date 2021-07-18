@@ -1,11 +1,11 @@
 import BasePage from '../base_page';
 
 class Aniwatch extends BasePage {
-  getIdentifier() {
+  getIdentifier(): string {
     return this.pathname.split('/')[2];
   }
 
-  getRawEpisodeNumber() {
+  getRawEpisodeNumber(): number {
     return parseInt(this.pathname.split('/')[3], 10);
   }
 }

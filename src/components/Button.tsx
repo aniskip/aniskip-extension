@@ -9,7 +9,7 @@ const Button = ({
   disabled,
   onClick,
   onFocus,
-}: ButtonProps) => (
+}: ButtonProps): JSX.Element => (
   <button
     className={`px-4 py-2 border-transparent rounded text-sm font-semibold focus:outline-none ${className}`}
     type={submit ? 'submit' : 'button'}

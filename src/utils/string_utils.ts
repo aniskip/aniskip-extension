@@ -2,14 +2,14 @@
  * Capitalizes the first letter of the input string
  * @param str String to capitalize the first letter of
  */
-export const capitalizeFirstLetter = (str: string) =>
+export const capitalizeFirstLetter = (str: string): string =>
   str[0].toUpperCase() + str.slice(1);
 
 /**
  * Converts a time string into seconds
  * @param timeString Time in a string format of '(<hours>:)(<minutes>:)<seconds>'
  */
-export const timeStringToSeconds = (timeString: string) => {
+export const timeStringToSeconds = (timeString: string): number => {
   // seconds, days, minutes
   const timeUnitToSeconds = [1, 60, 60 * 60];
   let seconds = 0;
@@ -34,7 +34,7 @@ export const timeStringToSeconds = (timeString: string) => {
 export const secondsToTimeString = (
   seconds: number,
   decimalPlaces: number = 3
-) => {
+): string => {
   let remainingSeconds = seconds;
   if (remainingSeconds < 0) {
     remainingSeconds = 0;
@@ -68,7 +68,7 @@ export const secondsToTimeString = (
  * Formats a time string to be in the format of '<minutes>:<seconds>'
  * @param timeString Unformatted time string
  */
-export const formatTimeString = (timeString: string) => {
+export const formatTimeString = (timeString: string): string => {
   const timeStringNumber = Number(timeString);
   const isNumber = Number.isFinite(timeStringNumber);
   const seconds = isNumber ? timeStringNumber : timeStringToSeconds(timeString);
@@ -79,5 +79,5 @@ export const formatTimeString = (timeString: string) => {
  * Returns the domain name from the host name
  * @param hostname Host name to parse
  */
-export const getDomainName = (hostname: string) =>
+export const getDomainName = (hostname: string): string =>
   hostname.replace(/(?:[^.\n]*\.)?([^.\n]*)(\..*)/, '$1');

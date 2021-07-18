@@ -8,7 +8,7 @@ class Animepahe extends BasePage {
     this.providerName = domainName;
   }
 
-  getTitle() {
+  getTitle(): string {
     const titleElement = this.document.getElementsByTagName('title')[0];
     if (!titleElement) {
       return '';
@@ -17,15 +17,17 @@ class Animepahe extends BasePage {
     return titleElement.innerHTML.split('. Ep')[0];
   }
 
-  getIdentifier() {
+  getIdentifier(): string {
     const [identifierScript] = Array.from(
       this.document.getElementsByTagName('script')
     ).filter((script) => script.innerHTML.includes('getUrls'));
+
     if (!identifierScript) {
       return '';
     }
 
     const matches = identifierScript.innerHTML.match(/getUrls\((\d+)/);
+
     if (!matches) {
       return '';
     }
@@ -33,8 +35,9 @@ class Animepahe extends BasePage {
     return matches[1];
   }
 
-  getRawEpisodeNumber() {
+  getRawEpisodeNumber(): number {
     const episodeMenuButton = this.document.getElementById('episodeMenu');
+
     if (!episodeMenuButton) {
       return 0;
     }

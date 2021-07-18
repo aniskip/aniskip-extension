@@ -7,7 +7,7 @@ const SkipTimeIndicatorContainer = ({
   skipTimes,
   videoDuration,
   variant,
-}: SkipTimeIndicatorContainerProps) => (
+}: SkipTimeIndicatorContainerProps): JSX.Element => (
   <>
     {skipTimes.map((skipTime) => {
       const { start_time: startTime, end_time: endTime } = skipTime.interval;

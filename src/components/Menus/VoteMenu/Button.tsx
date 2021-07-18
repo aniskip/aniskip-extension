@@ -3,7 +3,11 @@ import { FaListUl } from 'react-icons/fa';
 import { VoteMenuButtonProps } from '../../../types/components/vote_menu_types';
 import { getDomainName } from '../../../utils/string_utils';
 
-const Button = ({ variant, active, onClick }: VoteMenuButtonProps) => {
+const Button = ({
+  variant,
+  active,
+  onClick,
+}: VoteMenuButtonProps): JSX.Element => {
   const domainName = getDomainName(window.location.hostname);
 
   return (
@@ -15,7 +19,7 @@ const Button = ({ variant, active, onClick }: VoteMenuButtonProps) => {
       title="Vote skip times"
       tabIndex={0}
       onClick={onClick}
-      onKeyDown={(event) => {
+      onKeyDown={(event): void => {
         if (event.key !== 'Tab') {
           onClick(event);
         }

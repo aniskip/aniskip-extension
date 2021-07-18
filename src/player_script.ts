@@ -7,10 +7,11 @@ import PlayerFactory from './players/player_factory';
 const player = PlayerFactory.getPlayer(window.location.hostname);
 
 /**
- * Handles messages between the player and the background script
- * @param message Message containing the type of action and the payload
+ * Handles messages between the player and the background script.
+ *
+ * @param message Message containing the type of action and the payload.
  */
-const messageHandler = (message: Message) => {
+const messageHandler = (message: Message): void => {
   if (!player.isReady) {
     return;
   }
@@ -69,7 +70,7 @@ new MutationObserver(() => {
 
   for (let i = 0; i < videoElements.length; i += 1) {
     const videoElement = videoElements[i];
-    videoElement.onloadedmetadata = (event) => {
+    videoElement.onloadedmetadata = (event): void => {
       const target = event.currentTarget as HTMLVideoElement;
       if (target.duration > 60) {
         player.setVideoElement(target);

@@ -6,19 +6,19 @@ class Jw extends BasePlayer {
     super(document, metadata);
   }
 
-  getVideoContainer() {
+  getVideoContainer(): HTMLElement | null {
     return this.document.querySelector<HTMLElement>(
       `[aria-label="${metadata.videoContainerSelectorString}"]`
     );
   }
 
-  getVideoControlsContainer() {
+  getVideoControlsContainer(): HTMLElement | null {
     return super.getContainerHelper(
       metadata.videoControlsContainerSelectorString
     );
   }
 
-  getSeekBarContainer() {
+  getSeekBarContainer(): HTMLElement | null {
     const slider = this.document.querySelector<HTMLElement>(
       `[aria-label^="${metadata.seekBarContainerSelectorString}"]`
     );
@@ -29,7 +29,7 @@ class Jw extends BasePlayer {
     return null;
   }
 
-  getSettingsButtonElement() {
+  getSettingsButtonElement(): HTMLElement | null {
     return this.document.querySelector<HTMLElement>(
       `[aria-label="${metadata.injectMenusButtonsReferenceNodeSelectorString}"]`
     );

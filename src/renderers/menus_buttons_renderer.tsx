@@ -37,12 +37,12 @@ class MenusButtonsRenderer extends BaseRenderer {
    * Set is submit button active field
    * @param newState Is submit button active new value
    */
-  setState(newState: MenusButtonsState) {
+  setState(newState: MenusButtonsState): void {
     this.state = newState;
     this.render();
   }
 
-  render() {
+  render(): void {
     ReactDOM.render(
       <Menus.Buttons
         variant={this.variant}

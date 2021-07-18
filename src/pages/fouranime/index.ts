@@ -1,17 +1,17 @@
 import BasePage from '../base_page';
 
 class FourAnime extends BasePage {
-  getTitle() {
+  getTitle(): string {
     const title = this.document.getElementById('titleleft')?.innerText;
 
     return title || '';
   }
 
-  getIdentifier() {
+  getIdentifier(): string {
     return this.pathname.replace('/', '').split('-episode')[0];
   }
 
-  getRawEpisodeNumber() {
+  getRawEpisodeNumber(): number {
     const episodeString = this.pathname.split('episode-')[1];
     if (episodeString) {
       const episodeNumber = parseInt(episodeString, 10);

@@ -3,7 +3,11 @@ import { FaCloudUploadAlt } from 'react-icons/fa';
 import { SubmitMenuButtonProps } from '../../../types/components/submit_types';
 import { getDomainName } from '../../../utils/string_utils';
 
-const Button = ({ variant, active, onClick }: SubmitMenuButtonProps) => {
+const Button = ({
+  variant,
+  active,
+  onClick,
+}: SubmitMenuButtonProps): JSX.Element => {
   const domainName = getDomainName(window.location.hostname);
 
   return (
@@ -15,7 +19,7 @@ const Button = ({ variant, active, onClick }: SubmitMenuButtonProps) => {
       title="Submit skip times"
       tabIndex={0}
       onClick={onClick}
-      onKeyDown={(event) => {
+      onKeyDown={(event): void => {
         if (event.key !== 'Tab') {
           onClick(event);
         }

@@ -6,17 +6,17 @@ class Twistmoe extends BasePlayer {
     super(document, metadata);
   }
 
-  getVideoContainer() {
+  getVideoContainer(): HTMLElement | null {
     return super.getContainerHelper(metadata.videoContainerSelectorString);
   }
 
-  getVideoControlsContainer() {
+  getVideoControlsContainer(): HTMLElement | null {
     return super.getContainerHelper(
       metadata.videoControlsContainerSelectorString
     );
   }
 
-  getSettingsButtonElement() {
+  getSettingsButtonElement(): HTMLElement | null {
     return super.getContainerHelper(
       metadata.injectMenusButtonsReferenceNodeSelectorString
     );

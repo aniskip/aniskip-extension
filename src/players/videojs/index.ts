@@ -6,19 +6,19 @@ class Videojs extends BasePlayer {
     super(document, metadata);
   }
 
-  getVideoContainer() {
+  getVideoContainer(): HTMLVideoElement | null {
     const videoControlsContainer = this.getVideoControlsContainer();
 
     return videoControlsContainer?.parentElement as HTMLVideoElement | null;
   }
 
-  getVideoControlsContainer() {
+  getVideoControlsContainer(): HTMLElement | null {
     return super.getContainerHelper(
       metadata.videoControlsContainerSelectorString
     );
   }
 
-  getSettingsButtonElement() {
+  getSettingsButtonElement(): HTMLElement | null {
     return super.getContainerHelper(
       metadata.injectMenusButtonsReferenceNodeSelectorString
     );

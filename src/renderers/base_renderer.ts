@@ -30,7 +30,7 @@ abstract class BaseRenderer implements Renderer {
   createShadowRoot(
     container: HTMLDivElement,
     stopPropagationEvents: string[] = []
-  ) {
+  ): ShadowRoot {
     const shadowRoot = container.attachShadow({
       mode: 'closed',
     });

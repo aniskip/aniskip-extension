@@ -10,7 +10,7 @@ const Buttons = ({
   variant,
   submitMenuButtonProps,
   voteMenuButtonProps,
-}: MenusButtonsProps) => {
+}: MenusButtonsProps): JSX.Element => {
   const { isFullscreen } = useFullscreenState();
 
   const domainName = getDomainName(window.location.hostname);

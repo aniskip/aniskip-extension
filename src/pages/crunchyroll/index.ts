@@ -1,14 +1,14 @@
 import BasePage from '../base_page';
 
 class Crunchyroll extends BasePage {
-  getIdentifier() {
+  getIdentifier(): string {
     const title = this.getTitle();
     const encoded = encodeURIComponent(title.toLocaleLowerCase());
     const reEncoded = encodeURIComponent(encoded.replace(/\./g, '%2e'));
     return reEncoded;
   }
 
-  getRawEpisodeNumber() {
+  getRawEpisodeNumber(): number {
     const matches = this.pathname.match(/episode-([0-9]+)/);
     if (matches) {
       const episodeNumber = parseInt(matches[1], 10);
@@ -18,7 +18,7 @@ class Crunchyroll extends BasePage {
     return 1;
   }
 
-  getTitle() {
+  getTitle(): string {
     const metadata = JSON.parse(
       this.document.querySelector('[type="application/ld+json"]')?.innerHTML ||
         '{}'

@@ -1,12 +1,12 @@
 import BasePage from '../base_page';
 
 class Nineanime extends BasePage {
-  getIdentifier() {
+  getIdentifier(): string {
     const cleansedPath = this.pathname.replace(/.*\./, '');
     return cleansedPath.split(/\/ep-/)[0];
   }
 
-  getRawEpisodeNumber() {
+  getRawEpisodeNumber(): number {
     const cleansedPath = this.pathname.replace(/.*\./, '');
     const episodeString = cleansedPath.split(/\/ep-/)[1];
 

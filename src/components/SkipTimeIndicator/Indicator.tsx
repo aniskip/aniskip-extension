@@ -9,16 +9,16 @@ const Indicator = ({
   episodeLength,
   className,
   variant,
-}: SkipTimeIndicatorProps) => {
+}: SkipTimeIndicatorProps): JSX.Element => {
   /**
    * Calculates the percentage the skip time indicator has to be translated on the x axis
    */
-  const calculateTranslation = () => startTime / episodeLength;
+  const calculateTranslation = (): number => startTime / episodeLength;
 
   /**
    * Calculates the width of the skip time indicator
    */
-  const calculateWidth = () => (endTime - startTime) / episodeLength;
+  const calculateWidth = (): number => (endTime - startTime) / episodeLength;
 
   const domainName = getDomainName(window.location.hostname);
 

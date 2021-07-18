@@ -6,13 +6,13 @@ class Doodstream extends BasePlayer {
     super(document, metadata);
   }
 
-  getVideoControlsContainer() {
+  getVideoControlsContainer(): HTMLElement | null {
     return super.getContainerHelper(
       metadata.videoControlsContainerSelectorString
     );
   }
 
-  getSettingsButtonElement() {
+  getSettingsButtonElement(): HTMLElement | null {
     return super.getContainerHelper(
       metadata.injectMenusButtonsReferenceNodeSelectorString
     );

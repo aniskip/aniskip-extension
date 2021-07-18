@@ -7,7 +7,7 @@ class Crunchyroll extends BasePlayer {
     super(document, metadata);
   }
 
-  injectSkipButtons() {
+  injectSkipButtons(): void {
     if (isMobile()) {
       const seekBarContainer = this.getSeekBarContainer();
 
@@ -26,7 +26,7 @@ class Crunchyroll extends BasePlayer {
     super.injectSkipButtons();
   }
 
-  getSeekBarContainer() {
+  getSeekBarContainer(): HTMLElement | null {
     if (isMobile()) {
       return super.getContainerHelper(
         metadata.seekBarContainerSelectorStringMobile
@@ -36,7 +36,7 @@ class Crunchyroll extends BasePlayer {
     return super.getContainerHelper(metadata.seekBarContainerSelectorString, 1);
   }
 
-  initialise() {
+  initialise(): void {
     super.initialise();
     const controlsPackage = this.getVideoControlsContainer();
     if (controlsPackage) {

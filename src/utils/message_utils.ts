@@ -6,13 +6,13 @@ import { Message } from '../types/message_type';
  * Waits for a message with the specified type
  * @param uuid UUID of the message to wait for
  */
-const waitForMessage = (uuid: string) =>
+const waitForMessage = (uuid: string): Promise<Message | null> =>
   new Promise<Message | null>((resolve) => {
     const timeout = setTimeout(() => {
       resolve(null);
     }, 500);
 
-    const handler = (message: Message) => {
+    const handler = (message: Message): void => {
       if (message.uuid === uuid) {
         clearTimeout(timeout);
         resolve(message);

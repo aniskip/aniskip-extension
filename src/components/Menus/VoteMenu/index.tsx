@@ -15,7 +15,7 @@ const VoteMenu = ({
   skipTimes,
   onClose,
   submitMenuOpen,
-}: VoteMenuProps) => {
+}: VoteMenuProps): JSX.Element => {
   const { aniskipHttpClient } = useAniskipHttpClient();
   const [skipTimesVoted, setSkipTimesVoted] = useState<
     Record<string, VoteType>
@@ -29,7 +29,7 @@ const VoteMenu = ({
     skipTimes.sort((a, b) => a.interval.start_time - b.interval.end_time);
     setFilteredSkipTimes([...skipTimes.filter((skipTime) => skipTime.skip_id)]);
 
-    (async () => {
+    (async (): Promise<void> => {
       const { skipTimesVoted: currentSkipTimesVoted } =
         await browser.storage.local.get('skipTimesVoted');
       setSkipTimesVoted(currentSkipTimesVoted);
@@ -45,7 +45,7 @@ const VoteMenu = ({
     })();
   }, [skipTimes]);
 
-  const setPlayerCurrentTime = (time: number) => () => {
+  const setPlayerCurrentTime = (time: number) => (): void => {
     browser.runtime.sendMessage({
       type: 'player-set-current-time',
       payload: time,
@@ -67,7 +67,7 @@ const VoteMenu = ({
         <button
           type="button"
           className="flex justify-center items-center focus:outline-none"
-          onClick={() => onClose()}
+          onClick={(): void => onClose()}
         >
           <FaTimes className="w-4 h-4 active:text-primary" />
         </button>
@@ -80,7 +80,7 @@ const VoteMenu = ({
             </div>
             <LinkButton
               className="text-blue-500 uppercase font-bold hover:no-underline"
-              onClick={() => {
+              onClick={(): void => {
                 onClose();
                 submitMenuOpen();
               }}
@@ -152,7 +152,7 @@ const VoteMenu = ({
                       isUpvoted && 'text-primary'
                     }`}
                     type="button"
-                    onClick={async () => {
+                    onClick={async (): Promise<void> => {
                       if (isUpvoted) {
                         return;
                       }
@@ -192,7 +192,7 @@ const VoteMenu = ({
                       isDownvoted && 'text-blue-500'
                     }`}
                     type="button"
-                    onClick={async () => {
+                    onClick={async (): Promise<void> => {
                       if (isDownvoted) {
                         return;
                       }

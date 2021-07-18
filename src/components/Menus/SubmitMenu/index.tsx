@@ -20,7 +20,11 @@ import {
 import useAniskipHttpClient from '../../../hooks/use_aniskip_http_client';
 import { Message } from '../../../types/message_type';
 
-const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
+const SubmitMenu = ({
+  hidden,
+  onSubmit,
+  onClose,
+}: SubmitMenuProps): JSX.Element => {
   const { aniskipHttpClient } = useAniskipHttpClient();
   const [skipType, setSkipType] = useState<SkipType>('op');
   const [startTime, setStartTime] = useState('');
@@ -37,7 +41,7 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
 
   useEffect(() => {
     if (!hidden) {
-      (async () => {
+      (async (): Promise<void> => {
         const duration = await browser.runtime.sendMessage({
           type: 'player-get-duration',
         } as Message);
@@ -59,10 +63,11 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
 
   /**
    * Correct user input errors such as negative time or time greater than video
-   * duration
-   * @param seconds Seconds to error correct
+   * duration.
+   *
+   * @param seconds Seconds to error correct.
    */
-  const errorCorrectTime = async (seconds: number) => {
+  const errorCorrectTime = async (seconds: number): Promise<number> => {
     let result = seconds;
     if (seconds < 0) {
       result = 0;
@@ -82,7 +87,7 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
   /**
    * Validates the form. Returns false if form has errors, otherwise true
    */
-  const validateForm = () => {
+  const validateForm = (): boolean => {
     const startTimeSeconds = timeStringToSeconds(startTime);
     const endTimeSeconds = timeStringToSeconds(endTime);
 
@@ -105,7 +110,9 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
    * Handles the form event when the submit button is pressed
    * @param event Form event
    */
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
     setIsSubmitting(true);
     if (!validateForm()) {
@@ -175,7 +182,7 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
    */
   const handleOnKeyDown =
     (setTime: React.Dispatch<React.SetStateAction<string>>) =>
-    async (event: React.KeyboardEvent<HTMLInputElement>) => {
+    async (event: React.KeyboardEvent<HTMLInputElement>): Promise<void> => {
       const timeString = event.currentTarget.value;
       const timeSeconds = timeStringToSeconds(timeString);
       let modifier = 0.25;
@@ -220,8 +227,8 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
    * Adds the seek offset to the currently highligted time input
    * @param seekOffset Number to add to current time
    */
-  const handleSeekTime = (seekOffset: number) => async () => {
-    let setTimeFunction = (_newValue: string) => {};
+  const handleSeekTime = (seekOffset: number) => async (): Promise<void> => {
+    let setTimeFunction = (_newValue: string): void => {};
     let currentTime = '';
     switch (currentInputFocus) {
       case 'start-time':
@@ -256,7 +263,7 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
       setTime: React.Dispatch<React.SetStateAction<string>>,
       currentTime: string
     ) =>
-    async () => {
+    async (): Promise<void> => {
       const formatted = formatTimeString(currentTime);
       const seconds = await errorCorrectTime(timeStringToSeconds(formatted));
       setTime(secondsToTimeString(seconds));
@@ -277,7 +284,7 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
         <button
           type="button"
           className="flex justify-center items-center focus:outline-none"
-          onClick={() => onClose()}
+          onClick={(): void => onClose()}
         >
           <FaTimes className="w-4 h-4 active:text-primary" />
         </button>
@@ -298,7 +305,7 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
               required
               title="Hours : Minutes : Seconds"
               placeholder="Start time"
-              onChange={(event) => {
+              onChange={(event): void => {
                 const timeString = event.currentTarget.value;
                 const testRegex = inputPatternTestRegexRef.current;
                 if (testRegex.test(timeString)) {
@@ -306,7 +313,7 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
                 }
               }}
               onKeyDown={handleOnKeyDown(setStartTime)}
-              onFocus={() => setCurrentInputFocus('start-time')}
+              onFocus={(): void => setCurrentInputFocus('start-time')}
               onBlur={handleOnBlur(setStartTime, startTime)}
             />
           </div>
@@ -324,7 +331,7 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
               required
               title="Hours : Minutes : Seconds"
               placeholder="End time"
-              onChange={(event) => {
+              onChange={(event): void => {
                 const timeString = event.currentTarget.value;
                 const testRegex = inputPatternTestRegexRef.current;
                 if (testRegex.test(timeString)) {
@@ -332,7 +339,7 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
                 }
               }}
               onKeyDown={handleOnKeyDown(setEndTime)}
-              onFocus={() => setCurrentInputFocus('end-time')}
+              onFocus={(): void => setCurrentInputFocus('end-time')}
               onBlur={handleOnBlur(setEndTime, endTime)}
             />
           </div>
@@ -345,7 +352,7 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
           <div className="flex space-x-2">
             <DefaultButton
               className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
-              onClick={async () => {
+              onClick={async (): Promise<void> => {
                 const episodeLength = await browser.runtime.sendMessage({
                   type: 'player-get-duration',
                 } as Message);
@@ -378,7 +385,7 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
               </DefaultButton>
               <DefaultButton
                 className="px-3"
-                onClick={async () => {
+                onClick={async (): Promise<void> => {
                   const currentTime = await browser.runtime.sendMessage({
                     type: 'player-get-current-time',
                   } as Message);
@@ -409,7 +416,7 @@ const SubmitMenu = ({ hidden, onSubmit, onClose }: SubmitMenuProps) => {
             </div>
             <DefaultButton
               className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
-              onClick={async () => {
+              onClick={async (): Promise<void> => {
                 const duration = await browser.runtime.sendMessage({
                   type: 'player-get-duration',
                 } as Message);

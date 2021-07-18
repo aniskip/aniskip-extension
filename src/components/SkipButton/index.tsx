@@ -10,7 +10,7 @@ const SkipButtonContainer = ({
   videoDuration,
   variant,
   onClickHandlers,
-}: SkipButtonContainerProps) => (
+}: SkipButtonContainerProps): JSX.Element => (
   <>
     {skipTimes.map(
       (

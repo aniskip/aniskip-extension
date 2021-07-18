@@ -1,3 +1,4 @@
+import Page from '../types/page_type';
 import { getDomainName } from '../utils/string_utils';
 import Animepahe from './animepahe';
 import AniMixPlay from './animixplay';
@@ -10,11 +11,12 @@ import Twistmoe from './twistmoe';
 
 class PageFactory {
   /**
-   * Obtains the page object from the domain
-   * @param pathname Provider's url path
-   * @param hostname Provider's host
+   * Obtains the page object from the domain.
+   *
+   * @param pathname Provider's url path.
+   * @param hostname Provider's host.
    */
-  static getPage(pathname: string, hostname: string) {
+  static getPage(pathname: string, hostname: string): Page {
     const domainName = getDomainName(hostname);
 
     switch (domainName) {

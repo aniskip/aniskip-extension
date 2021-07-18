@@ -55,7 +55,7 @@ abstract class BasePlayer implements Player {
       ed: 'manual-skip',
     };
 
-    (async () => {
+    (async (): Promise<void> => {
       const { skipOptions } = await browser.storage.sync.get('skipOptions');
       this.skipOptions = skipOptions;
     })();
@@ -65,7 +65,7 @@ abstract class BasePlayer implements Player {
       this.metadata.variant
     );
 
-    const toggleSubmitMenu = (hidden: boolean) => () =>
+    const toggleSubmitMenu = (hidden: boolean) => (): void =>
       this.setMenusState({
         ...this.menusState,
         isSubmitMenuHidden: hidden,
@@ -107,7 +107,7 @@ abstract class BasePlayer implements Player {
     );
   }
 
-  addSkipTime(skipTime: SkipTimeType) {
+  addSkipTime(skipTime: SkipTimeType): void {
     if (!this.videoElement) {
       return;
     }
@@ -152,7 +152,7 @@ abstract class BasePlayer implements Player {
   /**
    * Cancels the current scheduled skip time
    */
-  clearScheduledSkipTime() {
+  clearScheduledSkipTime(): void {
     if (this.scheduledSkipTime !== null) {
       clearInterval(this.scheduledSkipTime);
 
@@ -176,7 +176,7 @@ abstract class BasePlayer implements Player {
   /**
    * Returns the next skip time to be scheduled
    */
-  getNextSkipTime() {
+  getNextSkipTime(): SkipTimeType | null {
     let nextSkipTime: SkipTimeType | null = null;
     let earliestStartTime = Infinity;
 
@@ -216,24 +216,24 @@ abstract class BasePlayer implements Player {
     return nextSkipTime;
   }
 
-  getDuration() {
+  getDuration(): number {
     return this.videoElement?.duration || 0;
   }
 
-  getCurrentTime() {
+  getCurrentTime(): number {
     return this.videoElement?.currentTime || 0;
   }
 
   /**
    * Returns the root video container element
    */
-  getVideoContainer() {
+  getVideoContainer(): HTMLElement | null {
     return this.document.getElementById(
       this.metadata.videoContainerSelectorString
     );
   }
 
-  getVideoControlsContainer() {
+  getVideoControlsContainer(): HTMLElement | null {
     return this.document.getElementById(
       this.metadata.videoControlsContainerSelectorString
     );
@@ -242,19 +242,19 @@ abstract class BasePlayer implements Player {
   /**
    * Returns the seek bar container element
    */
-  getSeekBarContainer() {
+  getSeekBarContainer(): HTMLElement | null {
     return this.getContainerHelper(
       this.metadata.seekBarContainerSelectorString
     );
   }
 
-  getSettingsButtonElement() {
+  getSettingsButtonElement(): HTMLElement | null {
     return this.document.getElementById(
       this.metadata.injectMenusButtonsReferenceNodeSelectorString
     );
   }
 
-  initialise() {
+  initialise(): void {
     this.reset();
     this.injectSubmitMenu();
     this.injectSubmitMenuButton();
@@ -265,7 +265,7 @@ abstract class BasePlayer implements Player {
   /**
    * Injects the skip button into the player
    */
-  injectSkipButtons() {
+  injectSkipButtons(): void {
     const settingsButtonElement = this.getSettingsButtonElement();
     if (
       settingsButtonElement &&
@@ -280,7 +280,7 @@ abstract class BasePlayer implements Player {
   /**
    * Injects the skip time indicators into the player seek bar
    */
-  injectSkipTimeIndicator() {
+  injectSkipTimeIndicator(): void {
     const seekBarContainer = this.getSeekBarContainer();
     if (
       seekBarContainer &&
@@ -295,7 +295,7 @@ abstract class BasePlayer implements Player {
   /**
    * Injects the submit menu button into the player controls
    */
-  injectSubmitMenu() {
+  injectSubmitMenu(): void {
     const videoContainer = this.getVideoContainer();
     if (
       videoContainer &&
@@ -309,7 +309,7 @@ abstract class BasePlayer implements Player {
   /**
    * Injects the submit menu button into the player
    */
-  injectSubmitMenuButton() {
+  injectSubmitMenuButton(): void {
     const settingsButtonElement = this.getSettingsButtonElement();
     if (
       settingsButtonElement &&
@@ -323,11 +323,11 @@ abstract class BasePlayer implements Player {
     }
   }
 
-  play() {
+  play(): void {
     this.videoElement?.play();
   }
 
-  removeSkipTime(skipId: string, isPreview?: boolean) {
+  removeSkipTime(skipId: string, isPreview?: boolean): void {
     if (!this.videoElement) {
       return;
     }
@@ -353,7 +353,7 @@ abstract class BasePlayer implements Player {
     });
   }
 
-  onReady() {
+  onReady(): void {
     if (this.videoElement && this.getVideoControlsContainer()) {
       this.isReady = true;
 
@@ -367,7 +367,7 @@ abstract class BasePlayer implements Player {
     }
   }
 
-  reset() {
+  reset(): void {
     this.skipTimeIndicatorsRenderer.clearSkipTimeIndicators();
     this.skipButtonRenderer.clearSkipButtons();
     this.menusRenderer.resetState();
@@ -387,7 +387,7 @@ abstract class BasePlayer implements Player {
    * @param skipTime Optional skip time to schedule
    * @param callback Optional callback on successful time change
    */
-  scheduleSkipTimes() {
+  scheduleSkipTimes(): void {
     if (!this.videoElement) {
       return;
     }
@@ -427,7 +427,7 @@ abstract class BasePlayer implements Player {
    * Sets the video element current time to the input time
    * @param time Time in seconds to set the player time to
    */
-  setCurrentTime(time: number) {
+  setCurrentTime(time: number): void {
     if (!this.videoElement) {
       return;
     }
@@ -439,7 +439,7 @@ abstract class BasePlayer implements Player {
    * Set menus state
    * @param newState New state of menus
    */
-  setMenusState(newState: MenusState) {
+  setMenusState(newState: MenusState): void {
     this.menusState = newState;
     this.menusButtonsRenderer.setState({
       isSubmitButtonActive: !newState.isSubmitMenuHidden,
@@ -448,7 +448,7 @@ abstract class BasePlayer implements Player {
     this.menusRenderer.setMenusState(newState);
   }
 
-  setVideoElement(videoElement: HTMLVideoElement) {
+  setVideoElement(videoElement: HTMLVideoElement): void {
     this.videoElement = videoElement;
     this.skipTimeIndicatorsRenderer.setVideoDuration(this.getDuration());
     this.skipButtonRenderer.setVideoDuration(this.getDuration());

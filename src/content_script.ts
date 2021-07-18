@@ -8,7 +8,11 @@ import PageFactory from './pages/page_factory';
 /**
  * Returns the MAL id, episode number and provider name
  */
-const getEpisodeInformation = async () => {
+const getEpisodeInformation = async (): Promise<{
+  malId: number;
+  episodeNumber: number;
+  providerName: string;
+}> => {
   const { pathname, hostname } = window.location;
   const page = PageFactory.getPage(pathname, hostname);
 
@@ -27,7 +31,7 @@ const getEpisodeInformation = async () => {
 /**
  * Adds the opening and ending skip invervals
  */
-const initialiseSkipTimes = async () => {
+const initialiseSkipTimes = async (): Promise<void> => {
   const aniskipHttpClient = new AniskipHttpClient();
   const { malId, episodeNumber } = await getEpisodeInformation();
   const { skipOptions } = await browser.storage.sync.get('skipOptions');
@@ -63,14 +67,14 @@ const initialiseSkipTimes = async () => {
  * Handles messages between the player and the background script
  * @param message Message containing the type of action and the payload
  */
-const messageHandler = (message: Message) => {
+const messageHandler = (message: Message): any => {
   switch (message.type) {
     case 'player-ready': {
       initialiseSkipTimes();
       break;
     }
     case 'get-episode-information': {
-      (async () => {
+      (async (): Promise<void> => {
         const episodeInformation = await getEpisodeInformation();
         browser.runtime.sendMessage({
           payload: episodeInformation,

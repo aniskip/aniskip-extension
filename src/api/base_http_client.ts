@@ -43,7 +43,7 @@ abstract class BaseHttpClient implements HttpClient {
       payload: { url: url.toString(), options },
     } as Message);
 
-    return { ...response, json: <T>() => JSON.parse(response.body) as T };
+    return { ...response, json: <T>(): T => JSON.parse(response.body) as T };
   }
 }
 
