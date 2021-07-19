@@ -5,7 +5,7 @@ import MenusRenderer from '../renderers/menus_renderer';
 import SkipButtonsRenderer from '../renderers/skip_button_renderer';
 import SkipTimeIndicatorsRenderer from '../renderers/skip_time_indicators_renderer';
 import { MenusState } from '../types/components/menus_types';
-import { Message } from '../types/message_type';
+import { Message } from '../scripts/background';
 import { Player, Metadata } from '../types/player_types';
 import { SkipOptionsType } from '../types/skip_option_type';
 import { SkipTime } from '../api';

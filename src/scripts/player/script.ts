@@ -1,6 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { Message } from '../../types/message_type';
+import { Message } from '../background';
 import { SkipTime } from '../../api';
 import PlayerFactory from '../../players/player_factory';
 

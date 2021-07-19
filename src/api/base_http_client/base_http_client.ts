@@ -1,7 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { Response, HttpClient } from './base_http_client.types';
-import { Message } from '../../types/message_type';
+import { Message } from '../../scripts/background';
 
 export abstract class BaseHttpClient implements HttpClient {
   baseUrl: string;

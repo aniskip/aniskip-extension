@@ -1,6 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { Message } from '../../types/message_type';
+import { Message } from '../background';
 import { AniskipHttpClient, SkipType } from '../../api';
 import PageFactory from '../../pages/page_factory';
 

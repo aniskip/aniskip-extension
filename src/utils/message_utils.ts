@@ -1,6 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { Message } from '../types/message_type';
+import { Message } from '../scripts/background';
 
 /**
  * Waits for a message with the specified type.
