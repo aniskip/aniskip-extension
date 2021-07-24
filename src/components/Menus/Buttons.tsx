@@ -4,7 +4,7 @@ import SubmitMenu from './SubmitMenu';
 import VoteMenu from './VoteMenu';
 import { MenusButtonsProps } from '../../types/components/menus_types';
 import { getDomainName } from '../../utils/string_utils';
-import { useFullscreenState } from '../../hooks/use_fullscreen_state';
+import { useFullscreenState } from '../../hooks';
 
 const Buttons = ({
   variant,

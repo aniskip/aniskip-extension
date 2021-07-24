@@ -13,7 +13,7 @@ import { DefaultButton } from '../../DefaultButton';
 import MenuButton from './Button';
 import { Input } from '../../Input';
 import { AniskipHttpClientErrorCode, SkipTime, SkipType } from '../../../api';
-import { useAniskipHttpClient } from '../../../hooks/use_aniskip_http_client';
+import { useAniskipHttpClient } from '../../../hooks';
 import { Message } from '../../../scripts/background';
 
 const SubmitMenu = ({
