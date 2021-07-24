@@ -11,7 +11,7 @@ export const waitForMessage = (uuid: string): Promise<Message | null> =>
   new Promise<Message | null>((resolve) => {
     const timeout = setTimeout(() => {
       resolve(null);
-    }, 500);
+    }, 2000);
 
     const handler = (message: Message): void => {
       if (message.uuid === uuid) {
