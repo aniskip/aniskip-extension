@@ -10,7 +10,6 @@
     "Dabreadman <tany3@tcd.ie>"
   ],
   "license": "MIT",
-  "private": false,
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.config.js",
     "build:chrome": "cross-env NODE_ENV=production BROWSER=chromium webpack --config ./webpack/webpack.prod.config.js",
