@@ -17,7 +17,7 @@ export const PlayerButtons = ({
 
   return (
     <div
-      className={`hidden sm:flex items-center justify-center menus-buttons--${variant} menus-buttons--${domainName} ${
+      className={`hidden sm:flex items-center justify-center player-buttons--${variant} player-buttons--${domainName} ${
         isFullscreen ? 'flex' : ''
       }`}
     >

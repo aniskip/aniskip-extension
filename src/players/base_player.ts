@@ -86,7 +86,7 @@ export abstract class BasePlayer implements Player {
     );
 
     this.playerButtonsRenderer = new PlayerButtonsRenderer(
-      'aniskip-player-menus-buttons',
+      'aniskip-player-player-buttons',
       this.metadata.variant,
       () =>
         this.setMenusState({
