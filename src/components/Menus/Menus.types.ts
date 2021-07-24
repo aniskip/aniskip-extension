@@ -1,4 +1,3 @@
-import React from 'react';
 import { SkipTime } from '../../api';
 import { SubmitMenuProps } from '../SubmitMenu/SubmitMenu.types';
 import { SubmitMenuButtonOnClickHandler } from '../SubmitMenuButton';
@@ -36,9 +35,4 @@ export interface MenusState {
 export interface MenusButtonsState {
   isSubmitButtonActive: boolean;
   isVoteButtonActive: boolean;
-}
-
-export interface MenuContainerProps {
-  variant: string;
-  children: React.ReactNode;
 }
