@@ -7,7 +7,7 @@ import {
   formatTimeString,
   secondsToTimeString,
   timeStringToSeconds,
-} from '../../../utils/string_utils';
+} from '../../../utils';
 import { Dropdown } from '../../Dropdown';
 import { DefaultButton } from '../../DefaultButton';
 import MenuButton from './Button';

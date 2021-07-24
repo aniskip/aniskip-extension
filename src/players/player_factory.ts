@@ -1,4 +1,4 @@
-import { getDomainName } from '../utils/string_utils';
+import { getDomainName } from '../utils/string';
 import { Doodstream } from './doodstream';
 import { FourAnime, Videojs } from './videojs';
 import { Jw } from './jw';

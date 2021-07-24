@@ -1,4 +1,4 @@
-import { getDomainName } from '../../utils/string_utils';
+import { getDomainName } from '../../utils';
 import { BasePage } from '../base_page';
 
 export class Animepahe extends BasePage {

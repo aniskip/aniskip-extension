@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { isMobileTest } from '../utils/responsive_utils';
+import { isMobileTest } from '../utils';
 
 /**
  * Returns if the browser is a mobile browser.

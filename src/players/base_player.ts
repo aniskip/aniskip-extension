@@ -10,7 +10,7 @@ import { MenusState } from '../types/components/menus_types';
 import { Message, SkipOptions } from '../scripts/background';
 import { Player, Metadata } from './base_player.types';
 import { SkipTime } from '../api';
-import { isInInterval } from '../utils/time_utils';
+import { isInInterval } from '../utils';
 
 export abstract class BasePlayer implements Player {
   document: Document;

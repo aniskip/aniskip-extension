@@ -6,7 +6,7 @@ import { useAniskipHttpClient } from '../../../hooks';
 import { SkipTime, VoteType } from '../../../api';
 import { VoteMenuProps } from '../../../types/components/vote_menu_types';
 import { Message } from '../../../scripts/background';
-import { secondsToTimeString } from '../../../utils/string_utils';
+import { secondsToTimeString } from '../../../utils';
 import { LinkButton } from '../../LinkButton';
 import Button from './Button';
 

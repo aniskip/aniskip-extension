@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFullscreenState, useMobileState } from '../../hooks';
 import { SkipButtonProps } from '../../types/components/skip_time_button_types';
-import { getDomainName } from '../../utils/string_utils';
+import { getDomainName } from '../../utils';
 import { DefaultButton } from '../DefaultButton';
 
 const Button = ({

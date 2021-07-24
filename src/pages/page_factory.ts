@@ -1,5 +1,5 @@
 import { Page } from './base_page.types';
-import { getDomainName } from '../utils/string_utils';
+import { getDomainName } from '../utils';
 import { Animepahe } from './animepahe';
 import { AniMixPlay } from './animixplay';
 import { Aniwatch } from './aniwatch';

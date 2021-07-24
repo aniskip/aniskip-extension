@@ -7,7 +7,7 @@ import {
   AnilistHttpClient,
 } from '../api';
 import { Page } from './base_page.types';
-import { capitalizeFirstLetter, getDomainName } from '../utils/string_utils';
+import { capitalizeFirstLetter, getDomainName } from '../utils';
 
 export abstract class BasePage implements Page {
   hostname: string;

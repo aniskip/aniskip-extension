@@ -1,4 +1,4 @@
-import { isMobileTest } from '../../utils/responsive_utils';
+import { isMobileTest } from '../../utils';
 import { BasePlayer } from '../base_player';
 import metadata from './metadata.json';
 

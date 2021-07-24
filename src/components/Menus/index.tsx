@@ -5,7 +5,7 @@ import {
   MenuContainerProps,
   MenusProps,
 } from '../../types/components/menus_types';
-import { getDomainName } from '../../utils/string_utils';
+import { getDomainName } from '../../utils';
 import Buttons from './Buttons';
 import SubmitMenu from './SubmitMenu';
 import VoteMenu from './VoteMenu';

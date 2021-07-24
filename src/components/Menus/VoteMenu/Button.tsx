@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaListUl } from 'react-icons/fa';
 import { VoteMenuButtonProps } from '../../../types/components/vote_menu_types';
-import { getDomainName } from '../../../utils/string_utils';
+import { getDomainName } from '../../../utils';
 
 const Button = ({
   variant,

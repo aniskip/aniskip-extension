@@ -2,7 +2,7 @@ import { browser, Runtime } from 'webextension-polyfill-ts';
 import { v4 as uuidv4 } from 'uuid';
 
 import { DefaultOptions, LocalDefaultOptions, Message } from './types';
-import { waitForMessage } from '../../utils/message_utils';
+import { waitForMessage } from '../../utils';
 
 /**
  * Relay messages between content scripts.

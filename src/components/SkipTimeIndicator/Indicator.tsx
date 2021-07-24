@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { SkipTimeIndicatorProps } from '../../types/components/skip_time_indicator_types';
-import { getDomainName } from '../../utils/string_utils';
+import { getDomainName } from '../../utils';
 
 const Indicator = ({
   startTime,
