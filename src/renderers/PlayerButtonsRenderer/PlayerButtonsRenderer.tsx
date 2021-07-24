@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import { BaseRenderer } from '../base_renderer';
 import {
   SubmitMenuButtonOnClickHandler,

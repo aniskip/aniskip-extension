@@ -1,6 +1,5 @@
 import React from 'react';
 import { FaCloudUploadAlt } from 'react-icons/fa';
-
 import { getDomainName } from '../../utils';
 import { SubmitMenuButtonProps } from './SubmitMenuButton.types';
 

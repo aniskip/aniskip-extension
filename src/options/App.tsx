@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Navbar, SettingsPage } from './components';
 
 export const App = (): JSX.Element => (

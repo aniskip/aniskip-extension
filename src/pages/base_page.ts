@@ -1,6 +1,5 @@
 import stringSimilarity from 'string-similarity';
 import { browser } from 'webextension-polyfill-ts';
-
 import {
   AniskipHttpClient,
   MalsyncHttpClient,

@@ -1,5 +1,4 @@
 import { browser } from 'webextension-polyfill-ts';
-
 import { Response, HttpClient } from './base_http_client.types';
 import { Message } from '../../scripts/background';
 

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { PlayerButtonsProps } from './PlayerButtons.types';
 import { SubmitMenuButton } from '../SubmitMenuButton';
 import { VoteMenuButton } from '../VoteMenuButton';

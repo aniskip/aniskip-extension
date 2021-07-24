@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { MenuContainerProps } from './MenuContainer.types';
 import { useFullscreenState, useMobileState } from '../../hooks';
 import { getDomainName } from '../../utils';

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
-
 import { Dropdown } from '../../../components';
 import { SkipOptionType } from '../../../scripts/background';
 

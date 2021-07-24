@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { SkipButton } from '../SkipButton';
 import { isInInterval } from '../../utils';
 import { SkipButtonContainerProps } from './SkipButtonContainer.types';

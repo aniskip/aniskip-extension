@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import { FaBackward, FaForward, FaPlay, FaTimes } from 'react-icons/fa';
-
 import { AniskipHttpClientErrorCode, SkipTime, SkipType } from '../../api';
 import { DefaultButton } from '../DefaultButton';
 import { Dropdown } from '../Dropdown';

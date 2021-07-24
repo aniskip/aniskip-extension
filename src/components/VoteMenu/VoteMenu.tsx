@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaChevronDown, FaChevronUp, FaPlay, FaTimes } from 'react-icons/fa';
 import { browser } from 'webextension-polyfill-ts';
-
 import { useAniskipHttpClient } from '../../hooks';
 import { SkipTime, VoteType } from '../../api';
 import { VoteMenuProps } from './VoteMenu.types';

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { SkipTimeIndicator } from '../SkipTimeIndicator';
 import { SkipTimeIndicatorContainerProps } from './SkipTimeIndicatorContainer.types';
 

@@ -1,6 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
-
 import { DropdownProps } from './Dropdown.types';
 import { useHandleOutsideClick } from '../../hooks';
 
