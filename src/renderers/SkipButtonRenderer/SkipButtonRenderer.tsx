@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SkipButton from '../components/SkipButton';
-import { SkipTime } from '../api';
-import { SkipButtonOnClickHandler } from '../types/components/skip_time_button_types';
 
-import BaseRenderer from './base_renderer';
+import SkipButton from '../../components/SkipButton';
+import { SkipTime } from '../../api';
+import { SkipButtonOnClickHandler } from '../../types/components/skip_time_button_types';
+import { BaseRenderer } from '../base_renderer';
 
-class SkipButtonsRenderer extends BaseRenderer {
+export class SkipButtonsRenderer extends BaseRenderer {
   variant: string;
 
   isHidden: boolean;
@@ -103,5 +103,3 @@ class SkipButtonsRenderer extends BaseRenderer {
     );
   }
 }
-
-export default SkipButtonsRenderer;

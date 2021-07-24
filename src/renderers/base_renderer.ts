@@ -1,6 +1,6 @@
-import Renderer from '../types/renderer_type';
+import { Renderer } from './base_renderer.types';
 
-abstract class BaseRenderer implements Renderer {
+export abstract class BaseRenderer implements Renderer {
   id: string;
 
   reactRootId: string;
@@ -60,5 +60,3 @@ abstract class BaseRenderer implements Renderer {
     return shadowRoot;
   }
 }
-
-export default BaseRenderer;

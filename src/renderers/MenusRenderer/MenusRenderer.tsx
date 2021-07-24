@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import BaseRenderer from './base_renderer';
-import Menus from '../components/Menus';
-import { MenusState } from '../types/components/menus_types';
+import { BaseRenderer } from '../base_renderer';
+import Menus from '../../components/Menus';
+import { MenusState } from '../../types/components/menus_types';
 
-class MenusRenderer extends BaseRenderer {
+export class MenusRenderer extends BaseRenderer {
   variant: string;
 
   state: MenusState;
@@ -90,5 +90,3 @@ class MenusRenderer extends BaseRenderer {
     );
   }
 }
-
-export default MenusRenderer;

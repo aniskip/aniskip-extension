@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Menus from '../components/Menus';
-import { MenusButtonsState } from '../types/components/menus_types';
-import { SubmitMenuButtonOnClickHandler } from '../types/components/submit_types';
-import { VoteMenuButtonOnClickHandler } from '../types/components/vote_menu_types';
-import BaseRenderer from './base_renderer';
+import Menus from '../../components/Menus';
+import { MenusButtonsState } from '../../types/components/menus_types';
+import { SubmitMenuButtonOnClickHandler } from '../../types/components/submit_types';
+import { VoteMenuButtonOnClickHandler } from '../../types/components/vote_menu_types';
+import { BaseRenderer } from '../base_renderer';
 
-class MenusButtonsRenderer extends BaseRenderer {
+export class MenusButtonsRenderer extends BaseRenderer {
   variant: string;
 
   state: MenusButtonsState;
@@ -62,5 +62,3 @@ class MenusButtonsRenderer extends BaseRenderer {
     );
   }
 }
-
-export default MenusButtonsRenderer;

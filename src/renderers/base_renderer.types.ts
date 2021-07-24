@@ -1,8 +1,6 @@
-interface Renderer {
+export type Renderer = {
   /**
    * Renders the JSX element.
    */
   render(): void;
-}
-
-export default Renderer;
+};

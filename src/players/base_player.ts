@@ -1,9 +1,9 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import MenusButtonsRenderer from '../renderers/menus_buttons_renderer';
-import MenusRenderer from '../renderers/menus_renderer';
-import SkipButtonsRenderer from '../renderers/skip_button_renderer';
-import SkipTimeIndicatorsRenderer from '../renderers/skip_time_indicators_renderer';
+import { MenusButtonsRenderer } from '../renderers/MenusButtonsRenderer';
+import { MenusRenderer } from '../renderers/MenusRenderer';
+import { SkipButtonsRenderer } from '../renderers/SkipButtonRenderer/SkipButtonRenderer';
+import { SkipTimeIndicatorsRenderer } from '../renderers/SkipTimeIndicatorsRenderer';
 import { MenusState } from '../types/components/menus_types';
 import { Message } from '../scripts/background';
 import { Player, Metadata } from './base_player.types';
