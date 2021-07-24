@@ -1,12 +1,12 @@
-export interface Mal {
+export type Mal = {
   id: number;
   type: string;
   title: string;
   url: string;
   image: string;
-}
+};
 
-export interface GetResponseTypeFromPage {
+export type GetResponseTypeFromPage = {
   identifier: string;
   type: string;
   page: string;
@@ -17,6 +17,6 @@ export interface GetResponseTypeFromPage {
   Mal: Mal;
   malUrl: string;
   ttl: number;
-}
+};
 
 export type MalsyncHttpClientErrorCode = 'page/not-found';

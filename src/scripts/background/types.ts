@@ -23,8 +23,8 @@ export type MessageType =
   | 'player-remove-skip-time'
   | 'player-set-current-time';
 
-export interface Message {
+export type Message = {
   type: MessageType;
   payload?: any;
   uuid?: string;
-}
+};

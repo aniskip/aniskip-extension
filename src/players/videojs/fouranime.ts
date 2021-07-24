@@ -1,6 +1,6 @@
-import Videojs from '.';
+import { Videojs } from './videojs';
 
-class FourAnime extends Videojs {
+export class FourAnime extends Videojs {
   initialise(): void {
     // Hack to fix 4Anime floating buttons in smaller window size.
     if (
@@ -13,5 +13,3 @@ class FourAnime extends Videojs {
     super.initialise();
   }
 }
-
-export default FourAnime;

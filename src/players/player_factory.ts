@@ -1,12 +1,11 @@
 import { getDomainName } from '../utils/string_utils';
-import Plyr from './plyr';
-import Crunchyroll from './crunchyroll';
-import Videojs from './videojs';
-import Doodstream from './doodstream';
-import Jw from './jw';
-import Twistmoe from './twistmoe';
-import FourAnime from './videojs/fouranime';
-import { Player } from '../types/player_types';
+import { Doodstream } from './doodstream';
+import { FourAnime, Videojs } from './videojs';
+import { Jw } from './jw';
+import { Plyr } from './plyr';
+import { Twistmoe } from './twistmoe';
+import { Crunchyroll } from './crunchyroll';
+import { Player } from './base_player.types';
 
 class PlayerFactory {
   /**

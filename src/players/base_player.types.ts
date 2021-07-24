@@ -1,6 +1,6 @@
 import { SkipTime } from '../api';
 
-export interface Metadata {
+export type Metadata = {
   variant: string;
   videoContainerSelectorString: string;
   videoControlsContainerSelectorString: string;
@@ -8,9 +8,9 @@ export interface Metadata {
   seekBarContainerSelectorString: string;
   seekBarContainerSelectorStringMobile?: string;
   player_urls: string[];
-}
+};
 
-export interface Player {
+export type Player = {
   document: Document;
 
   metadata: Metadata;
@@ -82,4 +82,4 @@ export interface Player {
    * @param videoElement Video element of the player.
    */
   setVideoElement(videoElement: HTMLVideoElement): void;
-}
+};
