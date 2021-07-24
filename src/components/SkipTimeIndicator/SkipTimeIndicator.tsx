@@ -3,7 +3,7 @@ import React from 'react';
 import { SkipTimeIndicatorProps } from './SkipTimeIndicator.types';
 import { getDomainName } from '../../utils';
 
-export const Indicator = ({
+export const SkipTimeIndicator = ({
   startTime,
   endTime,
   episodeLength,

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { SkipTimeIndicatorContainerProps } from './SkipTimeIndicator.types';
-import { Indicator } from './Indicator';
+import { SkipTimeIndicator } from '../SkipTimeIndicator';
+import { SkipTimeIndicatorContainerProps } from './SkipTimeIndicatorContainer.types';
 
 export const SkipTimeIndicatorContainer = ({
   skipTimes,
@@ -15,7 +15,7 @@ export const SkipTimeIndicatorContainer = ({
       const offset = videoDuration - skipTime.episode_length;
 
       return (
-        <Indicator
+        <SkipTimeIndicator
           className="bg-blue-700"
           startTime={startTime + offset}
           endTime={endTime + offset}

@@ -4,3 +4,4 @@ export * from './Input';
 export * from './LinkButton';
 export * from './SkipButton';
 export * from './SkipButtonContainer';
+export * from './SkipTimeIndicatorContainer';
