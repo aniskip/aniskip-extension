@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SubmitMenu } from '../SubmitMenu';
+import { SubmitMenu } from '../../SubmitMenu';
 import { VoteMenu } from '../../VoteMenu';
 import { MenusButtonsProps } from '../Menus.types';
 import { getDomainName } from '../../../utils';

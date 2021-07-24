@@ -2,19 +2,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import { FaBackward, FaForward, FaPlay, FaTimes } from 'react-icons/fa';
 
+import { AniskipHttpClientErrorCode, SkipTime, SkipType } from '../../api';
+import { Button as MenuButton } from '../SubmitMenuButton';
+import { DefaultButton } from '../DefaultButton';
+import { Dropdown } from '../Dropdown';
+import { Input } from '../Input';
+import { Message } from '../../scripts/background';
 import { SubmitMenuProps } from './SubmitMenu.types';
 import {
   formatTimeString,
   secondsToTimeString,
   timeStringToSeconds,
-} from '../../../utils';
-import { Dropdown } from '../../Dropdown';
-import { DefaultButton } from '../../DefaultButton';
-import { Button as MenuButton } from './Button';
-import { Input } from '../../Input';
-import { AniskipHttpClientErrorCode, SkipTime, SkipType } from '../../../api';
-import { useAniskipHttpClient } from '../../../hooks';
-import { Message } from '../../../scripts/background';
+} from '../../utils';
+import { useAniskipHttpClient } from '../../hooks';
 
 export const SubmitMenu = ({
   hidden,

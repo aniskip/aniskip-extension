@@ -4,7 +4,7 @@ import { useFullscreenState, useMobileState } from '../../hooks';
 import { MenuContainerProps, MenusProps } from './Menus.types';
 import { getDomainName } from '../../utils';
 import { Buttons } from './Buttons/Buttons';
-import { SubmitMenu } from './SubmitMenu';
+import { SubmitMenu } from '../SubmitMenu';
 import { VoteMenu } from '../VoteMenu';
 
 const MenuContainer = ({

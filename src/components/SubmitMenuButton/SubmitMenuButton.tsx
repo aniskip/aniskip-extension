@@ -1,7 +1,8 @@
 import React from 'react';
 import { FaCloudUploadAlt } from 'react-icons/fa';
-import { SubmitMenuButtonProps } from './SubmitMenu.types';
-import { getDomainName } from '../../../utils';
+
+import { getDomainName } from '../../utils';
+import { SubmitMenuButtonProps } from './SubmitMenuButton.types';
 
 export const Button = ({
   variant,

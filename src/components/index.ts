@@ -5,5 +5,7 @@ export * from './LinkButton';
 export * from './SkipButton';
 export * from './SkipButtonContainer';
 export * from './SkipTimeIndicatorContainer';
+export * from './SubmitMenu';
+export * from './SubmitMenuButton';
 export * from './VoteMenu';
 export * from './VoteMenuButton';

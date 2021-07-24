@@ -1,9 +1,7 @@
 import React from 'react';
 import { SkipTime } from '../../api';
-import {
-  SubmitMenuButtonOnClickHandler,
-  SubmitMenuProps,
-} from './SubmitMenu/SubmitMenu.types';
+import { SubmitMenuProps } from '../SubmitMenu/SubmitMenu.types';
+import { SubmitMenuButtonOnClickHandler } from '../SubmitMenuButton';
 import {
   VoteMenuButtonOnClickHandler,
   VoteMenuProps,

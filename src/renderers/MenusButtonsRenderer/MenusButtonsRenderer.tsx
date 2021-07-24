@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom';
 
 import { BaseRenderer } from '../base_renderer';
 import { Menus, MenusButtonsState } from '../../components/Menus';
-import { SubmitMenuButtonOnClickHandler } from '../../components/Menus/SubmitMenu/SubmitMenu.types';
-import { VoteMenuButtonOnClickHandler } from '../../components';
+import {
+  SubmitMenuButtonOnClickHandler,
+  VoteMenuButtonOnClickHandler,
+} from '../../components';
 
 export class MenusButtonsRenderer extends BaseRenderer {
   variant: string;
