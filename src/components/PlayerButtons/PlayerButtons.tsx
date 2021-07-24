@@ -1,12 +1,11 @@
 import React from 'react';
+import { useFullscreenState } from '../../hooks';
+import { getDomainName } from '../../utils';
+import { MenusButtonsProps } from '../Menus';
+import { SubmitMenuButton } from '../SubmitMenuButton';
+import { VoteMenuButton } from '../VoteMenuButton';
 
-import { SubmitMenu } from '../../SubmitMenu';
-import { VoteMenu } from '../../VoteMenu';
-import { MenusButtonsProps } from '../Menus.types';
-import { getDomainName } from '../../../utils';
-import { useFullscreenState } from '../../../hooks';
-
-export const Buttons = ({
+export const PlayerButtons = ({
   variant,
   submitMenuButtonProps,
   voteMenuButtonProps,
@@ -21,12 +20,12 @@ export const Buttons = ({
         isFullscreen ? 'flex' : ''
       }`}
     >
-      <SubmitMenu.Button
+      <SubmitMenuButton
         active={submitMenuButtonProps.active}
         variant={submitMenuButtonProps.variant}
         onClick={submitMenuButtonProps.onClick}
       />
-      <VoteMenu.Button
+      <VoteMenuButton
         active={voteMenuButtonProps.active}
         variant={voteMenuButtonProps.variant}
         onClick={voteMenuButtonProps.onClick}

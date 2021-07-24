@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { BaseRenderer } from '../base_renderer';
-import { Menus, MenusButtonsState } from '../../components/Menus';
 import {
   SubmitMenuButtonOnClickHandler,
   VoteMenuButtonOnClickHandler,
+  MenusButtonsState,
+  PlayerButtons,
 } from '../../components';
 
 export class MenusButtonsRenderer extends BaseRenderer {
@@ -46,7 +47,7 @@ export class MenusButtonsRenderer extends BaseRenderer {
 
   render(): void {
     ReactDOM.render(
-      <Menus.Buttons
+      <PlayerButtons
         variant={this.variant}
         submitMenuButtonProps={{
           active: this.state.isSubmitButtonActive,

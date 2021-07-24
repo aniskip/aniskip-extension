@@ -3,7 +3,6 @@ import { browser } from 'webextension-polyfill-ts';
 import { FaBackward, FaForward, FaPlay, FaTimes } from 'react-icons/fa';
 
 import { AniskipHttpClientErrorCode, SkipTime, SkipType } from '../../api';
-import { Button as MenuButton } from '../SubmitMenuButton';
 import { DefaultButton } from '../DefaultButton';
 import { Dropdown } from '../Dropdown';
 import { Input } from '../Input';
@@ -467,5 +466,3 @@ export const SubmitMenu = ({
     </div>
   );
 };
-
-SubmitMenu.Button = MenuButton;

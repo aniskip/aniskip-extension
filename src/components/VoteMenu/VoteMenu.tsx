@@ -8,7 +8,6 @@ import { VoteMenuProps } from './VoteMenu.types';
 import { Message } from '../../scripts/background';
 import { secondsToTimeString } from '../../utils';
 import { LinkButton } from '../LinkButton';
-import { VoteMenuButton } from '../VoteMenuButton';
 
 export const VoteMenu = ({
   hidden,
@@ -240,5 +239,3 @@ export const VoteMenu = ({
     </div>
   );
 };
-
-VoteMenu.Button = VoteMenuButton;
