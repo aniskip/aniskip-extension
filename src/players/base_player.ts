@@ -6,7 +6,7 @@ import {
   SkipButtonsRenderer,
   SkipTimeIndicatorsRenderer,
 } from '../renderers';
-import { MenusState } from '../components/Menus/Menus.types';
+import { MenusState } from '../components';
 import { Message, SkipOptions } from '../scripts/background';
 import { Player, Metadata } from './base_player.types';
 import { SkipTime } from '../api';

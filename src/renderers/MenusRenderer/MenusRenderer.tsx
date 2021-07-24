@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { BaseRenderer } from '../base_renderer';
-import { Menus } from '../../components/Menus/Menus';
-import { MenusState } from '../../components/Menus/Menus.types';
+import { Menus, MenusState } from '../../components';
 
 export class MenusRenderer extends BaseRenderer {
   variant: string;
