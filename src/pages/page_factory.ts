@@ -1,15 +1,15 @@
-import Page from '../types/page_type';
+import { Page } from './base_page.types';
 import { getDomainName } from '../utils/string_utils';
-import Animepahe from './animepahe';
-import AniMixPlay from './animixplay';
-import Aniwatch from './aniwatch';
-import Crunchyroll from './crunchyroll';
-import FourAnime from './fouranime';
-import Gogoanime from './gogoanime';
-import Nineanime from './nineanime';
-import Twistmoe from './twistmoe';
+import { Animepahe } from './animepahe';
+import { AniMixPlay } from './animixplay';
+import { Aniwatch } from './aniwatch';
+import { Crunchyroll } from './crunchyroll';
+import { FourAnime } from './fouranime';
+import { Gogoanime } from './gogoanime';
+import { Nineanime } from './nineanime';
+import { Twistmoe } from './twistmoe';
 
-class PageFactory {
+export class PageFactory {
   /**
    * Obtains the page object from the domain.
    *
@@ -41,5 +41,3 @@ class PageFactory {
     }
   }
 }
-
-export default PageFactory;

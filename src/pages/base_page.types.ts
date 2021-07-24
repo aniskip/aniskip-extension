@@ -1,4 +1,4 @@
-interface Page {
+export type Page = {
   hostname: string;
 
   pathname: string;
@@ -34,6 +34,4 @@ interface Page {
    * Returns the MAL identification id from the url.
    */
   getMalId(): Promise<number>;
-}
-
-export default Page;
+};

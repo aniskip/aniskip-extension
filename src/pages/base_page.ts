@@ -6,10 +6,10 @@ import {
   MalsyncHttpClient,
   AnilistHttpClient,
 } from '../api';
-import Page from '../types/page_type';
+import { Page } from './base_page.types';
 import { capitalizeFirstLetter, getDomainName } from '../utils/string_utils';
 
-abstract class BasePage implements Page {
+export abstract class BasePage implements Page {
   hostname: string;
 
   pathname: string;
@@ -162,5 +162,3 @@ abstract class BasePage implements Page {
     return malIdCache[identifier] || 0;
   }
 }
-
-export default BasePage;

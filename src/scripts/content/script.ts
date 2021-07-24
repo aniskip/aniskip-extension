@@ -2,7 +2,7 @@ import { browser } from 'webextension-polyfill-ts';
 
 import { Message } from '../background';
 import { AniskipHttpClient, SkipType } from '../../api';
-import PageFactory from '../../pages/page_factory';
+import { PageFactory } from '../../pages/page_factory';
 
 /**
  * Returns the MAL id, episode number and provider name.
