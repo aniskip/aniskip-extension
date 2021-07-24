@@ -4,7 +4,7 @@ import { SkipButtonProps } from './SkipButton.types';
 import { getDomainName } from '../../utils';
 import { DefaultButton } from '../DefaultButton';
 
-export const Button = ({
+export const SkipButton = ({
   skipType,
   variant,
   hidden,

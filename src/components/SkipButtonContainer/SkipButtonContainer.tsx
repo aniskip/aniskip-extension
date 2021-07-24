@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { SkipButtonContainerProps } from './SkipButton.types';
+import { SkipButton } from '../SkipButton';
 import { isInInterval } from '../../utils';
-import { Button } from './Button';
+import { SkipButtonContainerProps } from './SkipButtonContainer.types';
 
 export const SkipButtonContainer = ({
   skipTimes,
@@ -33,7 +33,7 @@ export const SkipButtonContainer = ({
         );
 
         return (
-          <Button
+          <SkipButton
             key={`skip-button-${skipId}`}
             skipType={skipType}
             variant={variant}
