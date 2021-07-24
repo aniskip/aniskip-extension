@@ -1,5 +1,5 @@
-import isMobile from '../../utils/responsive_utils';
-import BasePlayer from '../base_player';
+import { isMobileTest } from '../../utils/responsive_utils';
+import { BasePlayer } from '../base_player';
 import metadata from './metadata.json';
 
 export class Crunchyroll extends BasePlayer {
@@ -8,7 +8,7 @@ export class Crunchyroll extends BasePlayer {
   }
 
   injectSkipButtons(): void {
-    if (isMobile()) {
+    if (isMobileTest()) {
       const seekBarContainer = this.getSeekBarContainer();
 
       if (
@@ -27,7 +27,7 @@ export class Crunchyroll extends BasePlayer {
   }
 
   getSeekBarContainer(): HTMLElement | null {
-    if (isMobile()) {
+    if (isMobileTest()) {
       return super.getContainerHelper(
         metadata.seekBarContainerSelectorStringMobile
       );

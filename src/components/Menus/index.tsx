@@ -1,6 +1,6 @@
 import React from 'react';
-import useFullscreenState from '../../hooks/use_fullscreen_state';
-import useMobileState from '../../hooks/use_mobile_state';
+import { useFullscreenState } from '../../hooks/use_fullscreen_state';
+import { useMobileState } from '../../hooks/use_mobile_state';
 
 import {
   MenuContainerProps,

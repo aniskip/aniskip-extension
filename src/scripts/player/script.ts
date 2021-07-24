@@ -2,7 +2,7 @@ import { browser } from 'webextension-polyfill-ts';
 
 import { Message } from '../background';
 import { SkipTime } from '../../api';
-import PlayerFactory from '../../players/player_factory';
+import { PlayerFactory } from '../../players/player_factory';
 
 const player = PlayerFactory.getPlayer(window.location.hostname);
 

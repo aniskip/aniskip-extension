@@ -10,9 +10,9 @@ import { MenusState } from '../types/components/menus_types';
 import { Message, SkipOptions } from '../scripts/background';
 import { Player, Metadata } from './base_player.types';
 import { SkipTime } from '../api';
-import isInInterval from '../utils/time_utils';
+import { isInInterval } from '../utils/time_utils';
 
-abstract class BasePlayer implements Player {
+export abstract class BasePlayer implements Player {
   document: Document;
 
   isReady: boolean;
@@ -459,5 +459,3 @@ abstract class BasePlayer implements Player {
     this.skipButtonRenderer.setVideoDuration(this.getDuration());
   }
 }
-
-export default BasePlayer;

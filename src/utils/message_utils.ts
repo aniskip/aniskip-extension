@@ -7,7 +7,7 @@ import { Message } from '../scripts/background';
  *
  * @param uuid UUID of the message to wait for.
  */
-const waitForMessage = (uuid: string): Promise<Message | null> =>
+export const waitForMessage = (uuid: string): Promise<Message | null> =>
   new Promise<Message | null>((resolve) => {
     const timeout = setTimeout(() => {
       resolve(null);
@@ -23,5 +23,3 @@ const waitForMessage = (uuid: string): Promise<Message | null> =>
 
     browser.runtime.onMessage.addListener(handler);
   });
-
-export default waitForMessage;

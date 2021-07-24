@@ -7,7 +7,7 @@ import { Twistmoe } from './twistmoe';
 import { Crunchyroll } from './crunchyroll';
 import { Player } from './base_player.types';
 
-class PlayerFactory {
+export class PlayerFactory {
   /**
    * Obtains the player object from the domain.
    *
@@ -56,5 +56,3 @@ class PlayerFactory {
     }
   }
 }
-
-export default PlayerFactory;

@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
  * @param reference Reference to the HTML element.
  * @param callback Callback to call after an outside click occurrs.
  */
-const useHandleOutsideClick = <T extends HTMLElement>(
+export const useHandleOutsideClick = <T extends HTMLElement>(
   reference: React.RefObject<T>,
   callback: CallableFunction
 ): void => {
@@ -25,5 +25,3 @@ const useHandleOutsideClick = <T extends HTMLElement>(
       document.removeEventListener('mousedown', handleOutsideClick);
   }, [callback, reference]);
 };
-
-export default useHandleOutsideClick;

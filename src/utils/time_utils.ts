@@ -7,7 +7,7 @@
  * @param offset Offset of the video provider.
  * @param margin Margin of error.
  */
-const isInInterval = (
+export const isInInterval = (
   startTime: number,
   endTime: number,
   currentTime: number,
@@ -17,5 +17,3 @@ const isInInterval = (
   currentTime >= 0 &&
   startTime + margin + offset <= currentTime &&
   currentTime <= endTime - margin + offset;
-
-export default isInInterval;
