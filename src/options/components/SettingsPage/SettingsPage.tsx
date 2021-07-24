@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 
-import { Dropdown } from '../components';
-import { SkipOptionType } from '../scripts/background';
+import { Dropdown } from '../../../components';
+import { SkipOptionType } from '../../../scripts/background';
 
 export const SettingsPage = (): JSX.Element => {
   const [opOption, setOpOption] = useState<SkipOptionType>('manual-skip');

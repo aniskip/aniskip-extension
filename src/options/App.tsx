@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Navbar } from './components/Navbar';
-import { SettingsPage } from './SettingsPage';
+import { Navbar, SettingsPage } from './components';
 
 export const App = (): JSX.Element => (
   <div className="min-w-[350px] min-h-[400px]">
