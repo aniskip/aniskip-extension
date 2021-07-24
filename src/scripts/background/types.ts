@@ -1,4 +1,4 @@
-import { VoteType } from '../../api';
+import { VoteType } from '../../api/aniskip_http_client/aniskip_http_client.types';
 
 export type SkipOptionType = 'disabled' | 'auto-skip' | 'manual-skip';
 
