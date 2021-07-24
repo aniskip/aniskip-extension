@@ -1,13 +1,14 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { MenusButtonsRenderer } from '../renderers/MenusButtonsRenderer';
-import { MenusRenderer } from '../renderers/MenusRenderer';
-import { SkipButtonsRenderer } from '../renderers/SkipButtonRenderer/SkipButtonRenderer';
-import { SkipTimeIndicatorsRenderer } from '../renderers/SkipTimeIndicatorsRenderer';
+import {
+  MenusButtonsRenderer,
+  MenusRenderer,
+  SkipButtonsRenderer,
+  SkipTimeIndicatorsRenderer,
+} from '../renderers';
 import { MenusState } from '../types/components/menus_types';
-import { Message } from '../scripts/background';
+import { Message, SkipOptions } from '../scripts/background';
 import { Player, Metadata } from './base_player.types';
-import { SkipOptionsType } from '../types/skip_option_type';
 import { SkipTime } from '../api';
 import isInInterval from '../utils/time_utils';
 
@@ -28,7 +29,7 @@ abstract class BasePlayer implements Player {
 
   skipButtonRenderer: SkipButtonsRenderer;
 
-  skipOptions: SkipOptionsType;
+  skipOptions: SkipOptions;
 
   skipTimes: SkipTime[];
 

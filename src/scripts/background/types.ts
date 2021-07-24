@@ -1,9 +1,15 @@
 import { VoteType } from '../../api';
-import { SkipOptionsType } from '../../types/skip_option_type';
+
+export type SkipOptionType = 'disabled' | 'auto-skip' | 'manual-skip';
+
+export type SkipOptions = {
+  op: SkipOptionType;
+  ed: SkipOptionType;
+};
 
 export type DefaultOptions = {
   userId: string;
-  skipOptions: SkipOptionsType;
+  skipOptions: SkipOptions;
 };
 
 export type LocalDefaultOptions = {
