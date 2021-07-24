@@ -6,7 +6,7 @@ export type Mal = {
   image: string;
 };
 
-export type GetResponseTypeFromPage = {
+export type GetResponseFromPage = {
   identifier: string;
   type: string;
   page: string;
