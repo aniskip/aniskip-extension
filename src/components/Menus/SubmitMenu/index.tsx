@@ -10,13 +10,13 @@ import {
 } from '../../../utils';
 import { Dropdown } from '../../Dropdown';
 import { DefaultButton } from '../../DefaultButton';
-import MenuButton from './Button';
+import { Button as MenuButton } from './Button';
 import { Input } from '../../Input';
 import { AniskipHttpClientErrorCode, SkipTime, SkipType } from '../../../api';
 import { useAniskipHttpClient } from '../../../hooks';
 import { Message } from '../../../scripts/background';
 
-const SubmitMenu = ({
+export const SubmitMenu = ({
   hidden,
   onSubmit,
   onClose,
@@ -469,5 +469,3 @@ const SubmitMenu = ({
 };
 
 SubmitMenu.Button = MenuButton;
-
-export default SubmitMenu;

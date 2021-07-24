@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import SkipTimeIndicator from '../../components/SkipTimeIndicator';
+import { SkipTimeIndicatorContainer as SkipTimeIndicator } from '../../components/SkipTimeIndicator';
 import { SkipTime } from '../../api';
 import { BaseRenderer } from '../base_renderer';
 

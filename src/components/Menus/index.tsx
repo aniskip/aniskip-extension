@@ -6,9 +6,9 @@ import {
   MenusProps,
 } from '../../types/components/menus_types';
 import { getDomainName } from '../../utils';
-import Buttons from './Buttons';
-import SubmitMenu from './SubmitMenu';
-import VoteMenu from './VoteMenu';
+import { Buttons } from './Buttons';
+import { SubmitMenu } from './SubmitMenu';
+import { VoteMenu } from './VoteMenu';
 
 const MenuContainer = ({
   variant,
@@ -35,7 +35,7 @@ const MenuContainer = ({
   );
 };
 
-const Menus = ({
+export const Menus = ({
   variant,
   submitMenuProps,
   voteMenuProps,
@@ -60,6 +60,5 @@ const Menus = ({
     </MenuContainer>
   </>
 );
-Menus.Buttons = Buttons;
 
-export default Menus;
+Menus.Buttons = Buttons;

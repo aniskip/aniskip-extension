@@ -4,7 +4,7 @@ import { SkipButtonProps } from '../../types/components/skip_time_button_types';
 import { getDomainName } from '../../utils';
 import { DefaultButton } from '../DefaultButton';
 
-const Button = ({
+export const Button = ({
   skipType,
   variant,
   hidden,
@@ -44,4 +44,3 @@ const Button = ({
     </div>
   );
 };
-export default Button;

@@ -3,7 +3,7 @@ import { FaCloudUploadAlt } from 'react-icons/fa';
 import { SubmitMenuButtonProps } from '../../../types/components/submit_types';
 import { getDomainName } from '../../../utils';
 
-const Button = ({
+export const Button = ({
   variant,
   active,
   onClick,
@@ -29,5 +29,3 @@ const Button = ({
     </div>
   );
 };
-
-export default Button;

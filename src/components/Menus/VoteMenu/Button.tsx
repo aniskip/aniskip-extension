@@ -3,7 +3,7 @@ import { FaListUl } from 'react-icons/fa';
 import { VoteMenuButtonProps } from '../../../types/components/vote_menu_types';
 import { getDomainName } from '../../../utils';
 
-const Button = ({
+export const Button = ({
   variant,
   active,
   onClick,
@@ -29,5 +29,3 @@ const Button = ({
     </div>
   );
 };
-
-export default Button;

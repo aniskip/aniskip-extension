@@ -4,7 +4,7 @@ import { browser } from 'webextension-polyfill-ts';
 import { Dropdown } from '../components';
 import { SkipOptionType } from '../scripts/background';
 
-const SettingsPage = (): JSX.Element => {
+export const SettingsPage = (): JSX.Element => {
   const [opOption, setOpOption] = useState<SkipOptionType>('manual-skip');
   const [edOption, setEdOption] = useState<SkipOptionType>('manual-skip');
 
@@ -68,5 +68,3 @@ const SettingsPage = (): JSX.Element => {
     </div>
   );
 };
-
-export default SettingsPage;

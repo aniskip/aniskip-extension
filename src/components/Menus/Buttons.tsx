@@ -1,12 +1,12 @@
 import React from 'react';
 
-import SubmitMenu from './SubmitMenu';
-import VoteMenu from './VoteMenu';
+import { SubmitMenu } from './SubmitMenu';
+import { VoteMenu } from './VoteMenu';
 import { MenusButtonsProps } from '../../types/components/menus_types';
 import { getDomainName } from '../../utils';
 import { useFullscreenState } from '../../hooks';
 
-const Buttons = ({
+export const Buttons = ({
   variant,
   submitMenuButtonProps,
   voteMenuButtonProps,
@@ -34,5 +34,3 @@ const Buttons = ({
     </div>
   );
 };
-
-export default Buttons;

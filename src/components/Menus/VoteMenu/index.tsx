@@ -8,9 +8,9 @@ import { VoteMenuProps } from '../../../types/components/vote_menu_types';
 import { Message } from '../../../scripts/background';
 import { secondsToTimeString } from '../../../utils';
 import { LinkButton } from '../../LinkButton';
-import Button from './Button';
+import { Button } from './Button';
 
-const VoteMenu = ({
+export const VoteMenu = ({
   hidden,
   skipTimes,
   onClose,
@@ -242,5 +242,3 @@ const VoteMenu = ({
 };
 
 VoteMenu.Button = Button;
-
-export default VoteMenu;

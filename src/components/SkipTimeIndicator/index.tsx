@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { SkipTimeIndicatorContainerProps } from '../../types/components/skip_time_indicator_types';
-import Indicator from './Indicator';
+import { Indicator } from './Indicator';
 
-const SkipTimeIndicatorContainer = ({
+export const SkipTimeIndicatorContainer = ({
   skipTimes,
   videoDuration,
   variant,
@@ -27,5 +27,3 @@ const SkipTimeIndicatorContainer = ({
     })}
   </>
 );
-
-export default SkipTimeIndicatorContainer;

@@ -2,9 +2,9 @@ import React from 'react';
 
 import { SkipButtonContainerProps } from '../../types/components/skip_time_button_types';
 import { isInInterval } from '../../utils';
-import Button from './Button';
+import { Button } from './Button';
 
-const SkipButtonContainer = ({
+export const SkipButtonContainer = ({
   skipTimes,
   currentTime,
   videoDuration,
@@ -45,5 +45,3 @@ const SkipButtonContainer = ({
     )}
   </>
 );
-
-export default SkipButtonContainer;

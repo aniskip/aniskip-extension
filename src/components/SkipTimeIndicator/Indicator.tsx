@@ -3,7 +3,7 @@ import React from 'react';
 import { SkipTimeIndicatorProps } from '../../types/components/skip_time_indicator_types';
 import { getDomainName } from '../../utils';
 
-const Indicator = ({
+export const Indicator = ({
   startTime,
   endTime,
   episodeLength,
@@ -32,5 +32,3 @@ const Indicator = ({
     />
   );
 };
-
-export default Indicator;

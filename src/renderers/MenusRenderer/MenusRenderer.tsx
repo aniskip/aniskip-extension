@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { BaseRenderer } from '../base_renderer';
-import Menus from '../../components/Menus';
+import { Menus } from '../../components/Menus';
 import { MenusState } from '../../types/components/menus_types';
 
 export class MenusRenderer extends BaseRenderer {
