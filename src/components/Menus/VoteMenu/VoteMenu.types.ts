@@ -1,4 +1,4 @@
-import { SkipTime } from '../../api';
+import { SkipTime } from '../../../api';
 
 export interface VoteMenuProps {
   variant: string;

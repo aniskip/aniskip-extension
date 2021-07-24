@@ -4,7 +4,7 @@ import { browser } from 'webextension-polyfill-ts';
 
 import { useAniskipHttpClient } from '../../../hooks';
 import { SkipTime, VoteType } from '../../../api';
-import { VoteMenuProps } from '../../../types/components/vote_menu_types';
+import { VoteMenuProps } from './VoteMenu.types';
 import { Message } from '../../../scripts/background';
 import { secondsToTimeString } from '../../../utils';
 import { LinkButton } from '../../LinkButton';

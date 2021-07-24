@@ -3,8 +3,11 @@ import { SkipTime } from '../../api';
 import {
   SubmitMenuButtonOnClickHandler,
   SubmitMenuProps,
-} from './submit_types';
-import { VoteMenuButtonOnClickHandler, VoteMenuProps } from './vote_menu_types';
+} from './SubmitMenu/SubmitMenu.types';
+import {
+  VoteMenuButtonOnClickHandler,
+  VoteMenuProps,
+} from './VoteMenu/VoteMenu.types';
 
 export interface MenusProps {
   variant: string;

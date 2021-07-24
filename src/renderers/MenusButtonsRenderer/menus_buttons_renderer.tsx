@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Menus } from '../../components/Menus';
-import { MenusButtonsState } from '../../types/components/menus_types';
-import { SubmitMenuButtonOnClickHandler } from '../../types/components/submit_types';
-import { VoteMenuButtonOnClickHandler } from '../../types/components/vote_menu_types';
+import { Menus } from '../../components/Menus/Menus';
+import { MenusButtonsState } from '../../components/Menus/Menus.types';
+import { SubmitMenuButtonOnClickHandler } from '../../components/Menus/SubmitMenu/SubmitMenu.types';
+import { VoteMenuButtonOnClickHandler } from '../../components/Menus/VoteMenu/VoteMenu.types';
 import { BaseRenderer } from '../base_renderer';
 
 export class MenusButtonsRenderer extends BaseRenderer {

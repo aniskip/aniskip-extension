@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { SubmitMenu } from './SubmitMenu';
-import { VoteMenu } from './VoteMenu';
-import { MenusButtonsProps } from '../../types/components/menus_types';
-import { getDomainName } from '../../utils';
-import { useFullscreenState } from '../../hooks';
+import { SubmitMenu } from '../SubmitMenu';
+import { VoteMenu } from '../VoteMenu';
+import { MenusButtonsProps } from '../Menus.types';
+import { getDomainName } from '../../../utils';
+import { useFullscreenState } from '../../../hooks';
 
 export const Buttons = ({
   variant,

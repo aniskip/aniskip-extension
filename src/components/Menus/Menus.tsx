@@ -1,12 +1,9 @@
 import React from 'react';
 import { useFullscreenState, useMobileState } from '../../hooks';
 
-import {
-  MenuContainerProps,
-  MenusProps,
-} from '../../types/components/menus_types';
+import { MenuContainerProps, MenusProps } from './Menus.types';
 import { getDomainName } from '../../utils';
-import { Buttons } from './Buttons';
+import { Buttons } from './Buttons/Buttons';
 import { SubmitMenu } from './SubmitMenu';
 import { VoteMenu } from './VoteMenu';
 
