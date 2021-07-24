@@ -1,1 +1,1 @@
-export * from './menus_buttons_renderer';
+export * from './MenusButtonsRenderer';
