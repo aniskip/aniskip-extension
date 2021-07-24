@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { SubmitMenu } from '../SubmitMenu';
-import { VoteMenu } from '../VoteMenu';
+import { VoteMenu } from '../../VoteMenu';
 import { MenusButtonsProps } from '../Menus.types';
 import { getDomainName } from '../../../utils';
 import { useFullscreenState } from '../../../hooks';

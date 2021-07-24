@@ -1,9 +1,9 @@
 import React from 'react';
 import { FaListUl } from 'react-icons/fa';
-import { VoteMenuButtonProps } from './VoteMenu.types';
-import { getDomainName } from '../../../utils';
+import { getDomainName } from '../../utils';
+import { VoteMenuButtonProps } from './VoteMenuButton.types';
 
-export const Button = ({
+export const VoteMenuButton = ({
   variant,
   active,
   onClick,

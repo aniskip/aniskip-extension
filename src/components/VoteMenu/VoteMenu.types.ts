@@ -1,4 +1,4 @@
-import { SkipTime } from '../../../api';
+import { SkipTime } from '../../api';
 
 export interface VoteMenuProps {
   variant: string;
@@ -13,9 +13,3 @@ export type VoteMenuButtonOnClickHandler = (
     | React.MouseEvent<HTMLDivElement, MouseEvent>
     | React.KeyboardEvent<HTMLDivElement>
 ) => void;
-
-export interface VoteMenuButtonProps {
-  active?: boolean;
-  variant: string;
-  onClick: VoteMenuButtonOnClickHandler;
-}

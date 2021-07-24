@@ -7,7 +7,7 @@ import {
 import {
   VoteMenuButtonOnClickHandler,
   VoteMenuProps,
-} from './VoteMenu/VoteMenu.types';
+} from '../VoteMenu/VoteMenu.types';
 
 export interface MenusProps {
   variant: string;

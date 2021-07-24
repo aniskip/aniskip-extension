@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { FaChevronDown, FaChevronUp, FaPlay, FaTimes } from 'react-icons/fa';
 import { browser } from 'webextension-polyfill-ts';
 
-import { useAniskipHttpClient } from '../../../hooks';
-import { SkipTime, VoteType } from '../../../api';
+import { useAniskipHttpClient } from '../../hooks';
+import { SkipTime, VoteType } from '../../api';
 import { VoteMenuProps } from './VoteMenu.types';
-import { Message } from '../../../scripts/background';
-import { secondsToTimeString } from '../../../utils';
-import { LinkButton } from '../../LinkButton';
-import { Button } from './Button';
+import { Message } from '../../scripts/background';
+import { secondsToTimeString } from '../../utils';
+import { LinkButton } from '../LinkButton';
+import { VoteMenuButton } from '../VoteMenuButton';
 
 export const VoteMenu = ({
   hidden,
@@ -241,4 +241,4 @@ export const VoteMenu = ({
   );
 };
 
-VoteMenu.Button = Button;
+VoteMenu.Button = VoteMenuButton;

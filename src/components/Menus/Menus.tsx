@@ -5,7 +5,7 @@ import { MenuContainerProps, MenusProps } from './Menus.types';
 import { getDomainName } from '../../utils';
 import { Buttons } from './Buttons/Buttons';
 import { SubmitMenu } from './SubmitMenu';
-import { VoteMenu } from './VoteMenu';
+import { VoteMenu } from '../VoteMenu';
 
 const MenuContainer = ({
   variant,
