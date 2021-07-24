@@ -1,7 +1,7 @@
 import { SkipTime } from '../../api';
 
-export interface SkipTimeIndicatorContainerProps {
+export type SkipTimeIndicatorContainerProps = {
   skipTimes: SkipTime[];
   videoDuration: number;
   variant: string;
-}
+};

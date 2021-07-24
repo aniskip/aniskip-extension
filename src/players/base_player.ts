@@ -1,7 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import {
-  MenusButtonsRenderer,
+  PlayerButtonsRenderer,
   MenusRenderer,
   SkipButtonsRenderer,
   SkipTimeIndicatorsRenderer,
@@ -17,7 +17,7 @@ export abstract class BasePlayer implements Player {
 
   isReady: boolean;
 
-  menusButtonsRenderer: MenusButtonsRenderer;
+  playerButtonsRenderer: PlayerButtonsRenderer;
 
   menusRenderer: MenusRenderer;
 
@@ -85,7 +85,7 @@ export abstract class BasePlayer implements Player {
         })
     );
 
-    this.menusButtonsRenderer = new MenusButtonsRenderer(
+    this.playerButtonsRenderer = new PlayerButtonsRenderer(
       'aniskip-player-menus-buttons',
       this.metadata.variant,
       () =>
@@ -301,7 +301,7 @@ export abstract class BasePlayer implements Player {
     const videoContainer = this.getVideoContainer();
     if (
       videoContainer &&
-      !this.document.getElementById(this.menusButtonsRenderer.id)
+      !this.document.getElementById(this.playerButtonsRenderer.id)
     ) {
       videoContainer.appendChild(this.menusRenderer.shadowRootContainer);
       this.menusRenderer.render();
@@ -315,13 +315,13 @@ export abstract class BasePlayer implements Player {
     const settingsButtonElement = this.getSettingsButtonElement();
     if (
       settingsButtonElement &&
-      !this.document.getElementById(this.menusButtonsRenderer.id)
+      !this.document.getElementById(this.playerButtonsRenderer.id)
     ) {
       settingsButtonElement.insertAdjacentElement(
         'beforebegin',
-        this.menusButtonsRenderer.shadowRootContainer
+        this.playerButtonsRenderer.shadowRootContainer
       );
-      this.menusButtonsRenderer.render();
+      this.playerButtonsRenderer.render();
     }
   }
 
@@ -446,7 +446,7 @@ export abstract class BasePlayer implements Player {
    */
   setMenusState(newState: MenusState): void {
     this.menusState = newState;
-    this.menusButtonsRenderer.setState({
+    this.playerButtonsRenderer.setState({
       isSubmitButtonActive: !newState.isSubmitMenuHidden,
       isVoteButtonActive: !newState.isVoteMenuHidden,
     });

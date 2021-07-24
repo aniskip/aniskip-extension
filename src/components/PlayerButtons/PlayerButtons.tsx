@@ -1,15 +1,16 @@
 import React from 'react';
-import { useFullscreenState } from '../../hooks';
-import { getDomainName } from '../../utils';
-import { MenusButtonsProps } from '../Menus';
+
+import { PlayerButtonsProps } from './PlayerButtons.types';
 import { SubmitMenuButton } from '../SubmitMenuButton';
 import { VoteMenuButton } from '../VoteMenuButton';
+import { getDomainName } from '../../utils';
+import { useFullscreenState } from '../../hooks';
 
 export const PlayerButtons = ({
   variant,
   submitMenuButtonProps,
   voteMenuButtonProps,
-}: MenusButtonsProps): JSX.Element => {
+}: PlayerButtonsProps): JSX.Element => {
   const { isFullscreen } = useFullscreenState();
 
   const domainName = getDomainName(window.location.hostname);

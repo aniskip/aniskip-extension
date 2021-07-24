@@ -5,14 +5,14 @@ import { BaseRenderer } from '../base_renderer';
 import {
   SubmitMenuButtonOnClickHandler,
   VoteMenuButtonOnClickHandler,
-  MenusButtonsState,
+  PlayerButtonsState,
   PlayerButtons,
 } from '../../components';
 
-export class MenusButtonsRenderer extends BaseRenderer {
+export class PlayerButtonsRenderer extends BaseRenderer {
   variant: string;
 
-  state: MenusButtonsState;
+  state: PlayerButtonsState;
 
   submitMenuButtonOnClickHandler: SubmitMenuButtonOnClickHandler;
 
@@ -40,7 +40,7 @@ export class MenusButtonsRenderer extends BaseRenderer {
    *
    * @param newState Is submit button active new value.
    */
-  setState(newState: MenusButtonsState): void {
+  setState(newState: PlayerButtonsState): void {
     this.state = newState;
     this.render();
   }

@@ -1,38 +1,15 @@
 import { SkipTime } from '../../api';
 import { SubmitMenuProps } from '../SubmitMenu/SubmitMenu.types';
-import { SubmitMenuButtonOnClickHandler } from '../SubmitMenuButton';
-import {
-  VoteMenuButtonOnClickHandler,
-  VoteMenuProps,
-} from '../VoteMenu/VoteMenu.types';
+import { VoteMenuProps } from '../VoteMenu/VoteMenu.types';
 
-export interface MenusProps {
+export type MenusProps = {
   variant: string;
   submitMenuProps: SubmitMenuProps;
   voteMenuProps: VoteMenuProps;
-}
+};
 
-export interface MenusButtonsProps {
-  variant: string;
-  submitMenuButtonProps: {
-    active: boolean;
-    variant: string;
-    onClick: SubmitMenuButtonOnClickHandler;
-  };
-  voteMenuButtonProps: {
-    active: boolean;
-    variant: string;
-    onClick: VoteMenuButtonOnClickHandler;
-  };
-}
-
-export interface MenusState {
+export type MenusState = {
   isSubmitMenuHidden: boolean;
   isVoteMenuHidden: boolean;
   skipTimes: SkipTime[];
-}
-
-export interface MenusButtonsState {
-  isSubmitButtonActive: boolean;
-  isVoteButtonActive: boolean;
-}
+};
