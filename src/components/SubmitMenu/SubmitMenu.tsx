@@ -23,8 +23,9 @@ export const SubmitMenu = ({
   const [skipType, setSkipType] = useState<SkipType>('op');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
-  const [currentInputFocus, setCurrentInputFocus] =
-    useState<'start-time' | 'end-time'>('start-time');
+  const [currentInputFocus, setCurrentInputFocus] = useState<
+    'start-time' | 'end-time'
+  >('start-time');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState('');
   const [serverError, setServerError] = useState('');
