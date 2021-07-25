@@ -4,9 +4,15 @@ import {
   AniskipHttpClient,
   MalsyncHttpClient,
   AnilistHttpClient,
+  Rule,
 } from '../api';
 import { Page } from './base_page.types';
-import { capitalizeFirstLetter, getDomainName } from '../utils';
+import {
+  capitalizeFirstLetter,
+  getDomainName,
+  getNextWeekDate,
+} from '../utils';
+import { LocalOptions } from '../scripts/background';
 
 export abstract class BasePage implements Page {
   hostname: string;
@@ -38,7 +44,24 @@ export abstract class BasePage implements Page {
   async applyRules(): Promise<void> {
     const aniskipHttpClient = new AniskipHttpClient();
     const malId = await this.getMalId();
-    const { rules } = await aniskipHttpClient.getRules(malId);
+    let rules = await BasePage.getCachedRules(malId);
+
+    if (!rules) {
+      ({ rules } = await aniskipHttpClient.getRules(malId));
+
+      // Cache rules and expire it next week.
+      const { rulesCache } = (await browser.storage.local.get(
+        'rulesCache'
+      )) as LocalOptions;
+
+      rulesCache[malId] = {
+        expires: getNextWeekDate().toJSON(),
+        value: rules,
+      };
+
+      browser.storage.local.set({ rulesCache });
+    }
+
     let rawEpisodeNumber = this.getRawEpisodeNumber();
     this.episodeNumber = rawEpisodeNumber;
 
@@ -84,7 +107,7 @@ export abstract class BasePage implements Page {
       return 0;
     }
 
-    this.malId = await BasePage.getMalIdCached(identifier);
+    this.malId = await BasePage.getCachedMalId(identifier);
     if (this.malId > 0) {
       return this.malId;
     }
@@ -102,9 +125,16 @@ export abstract class BasePage implements Page {
       this.malId = await BasePage.findClosestMalId(title);
     }
 
-    // Cache MAL id.
-    const { malIdCache } = await browser.storage.local.get('malIdCache');
-    malIdCache[identifier] = this.malId;
+    // Cache MAL id and expire it next week.
+    const { malIdCache } = (await browser.storage.local.get(
+      'malIdCache'
+    )) as LocalOptions;
+
+    malIdCache[identifier] = {
+      expires: getNextWeekDate().toJSON(),
+      value: this.malId,
+    };
+
     browser.storage.local.set({ malIdCache });
 
     return this.malId;
@@ -155,9 +185,44 @@ export abstract class BasePage implements Page {
    *
    * @param identifier Provider anime identifier.
    */
-  static async getMalIdCached(identifier: string): Promise<number> {
-    const { malIdCache } = await browser.storage.local.get('malIdCache');
+  static async getCachedMalId(identifier: string): Promise<number> {
+    const { malIdCache } = (await browser.storage.local.get(
+      'malIdCache'
+    )) as LocalOptions;
 
-    return malIdCache[identifier] || 0;
+    const cacheEntry = malIdCache[identifier];
+
+    if (
+      !cacheEntry ||
+      // Cache expired
+      new Date().getTime() >= new Date(cacheEntry.expires).getTime()
+    ) {
+      return 0;
+    }
+
+    return cacheEntry.value;
+  }
+
+  /**
+   * Returns the rules from the cache.
+   *
+   * @param malId MAL identification number.
+   */
+  static async getCachedRules(malId: number): Promise<Rule[] | undefined> {
+    const { rulesCache } = (await browser.storage.local.get(
+      'rulesCache'
+    )) as LocalOptions;
+
+    const cacheEntry = rulesCache[malId];
+
+    if (
+      !cacheEntry ||
+      // Cache expired
+      new Date().getTime() >= new Date(cacheEntry.expires).getTime()
+    ) {
+      return undefined;
+    }
+
+    return cacheEntry.value;
   }
 }

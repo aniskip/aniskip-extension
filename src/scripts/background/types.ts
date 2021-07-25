@@ -1,4 +1,7 @@
-import { VoteType } from '../../api/aniskip_http_client/aniskip_http_client.types';
+import {
+  Rule,
+  VoteType,
+} from '../../api/aniskip_http_client/aniskip_http_client.types';
 
 export type SkipOptionType = 'disabled' | 'auto-skip' | 'manual-skip';
 
@@ -7,14 +10,20 @@ export type SkipOptions = {
   ed: SkipOptionType;
 };
 
-export type DefaultOptions = {
+export type CacheEntry<T> = {
+  expires: string;
+  value: T;
+};
+
+export type SyncOptions = {
   userId: string;
   skipOptions: SkipOptions;
 };
 
-export type LocalDefaultOptions = {
-  malIdCache: Record<string, number>;
-  skipTimesVoted: Record<string, VoteType>;
+export type LocalOptions = {
+  malIdCache: Partial<Record<string, CacheEntry<number>>>;
+  rulesCache: Partial<Record<string, CacheEntry<Rule[]>>>;
+  skipTimesVoted: Partial<Record<string, VoteType>>;
 };
 
 export type MessageType =

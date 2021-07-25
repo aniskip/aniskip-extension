@@ -1,6 +1,6 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 import { v4 as uuidv4 } from 'uuid';
-import { DefaultOptions, LocalDefaultOptions, Message } from './types';
+import { SyncOptions, LocalOptions, Message } from './types';
 import { waitForMessage } from '../../utils';
 
 /**
@@ -51,7 +51,7 @@ browser.runtime.onMessage.addListener(messageHandler);
  * Set default user settings on installation.
  */
 browser.runtime.onInstalled.addListener((details) => {
-  const defaultOptions: DefaultOptions = {
+  const defaultOptions: SyncOptions = {
     userId: uuidv4(),
     skipOptions: {
       op: 'manual-skip',
@@ -59,8 +59,9 @@ browser.runtime.onInstalled.addListener((details) => {
     },
   };
 
-  const localDefaultOptions: LocalDefaultOptions = {
+  const localDefaultOptions: LocalOptions = {
     malIdCache: {},
+    rulesCache: {},
     skipTimesVoted: {},
   };
 
@@ -78,9 +79,14 @@ browser.runtime.onInstalled.addListener((details) => {
           browser.storage.sync.set(currentOptions);
         })(),
         (async (): Promise<void> => {
-          const currentLocalOptions = await browser.storage.local.get(
+          const currentLocalOptions = (await browser.storage.local.get(
             localDefaultOptions
-          );
+          )) as LocalOptions;
+
+          // Reset cache.
+          currentLocalOptions.malIdCache = {};
+          currentLocalOptions.rulesCache = {};
+
           browser.storage.local.set(currentLocalOptions);
         })(),
       ]);
