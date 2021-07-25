@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
-import { Dropdown } from '../../../components';
-import { SkipOptionType } from '../../../scripts/background';
+import { DefaultButton, Dropdown } from '../../../components';
+import { LocalOptions, SkipOptionType } from '../../../scripts/background';
 
 export const SettingsPage = (): JSX.Element => {
   const [opOption, setOpOption] = useState<SkipOptionType>('manual-skip');
@@ -14,6 +14,14 @@ export const SettingsPage = (): JSX.Element => {
   const handleEndingOptionChange = (skipOption: SkipOptionType): void => {
     browser.storage.sync.set({ skipOptions: { op: opOption, ed: skipOption } });
     setEdOption(skipOption);
+  };
+  const handleOnClickClearCache = (): void => {
+    const cacheCleared = {
+      rulesCache: {},
+      malIdCache: {},
+    } as Partial<LocalOptions>;
+
+    browser.storage.local.set(cacheCleared);
   };
 
   const dropdownOptions = [
@@ -44,25 +52,38 @@ export const SettingsPage = (): JSX.Element => {
       <h1 className="text-lg text-gray-700 uppercase font-bold mb-4">
         Settings
       </h1>
-      <div className="space-y-2 w-full">
-        <div className="text-xs text-gray-600 uppercase font-bold">
-          Opening default action
+      <div className="space-y-3 w-full">
+        <div className="space-y-1">
+          <div className="text-xs text-gray-600 uppercase font-bold">
+            Opening default action
+          </div>
+          <Dropdown
+            className="text-sm w-full"
+            value={opOption}
+            onChange={handleOpeningOptionChange}
+            options={dropdownOptions}
+          />
         </div>
-        <Dropdown
-          className="text-sm w-full"
-          value={opOption}
-          onChange={handleOpeningOptionChange}
-          options={dropdownOptions}
-        />
-        <div className="text-xs text-gray-600 uppercase font-bold">
-          Ending default action
+        <div className="space-y-1">
+          <div className="text-xs text-gray-600 uppercase font-bold">
+            Ending default action
+          </div>
+          <Dropdown
+            className="text-sm w-full"
+            value={edOption}
+            onChange={handleEndingOptionChange}
+            options={dropdownOptions}
+          />
         </div>
-        <Dropdown
-          className="text-sm w-full"
-          value={edOption}
-          onChange={handleEndingOptionChange}
-          options={dropdownOptions}
-        />
+        <div className="space-y-1">
+          <div className="text-xs text-gray-600 uppercase font-bold">Cache</div>
+          <DefaultButton
+            className="bg-primary border border-gray-300 text-white"
+            onClick={handleOnClickClearCache}
+          >
+            Clear Cache
+          </DefaultButton>
+        </div>
       </div>
     </div>
   );
