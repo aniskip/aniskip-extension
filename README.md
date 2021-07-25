@@ -10,6 +10,12 @@
 
 Web browser extension to skip anime openings and endings
 
+## Discord
+
+We are now on Discord! Want to contribute, need help or just want to ask questions? 
+
+Join the Aniskip [Discord](https://discord.gg/UqT55CbrbE).
+
 ## Getting started
 
 ### Building and running the extension
