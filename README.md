@@ -69,4 +69,4 @@ This will build an unpacked extension in the `dist` folder. You can replace `chr
 
 ## Discord
 
-We now have Discord! Want to contribute, need help or just want to ask questions? Join the Aniskip [Discord](https://discord.gg/UqT55CbrbE).
+We are now on Discord! Want to contribute, need help or just want to ask questions? Join the Aniskip [Discord](https://discord.gg/UqT55CbrbE).
