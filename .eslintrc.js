@@ -4,6 +4,7 @@ module.exports = {
   plugins: ['@typescript-eslint', 'prettier'],
   rules: {
     'prettier/prettier': 'error',
+    'import/prefer-default-export': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     'jsx-a11y/label-has-associated-control': [
       2,
@@ -12,7 +13,17 @@ module.exports = {
         depth: 3,
       },
     ],
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    'react/jsx-props-no-spreading': 'off',
   },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        '@typescript-eslint/explicit-function-return-type': ['error'],
+      },
+    },
+  ],
   extends: ['airbnb-typescript', 'plugin:react-hooks/recommended', 'prettier'],
   parserOptions: {
     project: './tsconfig.json',

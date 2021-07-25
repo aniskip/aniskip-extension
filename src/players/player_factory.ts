@@ -1,24 +1,26 @@
-import { getDomainName } from '../utils/string_utils';
-import Plyr from './plyr';
-import Crunchyroll from './crunchyroll';
-import Videojs from './videojs';
-import Doodstream from './doodstream';
-import Jw from './jw';
-import Twistmoe from './twistmoe';
-import FourAnime from './videojs/fouranime';
+import { getDomainName } from '../utils/string';
+import { Doodstream } from './doodstream';
+import { FourAnime, Videojs } from './videojs';
+import { Jw } from './jw';
+import { Plyr } from './plyr';
+import { Twistmoe } from './twistmoe';
+import { Crunchyroll } from './crunchyroll';
+import { Player } from './base_player.types';
 
-class PlayerFactory {
+export class PlayerFactory {
   /**
-   * Obtains the player object from the domain
-   * @param hostname Player's host
+   * Obtains the player object from the domain.
+   *
+   * @param hostname Player's host.
    */
-  static getPlayer(hostname: string) {
+  static getPlayer(hostname: string): Player {
     const domainName = getDomainName(hostname);
     switch (domainName) {
       case 'animixplay':
       case 'aniwatch':
       case 'github':
       case 'googleapis':
+      case 'jzscuqezoqkcpvy':
       case 'kwik':
       case 'streamtape':
         return new Plyr(document);
@@ -54,5 +56,3 @@ class PlayerFactory {
     }
   }
 }
-
-export default PlayerFactory;

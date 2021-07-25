@@ -1,22 +1,22 @@
 import { browser } from 'webextension-polyfill-ts';
+import {
+  PlayerButtonsRenderer,
+  MenusRenderer,
+  SkipButtonsRenderer,
+  SkipTimeIndicatorsRenderer,
+} from '../renderers';
+import { MenusState } from '../components';
+import { Message, SkipOptions } from '../scripts/background';
+import { Player, Metadata } from './base_player.types';
+import { SkipTime } from '../api';
+import { isInInterval } from '../utils';
 
-import MenusButtonsRenderer from '../renderers/menus_buttons_renderer';
-import MenusRenderer from '../renderers/menus_renderer';
-import SkipButtonsRenderer from '../renderers/skip_button_renderer';
-import SkipTimeIndicatorsRenderer from '../renderers/skip_time_indicators_renderer';
-import { MenusState } from '../types/components/menus_types';
-import { Message } from '../types/message_type';
-import { Player, Metadata } from '../types/player_types';
-import { SkipOptionsType } from '../types/skip_option_type';
-import { SkipTimeType } from '../types/api/aniskip_types';
-import isInInterval from '../utils/time_utils';
-
-abstract class BasePlayer implements Player {
+export abstract class BasePlayer implements Player {
   document: Document;
 
   isReady: boolean;
 
-  menusButtonsRenderer: MenusButtonsRenderer;
+  playerButtonsRenderer: PlayerButtonsRenderer;
 
   menusRenderer: MenusRenderer;
 
@@ -28,9 +28,9 @@ abstract class BasePlayer implements Player {
 
   skipButtonRenderer: SkipButtonsRenderer;
 
-  skipOptions: SkipOptionsType;
+  skipOptions: SkipOptions;
 
-  skipTimes: SkipTimeType[];
+  skipTimes: SkipTime[];
 
   skipTimeIndicatorsRenderer: SkipTimeIndicatorsRenderer;
 
@@ -55,7 +55,7 @@ abstract class BasePlayer implements Player {
       ed: 'manual-skip',
     };
 
-    (async () => {
+    (async (): Promise<void> => {
       const { skipOptions } = await browser.storage.sync.get('skipOptions');
       this.skipOptions = skipOptions;
     })();
@@ -65,7 +65,7 @@ abstract class BasePlayer implements Player {
       this.metadata.variant
     );
 
-    const toggleSubmitMenu = (hidden: boolean) => () =>
+    const toggleSubmitMenu = (hidden: boolean) => (): void =>
       this.setMenusState({
         ...this.menusState,
         isSubmitMenuHidden: hidden,
@@ -84,8 +84,8 @@ abstract class BasePlayer implements Player {
         })
     );
 
-    this.menusButtonsRenderer = new MenusButtonsRenderer(
-      'aniskip-player-menus-buttons',
+    this.playerButtonsRenderer = new PlayerButtonsRenderer(
+      'aniskip-player-player-buttons',
       this.metadata.variant,
       () =>
         this.setMenusState({
@@ -107,7 +107,7 @@ abstract class BasePlayer implements Player {
     );
   }
 
-  addSkipTime(skipTime: SkipTimeType) {
+  addSkipTime(skipTime: SkipTime): void {
     if (!this.videoElement) {
       return;
     }
@@ -142,7 +142,7 @@ abstract class BasePlayer implements Player {
     const startTime = skipTime.interval.start_time;
     const currentTime = this.getCurrentTime();
 
-    // Skip time loaded late
+    // Skip time loaded late.
     if (isInInterval(startTime, endTime, currentTime, offset)) {
       this.setCurrentTime(endTime + offset);
       this.play();
@@ -150,9 +150,9 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Cancels the current scheduled skip time
+   * Cancels the current scheduled skip time.
    */
-  clearScheduledSkipTime() {
+  clearScheduledSkipTime(): void {
     if (this.scheduledSkipTime !== null) {
       clearInterval(this.scheduledSkipTime);
 
@@ -161,9 +161,10 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Returns the container element with the given query string
-   * @param selectorString Selector string to retrieve the node
-   * @param index Index of the container from the query result
+   * Returns the container element with the given query string.
+   *
+   * @param selectorString Selector string to retrieve the node.
+   * @param index Index of the container from the query result.
    */
   getContainerHelper(
     selectorString: string,
@@ -174,10 +175,10 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Returns the next skip time to be scheduled
+   * Returns the next skip time to be scheduled.
    */
-  getNextSkipTime() {
-    let nextSkipTime: SkipTimeType | null = null;
+  getNextSkipTime(): SkipTime | null {
+    let nextSkipTime: SkipTime | null = null;
     let earliestStartTime = Infinity;
 
     const currentTime = this.getCurrentTime();
@@ -216,45 +217,45 @@ abstract class BasePlayer implements Player {
     return nextSkipTime;
   }
 
-  getDuration() {
+  getDuration(): number {
     return this.videoElement?.duration || 0;
   }
 
-  getCurrentTime() {
+  getCurrentTime(): number {
     return this.videoElement?.currentTime || 0;
   }
 
   /**
-   * Returns the root video container element
+   * Returns the root video container element.
    */
-  getVideoContainer() {
+  getVideoContainer(): HTMLElement | null {
     return this.document.getElementById(
       this.metadata.videoContainerSelectorString
     );
   }
 
-  getVideoControlsContainer() {
+  getVideoControlsContainer(): HTMLElement | null {
     return this.document.getElementById(
       this.metadata.videoControlsContainerSelectorString
     );
   }
 
   /**
-   * Returns the seek bar container element
+   * Returns the seek bar container element.
    */
-  getSeekBarContainer() {
+  getSeekBarContainer(): HTMLElement | null {
     return this.getContainerHelper(
       this.metadata.seekBarContainerSelectorString
     );
   }
 
-  getSettingsButtonElement() {
+  getSettingsButtonElement(): HTMLElement | null {
     return this.document.getElementById(
       this.metadata.injectMenusButtonsReferenceNodeSelectorString
     );
   }
 
-  initialise() {
+  initialise(): void {
     this.reset();
     this.injectSubmitMenu();
     this.injectSubmitMenuButton();
@@ -263,9 +264,9 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Injects the skip button into the player
+   * Injects the skip button into the player.
    */
-  injectSkipButtons() {
+  injectSkipButtons(): void {
     const settingsButtonElement = this.getSettingsButtonElement();
     if (
       settingsButtonElement &&
@@ -278,9 +279,9 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Injects the skip time indicators into the player seek bar
+   * Injects the skip time indicators into the player seek bar.
    */
-  injectSkipTimeIndicator() {
+  injectSkipTimeIndicator(): void {
     const seekBarContainer = this.getSeekBarContainer();
     if (
       seekBarContainer &&
@@ -293,13 +294,13 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Injects the submit menu button into the player controls
+   * Injects the submit menu button into the player controls.
    */
-  injectSubmitMenu() {
+  injectSubmitMenu(): void {
     const videoContainer = this.getVideoContainer();
     if (
       videoContainer &&
-      !this.document.getElementById(this.menusButtonsRenderer.id)
+      !this.document.getElementById(this.playerButtonsRenderer.id)
     ) {
       videoContainer.appendChild(this.menusRenderer.shadowRootContainer);
       this.menusRenderer.render();
@@ -307,27 +308,27 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Injects the submit menu button into the player
+   * Injects the submit menu button into the player.
    */
-  injectSubmitMenuButton() {
+  injectSubmitMenuButton(): void {
     const settingsButtonElement = this.getSettingsButtonElement();
     if (
       settingsButtonElement &&
-      !this.document.getElementById(this.menusButtonsRenderer.id)
+      !this.document.getElementById(this.playerButtonsRenderer.id)
     ) {
       settingsButtonElement.insertAdjacentElement(
         'beforebegin',
-        this.menusButtonsRenderer.shadowRootContainer
+        this.playerButtonsRenderer.shadowRootContainer
       );
-      this.menusButtonsRenderer.render();
+      this.playerButtonsRenderer.render();
     }
   }
 
-  play() {
+  play(): void {
     this.videoElement?.play();
   }
 
-  removeSkipTime(skipId: string, isPreview?: boolean) {
+  removeSkipTime(skipId: string, isPreview?: boolean): void {
     if (!this.videoElement) {
       return;
     }
@@ -353,7 +354,7 @@ abstract class BasePlayer implements Player {
     });
   }
 
-  onReady() {
+  onReady(): void {
     if (this.videoElement && this.getVideoControlsContainer()) {
       this.isReady = true;
 
@@ -367,7 +368,7 @@ abstract class BasePlayer implements Player {
     }
   }
 
-  reset() {
+  reset(): void {
     this.skipTimeIndicatorsRenderer.clearSkipTimeIndicators();
     this.skipButtonRenderer.clearSkipButtons();
     this.menusRenderer.resetState();
@@ -383,11 +384,12 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Schedule the next skip time for auto skipping
-   * @param skipTime Optional skip time to schedule
-   * @param callback Optional callback on successful time change
+   * Schedule the next skip time for auto skipping.
+   *
+   * @param skipTime Optional skip time to schedule.
+   * @param callback Optional callback on successful time change.
    */
-  scheduleSkipTimes() {
+  scheduleSkipTimes(): void {
     if (!this.videoElement) {
       return;
     }
@@ -408,7 +410,7 @@ abstract class BasePlayer implements Player {
     const offset = this.getDuration() - episodeLength;
 
     const currentTime = this.getCurrentTime();
-    // Some players set playback speed to 0 when seeking
+    // Some players set playback speed to 0 when seeking.
     const playbackSpeed = this.videoElement.playbackRate || 1;
 
     const timeUntilSkipTime =
@@ -424,10 +426,11 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Sets the video element current time to the input time
-   * @param time Time in seconds to set the player time to
+   * Sets the video element current time to the input time.
+   *
+   * @param time Time in seconds to set the player time to.
    */
-  setCurrentTime(time: number) {
+  setCurrentTime(time: number): void {
     if (!this.videoElement) {
       return;
     }
@@ -436,23 +439,22 @@ abstract class BasePlayer implements Player {
   }
 
   /**
-   * Set menus state
-   * @param newState New state of menus
+   * Set menus state.
+   *
+   * @param newState New state of menus.
    */
-  setMenusState(newState: MenusState) {
+  setMenusState(newState: MenusState): void {
     this.menusState = newState;
-    this.menusButtonsRenderer.setState({
+    this.playerButtonsRenderer.setState({
       isSubmitButtonActive: !newState.isSubmitMenuHidden,
       isVoteButtonActive: !newState.isVoteMenuHidden,
     });
     this.menusRenderer.setMenusState(newState);
   }
 
-  setVideoElement(videoElement: HTMLVideoElement) {
+  setVideoElement(videoElement: HTMLVideoElement): void {
     this.videoElement = videoElement;
     this.skipTimeIndicatorsRenderer.setVideoDuration(this.getDuration());
     this.skipButtonRenderer.setVideoDuration(this.getDuration());
   }
 }
-
-export default BasePlayer;

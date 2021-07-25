@@ -14,9 +14,9 @@ module.exports = {
   context: path.join(__dirname, '..'),
   entry: {
     options: './src/options/index.tsx',
-    background_script: './src/background_script.ts',
-    content_script: './src/content_script.ts',
-    player_script: './src/player_script.ts',
+    background_script: './src/scripts/background/script.ts',
+    content_script: './src/scripts/content/script.ts',
+    player_script: './src/scripts/player/script.ts',
   },
   output: {
     path: path.join(__dirname, '..', 'dist'),

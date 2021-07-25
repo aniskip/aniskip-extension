@@ -1,7 +1,11 @@
 {
   "recommendations": [
     "arcanis.vscode-zipfs",
+    "bradlc.vscode-tailwindcss",
     "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode"
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "mhutchie.git-graph",
+    "tombonnike.vscode-status-bar-format-toggle"
   ]
 }

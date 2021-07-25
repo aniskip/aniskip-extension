@@ -1,20 +1,22 @@
-import { getDomainName } from '../utils/string_utils';
-import Animepahe from './animepahe';
-import AniMixPlay from './animixplay';
-import Aniwatch from './aniwatch';
-import Crunchyroll from './crunchyroll';
-import FourAnime from './fouranime';
-import Gogoanime from './gogoanime';
-import Nineanime from './nineanime';
-import Twistmoe from './twistmoe';
+import { Page } from './base_page.types';
+import { getDomainName } from '../utils';
+import { Animepahe } from './animepahe';
+import { AniMixPlay } from './animixplay';
+import { Aniwatch } from './aniwatch';
+import { Crunchyroll } from './crunchyroll';
+import { FourAnime } from './fouranime';
+import { Gogoanime } from './gogoanime';
+import { Nineanime } from './nineanime';
+import { Twistmoe } from './twistmoe';
 
-class PageFactory {
+export class PageFactory {
   /**
-   * Obtains the page object from the domain
-   * @param pathname Provider's url path
-   * @param hostname Provider's host
+   * Obtains the page object from the domain.
+   *
+   * @param pathname Provider's url path.
+   * @param hostname Provider's host.
    */
-  static getPage(pathname: string, hostname: string) {
+  static getPage(pathname: string, hostname: string): Page {
     const domainName = getDomainName(hostname);
 
     switch (domainName) {
@@ -39,5 +41,3 @@ class PageFactory {
     }
   }
 }
-
-export default PageFactory;

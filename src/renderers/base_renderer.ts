@@ -1,6 +1,6 @@
-import Renderer from '../types/renderer_type';
+import { Renderer } from './base_renderer.types';
 
-abstract class BaseRenderer implements Renderer {
+export abstract class BaseRenderer implements Renderer {
   id: string;
 
   reactRootId: string;
@@ -23,14 +23,15 @@ abstract class BaseRenderer implements Renderer {
   abstract render(): void;
 
   /**
-   * Creates a shadow root initialised with the tailwindcss stylesheet
-   * @param container Container element to add shadow root to
-   * @param stopPropagationEvents Events to stop propagation of
+   * Creates a shadow root initialised with the tailwindcss stylesheet.
+   *
+   * @param container Container element to add shadow root to.
+   * @param stopPropagationEvents Events to stop propagation of.
    */
   createShadowRoot(
     container: HTMLDivElement,
     stopPropagationEvents: string[] = []
-  ) {
+  ): ShadowRoot {
     const shadowRoot = container.attachShadow({
       mode: 'closed',
     });
@@ -41,7 +42,7 @@ abstract class BaseRenderer implements Renderer {
       });
     });
 
-    // Inject styles using inline webpack loaders
+    // Inject styles using inline webpack loaders.
     const tailwindcssStyle = document.createElement('style');
     // eslint-disable-next-line import/no-webpack-loader-syntax, global-require
     tailwindcssStyle.textContent = require(`!to-string-loader!css-loader?{"esModule":false,"sourceMap":false}!postcss-loader?{"postcssOptions":{"plugins":["postcss-import","tailwindcss","autoprefixer"]},"sourceMap":false}!tailwindcss/tailwind.css`);
@@ -49,7 +50,7 @@ abstract class BaseRenderer implements Renderer {
 
     const playerScriptStyle = document.createElement('style');
     // eslint-disable-next-line import/no-webpack-loader-syntax, global-require
-    playerScriptStyle.textContent = require('!to-string-loader!css-loader?{"esModule":false,"sourceMap":false}!sass-loader!../player_script.scss');
+    playerScriptStyle.textContent = require('!to-string-loader!css-loader?{"esModule":false,"sourceMap":false}!sass-loader!../scripts/player/styles.scss');
     shadowRoot.appendChild(playerScriptStyle);
 
     const reactRoot = document.createElement('div');
@@ -59,5 +60,3 @@ abstract class BaseRenderer implements Renderer {
     return shadowRoot;
   }
 }
-
-export default BaseRenderer;

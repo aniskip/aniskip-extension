@@ -1,6 +1,6 @@
-import { AniskipHttpClientErrorCode } from '../../types/api/aniskip_types';
+import { AniskipHttpClientErrorCode } from './aniskip_http_client.types';
 
-class AniskipHttpClientError extends Error {
+export class AniskipHttpClientError extends Error {
   code: AniskipHttpClientErrorCode;
 
   constructor(message: string, errorCode: AniskipHttpClientErrorCode) {
@@ -9,5 +9,3 @@ class AniskipHttpClientError extends Error {
     this.code = errorCode;
   }
 }
-
-export default AniskipHttpClientError;

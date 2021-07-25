@@ -1,6 +1,6 @@
-import { MalsyncHttpClientErrorCode } from '../../types/api/malsync_types';
+import { MalsyncHttpClientErrorCode } from './malsync_http_client.types';
 
-class MalsyncHttpClientError extends Error {
+export class MalsyncHttpClientError extends Error {
   code: MalsyncHttpClientErrorCode;
 
   constructor(message: string, errorCode: MalsyncHttpClientErrorCode) {
@@ -9,5 +9,3 @@ class MalsyncHttpClientError extends Error {
     this.code = errorCode;
   }
 }
-
-export default MalsyncHttpClientError;
