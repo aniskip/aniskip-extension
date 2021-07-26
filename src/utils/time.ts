@@ -17,3 +17,17 @@ export const isInInterval = (
   currentTime >= 0 &&
   startTime + margin + offset <= currentTime &&
   currentTime <= endTime - margin + offset;
+
+/**
+ * Returns the date object seven days from now.
+ */
+export const getNextWeekDate = (): Date => {
+  const today = new Date();
+  const nextWeek = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate() + 7
+  );
+
+  return nextWeek;
+};
