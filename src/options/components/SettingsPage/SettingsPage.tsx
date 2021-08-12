@@ -11,10 +11,12 @@ export const SettingsPage = (): JSX.Element => {
     browser.storage.sync.set({ skipOptions: { op: skipOption, ed: edOption } });
     setOpOption(skipOption);
   };
+
   const handleEndingOptionChange = (skipOption: SkipOptionType): void => {
     browser.storage.sync.set({ skipOptions: { op: opOption, ed: skipOption } });
     setEdOption(skipOption);
   };
+
   const handleOnClickClearCache = (): void => {
     const cacheCleared = {
       rulesCache: {},
@@ -48,7 +50,7 @@ export const SettingsPage = (): JSX.Element => {
   }, []);
 
   return (
-    <div className="sm:border sm:rounded-md border-gray-300 px-8 pt-8 pb-12 sm:bg-white">
+    <div className="sm:border sm:rounded-md border-gray-300 px-8 py-8 sm:bg-white">
       <h1 className="text-lg text-gray-700 uppercase font-bold mb-4">
         Settings
       </h1>
@@ -78,7 +80,7 @@ export const SettingsPage = (): JSX.Element => {
         <div className="space-y-1">
           <div className="text-xs text-gray-600 uppercase font-bold">Cache</div>
           <DefaultButton
-            className="bg-primary border border-gray-300 text-white"
+            className="sm:w-auto w-full bg-primary border border-gray-300 text-white font-medium"
             onClick={handleOnClickClearCache}
           >
             Clear Cache
