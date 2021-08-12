@@ -39,12 +39,12 @@ dist
 
 # yarn
 .yarn/*
-!.yarn/cache
 !.yarn/patches
-!.yarn/plugins
 !.yarn/releases
+!.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+.pnp.*
 
 # web-ext
 web-ext-artifacts
