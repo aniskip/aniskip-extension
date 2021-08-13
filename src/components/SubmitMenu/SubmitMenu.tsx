@@ -350,7 +350,7 @@ export const SubmitMenu = ({
           <div className="font-bold text-xs uppercase mb-1">Time controls</div>
           <div className="flex space-x-2">
             <DefaultButton
-              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
+              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 font-medium"
               onClick={async (): Promise<void> => {
                 const episodeLength = await browser.runtime.sendMessage({
                   type: 'player-get-duration',
@@ -383,7 +383,7 @@ export const SubmitMenu = ({
                 />
               </DefaultButton>
               <DefaultButton
-                className="px-3"
+                className="px-3 font-medium"
                 onClick={async (): Promise<void> => {
                   const currentTime = await browser.runtime.sendMessage({
                     type: 'player-get-current-time',
@@ -414,7 +414,7 @@ export const SubmitMenu = ({
               </DefaultButton>
             </div>
             <DefaultButton
-              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300"
+              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 font-medium"
               onClick={async (): Promise<void> => {
                 const duration = await browser.runtime.sendMessage({
                   type: 'player-get-duration',
