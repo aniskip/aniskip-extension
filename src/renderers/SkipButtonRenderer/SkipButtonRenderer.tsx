@@ -15,7 +15,15 @@ export class SkipButtonsRenderer extends BaseRenderer {
   player: Player;
 
   constructor(id: string, variant: string, store: Store, player: Player) {
-    super(id, ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']);
+    super(id, [
+      'keydown',
+      'keyup',
+      'mousedown',
+      'mouseup',
+      'click',
+      'touchstart',
+      'touchend',
+    ]);
 
     this.variant = variant;
     this.store = store;
