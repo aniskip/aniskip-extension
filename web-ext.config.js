@@ -7,14 +7,15 @@ switch (process.env.BROWSER) {
     startUrl.push(
       'chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm'
     );
+    startUrl.push(
+      'chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd'
+    );
     break;
   case 'firefox':
     startUrl.unshift('addons.mozilla.org/en-US/firefox/addon/ublock-origin/');
+    startUrl.unshift('addons.mozilla.org/en-US/firefox/addon/reduxdevtools/');
     break;
   default:
-    startUrl.push(
-      'chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm'
-    );
     break;
 }
 

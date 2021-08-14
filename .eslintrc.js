@@ -15,6 +15,10 @@ module.exports = {
     ],
     '@typescript-eslint/explicit-function-return-type': 'off',
     'react/jsx-props-no-spreading': 'off',
+    'no-param-reassign': [
+      'error',
+      { props: true, ignorePropertyModificationsFor: ['state'] },
+    ],
   },
   overrides: [
     {

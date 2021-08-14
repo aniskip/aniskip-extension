@@ -1,29 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { FaChevronDown, FaChevronUp, FaPlay, FaTimes } from 'react-icons/fa';
 import { browser } from 'webextension-polyfill-ts';
-import { useAniskipHttpClient } from '../../hooks';
+import { useAniskipHttpClient, useDispatch, useSelector } from '../../hooks';
 import { SkipTime, VoteType } from '../../api';
-import { VoteMenuProps } from './VoteMenu.types';
 import { Message } from '../../scripts/background';
 import { secondsToTimeString } from '../../utils';
 import { LinkButton } from '../LinkButton';
+import {
+  changeSubmitMenuVisibility,
+  changeVoteMenuVisibility,
+  removeSkipTime,
+  selectIsVoteMenuVisible,
+  selectSkipTimes,
+} from '../../data';
 
-export const VoteMenu = ({
-  hidden,
-  skipTimes,
-  onClose,
-  submitMenuOpen,
-}: VoteMenuProps): JSX.Element => {
+export const VoteMenu = (): JSX.Element => {
   const { aniskipHttpClient } = useAniskipHttpClient();
   const [skipTimesVoted, setSkipTimesVoted] = useState<
     Record<string, VoteType>
   >({});
   const [filteredSkipTimes, setFilteredSkipTimes] = useState<SkipTime[]>([]);
   const [playerDuration, setPlayerDuration] = useState(0);
+  const visible = useSelector(selectIsVoteMenuVisible);
+  const skipTimes = useSelector(selectSkipTimes);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    skipTimes.sort((a, b) => a.interval.start_time - b.interval.end_time);
-    setFilteredSkipTimes([...skipTimes.filter((skipTime) => skipTime.skip_id)]);
+    const sortedSkipTimes = [...skipTimes].sort(
+      (a, b) => a.interval.start_time - b.interval.end_time
+    );
+    const sortedAndFilteredSkipTimes = [
+      ...sortedSkipTimes.filter(
+        ({ skip_type: skipType }) => skipType !== 'preview'
+      ),
+    ];
+    setFilteredSkipTimes(sortedAndFilteredSkipTimes);
 
     (async (): Promise<void> => {
       const { skipTimesVoted: currentSkipTimesVoted } =
@@ -49,10 +60,105 @@ export const VoteMenu = ({
     browser.runtime.sendMessage({ type: 'player-play' } as Message);
   };
 
+  /**
+   * Closes the vote menu.
+   */
+  const onClickCloseButton = (): void => {
+    dispatch(changeVoteMenuVisibility(false));
+  };
+
+  /**
+   * Closes the vote menu and opens the submit menu.
+   */
+  const onClickSubmitLink = (): void => {
+    dispatch(changeVoteMenuVisibility(false));
+    dispatch(changeSubmitMenuVisibility(true));
+  };
+
+  /**
+   * Upvotes the input skip time.
+   *
+   * @param isUpvoted Is the current skip time upvoted.
+   * @param skipId Skip ID to upvote.
+   */
+  const onClickUpvote =
+    (isUpvoted: boolean, skipId: string) => async (): Promise<void> => {
+      if (isUpvoted) {
+        return;
+      }
+
+      const { skipTimesVoted: currentSkipTimesVoted } =
+        await browser.storage.local.get('skipTimesVoted');
+
+      const updatedSkipTimesVoted = {
+        ...skipTimesVoted,
+        ...currentSkipTimesVoted,
+        [skipId]: 'upvote',
+      };
+
+      setSkipTimesVoted(updatedSkipTimesVoted);
+
+      try {
+        const response = await aniskipHttpClient.upvote(skipId);
+        if (response.message === 'success') {
+          browser.storage.local.set({
+            skipTimesVoted: updatedSkipTimesVoted,
+          });
+        }
+      } catch (err) {
+        if (err.code === 'vote/rate-limited') {
+          browser.storage.local.set({
+            skipTimesVoted: updatedSkipTimesVoted,
+          });
+        }
+      }
+    };
+
+  /**
+   * Downvotes the input skip time.
+   *
+   * @param isDownvoted Is the current skip time downvoted.
+   * @param skipId Skip ID to downbote.
+   */
+  const onClickDownvote =
+    (isDownvoted: boolean, skipId: string) => async (): Promise<void> => {
+      if (isDownvoted) {
+        return;
+      }
+
+      const { skipTimesVoted: currentSkipTimesVoted } =
+        await browser.storage.local.get('skipTimesVoted');
+
+      const updatedSkipTimesVoted = {
+        ...skipTimesVoted,
+        ...currentSkipTimesVoted,
+        [skipId]: 'downvote',
+      };
+
+      setSkipTimesVoted(updatedSkipTimesVoted);
+
+      dispatch(removeSkipTime(skipId));
+
+      try {
+        const response = await aniskipHttpClient.downvote(skipId);
+        if (response.message === 'success') {
+          browser.storage.local.set({
+            skipTimesVoted: updatedSkipTimesVoted,
+          });
+        }
+      } catch (err) {
+        if (err.code === 'vote/rate-limited') {
+          browser.storage.local.set({
+            skipTimesVoted: updatedSkipTimesVoted,
+          });
+        }
+      }
+    };
+
   return (
     <div
       className={`text-sm md:text-base font-sans w-60 px-5 py-2 z-10 bg-trueGray-800 bg-opacity-80 border border-gray-300 select-none rounded-md transition-opacity text-white opacity-0 pointer-events-none ${
-        !hidden ? 'sm:opacity-100 sm:pointer-events-auto' : ''
+        visible ? 'sm:opacity-100 sm:pointer-events-auto' : ''
       }`}
     >
       <div className="flex justify-between items-center w-full h-auto mb-2">
@@ -63,7 +169,7 @@ export const VoteMenu = ({
         <button
           type="button"
           className="flex justify-center items-center focus:outline-none"
-          onClick={(): void => onClose()}
+          onClick={onClickCloseButton}
         >
           <FaTimes className="w-4 h-4 active:text-primary" />
         </button>
@@ -76,10 +182,7 @@ export const VoteMenu = ({
             </div>
             <LinkButton
               className="text-blue-500 uppercase font-bold hover:no-underline"
-              onClick={(): void => {
-                onClose();
-                submitMenuOpen();
-              }}
+              onClick={onClickSubmitLink}
             >
               Submit here
             </LinkButton>
@@ -148,37 +251,7 @@ export const VoteMenu = ({
                       isUpvoted && 'text-primary'
                     }`}
                     type="button"
-                    onClick={async (): Promise<void> => {
-                      if (isUpvoted) {
-                        return;
-                      }
-
-                      const { skipTimesVoted: currentSkipTimesVoted } =
-                        await browser.storage.local.get('skipTimesVoted');
-
-                      const updatedSkipTimesVoted = {
-                        ...skipTimesVoted,
-                        ...currentSkipTimesVoted,
-                        [skipId]: 'upvote',
-                      };
-
-                      setSkipTimesVoted(updatedSkipTimesVoted);
-
-                      try {
-                        const response = await aniskipHttpClient.upvote(skipId);
-                        if (response.message === 'success') {
-                          browser.storage.local.set({
-                            skipTimesVoted: updatedSkipTimesVoted,
-                          });
-                        }
-                      } catch (err) {
-                        if (err.code === 'vote/rate-limited') {
-                          browser.storage.local.set({
-                            skipTimesVoted: updatedSkipTimesVoted,
-                          });
-                        }
-                      }
-                    }}
+                    onClick={onClickUpvote(isUpvoted, skipId)}
                     disabled={isUpvoted}
                   >
                     <FaChevronUp />
@@ -188,44 +261,7 @@ export const VoteMenu = ({
                       isDownvoted && 'text-blue-500'
                     }`}
                     type="button"
-                    onClick={async (): Promise<void> => {
-                      if (isDownvoted) {
-                        return;
-                      }
-
-                      const { skipTimesVoted: currentSkipTimesVoted } =
-                        await browser.storage.local.get('skipTimesVoted');
-
-                      const updatedSkipTimesVoted = {
-                        ...skipTimesVoted,
-                        ...currentSkipTimesVoted,
-                        [skipId]: 'downvote',
-                      };
-
-                      setSkipTimesVoted(updatedSkipTimesVoted);
-
-                      browser.runtime.sendMessage({
-                        type: 'player-remove-skip-time',
-                        payload: skipId,
-                      } as Message);
-
-                      try {
-                        const response = await aniskipHttpClient.downvote(
-                          skipId
-                        );
-                        if (response.message === 'success') {
-                          browser.storage.local.set({
-                            skipTimesVoted: updatedSkipTimesVoted,
-                          });
-                        }
-                      } catch (err) {
-                        if (err.code === 'vote/rate-limited') {
-                          browser.storage.local.set({
-                            skipTimesVoted: updatedSkipTimesVoted,
-                          });
-                        }
-                      }
-                    }}
+                    onClick={onClickDownvote(isDownvoted, skipId)}
                     disabled={isDownvoted}
                   >
                     <FaChevronDown />

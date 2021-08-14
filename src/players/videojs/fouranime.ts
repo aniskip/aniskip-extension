@@ -5,7 +5,7 @@ export class FourAnime extends Videojs {
     // Hack to fix 4Anime floating buttons in smaller window size.
     if (
       window.innerWidth <= 900 &&
-      (this.videoElement?.readyState || 0) === 0
+      (this.videoElement?.readyState ?? 0) === 0
     ) {
       return;
     }

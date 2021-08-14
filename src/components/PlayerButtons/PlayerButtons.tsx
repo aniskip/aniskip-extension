@@ -5,11 +5,7 @@ import { VoteMenuButton } from '../VoteMenuButton';
 import { getDomainName } from '../../utils';
 import { useFullscreenState } from '../../hooks';
 
-export const PlayerButtons = ({
-  variant,
-  submitMenuButtonProps,
-  voteMenuButtonProps,
-}: PlayerButtonsProps): JSX.Element => {
+export const PlayerButtons = ({ variant }: PlayerButtonsProps): JSX.Element => {
   const { isFullscreen } = useFullscreenState();
 
   const domainName = getDomainName(window.location.hostname);
@@ -20,16 +16,8 @@ export const PlayerButtons = ({
         isFullscreen ? 'flex' : ''
       }`}
     >
-      <SubmitMenuButton
-        active={submitMenuButtonProps.active}
-        variant={submitMenuButtonProps.variant}
-        onClick={submitMenuButtonProps.onClick}
-      />
-      <VoteMenuButton
-        active={voteMenuButtonProps.active}
-        variant={voteMenuButtonProps.variant}
-        onClick={voteMenuButtonProps.onClick}
-      />
+      <SubmitMenuButton variant={variant} />
+      <VoteMenuButton variant={variant} />
     </div>
   );
 };

@@ -67,7 +67,7 @@ export abstract class BasePage implements Page {
 
     rules.forEach((rule) => {
       const { start, end: endOrUndefined } = rule.from;
-      const end = endOrUndefined || Infinity;
+      const end = endOrUndefined ?? Infinity;
       const { malId: toMalId } = rule.to;
 
       // Handle seasons with multiple parts and continuous counting.

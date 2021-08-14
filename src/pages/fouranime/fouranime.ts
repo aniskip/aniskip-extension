@@ -4,7 +4,7 @@ export class FourAnime extends BasePage {
   getTitle(): string {
     const title = this.document.getElementById('titleleft')?.innerText;
 
-    return title || '';
+    return title ?? '';
   }
 
   getIdentifier(): string {

@@ -11,16 +11,11 @@ const player = PlayerFactory.getPlayer(window.location.hostname);
  * @param message Message containing the type of action and the payload.
  */
 const messageHandler = (message: Message): void => {
-  if (!player.isReady) {
+  if (!player.getIsReady()) {
     return;
   }
 
   switch (message.type) {
-    case 'player-add-skip-time': {
-      const skipTime = message.payload as SkipTime;
-      player.addSkipTime(skipTime);
-      break;
-    }
     case 'player-get-duration': {
       browser.runtime.sendMessage({
         payload: player.getDuration(),
@@ -41,10 +36,6 @@ const messageHandler = (message: Message): void => {
     }
     case 'player-play': {
       player.play();
-      break;
-    }
-    case 'player-remove-skip-time': {
-      player.removeSkipTime(message.payload);
       break;
     }
     default:
