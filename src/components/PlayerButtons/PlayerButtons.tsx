@@ -3,10 +3,10 @@ import { PlayerButtonsProps } from './PlayerButtons.types';
 import { SubmitMenuButton } from '../SubmitMenuButton';
 import { VoteMenuButton } from '../VoteMenuButton';
 import { getDomainName } from '../../utils';
-import { useFullscreenState } from '../../hooks';
+import { useCheckIsFullscreen } from '../../hooks';
 
 export const PlayerButtons = ({ variant }: PlayerButtonsProps): JSX.Element => {
-  const { isFullscreen } = useFullscreenState();
+  const { isFullscreen } = useCheckIsFullscreen();
 
   const domainName = getDomainName(window.location.hostname);
 

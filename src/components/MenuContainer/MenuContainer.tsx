@@ -1,14 +1,14 @@
 import React from 'react';
 import { MenuContainerProps } from './MenuContainer.types';
-import { useFullscreenState, useMobileState } from '../../hooks';
+import { useCheckIsFullscreen, useCheckIsMobile } from '../../hooks';
 import { getDomainName } from '../../utils';
 
 export const MenuContainer = ({
   variant,
   children,
 }: MenuContainerProps): JSX.Element => {
-  const { isFullscreen } = useFullscreenState();
-  const { isMobile } = useMobileState();
+  const { isFullscreen } = useCheckIsFullscreen();
+  const { isMobile } = useCheckIsMobile();
   const domainName = getDomainName(window.location.hostname);
 
   return (
