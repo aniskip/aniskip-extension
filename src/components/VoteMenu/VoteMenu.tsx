@@ -3,8 +3,7 @@ import { FaChevronDown, FaChevronUp, FaPlay, FaTimes } from 'react-icons/fa';
 import { browser } from 'webextension-polyfill-ts';
 import { useAniskipHttpClient, useDispatch, useSelector } from '../../hooks';
 import { SkipTime, VoteType } from '../../api';
-import { Message } from '../../scripts/background';
-import { secondsToTimeString } from '../../utils';
+import { secondsToTimeString, usePlayerRef } from '../../utils';
 import { LinkButton } from '../LinkButton';
 import {
   changeSubmitMenuVisibility,
@@ -24,6 +23,7 @@ export const VoteMenu = (): JSX.Element => {
   const visible = useSelector(selectIsVoteMenuVisible);
   const skipTimes = useSelector(selectSkipTimes);
   const dispatch = useDispatch();
+  const player = usePlayerRef();
 
   useEffect(() => {
     const sortedSkipTimes = [...skipTimes].sort(
@@ -45,19 +45,15 @@ export const VoteMenu = (): JSX.Element => {
         return;
       }
 
-      const duration = await browser.runtime.sendMessage({
-        type: 'player-get-duration',
-      } as Message);
+      const duration = player?.getDuration() ?? 0;
+
       setPlayerDuration(duration);
     })();
   }, [skipTimes]);
 
   const setPlayerCurrentTime = (time: number) => (): void => {
-    browser.runtime.sendMessage({
-      type: 'player-set-current-time',
-      payload: time,
-    } as Message);
-    browser.runtime.sendMessage({ type: 'player-play' } as Message);
+    player?.setCurrentTime(time);
+    player?.play();
   };
 
   /**

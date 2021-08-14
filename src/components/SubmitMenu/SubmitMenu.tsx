@@ -37,25 +37,23 @@ export const SubmitMenu = (): JSX.Element => {
   const player = usePlayerRef();
   const dispatch = useDispatch();
 
+  /**
+   * Initialise the start time to the current time and the end time to the
+   * current time + 90 seconds.
+   */
   useEffect(() => {
     if (visible) {
-      (async (): Promise<void> => {
-        const duration = await browser.runtime.sendMessage({
-          type: 'player-get-duration',
-        } as Message);
+      const duration = player?.getDuration() ?? 0;
 
-        const currentTime = await browser.runtime.sendMessage({
-          type: 'player-get-current-time',
-        } as Message);
+      const currentTime = player?.getCurrentTime() ?? 0;
 
-        setStartTime(secondsToTimeString(currentTime));
-        let newEndTime = currentTime + 90;
-        if (newEndTime > duration) {
-          newEndTime = Math.floor(duration);
-        }
-        setEndTime(secondsToTimeString(newEndTime));
-        setSkipType(currentTime < duration / 2 ? 'op' : 'ed');
-      })();
+      setStartTime(secondsToTimeString(currentTime));
+      let newEndTime = currentTime + 90;
+      if (newEndTime > duration) {
+        newEndTime = Math.floor(duration);
+      }
+      setEndTime(secondsToTimeString(newEndTime));
+      setSkipType(currentTime < duration / 2 ? 'op' : 'ed');
     }
   }, [visible]);
 
@@ -65,15 +63,13 @@ export const SubmitMenu = (): JSX.Element => {
    *
    * @param seconds Seconds to error correct.
    */
-  const errorCorrectTime = async (seconds: number): Promise<number> => {
+  const errorCorrectTime = (seconds: number): number => {
     let result = seconds;
     if (seconds < 0) {
       result = 0;
     }
 
-    const duration = await browser.runtime.sendMessage({
-      type: 'player-get-duration',
-    } as Message);
+    const duration = player?.getDuration() ?? 0;
 
     if (seconds >= duration) {
       result = Math.floor(duration);
@@ -124,9 +120,7 @@ export const SubmitMenu = (): JSX.Element => {
       await browser.runtime.sendMessage({
         type: 'get-episode-information',
       } as Message);
-    const duration = await browser.runtime.sendMessage({
-      type: 'player-get-duration',
-    } as Message);
+    const duration = player?.getDuration() ?? 0;
 
     const startTimeSeconds = timeStringToSeconds(startTime);
     const endTimeSeconds = timeStringToSeconds(endTime);
@@ -181,7 +175,7 @@ export const SubmitMenu = (): JSX.Element => {
    */
   const onKeyDown =
     (setTime: React.Dispatch<React.SetStateAction<string>>) =>
-    async (event: React.KeyboardEvent<HTMLInputElement>): Promise<void> => {
+    (event: React.KeyboardEvent<HTMLInputElement>): void => {
       const timeString = event.currentTarget.value;
       const timeSeconds = timeStringToSeconds(timeString);
       let modifier = 0.25;
@@ -211,12 +205,9 @@ export const SubmitMenu = (): JSX.Element => {
         return;
       }
 
-      updatedTime = await errorCorrectTime(updatedTime);
+      updatedTime = errorCorrectTime(updatedTime);
 
-      browser.runtime.sendMessage({
-        type: 'player-set-current-time',
-        payload: updatedTime,
-      } as Message);
+      player?.setCurrentTime(updatedTime);
 
       const updatedTimeString = secondsToTimeString(updatedTime);
       setTime(updatedTimeString);
@@ -248,10 +239,7 @@ export const SubmitMenu = (): JSX.Element => {
     );
 
     setTimeFunction(secondsToTimeString(updatedTime));
-    browser.runtime.sendMessage({
-      type: 'player-set-current-time',
-      payload: updatedTime,
-    } as Message);
+    player?.setCurrentTime(updatedTime);
   };
 
   /**
@@ -281,9 +269,7 @@ export const SubmitMenu = (): JSX.Element => {
    * Adds a preview skip time.
    */
   const onClickPreviewButton = async (): Promise<void> => {
-    const episodeLength = await browser.runtime.sendMessage({
-      type: 'player-get-duration',
-    } as Message);
+    const episodeLength = player?.getDuration() ?? 0;
 
     const skipTime: SkipTime = {
       interval: {
@@ -302,9 +288,7 @@ export const SubmitMenu = (): JSX.Element => {
    * Sets the focused input to the current player time.
    */
   const onClickNowButton = async (): Promise<void> => {
-    const currentTime = await browser.runtime.sendMessage({
-      type: 'player-get-current-time',
-    } as Message);
+    const currentTime = player?.getCurrentTime() ?? 0;
 
     switch (currentInputFocus) {
       case 'start-time':
@@ -321,9 +305,7 @@ export const SubmitMenu = (): JSX.Element => {
    * Sets the focused input to the video duration.
    */
   const onClickEndButton = async (): Promise<void> => {
-    const duration = await browser.runtime.sendMessage({
-      type: 'player-get-duration',
-    } as Message);
+    const duration = player?.getDuration() ?? 0;
     const trimmedDuration = Math.floor(duration);
 
     switch (currentInputFocus) {

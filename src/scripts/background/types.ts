@@ -27,13 +27,7 @@ export type LocalOptions = {
   skipTimesVoted: Partial<Record<string, VoteType>>;
 };
 
-export type MessageType =
-  | 'fetch'
-  | 'get-episode-information'
-  | 'player-get-current-time'
-  | 'player-get-duration'
-  | 'player-play'
-  | 'player-set-current-time';
+export type MessageType = 'fetch' | 'get-episode-information';
 
 export type Message = {
   type: MessageType;
