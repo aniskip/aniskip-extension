@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { BaseRenderer } from '../base_renderer';
 import { SkipTimeIndicatorContainer as SkipTimeIndicator } from '../../components';
 import { Store } from '../../data';
 import { Player } from '../../players/base_player.types';
-import { Provider } from 'react-redux';
 import { PlayerProvider } from '../../utils';
 
 export class SkipTimeIndicatorsRenderer extends BaseRenderer {

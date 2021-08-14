@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { BaseRenderer } from '../base_renderer';
 import { PlayerButtons } from '../../components';
 import { Store } from '../../data';
-import { Provider } from 'react-redux';
 
 export class PlayerButtonsRenderer extends BaseRenderer {
   variant: string;

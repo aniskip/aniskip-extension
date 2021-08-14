@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { BaseRenderer } from '../base_renderer';
 import { Menus } from '../../components';
 import { Store } from '../../data';
-import { Provider } from 'react-redux';
 import { Player } from '../../players/base_player.types';
 import { PlayerProvider } from '../../utils';
 
