@@ -15,6 +15,11 @@ export const SkipTimeIndicatorContainer = ({
   return (
     <>
       {skipTimes.map((skipTime) => {
+        const isPreview = skipTime.skip_type === 'preview';
+        if (isPreview) {
+          return null;
+        }
+
         const { start_time: startTime, end_time: endTime } = skipTime.interval;
         const { episode_length: episodeLength } = skipTime;
         const offset = videoDuration - skipTime.episode_length;

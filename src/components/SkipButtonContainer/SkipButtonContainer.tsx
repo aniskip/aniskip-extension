@@ -55,8 +55,9 @@ export const SkipButtonContainer = ({
           const key = `skip-button-${skipId}`;
 
           const isManual = skipOptions[skipType] === 'manual-skip';
-          if (!isManual) {
-            return <div key={key} />;
+          const isPreview = skipType === 'preview';
+          if (!isManual || isPreview) {
+            return null;
           }
 
           const { start_time: startTime, end_time: endTime } = interval;
