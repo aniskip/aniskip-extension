@@ -20,10 +20,10 @@ export class Crunchyroll extends BasePage {
 
   getTitle(): string {
     const metadata = JSON.parse(
-      this.document.querySelector('[type="application/ld+json"]')?.innerHTML ||
+      this.document.querySelector('[type="application/ld+json"]')?.innerHTML ??
         '{}'
     );
 
-    return metadata.partOfSeason.name || '';
+    return metadata.partOfSeason.name ?? '';
   }
 }

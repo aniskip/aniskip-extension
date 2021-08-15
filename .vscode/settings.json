@@ -1,9 +1,11 @@
 {
   "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
   "editor.tabSize": 2,
   "scss.validate": false,
   "search.exclude": {
     "**/.yarn": true,
     "**/.pnp.*": true
   },
+  "files.eol": "\n",
 }

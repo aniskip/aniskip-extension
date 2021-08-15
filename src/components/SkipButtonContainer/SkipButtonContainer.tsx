@@ -1,46 +1,85 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { browser } from 'webextension-polyfill-ts';
 import { SkipButton } from '../SkipButton';
-import { isInInterval } from '../../utils';
+import { isInInterval, usePlayerRef } from '../../utils';
 import { SkipButtonContainerProps } from './SkipButtonContainer.types';
+import { useSelector } from '../../hooks';
+import { selectSkipTimes } from '../../data';
+import { SkipOptions } from '../../scripts/background';
 
 export const SkipButtonContainer = ({
-  skipTimes,
-  currentTime,
-  videoDuration,
   variant,
-  onClickHandlers,
-}: SkipButtonContainerProps): JSX.Element => (
-  <>
-    {skipTimes.map(
-      (
-        {
+}: SkipButtonContainerProps): JSX.Element => {
+  const [skipOptions, setSkipOptions] = useState<SkipOptions>({
+    op: 'manual-skip',
+    ed: 'manual-skip',
+  });
+  const skipTimes = useSelector(selectSkipTimes);
+  const player = usePlayerRef();
+
+  /**
+   * Retrieve the skip options.
+   */
+  useEffect(() => {
+    const initialiseSkipOptions = async (): Promise<void> => {
+      const { skipOptions: currentSkipOptions } =
+        await browser.storage.sync.get('skipOptions');
+      setSkipOptions(currentSkipOptions);
+    };
+
+    initialiseSkipOptions();
+  }, []);
+
+  const videoDuration = player?.getDuration() ?? 0;
+  const currentTime = player?.getCurrentTime() ?? 0;
+
+  /**
+   * Changes the player current time to the skip end time.
+   *
+   * @param skipToTime Time to skip to.
+   */
+  const onClick = (skipToTime: number) => (): void => {
+    player?.setCurrentTime(skipToTime);
+    player?.play();
+  };
+
+  return (
+    <>
+      {skipTimes.map(
+        ({
           interval,
           episode_length: episodeLength,
           skip_id: skipId,
           skip_type: skipType,
-        },
-        index
-      ) => {
-        const { start_time: startTime, end_time: endTime } = interval;
-        const offset = videoDuration - episodeLength;
+        }) => {
+          const key = `skip-button-${skipId}`;
 
-        const inInterval = isInInterval(
-          startTime,
-          endTime,
-          currentTime,
-          offset
-        );
+          const isManual = skipOptions[skipType] === 'manual-skip';
+          if (!isManual) {
+            return <div key={key} />;
+          }
 
-        return (
-          <SkipButton
-            key={`skip-button-${skipId}`}
-            skipType={skipType}
-            variant={variant}
-            hidden={!inInterval}
-            onClick={onClickHandlers[index]}
-          />
-        );
-      }
-    )}
-  </>
-);
+          const { start_time: startTime, end_time: endTime } = interval;
+          const offset = videoDuration - episodeLength;
+
+          const inInterval = isInInterval(
+            startTime,
+            endTime,
+            currentTime,
+            offset
+          );
+
+          return (
+            <SkipButton
+              key={key}
+              skipType={skipType}
+              variant={variant}
+              hidden={!inInterval}
+              onClick={onClick(endTime + offset)}
+            />
+          );
+        }
+      )}
+    </>
+  );
+};

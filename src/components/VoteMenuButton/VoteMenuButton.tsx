@@ -1,14 +1,38 @@
 import React from 'react';
 import { FaListUl } from 'react-icons/fa';
+import {
+  changeSubmitMenuVisibility,
+  changeVoteMenuVisibility,
+  selectIsVoteMenuVisible,
+} from '../../data';
+import { useDispatch, useSelector } from '../../hooks';
 import { getDomainName } from '../../utils';
 import { VoteMenuButtonProps } from './VoteMenuButton.types';
 
 export const VoteMenuButton = ({
   variant,
-  active,
-  onClick,
 }: VoteMenuButtonProps): JSX.Element => {
   const domainName = getDomainName(window.location.hostname);
+  const active = useSelector(selectIsVoteMenuVisible);
+  const dispatch = useDispatch();
+
+  /**
+   * Toggles the vote menu.
+   */
+  const onClick = (): void => {
+    dispatch(changeVoteMenuVisibility(!active));
+    dispatch(changeSubmitMenuVisibility(false));
+  };
+
+  /**
+   * Toggles the vote menu if the key pressed is Enter.
+   */
+  const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
+    if (event.key === 'Enter') {
+      dispatch(changeVoteMenuVisibility(!active));
+      dispatch(changeSubmitMenuVisibility(false));
+    }
+  };
 
   return (
     <div
@@ -19,11 +43,7 @@ export const VoteMenuButton = ({
       title="Vote skip times"
       tabIndex={0}
       onClick={onClick}
-      onKeyDown={(event): void => {
-        if (event.key !== 'Tab') {
-          onClick(event);
-        }
-      }}
+      onKeyDown={onKeyDown}
     >
       <FaListUl className="text-white w-1/2 h-1/2" />
     </div>

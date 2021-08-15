@@ -8,6 +8,7 @@ export type SkipOptionType = 'disabled' | 'auto-skip' | 'manual-skip';
 export type SkipOptions = {
   op: SkipOptionType;
   ed: SkipOptionType;
+  preview?: SkipOptionType;
 };
 
 export type CacheEntry<T> = {
@@ -26,17 +27,7 @@ export type LocalOptions = {
   skipTimesVoted: Partial<Record<string, VoteType>>;
 };
 
-export type MessageType =
-  | 'fetch'
-  | 'get-episode-information'
-  | 'player-add-preview-skip-time'
-  | 'player-add-skip-time'
-  | 'player-get-current-time'
-  | 'player-get-duration'
-  | 'player-play'
-  | 'player-ready'
-  | 'player-remove-skip-time'
-  | 'player-set-current-time';
+export type MessageType = 'fetch' | 'get-episode-information';
 
 export type Message = {
   type: MessageType;

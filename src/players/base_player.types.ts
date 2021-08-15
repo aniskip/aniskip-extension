@@ -15,8 +15,6 @@ export type Player = {
 
   metadata: Metadata;
 
-  isReady: boolean;
-
   /**
    * Adds a skip time into the player.
    *
@@ -41,6 +39,11 @@ export type Player = {
   getVideoControlsContainer(): HTMLElement | null;
 
   /**
+   * Returns whether the player is ready for injection.
+   */
+  getIsReady(): boolean;
+
+  /**
    * Initialises the player by injecting the extension buttons.
    */
   initialise(): void;
@@ -49,14 +52,6 @@ export type Player = {
    * Plays the player.
    */
   play(): void;
-
-  /**
-   * Removes a skip time from the player.
-   *
-   * @param skipId Skip id of the skip time to remove.
-   * @param isPreview Optional, if true, remove all the preview skip times.
-   */
-  removeSkipTime(skipId: string, isPreview?: boolean): void;
 
   /**
    * Resets player state.
