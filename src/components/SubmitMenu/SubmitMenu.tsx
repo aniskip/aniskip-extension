@@ -234,7 +234,7 @@ export const SubmitMenu = (): JSX.Element => {
         return;
     }
 
-    const updatedTime = await errorCorrectTime(
+    const updatedTime = errorCorrectTime(
       timeStringToSeconds(currentTime) + seekOffset
     );
 
@@ -254,7 +254,7 @@ export const SubmitMenu = (): JSX.Element => {
     ) =>
     async (): Promise<void> => {
       const formatted = formatTimeString(currentTime);
-      const seconds = await errorCorrectTime(timeStringToSeconds(formatted));
+      const seconds = errorCorrectTime(timeStringToSeconds(formatted));
       setTime(secondsToTimeString(seconds));
     };
 
