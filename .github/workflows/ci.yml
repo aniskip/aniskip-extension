@@ -24,4 +24,5 @@ jobs:
 
       # run tests
       - run: yarn install
+      - run: yarn build
       - run: yarn lint
