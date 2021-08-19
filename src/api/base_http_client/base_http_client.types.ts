@@ -3,7 +3,6 @@ export type Response = {
   json: <T>() => T;
   ok: boolean;
   status: number;
-  error?: string;
 };
 
 export type HttpClient = {

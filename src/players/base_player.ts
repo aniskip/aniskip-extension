@@ -101,6 +101,11 @@ export abstract class BasePlayer implements Player {
       return;
     }
 
+    const isAutoSkip = this.skipOptions[skipTime.skip_type] === 'auto-skip';
+    if (!isAutoSkip) {
+      return;
+    }
+
     const endTime = skipTime.interval.end_time;
     const offset = this.getDuration() - skipTime.episode_length;
 
