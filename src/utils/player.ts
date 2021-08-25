@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { Player } from '../players/base_player.types';
+import { Player } from '../players/base-player.types';
 
 /**
  * Player context.

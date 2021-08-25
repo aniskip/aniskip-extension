@@ -1,4 +1,4 @@
-import { BasePlayer } from '../base_player';
+import { BasePlayer } from '../base-player';
 import metadata from './metadata.json';
 
 export class Doodstream extends BasePlayer {

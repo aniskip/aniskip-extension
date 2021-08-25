@@ -6,7 +6,7 @@ import {
   SkipTimeIndicatorsRenderer,
 } from '../renderers';
 import { Message, SkipOptions } from '../scripts/background';
-import { Player, Metadata } from './base_player.types';
+import { Player, Metadata } from './base-player.types';
 import { AniskipHttpClient, SkipTime, SkipType } from '../api';
 import { isInInterval } from '../utils';
 import {

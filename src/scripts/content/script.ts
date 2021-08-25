@@ -1,6 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
 import { Message } from '../background';
-import { PageFactory } from '../../pages/page_factory';
+import { PageFactory } from '../../pages/page-factory';
 
 /**
  * Returns the MAL id, episode number and provider name.

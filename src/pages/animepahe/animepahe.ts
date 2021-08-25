@@ -1,5 +1,5 @@
 import { getDomainName } from '../../utils';
-import { BasePage } from '../base_page';
+import { BasePage } from '../base-page';
 
 export class Animepahe extends BasePage {
   constructor(hostname: string, pathname: string, document: Document) {
