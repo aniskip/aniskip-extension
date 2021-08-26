@@ -1,4 +1,4 @@
-import { MalsyncHttpClientErrorCode } from './malsync_http_client.types';
+import { MalsyncHttpClientErrorCode } from './malsync-http-client.types';
 
 export class MalsyncHttpClientError extends Error {
   code: MalsyncHttpClientErrorCode;

@@ -1,5 +1,5 @@
 import { isMobileCheck } from '../../utils';
-import { BasePlayer } from '../base_player';
+import { BasePlayer } from '../base-player';
 import metadata from './metadata.json';
 
 export class Crunchyroll extends BasePlayer {

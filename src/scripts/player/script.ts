@@ -1,4 +1,4 @@
-import { PlayerFactory } from '../../players/player_factory';
+import { PlayerFactory } from '../../players/player-factory';
 
 const player = PlayerFactory.getPlayer(window.location.hostname);
 

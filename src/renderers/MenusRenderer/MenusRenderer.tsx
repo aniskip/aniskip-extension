@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BaseRenderer } from '../base_renderer';
+import { BaseRenderer } from '../base-renderer';
 import { Menus } from '../../components';
 import { Store } from '../../data';
-import { Player } from '../../players/base_player.types';
+import { Player } from '../../players/base-player.types';
 import { PlayerProvider } from '../../utils';
 
 export class MenusRenderer extends BaseRenderer {

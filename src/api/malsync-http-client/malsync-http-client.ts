@@ -1,6 +1,6 @@
-import { GetResponseFromPage } from './malsync_http_client.types';
+import { GetResponseFromPage } from './malsync-http-client.types';
 import { MalsyncHttpClientError } from './error';
-import { BaseHttpClient } from '../base_http_client';
+import { BaseHttpClient } from '../base-http-client';
 
 export class MalsyncHttpClient extends BaseHttpClient {
   constructor() {

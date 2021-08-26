@@ -1,9 +1,9 @@
-import { BaseHttpClient } from '../base_http_client';
+import { BaseHttpClient } from '../base-http-client';
 import {
   Media,
   MediaTitle,
   PostResponseFromPage,
-} from './anilist_http_client.types';
+} from './anilist-http-client.types';
 
 export class AnilistHttpClient extends BaseHttpClient {
   constructor() {

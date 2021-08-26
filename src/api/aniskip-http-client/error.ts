@@ -1,4 +1,4 @@
-import { AniskipHttpClientErrorCode } from './aniskip_http_client.types';
+import { AniskipHttpClientErrorCode } from './aniskip-http-client.types';
 
 export class AniskipHttpClientError extends Error {
   code: AniskipHttpClientErrorCode;

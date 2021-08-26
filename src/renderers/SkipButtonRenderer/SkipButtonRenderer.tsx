@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { SkipButtonContainer } from '../../components';
 import { Store } from '../../data';
-import { Player } from '../../players/base_player.types';
+import { Player } from '../../players/base-player.types';
 import { PlayerProvider } from '../../utils';
-import { BaseRenderer } from '../base_renderer';
+import { BaseRenderer } from '../base-renderer';
 
 export class SkipButtonsRenderer extends BaseRenderer {
   variant: string;
