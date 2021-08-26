@@ -43,7 +43,7 @@ export class AniskipHttpClient extends BaseHttpClient {
    * @param animeId MAL id to get the episode number rules of.
    */
   async getRules(animeId: number): Promise<GetResponseFromRules> {
-    const route = `/rules/${animeId}`;
+    const route = `/relation-rules/${animeId}`;
     const response = await this.request(route, 'GET');
 
     return response.json<GetResponseFromRules>();

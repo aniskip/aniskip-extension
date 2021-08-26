@@ -13,7 +13,7 @@ export type SkipTime = {
 export type GetResponseFromSkipTimes = {
   found: boolean;
   results: SkipTime[];
-};
+} & ResponseInformation;
 
 export type Range = {
   start: number;
@@ -22,27 +22,28 @@ export type Range = {
 
 export type Rule = {
   from: Range;
-  to: { malId: number } & Range;
+  to: { mal_id: number } & Range;
 };
 
 export type GetResponseFromRules = {
   found: boolean;
   rules: Rule[];
-};
+} & ResponseInformation;
 
-export type SuccessMessage = {
-  message: 'success';
+export type ResponseInformation = {
+  status_code: number;
+  message: string;
 };
 
 export type ServerError = {
   error?: string;
 };
 
-export type PostResponseFromSkipTimesVote = SuccessMessage & ServerError;
+export type PostResponseFromSkipTimesVote = ResponseInformation & ServerError;
 
 export type PostResponseFromSkipTimes = {
   skip_id: string;
-} & SuccessMessage &
+} & ResponseInformation &
   ServerError;
 
 export type VoteType = 'upvote' | 'downvote';
