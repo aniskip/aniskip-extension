@@ -17,6 +17,7 @@ import {
   changeSubmitMenuVisibility,
   selectIsSubmitMenuVisible,
 } from '../../data';
+import { AniskipHttpClientError } from '../../api/aniskip-http-client/error';
 
 export const SubmitMenu = (): JSX.Element => {
   const { aniskipHttpClient } = useAniskipHttpClient();
@@ -151,8 +152,8 @@ export const SubmitMenu = (): JSX.Element => {
 
       setServerError('');
       dispatch(changeSubmitMenuVisibility(false));
-    } catch (err) {
-      switch (err.code as AniskipHttpClientErrorCode) {
+    } catch (error: any) {
+      switch (error.code as AniskipHttpClientErrorCode) {
         case 'skip-times/parameter-error':
           setServerError('Input errors, please double check your skip times');
           break;
