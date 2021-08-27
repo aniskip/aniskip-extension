@@ -30,9 +30,7 @@ export const VoteMenu = (): JSX.Element => {
       (a, b) => a.interval.startTime - b.interval.endTime
     );
     const sortedAndFilteredSkipTimes = [
-      ...sortedSkipTimes.filter(
-        ({ skipType: skipType }) => skipType !== 'preview'
-      ),
+      ...sortedSkipTimes.filter(({ skipType }) => skipType !== 'preview'),
     ];
     setFilteredSkipTimes(sortedAndFilteredSkipTimes);
 
@@ -186,12 +184,7 @@ export const VoteMenu = (): JSX.Element => {
         )}
         {filteredSkipTimes.length > 0 &&
           filteredSkipTimes.map((skipTime) => {
-            const {
-              skipId: skipId,
-              interval,
-              skipType: skipType,
-              episodeLength: episodeLength,
-            } = skipTime;
+            const { skipId, interval, skipType, episodeLength } = skipTime;
             const offset = playerDuration - episodeLength;
             const isUpvoted = skipTimesVoted[skipId] === 'upvote';
             const isDownvoted = skipTimesVoted[skipId] === 'downvote';

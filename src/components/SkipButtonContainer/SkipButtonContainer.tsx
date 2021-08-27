@@ -45,42 +45,35 @@ export const SkipButtonContainer = ({
 
   return (
     <>
-      {skipTimes.map(
-        ({
-          interval,
-          episodeLength: episodeLength,
-          skipId: skipId,
-          skipType: skipType,
-        }) => {
-          const key = `skip-button-${skipId}`;
+      {skipTimes.map(({ interval, episodeLength, skipId, skipType }) => {
+        const key = `skip-button-${skipId}`;
 
-          const isManual = skipOptions[skipType] === 'manual-skip';
-          const isPreview = skipType === 'preview';
-          if (!isManual || isPreview) {
-            return null;
-          }
-
-          const { startTime: startTime, endTime: endTime } = interval;
-          const offset = videoDuration - episodeLength;
-
-          const inInterval = isInInterval(
-            startTime,
-            endTime,
-            currentTime,
-            offset
-          );
-
-          return (
-            <SkipButton
-              key={key}
-              skipType={skipType}
-              variant={variant}
-              hidden={!inInterval}
-              onClick={onClick(endTime + offset)}
-            />
-          );
+        const isManual = skipOptions[skipType] === 'manual-skip';
+        const isPreview = skipType === 'preview';
+        if (!isManual || isPreview) {
+          return null;
         }
-      )}
+
+        const { startTime, endTime } = interval;
+        const offset = videoDuration - episodeLength;
+
+        const inInterval = isInInterval(
+          startTime,
+          endTime,
+          currentTime,
+          offset
+        );
+
+        return (
+          <SkipButton
+            key={key}
+            skipType={skipType}
+            variant={variant}
+            hidden={!inInterval}
+            onClick={onClick(endTime + offset)}
+          />
+        );
+      })}
     </>
   );
 };

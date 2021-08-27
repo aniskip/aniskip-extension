@@ -20,8 +20,8 @@ export const SkipTimeIndicatorContainer = ({
           return null;
         }
 
-        const { startTime: startTime, endTime: endTime } = skipTime.interval;
-        const { episodeLength: episodeLength } = skipTime;
+        const { startTime, endTime } = skipTime.interval;
+        const { episodeLength } = skipTime;
         const offset = videoDuration - skipTime.episodeLength;
 
         return (

@@ -126,7 +126,7 @@ export const SubmitMenu = (): JSX.Element => {
     const endTimeSeconds = timeStringToSeconds(endTime);
 
     try {
-      const { skipId: skipId } = await aniskipHttpClient.createSkipTimes(
+      const { skipId } = await aniskipHttpClient.createSkipTimes(
         malId,
         episodeNumber,
         skipType,
@@ -142,8 +142,8 @@ export const SubmitMenu = (): JSX.Element => {
           startTime: startTimeSeconds,
           endTime: endTimeSeconds,
         },
-        skipType: skipType,
-        skipId: skipId,
+        skipType,
+        skipId,
         episodeLength: duration,
       };
 
@@ -278,7 +278,7 @@ export const SubmitMenu = (): JSX.Element => {
       },
       skipType: 'preview',
       skipId: '',
-      episodeLength: episodeLength,
+      episodeLength,
     };
 
     player?.addSkipTime(skipTime);

@@ -106,10 +106,8 @@ export abstract class BasePlayer implements Player {
       return;
     }
 
-    const endTime = skipTime.interval.endTime;
+    const { startTime, endTime } = skipTime.interval;
     const offset = this.getDuration() - skipTime.episodeLength;
-
-    const startTime = skipTime.interval.startTime;
     const currentTime = this.getCurrentTime();
 
     // Skip time loaded late.
@@ -166,12 +164,8 @@ export abstract class BasePlayer implements Player {
         return;
       }
 
-      const {
-        skipType: skipType,
-        interval,
-        episodeLength: episodeLength,
-      } = skipTime;
-      const { startTime: startTime } = interval;
+      const { skipType, interval, episodeLength } = skipTime;
+      const { startTime } = interval;
       const offset = this.getDuration() - episodeLength;
       const isAutoSkip = this.skipOptions[skipType] === 'auto-skip';
 
@@ -378,12 +372,8 @@ export abstract class BasePlayer implements Player {
       return;
     }
 
-    const {
-      interval,
-      episodeLength: episodeLength,
-      skipType: skipType,
-    } = nextSkipTime;
-    const { startTime: startTime, endTime: endTime } = interval;
+    const { interval, episodeLength, skipType } = nextSkipTime;
+    const { startTime, endTime } = interval;
     const offset = this.getDuration() - episodeLength;
 
     const currentTime = this.getCurrentTime();
