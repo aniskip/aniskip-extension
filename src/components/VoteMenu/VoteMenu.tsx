@@ -91,21 +91,11 @@ export const VoteMenu = (): JSX.Element => {
       };
 
       setSkipTimesVoted(updatedSkipTimesVoted);
+      browser.storage.local.set({
+        skipTimesVoted: updatedSkipTimesVoted,
+      });
 
-      try {
-        const response = await aniskipHttpClient.upvote(skipId);
-        if (response.message === 'success') {
-          browser.storage.local.set({
-            skipTimesVoted: updatedSkipTimesVoted,
-          });
-        }
-      } catch (err) {
-        if (err.code === 'vote/rate-limited') {
-          browser.storage.local.set({
-            skipTimesVoted: updatedSkipTimesVoted,
-          });
-        }
-      }
+      await aniskipHttpClient.upvote(skipId);
     };
 
   /**
@@ -129,24 +119,14 @@ export const VoteMenu = (): JSX.Element => {
         [skipId]: 'downvote',
       };
 
-      setSkipTimesVoted(updatedSkipTimesVoted);
-
       dispatch(removeSkipTime(skipId));
 
-      try {
-        const response = await aniskipHttpClient.downvote(skipId);
-        if (response.message === 'success') {
-          browser.storage.local.set({
-            skipTimesVoted: updatedSkipTimesVoted,
-          });
-        }
-      } catch (err) {
-        if (err.code === 'vote/rate-limited') {
-          browser.storage.local.set({
-            skipTimesVoted: updatedSkipTimesVoted,
-          });
-        }
-      }
+      setSkipTimesVoted(updatedSkipTimesVoted);
+      browser.storage.local.set({
+        skipTimesVoted: updatedSkipTimesVoted,
+      });
+
+      await aniskipHttpClient.downvote(skipId);
     };
 
   return (
