@@ -17,7 +17,6 @@ import {
   changeSubmitMenuVisibility,
   selectIsSubmitMenuVisible,
 } from '../../data';
-import { AniskipHttpClientError } from '../../api/aniskip-http-client/error';
 
 export const SubmitMenu = (): JSX.Element => {
   const { aniskipHttpClient } = useAniskipHttpClient();
