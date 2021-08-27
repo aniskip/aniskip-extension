@@ -4058,6 +4058,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"confusing-browser-globals@npm:^1.0.10":
+  version: 1.0.10
+  resolution: "confusing-browser-globals@npm:1.0.10"
+  checksum: 7ccdc44c2ca419cf6576c3e4336106e18d1c5337f547e461342f51aec4a10f96fdfe45414b522be3c7d24ea0b62bf4372cd37768022e4d6161707ffb2c0987e6
+  languageName: node
+  linkType: hard
+
 "console-control-strings@npm:^1.0.0, console-control-strings@npm:~1.1.0":
   version: 1.1.0
   resolution: "console-control-strings@npm:1.1.0"
@@ -5418,6 +5425,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-config-airbnb-base@npm:^14.2.1":
+  version: 14.2.1
+  resolution: "eslint-config-airbnb-base@npm:14.2.1"
+  dependencies:
+    confusing-browser-globals: ^1.0.10
+    object.assign: ^4.1.2
+    object.entries: ^1.1.2
+  peerDependencies:
+    eslint: ^5.16.0 || ^6.8.0 || ^7.2.0
+    eslint-plugin-import: ^2.22.1
+  checksum: 858bea748a3c8685b52fcf2488e6a0b964022f8387f4ee1e69cb707d4fda2a409f09eb8eea658bcd83fae3519967d10208ba7576dd3d3202b8cf0b9d1a6e21eb
+  languageName: node
+  linkType: hard
+
 "eslint-config-airbnb-typescript@npm:^14.0.0":
   version: 14.0.0
   resolution: "eslint-config-airbnb-typescript@npm:14.0.0"
@@ -5425,6 +5446,23 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^4.29.3
     "@typescript-eslint/parser": ^4.29.3
   checksum: 0544e55cd651e0217a09faa257a86689fdaa056bb6e0217ea38345c3c083ddeb5eb59a23b745884637d8e7c338acaa4459b08c151226c65c61b308c58e8a1d3a
+  languageName: node
+  linkType: hard
+
+"eslint-config-airbnb@npm:^18.2.1":
+  version: 18.2.1
+  resolution: "eslint-config-airbnb@npm:18.2.1"
+  dependencies:
+    eslint-config-airbnb-base: ^14.2.1
+    object.assign: ^4.1.2
+    object.entries: ^1.1.2
+  peerDependencies:
+    eslint: ^5.16.0 || ^6.8.0 || ^7.2.0
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-jsx-a11y: ^6.4.1
+    eslint-plugin-react: ^7.21.5
+    eslint-plugin-react-hooks: ^4 || ^3 || ^2.3.0 || ^1.7.0
+  checksum: ea11cd0006912f7086fb278e03180da4bc2378cf4e93b1dd970775d8e9b50fd11a64209bdc0ed17654d29abe4ccfa19baa4d1e1e5bd3eb660fcf4798ba2810d2
   languageName: node
   linkType: hard
 
@@ -10140,7 +10178,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object.entries@npm:^1.1.4":
+"object.entries@npm:^1.1.2, object.entries@npm:^1.1.4":
   version: 1.1.4
   resolution: "object.entries@npm:1.1.4"
   dependencies:
@@ -14240,6 +14278,7 @@ resolve@^2.0.0-next.3:
     css-loader: ^6.2.0
     css-minimizer-webpack-plugin: ^3.0.2
     eslint: ^7.32.0
+    eslint-config-airbnb: ^18.2.1
     eslint-config-airbnb-typescript: ^14.0.0
     eslint-config-prettier: ^8.3.0
     eslint-import-resolver-node: ^0.3.6
