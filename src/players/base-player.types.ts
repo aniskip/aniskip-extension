@@ -7,7 +7,7 @@ export type Metadata = {
   injectMenusButtonsReferenceNodeSelectorString: string;
   seekBarContainerSelectorString: string;
   seekBarContainerSelectorStringMobile?: string;
-  player_urls: string[];
+  playerUrls: string[];
 };
 
 export type Player = {

@@ -48,9 +48,9 @@ export const SkipButtonContainer = ({
       {skipTimes.map(
         ({
           interval,
-          episode_length: episodeLength,
-          skip_id: skipId,
-          skip_type: skipType,
+          episodeLength: episodeLength,
+          skipId: skipId,
+          skipType: skipType,
         }) => {
           const key = `skip-button-${skipId}`;
 
@@ -60,7 +60,7 @@ export const SkipButtonContainer = ({
             return null;
           }
 
-          const { start_time: startTime, end_time: endTime } = interval;
+          const { startTime: startTime, endTime: endTime } = interval;
           const offset = videoDuration - episodeLength;
 
           const inInterval = isInInterval(

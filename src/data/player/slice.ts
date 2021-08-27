@@ -59,7 +59,7 @@ const playerStateSlice = createSlice({
       for (let i = 0; i < state.skipTimes.length; i += 1) {
         const skipTime = state.skipTimes[i];
 
-        if (skipTime.skip_id === action.payload) {
+        if (skipTime.skipId === action.payload) {
           state.skipTimes.splice(i, 1);
           return;
         }
@@ -67,7 +67,7 @@ const playerStateSlice = createSlice({
     },
     removePreviewSkipTimes: (state) => {
       state.skipTimes.forEach((skipTime, index) => {
-        if (skipTime.skip_type === 'preview') {
+        if (skipTime.skipType === 'preview') {
           state.skipTimes.splice(index, 1);
         }
       });

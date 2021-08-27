@@ -95,21 +95,21 @@ export abstract class BasePlayer implements Player {
     this.skipButtonRenderer.render();
     this.skipTimeIndicatorsRenderer.render();
 
-    if (skipTime.skip_type === 'preview') {
-      this.setCurrentTime(skipTime.interval.start_time - 2);
+    if (skipTime.skipType === 'preview') {
+      this.setCurrentTime(skipTime.interval.startTime - 2);
       this.play();
       return;
     }
 
-    const isAutoSkip = this.skipOptions[skipTime.skip_type] === 'auto-skip';
+    const isAutoSkip = this.skipOptions[skipTime.skipType] === 'auto-skip';
     if (!isAutoSkip) {
       return;
     }
 
-    const endTime = skipTime.interval.end_time;
-    const offset = this.getDuration() - skipTime.episode_length;
+    const endTime = skipTime.interval.endTime;
+    const offset = this.getDuration() - skipTime.episodeLength;
 
-    const startTime = skipTime.interval.start_time;
+    const startTime = skipTime.interval.startTime;
     const currentTime = this.getCurrentTime();
 
     // Skip time loaded late.
@@ -156,22 +156,22 @@ export abstract class BasePlayer implements Player {
 
     for (let i = 0; i < skipTimes.length; i += 1) {
       const skipTime = skipTimes[i];
-      if (skipTime.skip_type === 'preview') {
+      if (skipTime.skipType === 'preview') {
         return skipTime;
       }
     }
 
     skipTimes.forEach((skipTime) => {
-      if (skipTime.skip_type === 'preview') {
+      if (skipTime.skipType === 'preview') {
         return;
       }
 
       const {
-        skip_type: skipType,
+        skipType: skipType,
         interval,
-        episode_length: episodeLength,
+        episodeLength: episodeLength,
       } = skipTime;
-      const { start_time: startTime } = interval;
+      const { startTime: startTime } = interval;
       const offset = this.getDuration() - episodeLength;
       const isAutoSkip = this.skipOptions[skipType] === 'auto-skip';
 
@@ -380,10 +380,10 @@ export abstract class BasePlayer implements Player {
 
     const {
       interval,
-      episode_length: episodeLength,
-      skip_type: skipType,
+      episodeLength: episodeLength,
+      skipType: skipType,
     } = nextSkipTime;
-    const { start_time: startTime, end_time: endTime } = interval;
+    const { startTime: startTime, endTime: endTime } = interval;
     const offset = this.getDuration() - episodeLength;
 
     const currentTime = this.getCurrentTime();

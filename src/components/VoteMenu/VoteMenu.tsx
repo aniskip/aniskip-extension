@@ -27,11 +27,11 @@ export const VoteMenu = (): JSX.Element => {
 
   useEffect(() => {
     const sortedSkipTimes = [...skipTimes].sort(
-      (a, b) => a.interval.start_time - b.interval.end_time
+      (a, b) => a.interval.startTime - b.interval.endTime
     );
     const sortedAndFilteredSkipTimes = [
       ...sortedSkipTimes.filter(
-        ({ skip_type: skipType }) => skipType !== 'preview'
+        ({ skipType: skipType }) => skipType !== 'preview'
       ),
     ];
     setFilteredSkipTimes(sortedAndFilteredSkipTimes);
@@ -187,20 +187,20 @@ export const VoteMenu = (): JSX.Element => {
         {filteredSkipTimes.length > 0 &&
           filteredSkipTimes.map((skipTime) => {
             const {
-              skip_id: skipId,
+              skipId: skipId,
               interval,
-              skip_type: skipType,
-              episode_length: episodeLength,
+              skipType: skipType,
+              episodeLength: episodeLength,
             } = skipTime;
             const offset = playerDuration - episodeLength;
             const isUpvoted = skipTimesVoted[skipId] === 'upvote';
             const isDownvoted = skipTimesVoted[skipId] === 'downvote';
             const startTimeFormatted = secondsToTimeString(
-              interval.start_time + offset,
+              interval.startTime + offset,
               0
             );
             const endTimeFormatted = secondsToTimeString(
-              interval.end_time + offset,
+              interval.endTime + offset,
               0
             );
 
@@ -228,14 +228,14 @@ export const VoteMenu = (): JSX.Element => {
                     <LinkButton
                       onClick={setPlayerCurrentTime(
                         // Ensure that it won't be auto-skipped.
-                        interval.start_time + offset + 0.01
+                        interval.startTime + offset + 0.01
                       )}
                     >
                       {startTimeFormatted}
                     </LinkButton>{' '}
                     <span className="text-white">-</span>{' '}
                     <LinkButton
-                      onClick={setPlayerCurrentTime(interval.end_time + offset)}
+                      onClick={setPlayerCurrentTime(interval.endTime + offset)}
                     >
                       {endTimeFormatted}
                     </LinkButton>

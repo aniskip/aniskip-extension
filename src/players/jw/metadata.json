@@ -4,7 +4,7 @@
   "videoControlsContainerSelectorString": "jw-controlbar jw-reset",
   "injectMenusButtonsReferenceNodeSelectorString": "Settings",
   "seekBarContainerSelectorString": "Seek",
-  "player_urls": [
+  "playerUrls": [
     "*://*.streamhd.cc/*",
     "*://cloud9.to/*",
     "*://fcdn.stream/*",

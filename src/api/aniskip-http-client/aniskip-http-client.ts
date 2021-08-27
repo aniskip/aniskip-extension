@@ -73,12 +73,12 @@ export class AniskipHttpClient extends BaseHttpClient {
   ): Promise<PostResponseFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
     const body = JSON.stringify({
-      skip_type: skipType,
-      provider_name: providerName,
-      start_time: startTime,
-      end_time: endTime,
-      episode_length: episodeLength,
-      submitter_id: submitterId,
+      skipType,
+      providerName,
+      startTime,
+      endTime,
+      episodeLength,
+      submitterId,
     });
 
     const response = await this.request(route, 'POST', {}, body);
@@ -120,7 +120,7 @@ export class AniskipHttpClient extends BaseHttpClient {
   ): Promise<PostResponseFromSkipTimesVote> {
     const route = `/skip-times/vote/${skipId}`;
     const body = JSON.stringify({
-      vote_type: type,
+      voteType: type,
     });
     const response = await this.request(route, 'POST', {}, body);
     const { json, status } = response;

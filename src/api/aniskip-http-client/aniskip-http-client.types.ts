@@ -2,12 +2,12 @@ export type SkipType = 'op' | 'ed' | 'preview';
 
 export type SkipTime = {
   interval: {
-    start_time: number;
-    end_time: number;
+    startTime: number;
+    endTime: number;
   };
-  skip_type: SkipType;
-  skip_id: string;
-  episode_length: number;
+  skipType: SkipType;
+  skipId: string;
+  episodeLength: number;
 };
 
 export type GetResponseFromSkipTimes = {
@@ -22,7 +22,7 @@ export type Range = {
 
 export type Rule = {
   from: Range;
-  to: { mal_id: number } & Range;
+  to: { malId: number } & Range;
 };
 
 export type GetResponseFromRules = {
@@ -31,7 +31,7 @@ export type GetResponseFromRules = {
 } & ResponseInformation;
 
 export type ResponseInformation = {
-  status_code: number;
+  statusCode: number;
   message: string;
 };
 
@@ -42,7 +42,7 @@ export type ServerError = {
 export type PostResponseFromSkipTimesVote = ResponseInformation & ServerError;
 
 export type PostResponseFromSkipTimes = {
-  skip_id: string;
+  skipId: string;
 } & ResponseInformation &
   ServerError;
 
