@@ -5,50 +5,48 @@ import {
   SkipButtonsRenderer,
   SkipTimeIndicatorsRenderer,
 } from '../renderers';
-import { MenusState } from '../components';
 import { Message, SkipOptions } from '../scripts/background';
-import { Player, Metadata } from './base_player.types';
-import { SkipTime } from '../api';
+import { Player, Metadata } from './base-player.types';
+import { AniskipHttpClient, SkipTime, SkipType } from '../api';
 import { isInInterval } from '../utils';
+import {
+  addSkipTime,
+  configuredStore,
+  readyPlayer,
+  removePreviewSkipTimes,
+  reset,
+  selectIsPlayerReady,
+  selectSkipTimes,
+  Store,
+} from '../data';
 
 export abstract class BasePlayer implements Player {
   document: Document;
-
-  isReady: boolean;
-
-  playerButtonsRenderer: PlayerButtonsRenderer;
-
-  menusRenderer: MenusRenderer;
-
-  menusState: MenusState;
 
   metadata: Metadata;
 
   scheduledSkipTime: ReturnType<typeof setTimeout> | null;
 
-  skipButtonRenderer: SkipButtonsRenderer;
+  videoElement: HTMLVideoElement | null;
 
   skipOptions: SkipOptions;
 
-  skipTimes: SkipTime[];
+  store: Store;
+
+  playerButtonsRenderer: PlayerButtonsRenderer;
+
+  menusRenderer: MenusRenderer;
+
+  skipButtonRenderer: SkipButtonsRenderer;
 
   skipTimeIndicatorsRenderer: SkipTimeIndicatorsRenderer;
-
-  videoElement: HTMLVideoElement | null;
 
   constructor(document: Document, metadata: Metadata) {
     this.document = document;
     this.metadata = metadata;
-    this.skipTimes = [];
     this.videoElement = null;
-    this.isReady = false;
     this.scheduledSkipTime = null;
-
-    this.menusState = {
-      isSubmitMenuHidden: true,
-      isVoteMenuHidden: true,
-      skipTimes: this.skipTimes,
-    };
+    this.store = configuredStore;
 
     this.skipOptions = {
       op: 'manual-skip',
@@ -62,48 +60,29 @@ export abstract class BasePlayer implements Player {
 
     this.skipButtonRenderer = new SkipButtonsRenderer(
       'aniskip-player-skip-buttons',
-      this.metadata.variant
+      this.metadata.variant,
+      this.store,
+      this
     );
-
-    const toggleSubmitMenu = (hidden: boolean) => (): void =>
-      this.setMenusState({
-        ...this.menusState,
-        isSubmitMenuHidden: hidden,
-      });
 
     this.menusRenderer = new MenusRenderer(
       'aniskip-player-menus',
       this.metadata.variant,
-      toggleSubmitMenu(true),
-      toggleSubmitMenu(true),
-      toggleSubmitMenu(false),
-      () =>
-        this.setMenusState({
-          ...this.menusState,
-          isVoteMenuHidden: true,
-        })
+      this.store,
+      this
     );
 
     this.playerButtonsRenderer = new PlayerButtonsRenderer(
       'aniskip-player-player-buttons',
       this.metadata.variant,
-      () =>
-        this.setMenusState({
-          ...this.menusState,
-          isSubmitMenuHidden: !this.menusState.isSubmitMenuHidden,
-          isVoteMenuHidden: true,
-        }),
-      () =>
-        this.setMenusState({
-          ...this.menusState,
-          isSubmitMenuHidden: true,
-          isVoteMenuHidden: !this.menusState.isVoteMenuHidden,
-        })
+      this.store
     );
 
     this.skipTimeIndicatorsRenderer = new SkipTimeIndicatorsRenderer(
       'aniskip-player-skip-time-indicator',
-      this.metadata.variant
+      this.metadata.variant,
+      this.store,
+      this
     );
   }
 
@@ -112,32 +91,23 @@ export abstract class BasePlayer implements Player {
       return;
     }
 
-    this.skipTimes.push(skipTime);
+    this.store.dispatch(addSkipTime(skipTime));
+    this.skipButtonRenderer.render();
+    this.skipTimeIndicatorsRenderer.render();
+
     if (skipTime.skip_type === 'preview') {
       this.setCurrentTime(skipTime.interval.start_time - 2);
       this.play();
       return;
     }
 
-    this.skipTimeIndicatorsRenderer.addSkipTimeIndicator(skipTime);
-    this.setMenusState({
-      ...this.menusState,
-      skipTimes: [...this.skipTimes],
-    });
-
-    const skipType = skipTime.skip_type;
-    const isManual = this.skipOptions[skipType] === 'manual-skip';
-    const endTime = skipTime.interval.end_time;
-    const offset = this.getDuration() - skipTime.episode_length;
-
-    if (isManual) {
-      this.skipButtonRenderer.addSkipButton(skipTime, () => {
-        this.setCurrentTime(endTime + offset);
-        this.play();
-      });
-
+    const isAutoSkip = this.skipOptions[skipTime.skip_type] === 'auto-skip';
+    if (!isAutoSkip) {
       return;
     }
+
+    const endTime = skipTime.interval.end_time;
+    const offset = this.getDuration() - skipTime.episode_length;
 
     const startTime = skipTime.interval.start_time;
     const currentTime = this.getCurrentTime();
@@ -182,15 +152,16 @@ export abstract class BasePlayer implements Player {
     let earliestStartTime = Infinity;
 
     const currentTime = this.getCurrentTime();
+    const skipTimes = selectSkipTimes(this.store.getState());
 
-    for (let i = 0; i < this.skipTimes.length; i += 1) {
-      const skipTime = this.skipTimes[i];
+    for (let i = 0; i < skipTimes.length; i += 1) {
+      const skipTime = skipTimes[i];
       if (skipTime.skip_type === 'preview') {
         return skipTime;
       }
     }
 
-    this.skipTimes.forEach((skipTime) => {
+    skipTimes.forEach((skipTime) => {
       if (skipTime.skip_type === 'preview') {
         return;
       }
@@ -218,11 +189,15 @@ export abstract class BasePlayer implements Player {
   }
 
   getDuration(): number {
-    return this.videoElement?.duration || 0;
+    return this.videoElement?.duration ?? 0;
+  }
+
+  getIsReady(): boolean {
+    return selectIsPlayerReady(this.store.getState());
   }
 
   getCurrentTime(): number {
-    return this.videoElement?.currentTime || 0;
+    return this.videoElement?.currentTime ?? 0;
   }
 
   /**
@@ -261,6 +236,40 @@ export abstract class BasePlayer implements Player {
     this.injectSubmitMenuButton();
     this.injectSkipTimeIndicator();
     this.injectSkipButtons();
+  }
+
+  /**
+   * Adds the opening and ending skip invervals.
+   */
+  async initialiseSkipTimes(): Promise<void> {
+    const aniskipHttpClient = new AniskipHttpClient();
+    const { malId, episodeNumber } = await browser.runtime.sendMessage({
+      type: 'get-episode-information',
+    } as Message);
+    const { skipOptions } = await browser.storage.sync.get('skipOptions');
+
+    const skipTimeTypes: SkipType[] = [];
+    Object.entries(skipOptions).forEach(([skipType, value]) => {
+      if (value !== 'disabled') {
+        skipTimeTypes.push(skipType as SkipType);
+      }
+    });
+
+    if (skipTimeTypes.length === 0) {
+      return;
+    }
+
+    const getSkipTimesResponse = await aniskipHttpClient.getSkipTimes(
+      malId,
+      episodeNumber,
+      skipTimeTypes
+    );
+
+    if (getSkipTimesResponse.found) {
+      getSkipTimesResponse.results.forEach((skipTime) =>
+        this.addSkipTime(skipTime)
+      );
+    }
   }
 
   /**
@@ -328,59 +337,23 @@ export abstract class BasePlayer implements Player {
     this.videoElement?.play();
   }
 
-  removeSkipTime(skipId: string, isPreview?: boolean): void {
-    if (!this.videoElement) {
-      return;
-    }
-
-    if (isPreview) {
-      this.skipTimes = this.skipTimes.filter(
-        ({ skip_type: skipType }) => skipType !== 'preview'
-      );
-
-      return;
-    }
-
-    this.skipTimeIndicatorsRenderer.removeSkipTimeIndicator(skipId);
-    this.skipButtonRenderer.removeSkipButton(skipId);
-
-    this.skipTimes = this.skipTimes.filter(
-      ({ skip_id: currentSkipId }) => currentSkipId !== skipId
-    );
-
-    this.setMenusState({
-      ...this.menusState,
-      skipTimes: [...this.skipTimes],
-    });
-  }
-
   onReady(): void {
     if (this.videoElement && this.getVideoControlsContainer()) {
-      this.isReady = true;
+      this.store.dispatch(readyPlayer());
 
-      this.videoElement.addEventListener('timeupdate', (event) => {
-        const { currentTime } = event.currentTarget as HTMLVideoElement;
-        this.skipButtonRenderer.setCurrentTime(currentTime);
+      this.videoElement.addEventListener('timeupdate', () => {
         this.scheduleSkipTimes();
+        this.skipButtonRenderer.render();
+        this.skipTimeIndicatorsRenderer.render();
       });
 
-      browser.runtime.sendMessage({ type: 'player-ready' } as Message);
+      this.initialiseSkipTimes();
     }
   }
 
   reset(): void {
-    this.skipTimeIndicatorsRenderer.clearSkipTimeIndicators();
-    this.skipButtonRenderer.clearSkipButtons();
-    this.menusRenderer.resetState();
     this.clearScheduledSkipTime();
-
-    this.skipTimes = [];
-
-    this.menusState = {
-      isSubmitMenuHidden: true,
-      isVoteMenuHidden: true,
-      skipTimes: this.skipTimes,
-    };
+    this.store.dispatch(reset());
   }
 
   /**
@@ -395,6 +368,10 @@ export abstract class BasePlayer implements Player {
     }
 
     this.clearScheduledSkipTime();
+
+    if (this.videoElement.paused) {
+      return;
+    }
 
     const nextSkipTime = this.getNextSkipTime();
     if (nextSkipTime === null) {
@@ -420,7 +397,7 @@ export abstract class BasePlayer implements Player {
       this.setCurrentTime(endTime + offset);
 
       if (skipType === 'preview') {
-        this.removeSkipTime('', true);
+        this.store.dispatch(removePreviewSkipTimes());
       }
     }, timeUntilSkipTime * 1000);
   }
@@ -438,23 +415,7 @@ export abstract class BasePlayer implements Player {
     this.videoElement.currentTime = time;
   }
 
-  /**
-   * Set menus state.
-   *
-   * @param newState New state of menus.
-   */
-  setMenusState(newState: MenusState): void {
-    this.menusState = newState;
-    this.playerButtonsRenderer.setState({
-      isSubmitButtonActive: !newState.isSubmitMenuHidden,
-      isVoteButtonActive: !newState.isVoteMenuHidden,
-    });
-    this.menusRenderer.setMenusState(newState);
-  }
-
   setVideoElement(videoElement: HTMLVideoElement): void {
     this.videoElement = videoElement;
-    this.skipTimeIndicatorsRenderer.setVideoDuration(this.getDuration());
-    this.skipButtonRenderer.setVideoDuration(this.getDuration());
   }
 }

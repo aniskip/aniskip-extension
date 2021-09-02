@@ -1,4 +1,4 @@
-import { BasePage } from '../base_page';
+import { BasePage } from '../base-page';
 
 export class Gogoanime extends BasePage {
   getIdentifier(): string {

@@ -6,19 +6,19 @@ import { DefaultButton } from '../DefaultButton';
 import { Dropdown } from '../Dropdown';
 import { Input } from '../Input';
 import { Message } from '../../scripts/background';
-import { SubmitMenuProps } from './SubmitMenu.types';
 import {
   formatTimeString,
   secondsToTimeString,
   timeStringToSeconds,
+  usePlayerRef,
 } from '../../utils';
-import { useAniskipHttpClient } from '../../hooks';
+import { useAniskipHttpClient, useDispatch, useSelector } from '../../hooks';
+import {
+  changeSubmitMenuVisibility,
+  selectIsSubmitMenuVisible,
+} from '../../data';
 
-export const SubmitMenu = ({
-  hidden,
-  onSubmit,
-  onClose,
-}: SubmitMenuProps): JSX.Element => {
+export const SubmitMenu = (): JSX.Element => {
   const { aniskipHttpClient } = useAniskipHttpClient();
   const [skipType, setSkipType] = useState<SkipType>('op');
   const [startTime, setStartTime] = useState('');
@@ -33,28 +33,29 @@ export const SubmitMenu = ({
     '([0-9]+:)?[0-9]{1,2}:[0-9]{1,2}(.[0-9]{1,3})?'
   );
   const inputPatternTestRegexRef = useRef(/^[0-9:.]*$/);
+  const visible = useSelector(selectIsSubmitMenuVisible);
+  const player = usePlayerRef();
+  const dispatch = useDispatch();
 
+  /**
+   * Initialise the start time to the current time and the end time to the
+   * current time + 90 seconds.
+   */
   useEffect(() => {
-    if (!hidden) {
-      (async (): Promise<void> => {
-        const duration = await browser.runtime.sendMessage({
-          type: 'player-get-duration',
-        } as Message);
+    if (visible) {
+      const duration = player?.getDuration() ?? 0;
 
-        const currentTime = await browser.runtime.sendMessage({
-          type: 'player-get-current-time',
-        } as Message);
+      const currentTime = player?.getCurrentTime() ?? 0;
 
-        setStartTime(secondsToTimeString(currentTime));
-        let newEndTime = currentTime + 90;
-        if (newEndTime > duration) {
-          newEndTime = Math.floor(duration);
-        }
-        setEndTime(secondsToTimeString(newEndTime));
-        setSkipType(currentTime < duration / 2 ? 'op' : 'ed');
-      })();
+      setStartTime(secondsToTimeString(currentTime));
+      let newEndTime = currentTime + 90;
+      if (newEndTime > duration) {
+        newEndTime = Math.floor(duration);
+      }
+      setEndTime(secondsToTimeString(newEndTime));
+      setSkipType(currentTime < duration / 2 ? 'op' : 'ed');
     }
-  }, [hidden]);
+  }, [visible]);
 
   /**
    * Correct user input errors such as negative time or time greater than video
@@ -62,15 +63,13 @@ export const SubmitMenu = ({
    *
    * @param seconds Seconds to error correct.
    */
-  const errorCorrectTime = async (seconds: number): Promise<number> => {
+  const errorCorrectTime = (seconds: number): number => {
     let result = seconds;
     if (seconds < 0) {
       result = 0;
     }
 
-    const duration = await browser.runtime.sendMessage({
-      type: 'player-get-duration',
-    } as Message);
+    const duration = player?.getDuration() ?? 0;
 
     if (seconds >= duration) {
       result = Math.floor(duration);
@@ -106,7 +105,7 @@ export const SubmitMenu = ({
    *
    * @param event Form event.
    */
-  const handleSubmit = async (
+  const onSkipTimeSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
@@ -121,9 +120,7 @@ export const SubmitMenu = ({
       await browser.runtime.sendMessage({
         type: 'get-episode-information',
       } as Message);
-    const duration = await browser.runtime.sendMessage({
-      type: 'player-get-duration',
-    } as Message);
+    const duration = player?.getDuration() ?? 0;
 
     const startTimeSeconds = timeStringToSeconds(startTime);
     const endTimeSeconds = timeStringToSeconds(endTime);
@@ -140,21 +137,20 @@ export const SubmitMenu = ({
         userId
       );
 
-      browser.runtime.sendMessage({
-        type: `player-add-skip-time`,
-        payload: {
-          interval: {
-            start_time: startTimeSeconds,
-            end_time: endTimeSeconds,
-          },
-          skip_type: skipType,
-          skip_id: skipId,
-          episode_length: duration,
+      const skipTime: SkipTime = {
+        interval: {
+          start_time: startTimeSeconds,
+          end_time: endTimeSeconds,
         },
-      } as Message);
+        skip_type: skipType,
+        skip_id: skipId,
+        episode_length: duration,
+      };
+
+      player?.addSkipTime(skipTime);
 
       setServerError('');
-      onSubmit();
+      dispatch(changeSubmitMenuVisibility(false));
     } catch (err) {
       switch (err.code as AniskipHttpClientErrorCode) {
         case 'skip-times/parameter-error':
@@ -177,9 +173,9 @@ export const SubmitMenu = ({
    *
    * @param setTime Set time useState function.
    */
-  const handleOnKeyDown =
+  const onKeyDown =
     (setTime: React.Dispatch<React.SetStateAction<string>>) =>
-    async (event: React.KeyboardEvent<HTMLInputElement>): Promise<void> => {
+    (event: React.KeyboardEvent<HTMLInputElement>): void => {
       const timeString = event.currentTarget.value;
       const timeSeconds = timeStringToSeconds(timeString);
       let modifier = 0.25;
@@ -209,12 +205,9 @@ export const SubmitMenu = ({
         return;
       }
 
-      updatedTime = await errorCorrectTime(updatedTime);
+      updatedTime = errorCorrectTime(updatedTime);
 
-      browser.runtime.sendMessage({
-        type: 'player-set-current-time',
-        payload: updatedTime,
-      } as Message);
+      player?.setCurrentTime(updatedTime);
 
       const updatedTimeString = secondsToTimeString(updatedTime);
       setTime(updatedTimeString);
@@ -225,7 +218,7 @@ export const SubmitMenu = ({
    *
    * @param seekOffset Number to add to current time.
    */
-  const handleSeekTime = (seekOffset: number) => async (): Promise<void> => {
+  const onClickSeekTime = (seekOffset: number) => async (): Promise<void> => {
     let setTimeFunction = (_newValue: string): void => {};
     let currentTime = '';
     switch (currentInputFocus) {
@@ -241,15 +234,12 @@ export const SubmitMenu = ({
         return;
     }
 
-    const updatedTime = await errorCorrectTime(
+    const updatedTime = errorCorrectTime(
       timeStringToSeconds(currentTime) + seekOffset
     );
 
     setTimeFunction(secondsToTimeString(updatedTime));
-    browser.runtime.sendMessage({
-      type: 'player-set-current-time',
-      payload: updatedTime,
-    } as Message);
+    player?.setCurrentTime(updatedTime);
   };
 
   /**
@@ -257,21 +247,112 @@ export const SubmitMenu = ({
    *
    * @param setTime Set time useState function.
    */
-  const handleOnBlur =
+  const onBlur =
     (
       setTime: React.Dispatch<React.SetStateAction<string>>,
       currentTime: string
     ) =>
     async (): Promise<void> => {
       const formatted = formatTimeString(currentTime);
-      const seconds = await errorCorrectTime(timeStringToSeconds(formatted));
+      const seconds = errorCorrectTime(timeStringToSeconds(formatted));
       setTime(secondsToTimeString(seconds));
     };
+
+  /**
+   * Closes the submit menu.
+   */
+  const onClickCloseButton = (): void => {
+    dispatch(changeSubmitMenuVisibility(false));
+  };
+
+  /**
+   * Adds a preview skip time.
+   */
+  const onClickPreviewButton = async (): Promise<void> => {
+    const episodeLength = player?.getDuration() ?? 0;
+
+    const skipTime: SkipTime = {
+      interval: {
+        start_time: timeStringToSeconds(startTime),
+        end_time: timeStringToSeconds(endTime),
+      },
+      skip_type: 'preview',
+      skip_id: '',
+      episode_length: episodeLength,
+    };
+
+    player?.addSkipTime(skipTime);
+  };
+
+  /**
+   * Sets the focused input to the current player time.
+   */
+  const onClickNowButton = async (): Promise<void> => {
+    const currentTime = player?.getCurrentTime() ?? 0;
+
+    switch (currentInputFocus) {
+      case 'start-time':
+        setStartTime(secondsToTimeString(currentTime));
+        break;
+      case 'end-time':
+        setEndTime(secondsToTimeString(currentTime));
+        break;
+      default:
+    }
+  };
+
+  /**
+   * Sets the focused input to the video duration.
+   */
+  const onClickEndButton = async (): Promise<void> => {
+    const duration = player?.getDuration() ?? 0;
+    const trimmedDuration = Math.floor(duration);
+
+    switch (currentInputFocus) {
+      case 'start-time':
+        setStartTime(secondsToTimeString(trimmedDuration));
+        break;
+      case 'end-time':
+        setEndTime(secondsToTimeString(trimmedDuration));
+        break;
+      default:
+    }
+  };
+
+  /**
+   * Handles on change event for the input start time.
+   *
+   * @param event Event.
+   */
+  const onChangeStartTime = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const timeString = event.currentTarget.value;
+    const testRegex = inputPatternTestRegexRef.current;
+    if (testRegex.test(timeString)) {
+      setStartTime(timeString);
+    }
+  };
+
+  /**
+   * Handles on change event for the input end time.
+   *
+   * @param event Event.
+   */
+  const onChangeEndTime = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const timeString = event.currentTarget.value;
+    const testRegex = inputPatternTestRegexRef.current;
+    if (testRegex.test(timeString)) {
+      setEndTime(timeString);
+    }
+  };
 
   return (
     <div
       className={`text-sm md:text-base font-sans w-[26em] px-5 pt-2 pb-4 bg-trueGray-800 bg-opacity-80 border border-gray-300 select-none rounded-md transition-opacity text-white opacity-0 pointer-events-none ${
-        !hidden ? 'sm:opacity-100 sm:pointer-events-auto' : ''
+        visible ? 'sm:opacity-100 sm:pointer-events-auto' : ''
       }`}
       role="menu"
     >
@@ -283,12 +364,12 @@ export const SubmitMenu = ({
         <button
           type="button"
           className="flex justify-center items-center focus:outline-none"
-          onClick={(): void => onClose()}
+          onClick={onClickCloseButton}
         >
           <FaTimes className="w-4 h-4 active:text-primary" />
         </button>
       </div>
-      <form className="space-y-2" onSubmit={handleSubmit}>
+      <form className="space-y-2" onSubmit={onSkipTimeSubmit}>
         <div className="flex space-x-2">
           <div className="flex-1">
             <div className="font-bold text-xs uppercase mb-1">Start time</div>
@@ -304,16 +385,10 @@ export const SubmitMenu = ({
               required
               title="Hours : Minutes : Seconds"
               placeholder="Start time"
-              onChange={(event): void => {
-                const timeString = event.currentTarget.value;
-                const testRegex = inputPatternTestRegexRef.current;
-                if (testRegex.test(timeString)) {
-                  setStartTime(timeString);
-                }
-              }}
-              onKeyDown={handleOnKeyDown(setStartTime)}
+              onChange={onChangeStartTime}
+              onKeyDown={onKeyDown(setStartTime)}
               onFocus={(): void => setCurrentInputFocus('start-time')}
-              onBlur={handleOnBlur(setStartTime, startTime)}
+              onBlur={onBlur(setStartTime, startTime)}
             />
           </div>
           <div className="flex-1">
@@ -330,16 +405,10 @@ export const SubmitMenu = ({
               required
               title="Hours : Minutes : Seconds"
               placeholder="End time"
-              onChange={(event): void => {
-                const timeString = event.currentTarget.value;
-                const testRegex = inputPatternTestRegexRef.current;
-                if (testRegex.test(timeString)) {
-                  setEndTime(timeString);
-                }
-              }}
-              onKeyDown={handleOnKeyDown(setEndTime)}
+              onChange={onChangeEndTime}
+              onKeyDown={onKeyDown(setEndTime)}
               onFocus={(): void => setCurrentInputFocus('end-time')}
-              onBlur={handleOnBlur(setEndTime, endTime)}
+              onBlur={onBlur(setEndTime, endTime)}
             />
           </div>
         </div>
@@ -351,23 +420,7 @@ export const SubmitMenu = ({
           <div className="flex space-x-2">
             <DefaultButton
               className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 font-medium"
-              onClick={async (): Promise<void> => {
-                const episodeLength = await browser.runtime.sendMessage({
-                  type: 'player-get-duration',
-                } as Message);
-                browser.runtime.sendMessage({
-                  type: 'player-add-skip-time',
-                  payload: {
-                    interval: {
-                      start_time: timeStringToSeconds(startTime),
-                      end_time: timeStringToSeconds(endTime),
-                    },
-                    skip_type: 'preview',
-                    skip_id: '',
-                    episode_length: episodeLength,
-                  } as SkipTime,
-                } as Message);
-              }}
+              onClick={onClickPreviewButton}
             >
               Preview
             </DefaultButton>
@@ -375,7 +428,7 @@ export const SubmitMenu = ({
               <DefaultButton
                 title="Seek -0.25s"
                 className="group px-3"
-                onClick={handleSeekTime(-0.25)}
+                onClick={onClickSeekTime(-0.25)}
               >
                 <FaBackward
                   className="transition-transform duration-150 transform group-hover:scale-125 group-active:scale-100"
@@ -384,28 +437,14 @@ export const SubmitMenu = ({
               </DefaultButton>
               <DefaultButton
                 className="px-3 font-medium"
-                onClick={async (): Promise<void> => {
-                  const currentTime = await browser.runtime.sendMessage({
-                    type: 'player-get-current-time',
-                  } as Message);
-
-                  switch (currentInputFocus) {
-                    case 'start-time':
-                      setStartTime(secondsToTimeString(currentTime));
-                      break;
-                    case 'end-time':
-                      setEndTime(secondsToTimeString(currentTime));
-                      break;
-                    default:
-                  }
-                }}
+                onClick={onClickNowButton}
               >
                 Now
               </DefaultButton>
               <DefaultButton
                 title="Seek +0.25s"
                 className="group px-3"
-                onClick={handleSeekTime(0.25)}
+                onClick={onClickSeekTime(0.25)}
               >
                 <FaForward
                   className="transition-transform duration-150 transform group-hover:scale-125 group-active:scale-100"
@@ -415,22 +454,7 @@ export const SubmitMenu = ({
             </div>
             <DefaultButton
               className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 font-medium"
-              onClick={async (): Promise<void> => {
-                const duration = await browser.runtime.sendMessage({
-                  type: 'player-get-duration',
-                } as Message);
-                const trimmedDuration = Math.floor(duration);
-
-                switch (currentInputFocus) {
-                  case 'start-time':
-                    setStartTime(secondsToTimeString(trimmedDuration));
-                    break;
-                  case 'end-time':
-                    setEndTime(secondsToTimeString(trimmedDuration));
-                    break;
-                  default:
-                }
-              }}
+              onClick={onClickEndButton}
             >
               End
             </DefaultButton>

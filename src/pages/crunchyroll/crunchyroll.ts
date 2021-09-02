@@ -1,4 +1,4 @@
-import { BasePage } from '../base_page';
+import { BasePage } from '../base-page';
 
 export class Crunchyroll extends BasePage {
   getIdentifier(): string {
@@ -20,10 +20,10 @@ export class Crunchyroll extends BasePage {
 
   getTitle(): string {
     const metadata = JSON.parse(
-      this.document.querySelector('[type="application/ld+json"]')?.innerHTML ||
+      this.document.querySelector('[type="application/ld+json"]')?.innerHTML ??
         '{}'
     );
 
-    return metadata.partOfSeason.name || '';
+    return metadata.partOfSeason.name ?? '';
   }
 }

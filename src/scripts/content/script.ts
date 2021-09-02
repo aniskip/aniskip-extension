@@ -1,7 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
 import { Message } from '../background';
-import { AniskipHttpClient, SkipType } from '../../api';
-import { PageFactory } from '../../pages/page_factory';
+import { PageFactory } from '../../pages/page-factory';
 
 /**
  * Returns the MAL id, episode number and provider name.
@@ -27,51 +26,12 @@ const getEpisodeInformation = async (): Promise<{
 };
 
 /**
- * Adds the opening and ending skip invervals.
- */
-const initialiseSkipTimes = async (): Promise<void> => {
-  const aniskipHttpClient = new AniskipHttpClient();
-  const { malId, episodeNumber } = await getEpisodeInformation();
-  const { skipOptions } = await browser.storage.sync.get('skipOptions');
-
-  const skipTimeTypes: SkipType[] = [];
-  Object.entries(skipOptions).forEach(([skipType, value]) => {
-    if (value !== 'disabled') {
-      skipTimeTypes.push(skipType as SkipType);
-    }
-  });
-
-  if (skipTimeTypes.length === 0) {
-    return;
-  }
-
-  const getSkipTimesResponse = await aniskipHttpClient.getSkipTimes(
-    malId,
-    episodeNumber,
-    skipTimeTypes
-  );
-
-  if (getSkipTimesResponse.found) {
-    getSkipTimesResponse.results.forEach((skipTime) =>
-      browser.runtime.sendMessage({
-        type: 'player-add-skip-time',
-        payload: skipTime,
-      } as Message)
-    );
-  }
-};
-
-/**
  * Handles messages between the player and the background script.
  *
  * @param message Message containing the type of action and the payload.
  */
 const messageHandler = (message: Message): any => {
   switch (message.type) {
-    case 'player-ready': {
-      initialiseSkipTimes();
-      break;
-    }
     case 'get-episode-information': {
       (async (): Promise<void> => {
         const episodeInformation = await getEpisodeInformation();

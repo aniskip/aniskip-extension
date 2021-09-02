@@ -1,4 +1,4 @@
-import { Renderer } from './base_renderer.types';
+import { Renderer } from './base-renderer.types';
 
 export abstract class BaseRenderer implements Renderer {
   id: string;

@@ -19,4 +19,4 @@ export type GetResponseFromPage = {
   ttl: number;
 };
 
-export type MalsyncHttpClientErrorCode = 'page/not-found';
+export type MalsyncHttpClientErrorCode = 'page/not-found' | 'page/rate-limited';

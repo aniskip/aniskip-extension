@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 /**
  * Returns if the browser is in full screen.
  */
-export const useFullscreenState = (): { isFullscreen: boolean } => {
+export const useCheckIsFullscreen = (): { isFullscreen: boolean } => {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {

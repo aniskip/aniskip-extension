@@ -5,8 +5,8 @@ import {
   PostResponseFromSkipTimesVote,
   SkipType,
   VoteType,
-} from './aniskip_http_client.types';
-import { BaseHttpClient } from '../base_http_client';
+} from './aniskip-http-client.types';
+import { BaseHttpClient } from '../base-http-client';
 import { AniskipHttpClientError } from './error';
 
 export class AniskipHttpClient extends BaseHttpClient {
@@ -84,16 +84,16 @@ export class AniskipHttpClient extends BaseHttpClient {
     const response = await this.request(route, 'POST', {}, body);
     const json = response.json<PostResponseFromSkipTimes>();
 
-    if (response.error) {
+    if (json.error) {
       switch (response.status) {
         case 429:
           throw new AniskipHttpClientError(
-            response.error,
+            json.error,
             'skip-times/rate-limited'
           );
         case 400:
           throw new AniskipHttpClientError(
-            response.error,
+            json.error,
             'skip-times/parameter-error'
           );
         case 500:

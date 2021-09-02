@@ -1,105 +1,42 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  SkipButtonContainer as SkipButton,
-  SkipButtonOnClickHandler,
-} from '../../components';
-import { SkipTime } from '../../api';
-import { BaseRenderer } from '../base_renderer';
+import { Provider } from 'react-redux';
+import { SkipButtonContainer } from '../../components';
+import { Store } from '../../data';
+import { Player } from '../../players/base-player.types';
+import { PlayerProvider } from '../../utils';
+import { BaseRenderer } from '../base-renderer';
 
 export class SkipButtonsRenderer extends BaseRenderer {
   variant: string;
 
-  isHidden: boolean;
+  store: Store;
 
-  skipTimes: SkipTime[];
+  player: Player;
 
-  onClickHandlers: SkipButtonOnClickHandler[];
-
-  videoDuration: number;
-
-  currentTime: number;
-
-  constructor(id: string, variant: string) {
-    super(id, ['keydown', 'keyup', 'mousedown', 'mouseup', 'click']);
+  constructor(id: string, variant: string, store: Store, player: Player) {
+    super(id, [
+      'keydown',
+      'keyup',
+      'mousedown',
+      'mouseup',
+      'click',
+      'touchstart',
+      'touchend',
+    ]);
 
     this.variant = variant;
-    this.isHidden = true;
-    this.skipTimes = [];
-    this.onClickHandlers = [];
-    this.videoDuration = 0;
-    this.currentTime = 0;
-  }
-
-  /**
-   * Adds a skip button into the player.
-   *
-   * @param skipTime Skip time for the skip button.
-   * @param onClickHandler On click handler for skip button.
-   */
-  addSkipButton(
-    skipTime: SkipTime,
-    onClickHandler: SkipButtonOnClickHandler
-  ): void {
-    this.skipTimes.push(skipTime);
-    this.onClickHandlers.push(onClickHandler);
-    this.render();
-  }
-
-  /**
-   * Removes a skip button into the player.
-   *
-   * @param skipId Skip id of skip time of the skip button to remove.
-   */
-  removeSkipButton(skipId: string): void {
-    const skipTimeIndex = this.skipTimes.findIndex(
-      ({ skip_id: currentSkipId }) => currentSkipId === skipId
-    );
-    if (skipTimeIndex !== -1) {
-      this.skipTimes.splice(skipTimeIndex, 1);
-      this.onClickHandlers.splice(skipTimeIndex, 1);
-    }
-    this.render();
-  }
-
-  /**
-   * Sets video duration.
-   *
-   * @param videoDuration Video duration.
-   */
-  setVideoDuration(videoDuration: number): void {
-    this.videoDuration = videoDuration;
-    this.render();
-  }
-
-  /**
-   * Sets current time.
-   *
-   * @param currentTime Current time of the video.
-   */
-  setCurrentTime(currentTime: number): void {
-    this.currentTime = currentTime;
-    this.render();
-  }
-
-  /**
-   * Removes all the skip buttons from the player.
-   */
-  clearSkipButtons(): void {
-    this.skipTimes = [];
-    this.onClickHandlers = [];
-    this.render();
+    this.store = store;
+    this.player = player;
   }
 
   render(): void {
     ReactDOM.render(
-      <SkipButton
-        skipTimes={this.skipTimes}
-        variant={this.variant}
-        currentTime={this.currentTime}
-        videoDuration={this.videoDuration}
-        onClickHandlers={this.onClickHandlers}
-      />,
+      <Provider store={this.store}>
+        <PlayerProvider value={this.player}>
+          <SkipButtonContainer variant={this.variant} />
+        </PlayerProvider>
+      </Provider>,
       this.shadowRoot.getElementById(this.reactRootId)
     );
   }

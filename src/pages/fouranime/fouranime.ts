@@ -1,10 +1,10 @@
-import { BasePage } from '../base_page';
+import { BasePage } from '../base-page';
 
 export class FourAnime extends BasePage {
   getTitle(): string {
     const title = this.document.getElementById('titleleft')?.innerText;
 
-    return title || '';
+    return title ?? '';
   }
 
   getIdentifier(): string {

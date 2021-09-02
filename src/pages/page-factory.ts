@@ -1,4 +1,4 @@
-import { Page } from './base_page.types';
+import { Page } from './base-page.types';
 import { getDomainName } from '../utils';
 import { Animepahe } from './animepahe';
 import { AniMixPlay } from './animixplay';

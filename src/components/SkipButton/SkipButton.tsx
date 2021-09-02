@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFullscreenState, useMobileState } from '../../hooks';
+import { useCheckIsFullscreen, useCheckIsMobile } from '../../hooks';
 import { SkipButtonProps } from './SkipButton.types';
 import { getDomainName } from '../../utils';
 import { DefaultButton } from '../DefaultButton';
@@ -10,8 +10,8 @@ export const SkipButton = ({
   hidden,
   onClick,
 }: SkipButtonProps): JSX.Element => {
-  const { isFullscreen } = useFullscreenState();
-  const { isMobile } = useMobileState();
+  const { isFullscreen } = useCheckIsFullscreen();
+  const { isMobile } = useCheckIsMobile();
 
   const skipTypeFullNames = {
     op: 'Opening',

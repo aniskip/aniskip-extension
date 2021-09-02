@@ -6,7 +6,7 @@ import {
   AnilistHttpClient,
   Rule,
 } from '../api';
-import { Page } from './base_page.types';
+import { Page } from './base-page.types';
 import {
   capitalizeFirstLetter,
   getDomainName,
@@ -67,7 +67,7 @@ export abstract class BasePage implements Page {
 
     rules.forEach((rule) => {
       const { start, end: endOrUndefined } = rule.from;
-      const end = endOrUndefined || Infinity;
+      const end = endOrUndefined ?? Infinity;
       const { malId: toMalId } = rule.to;
 
       // Handle seasons with multiple parts and continuous counting.
@@ -166,7 +166,7 @@ export abstract class BasePage implements Page {
           titleVariant.toLocaleLowerCase(),
           title.toLocaleLowerCase()
         );
-        if (similarity > bestSimilarity) {
+        if (similarity >= bestSimilarity) {
           bestSimilarity = similarity;
           closest = idMal;
         }

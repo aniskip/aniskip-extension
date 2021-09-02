@@ -1,6 +1,6 @@
-import { GetResponseFromPage } from './malsync_http_client.types';
+import { GetResponseFromPage } from './malsync-http-client.types';
 import { MalsyncHttpClientError } from './error';
-import { BaseHttpClient } from '../base_http_client';
+import { BaseHttpClient } from '../base-http-client';
 
 export class MalsyncHttpClient extends BaseHttpClient {
   constructor() {
@@ -19,8 +19,16 @@ export class MalsyncHttpClient extends BaseHttpClient {
   ): Promise<GetResponseFromPage> {
     const route = `/page/${providerName}/${identifier}`;
     const response = await this.request(route, 'GET');
-    if (response.status === 400 && response.error) {
-      throw new MalsyncHttpClientError(response.error, 'page/not-found');
+
+    switch (response.status) {
+      case 400:
+        throw new MalsyncHttpClientError(response.body, 'page/not-found');
+      case 429:
+        throw new MalsyncHttpClientError(
+          'Too many requests, please try again later',
+          'page/rate-limited'
+        );
+      default:
     }
 
     return response.json<GetResponseFromPage>();
