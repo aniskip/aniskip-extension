@@ -13,8 +13,8 @@ export class AniskipHttpClient extends BaseHttpClient {
   constructor() {
     super(
       process.env.NODE_ENV === 'development'
-        ? 'http://localhost:5000/v1'
-        : 'https://api.aniskip.com/v1'
+        ? 'http://localhost:5000/v2'
+        : 'https://api.aniskip.com/v2'
     );
   }
 
