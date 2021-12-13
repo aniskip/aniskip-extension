@@ -42,6 +42,7 @@ export class PlayerFactory {
       case 'streamani':
       case 'streamhd':
       case 'streamsb':
+      case 'videovard':
       case 'vidstream':
       case 'vidstreamz':
         return new Jw(document);
