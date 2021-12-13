@@ -13,6 +13,9 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.config.js",
     "build:chrome": "cross-env NODE_ENV=production BROWSER=chromium webpack --config ./webpack/webpack.prod.config.js",
+    "build:dev": "cross-env NODE_ENV=development webpack --config ./webpack/webpack.dev.config.js",
+    "build:dev:chrome": "cross-env NODE_ENV=development BROWSER=chromium webpack --config ./webpack/webpack.dev.config.js",
+    "build:dev:firefox": "cross-env NODE_ENV=development BROWSER=firefox webpack --config ./webpack/webpack.dev.config.js",
     "build:firefox": "cross-env NODE_ENV=production BROWSER=firefox webpack --config ./webpack/webpack.prod.config.js",
     "clean": "run-p clean:build clean:modules",
     "clean:build": "rimraf rm -rf ./dist ./web-ext-artifacts ./aniskip-source.zip",
