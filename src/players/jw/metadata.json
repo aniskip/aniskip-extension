@@ -8,18 +8,20 @@
     "*://*.streamhd.cc/*",
     "*://cloud9.to/*",
     "*://fcdn.stream/*",
+    "*://fembed-hd.com/*",
     "*://gogo-play.net/*",
     "*://gogo-play.tv/*",
+    "*://gogoplay1.com/*",
     "*://kimanime.ru/AnimeIframe/*",
     "*://mcloud.to/*",
     "*://mcloud2.to/*",
     "*://sbembed.com/*",
     "*://sbplay.org/*",
+    "*://sbplay2.com/*",
     "*://sbvideo.net/*",
     "*://streamani.net/*",
     "*://streamsb.net/*",
     "*://vidstream.pro/*",
-    "*://vidstreamz.online/*",
-    "*://gogoplay1.com/*"
+    "*://vidstreamz.online/*"
   ]
 }

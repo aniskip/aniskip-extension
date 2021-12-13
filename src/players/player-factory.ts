@@ -28,19 +28,21 @@ export class PlayerFactory {
         return new Crunchyroll(document);
       case 'cloud9':
       case 'fcdn':
+      case 'fembed-hd':
       case 'gogo-play':
+      case 'gogoplay1':
       case 'kimanime':
       case 'mcloud':
       case 'mcloud2':
       case 'sbembed':
       case 'sbplay':
+      case 'sbplay2':
       case 'sbvideo':
       case 'streamani':
       case 'streamhd':
       case 'streamsb':
       case 'vidstream':
       case 'vidstreamz':
-      case 'gogoplay1':
         return new Jw(document);
       case 'dood':
         return new Doodstream(document);

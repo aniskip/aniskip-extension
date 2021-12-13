@@ -1,10 +1,11 @@
 {
   "page_urls": [
-    "*://gogoanime.so/*",
-    "*://gogoanime.sh/*",
-    "*://*.gogoanime.sh/*",
     "*://*.gogoanime.ai/*",
+    "*://*.gogoanime.cm/*",
     "*://*.gogoanime.pe/*",
-    "*://*.gogoanime.cm/*"
+    "*://*.gogoanime.sh/*",
+    "*://gogoanime.sh/*",
+    "*://gogoanime.so/*",
+    "*://gogoanime.wiki/*"
   ]
 }
