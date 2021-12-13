@@ -1,7 +1,7 @@
 {
   "name": "typescript-aniskip-extension",
   "extensionName": "Aniskip",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "An extension which gives the option to skip anime opening and endings on various streaming sites",
   "main": "content_script.ts",
   "repository": "https://github.com/lexesjan/typescript-aniskip-extension",
@@ -13,6 +13,9 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.config.js",
     "build:chrome": "cross-env NODE_ENV=production BROWSER=chromium webpack --config ./webpack/webpack.prod.config.js",
+    "build:dev": "cross-env NODE_ENV=development webpack --config ./webpack/webpack.dev.config.js",
+    "build:dev:chrome": "cross-env NODE_ENV=development BROWSER=chromium webpack --config ./webpack/webpack.dev.config.js",
+    "build:dev:firefox": "cross-env NODE_ENV=development BROWSER=firefox webpack --config ./webpack/webpack.dev.config.js",
     "build:firefox": "cross-env NODE_ENV=production BROWSER=firefox webpack --config ./webpack/webpack.prod.config.js",
     "clean": "run-p clean:build clean:modules",
     "clean:build": "rimraf rm -rf ./dist ./web-ext-artifacts ./aniskip-source.zip",

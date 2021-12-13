@@ -23,21 +23,26 @@ export class PlayerFactory {
       case 'jzscuqezoqkcpvy':
       case 'kwik':
       case 'streamtape':
+      case 'vvid':
         return new Plyr(document);
       case 'crunchyroll':
         return new Crunchyroll(document);
       case 'cloud9':
       case 'fcdn':
+      case 'fembed-hd':
       case 'gogo-play':
+      case 'gogoplay1':
       case 'kimanime':
       case 'mcloud':
       case 'mcloud2':
       case 'sbembed':
       case 'sbplay':
+      case 'sbplay2':
       case 'sbvideo':
       case 'streamani':
       case 'streamhd':
       case 'streamsb':
+      case 'videovard':
       case 'vidstream':
       case 'vidstreamz':
         return new Jw(document);

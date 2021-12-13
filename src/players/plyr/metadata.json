@@ -5,6 +5,7 @@
   "seekBarContainerSelectorString": "plyr__progress",
   "injectMenusButtonsReferenceNodeSelectorString": "plyr__controls__item plyr__menu",
   "player_urls": [
+    "*://*.vvid.cc/*",
     "*://akane-shinjou.github.io/*",
     "*://akaneshinjou.github.io/play/*",
     "*://animixplay.to/api/*",
