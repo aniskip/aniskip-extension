@@ -23,6 +23,7 @@ export class PlayerFactory {
       case 'jzscuqezoqkcpvy':
       case 'kwik':
       case 'streamtape':
+      case 'vvid':
         return new Plyr(document);
       case 'crunchyroll':
         return new Crunchyroll(document);
