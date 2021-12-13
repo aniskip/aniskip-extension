@@ -40,6 +40,7 @@ export class PlayerFactory {
       case 'streamsb':
       case 'vidstream':
       case 'vidstreamz':
+      case 'gogoplay1':
         return new Jw(document);
       case 'dood':
         return new Doodstream(document);
