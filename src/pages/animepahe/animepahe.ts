@@ -14,7 +14,7 @@ export class Animepahe extends BasePage {
       return '';
     }
 
-    return titleElement.innerHTML.split('. Ep')[0];
+    return titleElement.innerText.split(' Ep')[0];
   }
 
   getIdentifier(): string {
