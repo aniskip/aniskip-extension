@@ -1,4 +1,22 @@
-export type SkipType = 'op' | 'ed' | 'preview';
+export const SKIP_TYPE_NAMES: Record<SkipType, string> = {
+  op: 'Opening',
+  ed: 'Opening',
+  preview: 'Preview',
+  'mixed-op': 'Mixed Opening',
+  'mixed-ed': 'Mixed Ending',
+  recap: 'Recap',
+} as const;
+
+export const SKIP_TYPES = [
+  'op',
+  'ed',
+  'preview',
+  'mixed-op',
+  'mixed-ed',
+  'recap',
+] as const;
+
+export type SkipType = typeof SKIP_TYPES[number];
 
 export type SkipTime = {
   interval: {

@@ -1,6 +1,11 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 import { v4 as uuidv4 } from 'uuid';
-import { SyncOptions, LocalOptions, Message } from './types';
+import {
+  SyncOptions,
+  LocalOptions,
+  Message,
+  DEFAULT_SKIP_OPTIONS,
+} from './types';
 import { waitForMessage } from '../../utils';
 
 /**
@@ -53,10 +58,7 @@ browser.runtime.onMessage.addListener(messageHandler);
 browser.runtime.onInstalled.addListener((details) => {
   const defaultOptions: SyncOptions = {
     userId: uuidv4(),
-    skipOptions: {
-      op: 'manual-skip',
-      ed: 'manual-skip',
-    },
+    skipOptions: DEFAULT_SKIP_OPTIONS,
   };
 
   const localDefaultOptions: LocalOptions = {

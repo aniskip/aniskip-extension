@@ -3,6 +3,7 @@ import { useCheckIsFullscreen, useCheckIsMobile } from '../../hooks';
 import { SkipButtonProps } from './SkipButton.types';
 import { getDomainName } from '../../utils';
 import { DefaultButton } from '../DefaultButton';
+import { SKIP_TYPE_NAMES } from '../../api';
 
 export const SkipButton = ({
   skipType,
@@ -12,12 +13,6 @@ export const SkipButton = ({
 }: SkipButtonProps): JSX.Element => {
   const { isFullscreen } = useCheckIsFullscreen();
   const { isMobile } = useCheckIsMobile();
-
-  const skipTypeFullNames = {
-    op: 'Opening',
-    ed: 'Ending',
-    preview: 'Preview',
-  };
 
   const domainName = getDomainName(window.location.hostname);
 
@@ -39,7 +34,7 @@ export const SkipButton = ({
         }`}
         onClick={onClick}
       >
-        {`Skip ${skipTypeFullNames[skipType]}`}
+        {`Skip ${SKIP_TYPE_NAMES[skipType]}`}
       </DefaultButton>
     </div>
   );

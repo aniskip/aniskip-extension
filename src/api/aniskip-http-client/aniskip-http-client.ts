@@ -23,7 +23,7 @@ export class AniskipHttpClient extends BaseHttpClient {
    *
    * @param animeId MAL id to get the skip times of.
    * @param episodeNumber Episode number of the anime to get the skip times of.
-   * @param type Type of skip times to get, either 'op' or 'ed'.
+   * @param type Type of skip times to get.
    */
   async getSkipTimes(
     animeId: number,

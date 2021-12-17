@@ -5,7 +5,11 @@ import {
   SkipButtonsRenderer,
   SkipTimeIndicatorsRenderer,
 } from '../renderers';
-import { Message, SkipOptions } from '../scripts/background';
+import {
+  DEFAULT_SKIP_OPTIONS,
+  Message,
+  SkipOptions,
+} from '../scripts/background';
 import { Player, Metadata } from './base-player.types';
 import { AniskipHttpClient, SkipTime, SkipType } from '../api';
 import { isInInterval } from '../utils';
@@ -48,10 +52,7 @@ export abstract class BasePlayer implements Player {
     this.scheduledSkipTime = null;
     this.store = configuredStore;
 
-    this.skipOptions = {
-      op: 'manual-skip',
-      ed: 'manual-skip',
-    };
+    this.skipOptions = DEFAULT_SKIP_OPTIONS;
 
     (async (): Promise<void> => {
       const { skipOptions } = await browser.storage.sync.get('skipOptions');

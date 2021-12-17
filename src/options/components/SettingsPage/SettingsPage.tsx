@@ -83,7 +83,7 @@ export const SettingsPage = (): JSX.Element => {
             className="sm:w-auto w-full bg-primary border border-gray-300 text-white font-medium"
             onClick={handleOnClickClearCache}
           >
-            Clear Cache
+            Clear cache
           </DefaultButton>
         </div>
       </div>

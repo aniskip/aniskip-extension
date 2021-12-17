@@ -1,7 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import { FaBackward, FaForward, FaPlay, FaTimes } from 'react-icons/fa';
-import { AniskipHttpClientErrorCode, SkipTime, SkipType } from '../../api';
+import {
+  AniskipHttpClientErrorCode,
+  SkipTime,
+  SkipType,
+  SKIP_TYPE_NAMES,
+  SKIP_TYPES,
+} from '../../api';
 import { DefaultButton } from '../DefaultButton';
 import { Dropdown } from '../Dropdown';
 import { Input } from '../Input';
@@ -467,10 +473,12 @@ export const SubmitMenu = (): JSX.Element => {
               className="flex-1 text-sm"
               value={skipType}
               onChange={setSkipType}
-              options={[
-                { value: 'op', label: 'Opening' },
-                { value: 'ed', label: 'Ending' },
-              ]}
+              options={SKIP_TYPES.filter((type) => type !== 'preview').map(
+                (type) => ({
+                  value: type,
+                  label: SKIP_TYPE_NAMES[type],
+                })
+              )}
             />
             <div className="flex-1">
               <DefaultButton

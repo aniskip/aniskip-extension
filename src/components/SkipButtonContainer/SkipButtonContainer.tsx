@@ -5,15 +5,13 @@ import { isInInterval, usePlayerRef } from '../../utils';
 import { SkipButtonContainerProps } from './SkipButtonContainer.types';
 import { useSelector } from '../../hooks';
 import { selectSkipTimes } from '../../data';
-import { SkipOptions } from '../../scripts/background';
+import { DEFAULT_SKIP_OPTIONS, SkipOptions } from '../../scripts/background';
 
 export const SkipButtonContainer = ({
   variant,
 }: SkipButtonContainerProps): JSX.Element => {
-  const [skipOptions, setSkipOptions] = useState<SkipOptions>({
-    op: 'manual-skip',
-    ed: 'manual-skip',
-  });
+  const [skipOptions, setSkipOptions] =
+    useState<SkipOptions>(DEFAULT_SKIP_OPTIONS);
   const skipTimes = useSelector(selectSkipTimes);
   const player = usePlayerRef();
 

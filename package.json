@@ -99,6 +99,7 @@
     "remote-redux-devtools": "^0.5.16",
     "string-similarity": "^4.0.4",
     "tailwindcss": "^2.2.8",
+    "type-fest": "^2.8.0",
     "uuid": "^8.3.2",
     "webextension-polyfill-ts": "^0.26.0"
   },

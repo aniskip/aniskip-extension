@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaChevronDown, FaChevronUp, FaPlay, FaTimes } from 'react-icons/fa';
 import { browser } from 'webextension-polyfill-ts';
 import { useAniskipHttpClient, useDispatch, useSelector } from '../../hooks';
-import { SkipTime, VoteType } from '../../api';
+import { SkipTime, SKIP_TYPE_NAMES, VoteType } from '../../api';
 import { secondsToTimeString, usePlayerRef } from '../../utils';
 import { LinkButton } from '../LinkButton';
 import {
@@ -177,17 +177,6 @@ export const VoteMenu = (): JSX.Element => {
               0
             );
 
-            let skipTypeFormatted = '';
-            switch (skipType) {
-              case 'op':
-                skipTypeFormatted = 'Opening';
-                break;
-              case 'ed':
-                skipTypeFormatted = 'Ending';
-                break;
-              default:
-            }
-
             return (
               <div
                 className="flex justify-between py-2"
@@ -195,7 +184,7 @@ export const VoteMenu = (): JSX.Element => {
               >
                 <div className="flex flex-col justify-between">
                   <span className="font-bold uppercase text-xs">
-                    {skipTypeFormatted}
+                    {SKIP_TYPE_NAMES[skipType]}
                   </span>
                   <span className="text-sm text-blue-500">
                     <LinkButton
