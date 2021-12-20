@@ -11,7 +11,7 @@ const manifest = {
     page: 'options.html',
   },
   browser_action: {
-    default_popup: 'options.html',
+    default_popup: 'popup.html',
   },
   background: {
     scripts: ['background-script.js'],

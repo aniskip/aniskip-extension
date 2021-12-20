@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, Selector } from '@reduxjs/toolkit';
 import { SkipTime } from '../../api';
-import { StateSlice } from '../types';
+import { StateSlice } from '../../utils/types';
 import { PlayerState } from './types';
 
 /**

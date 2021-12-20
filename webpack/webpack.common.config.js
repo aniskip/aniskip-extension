@@ -74,6 +74,11 @@ module.exports = {
       template: './public/options.html',
       chunks: ['options'],
     }),
+    new HtmlWebpackPlugin({
+      filename: 'popup.html',
+      template: './public/popup.html',
+      chunks: ['options'],
+    }),
     new JsonBuilderPlugin({
       output: 'manifest.json',
       json: getManifest(),
