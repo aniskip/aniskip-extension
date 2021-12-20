@@ -1,5 +1,5 @@
 import React from 'react';
-import { Listbox, Transition } from '@headlessui/react';
+import { Listbox } from '@headlessui/react';
 import { FaChevronDown } from 'react-icons/fa';
 import { DropdownProps } from './Dropdown.types';
 
@@ -8,6 +8,7 @@ export const Dropdown = ({
   value,
   onChange,
   options,
+  dropdownOptionsProps,
 }: DropdownProps): JSX.Element => (
   <Listbox
     as="div"
@@ -43,37 +44,31 @@ export const Dropdown = ({
             </div>
           </div>
         </Listbox.Button>
-        <Transition
-          as={React.Fragment}
-          show={open}
-          enter="transition origin-top"
-          enterFrom="transform opacity-0 scale-y-90"
-          enterTo="transform opacity-100 scale-y-100"
-          leave="transition origin-top"
-          leaveFrom="transform opacity-100 scale-y-100"
-          leaveTo="transform opacity-0 scale-y-90"
+        <Listbox.Options
+          className={`transition transform origin-top bg-white rounded mt-2 absolute w-full shadow-lg z-10 border overflow-y-auto border-gray-200 py-1 focus:outline-none ${
+            open
+              ? 'opacity-100 scale-y-100'
+              : 'opacity-0 scale-y-90 pointer-events-none'
+          }
+            ${dropdownOptionsProps?.className ?? ''}`}
+          static
         >
-          <Listbox.Options
-            className="bg-white rounded mt-2 absolute w-full shadow-lg z-10 border overflow-hidden border-gray-200 py-1 focus:outline-none"
-            static
-          >
-            {options.map(({ label, id }) => (
-              <Listbox.Option
-                className={({ active, selected }): string =>
-                  `text-black w-full px-3 py-2 text-left focus:outline-none ${
-                    active || selected
-                      ? 'bg-primary border-primary text-white'
-                      : ''
-                  }`
-                }
-                key={id}
-                value={id}
-              >
-                {label}
-              </Listbox.Option>
-            ))}
-          </Listbox.Options>
-        </Transition>
+          {options.map(({ label, id }) => (
+            <Listbox.Option
+              className={({ active, selected }): string =>
+                `text-black w-full px-3 py-2 text-left focus:outline-none ${
+                  active || selected
+                    ? 'bg-primary border-primary text-white'
+                    : ''
+                }`
+              }
+              key={id}
+              value={id}
+            >
+              {label}
+            </Listbox.Option>
+          ))}
+        </Listbox.Options>
       </>
     )}
   </Listbox>

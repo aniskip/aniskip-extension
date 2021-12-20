@@ -9,7 +9,7 @@ import {
   SKIP_TYPES,
 } from '../../api';
 import { DefaultButton } from '../DefaultButton';
-import { Dropdown } from '../Dropdown';
+import { Dropdown, DropdownOptionsProps } from '../Dropdown';
 import { Input } from '../Input';
 import { Message } from '../../scripts/background';
 import {
@@ -42,6 +42,17 @@ export const SubmitMenu = (): JSX.Element => {
   const visible = useSelector(selectIsSubmitMenuVisible);
   const player = usePlayerRef();
   const dispatch = useDispatch();
+
+  const skipTypeDropdownOptions = SKIP_TYPES.filter(
+    (type) => type !== 'preview'
+  ).map((type) => ({
+    id: type,
+    label: SKIP_TYPE_NAMES[type],
+  }));
+
+  const skipTypeDropdownOptionsProps: DropdownOptionsProps = {
+    className: 'max-h-[5.5em]',
+  };
 
   /**
    * Initialise the start time to the current time and the end time to the
@@ -473,12 +484,8 @@ export const SubmitMenu = (): JSX.Element => {
               className="flex-1 text-sm"
               value={skipType}
               onChange={setSkipType}
-              options={SKIP_TYPES.filter((type) => type !== 'preview').map(
-                (type) => ({
-                  id: type,
-                  label: SKIP_TYPE_NAMES[type],
-                })
-              )}
+              options={skipTypeDropdownOptions}
+              dropdownOptionsProps={skipTypeDropdownOptionsProps}
             />
             <div className="flex-1">
               <DefaultButton
