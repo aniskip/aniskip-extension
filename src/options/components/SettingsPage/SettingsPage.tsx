@@ -7,17 +7,17 @@ export const SettingsPage = (): JSX.Element => {
   const [opOption, setOpOption] = useState<SkipOptionType>('manual-skip');
   const [edOption, setEdOption] = useState<SkipOptionType>('manual-skip');
 
-  const handleOpeningOptionChange = (skipOption: SkipOptionType): void => {
+  const onChangeOpeningOption = (skipOption: SkipOptionType): void => {
     browser.storage.sync.set({ skipOptions: { op: skipOption, ed: edOption } });
     setOpOption(skipOption);
   };
 
-  const handleEndingOptionChange = (skipOption: SkipOptionType): void => {
+  const onChangeEndingOption = (skipOption: SkipOptionType): void => {
     browser.storage.sync.set({ skipOptions: { op: opOption, ed: skipOption } });
     setEdOption(skipOption);
   };
 
-  const handleOnClickClearCache = (): void => {
+  const onClickClearCache = (): void => {
     const cacheCleared = {
       rulesCache: {},
       malIdCache: {},
@@ -62,7 +62,7 @@ export const SettingsPage = (): JSX.Element => {
           <Dropdown
             className="text-sm w-full"
             value={opOption}
-            onChange={handleOpeningOptionChange}
+            onChange={onChangeOpeningOption}
             options={dropdownOptions}
           />
         </div>
@@ -73,7 +73,7 @@ export const SettingsPage = (): JSX.Element => {
           <Dropdown
             className="text-sm w-full"
             value={edOption}
-            onChange={handleEndingOptionChange}
+            onChange={onChangeEndingOption}
             options={dropdownOptions}
           />
         </div>
@@ -81,7 +81,7 @@ export const SettingsPage = (): JSX.Element => {
           <div className="text-xs text-gray-600 uppercase font-bold">Cache</div>
           <DefaultButton
             className="sm:w-auto w-full bg-primary border border-gray-300 text-white font-medium"
-            onClick={handleOnClickClearCache}
+            onClick={onClickClearCache}
           >
             Clear cache
           </DefaultButton>
