@@ -28,16 +28,16 @@ export const SettingsPage = (): JSX.Element => {
 
   const dropdownOptions = [
     {
-      id: 'disabled',
-      label: 'Disabled',
+      id: 'manual-skip',
+      label: 'Manual skip',
     },
     {
       id: 'auto-skip',
       label: 'Auto skip',
     },
     {
-      id: 'manual-skip',
-      label: 'Manual skip',
+      id: 'disabled',
+      label: 'Disabled',
     },
   ];
 

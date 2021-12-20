@@ -1,6 +1,6 @@
 import React from 'react';
 import { Listbox } from '@headlessui/react';
-import { FaChevronDown } from 'react-icons/fa';
+import { FaCheck, FaChevronDown } from 'react-icons/fa';
 import { DropdownProps } from './Dropdown.types';
 
 export const Dropdown = ({
@@ -55,17 +55,24 @@ export const Dropdown = ({
         >
           {options.map(({ label, id }) => (
             <Listbox.Option
-              className={({ active, selected }): string =>
-                `text-black w-full px-3 py-2 text-left focus:outline-none ${
-                  active || selected
-                    ? 'bg-primary border-primary text-white'
-                    : ''
+              className={({ active }): string =>
+                `relative text-black w-full py-2 text-left focus:outline-none ${
+                  active ? 'bg-amber-100 border-amber-100 text-amber-900' : ''
                 }`
               }
               key={id}
               value={id}
             >
-              {label}
+              {({ selected }): JSX.Element => (
+                <>
+                  {selected ? (
+                    <span className="flex items-center absolute inset-y-0 pl-3">
+                      <FaCheck className="text-primary border-primary" />
+                    </span>
+                  ) : null}
+                  <span className="pl-10">{label}</span>
+                </>
+              )}
             </Listbox.Option>
           ))}
         </Listbox.Options>
