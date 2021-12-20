@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import { FaBackward, FaForward, FaPlay, FaTimes } from 'react-icons/fa';
 import {
@@ -263,13 +263,14 @@ export const SubmitMenu = (): JSX.Element => {
    * Formats time input on blur.
    *
    * @param setTime Set time useState function.
+   * @param currentTime Current start or end time.
    */
   const onBlur =
     (
       setTime: React.Dispatch<React.SetStateAction<string>>,
       currentTime: string
     ) =>
-    async (): Promise<void> => {
+    (): void => {
       const formatted = formatTimeString(currentTime);
       const seconds = errorCorrectTime(timeStringToSeconds(formatted));
       setTime(secondsToTimeString(seconds));
@@ -366,6 +367,55 @@ export const SubmitMenu = (): JSX.Element => {
     }
   };
 
+  /**
+   * Handles the mouse wheel scroll in input boxes.
+   *
+   * @param setTime Set time useState function.
+   * @param currentTime Current start or end time.
+   */
+  const onWheel =
+    (
+      setTime: React.Dispatch<React.SetStateAction<string>>,
+      currentTime: string
+    ) =>
+    (event: React.WheelEvent<HTMLInputElement>): void => {
+      const timeSeconds = timeStringToSeconds(currentTime);
+      const seekOffset = event.deltaY > 0 ? -0.01 : 0.01;
+      const updatedTime = errorCorrectTime(timeSeconds + seekOffset);
+
+      setTime(secondsToTimeString(updatedTime));
+
+      player?.setCurrentTime(updatedTime);
+    };
+
+  /**
+   * Prevents page scrolling.
+   *
+   * @param event Mouse wheel event.
+   */
+  const preventDefault = useCallback(
+    (event: WheelEvent): void => event.preventDefault(),
+    []
+  );
+
+  /**
+   * Handles the disabling of page scroll when the mouse enters the input
+   * element.
+   */
+  const onPointerEnter = (): void => {
+    window.addEventListener('wheel', preventDefault, {
+      passive: false,
+    });
+  };
+
+  /**
+   * Handles the enabling of page scroll when the mouse exists the input
+   * element.
+   */
+  const onPointerLeave = (): void => {
+    window.removeEventListener('wheel', preventDefault, false);
+  };
+
   return (
     <div
       className={`text-sm md:text-base font-sans w-[26em] px-5 pt-2 pb-4 bg-trueGray-800 bg-opacity-80 border border-gray-300 select-none rounded-md transition-opacity text-white opacity-0 pointer-events-none ${
@@ -406,6 +456,9 @@ export const SubmitMenu = (): JSX.Element => {
               onKeyDown={onKeyDown(setStartTime)}
               onFocus={(): void => setCurrentInputFocus('start-time')}
               onBlur={onBlur(setStartTime, startTime)}
+              onWheel={onWheel(setStartTime, startTime)}
+              onPointerEnter={onPointerEnter}
+              onPointerLeave={onPointerLeave}
             />
           </div>
           <div className="flex-1">
@@ -426,6 +479,9 @@ export const SubmitMenu = (): JSX.Element => {
               onKeyDown={onKeyDown(setEndTime)}
               onFocus={(): void => setCurrentInputFocus('end-time')}
               onBlur={onBlur(setEndTime, endTime)}
+              onWheel={onWheel(setEndTime, endTime)}
+              onPointerEnter={onPointerEnter}
+              onPointerLeave={onPointerLeave}
             />
           </div>
         </div>

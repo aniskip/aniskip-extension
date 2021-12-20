@@ -6,8 +6,11 @@ export type InputProps = {
   title?: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onFocus?: React.FocusEventHandler<HTMLInputElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+  onWheel?: React.WheelEventHandler<HTMLInputElement>;
+  onPointerEnter?: React.PointerEventHandler<HTMLInputElement>;
+  onPointerLeave?: React.PointerEventHandler<HTMLInputElement>;
 };
