@@ -1,6 +1,6 @@
 export const SKIP_TYPE_NAMES: Record<SkipType, string> = {
   op: 'Opening',
-  ed: 'Opening',
+  ed: 'Ending',
   preview: 'Preview',
   'mixed-op': 'Mixed Opening',
   'mixed-ed': 'Mixed Ending',

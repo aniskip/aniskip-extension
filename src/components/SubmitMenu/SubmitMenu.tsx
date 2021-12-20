@@ -475,7 +475,7 @@ export const SubmitMenu = (): JSX.Element => {
               onChange={setSkipType}
               options={SKIP_TYPES.filter((type) => type !== 'preview').map(
                 (type) => ({
-                  value: type,
+                  id: type,
                   label: SKIP_TYPE_NAMES[type],
                 })
               )}

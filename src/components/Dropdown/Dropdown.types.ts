@@ -1,11 +1,11 @@
 export type Option = {
-  value: string;
+  id: string;
   label: string;
 };
 
 export type DropdownProps = {
   className?: string;
   value: string;
-  onChange: CallableFunction;
+  onChange: (value: any) => void;
   options: Option[];
 };
