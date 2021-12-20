@@ -18,10 +18,10 @@ export const SettingsPage = (): JSX.Element => {
   };
 
   const onClickClearCache = (): void => {
-    const cacheCleared = {
+    const cacheCleared: Partial<LocalOptions> = {
       rulesCache: {},
       malIdCache: {},
-    } as Partial<LocalOptions>;
+    };
 
     browser.storage.local.set(cacheCleared);
   };
