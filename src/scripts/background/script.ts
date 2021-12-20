@@ -1,10 +1,11 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 import { v4 as uuidv4 } from 'uuid';
 import {
-  SyncOptions,
   LocalOptions,
   Message,
-  DEFAULT_SKIP_OPTIONS,
+  DEFAULT_LOCAL_OPTIONS,
+  DEFAULT_SYNC_OPTIONS,
+  SyncOptions,
 } from './types';
 import { waitForMessage } from '../../utils';
 
@@ -53,45 +54,65 @@ const messageHandler = (
 browser.runtime.onMessage.addListener(messageHandler);
 
 /**
+ * Adds the default sync options if they do not exist.
+ */
+const addDefaultSyncOptions = async (): Promise<void> => {
+  const currentSyncOptions = await browser.storage.sync.get(
+    DEFAULT_SYNC_OPTIONS
+  );
+
+  // If the key does not exist, add a default for it.
+  Object.keys(DEFAULT_SYNC_OPTIONS).forEach((key) => {
+    if (!Object.prototype.hasOwnProperty.call(currentSyncOptions, key)) {
+      const typedKey = key as keyof SyncOptions;
+
+      currentSyncOptions[typedKey] = DEFAULT_SYNC_OPTIONS[typedKey];
+    }
+  });
+
+  // Add default skip options if they are not present.
+  Object.keys(DEFAULT_SYNC_OPTIONS.skipOptions).forEach((key) => {
+    if (
+      !Object.prototype.hasOwnProperty.call(currentSyncOptions.skipOptions, key)
+    ) {
+      const typedKey = key as keyof SyncOptions['skipOptions'];
+
+      currentSyncOptions.skipOptions[typedKey] =
+        DEFAULT_SYNC_OPTIONS.skipOptions[typedKey];
+    }
+  });
+
+  browser.storage.sync.set(currentSyncOptions);
+};
+
+/**
+ * Resets the local cache.
+ */
+const resetCache = async (): Promise<void> => {
+  const currentLocalOptions = (await browser.storage.local.get(
+    DEFAULT_LOCAL_OPTIONS
+  )) as LocalOptions;
+
+  // Reset cache.
+  currentLocalOptions.malIdCache = {};
+  currentLocalOptions.rulesCache = {};
+
+  browser.storage.local.set(currentLocalOptions);
+};
+
+/**
  * Set default user settings on installation.
  */
 browser.runtime.onInstalled.addListener((details) => {
-  const defaultOptions: SyncOptions = {
-    userId: uuidv4(),
-    skipOptions: DEFAULT_SKIP_OPTIONS,
-  };
-
-  const localDefaultOptions: LocalOptions = {
-    malIdCache: {},
-    rulesCache: {},
-    skipTimesVoted: {},
-  };
-
   switch (details.reason) {
     case 'install': {
-      browser.storage.sync.set(defaultOptions);
-      browser.storage.local.set(localDefaultOptions);
+      browser.storage.sync.set(DEFAULT_SYNC_OPTIONS);
+      browser.storage.local.set(DEFAULT_LOCAL_OPTIONS);
       browser.runtime.openOptionsPage();
       break;
     }
     case 'update': {
-      Promise.all([
-        (async (): Promise<void> => {
-          const currentOptions = await browser.storage.sync.get(defaultOptions);
-          browser.storage.sync.set(currentOptions);
-        })(),
-        (async (): Promise<void> => {
-          const currentLocalOptions = (await browser.storage.local.get(
-            localDefaultOptions
-          )) as LocalOptions;
-
-          // Reset cache.
-          currentLocalOptions.malIdCache = {};
-          currentLocalOptions.rulesCache = {};
-
-          browser.storage.local.set(currentLocalOptions);
-        })(),
-      ]);
+      Promise.all([addDefaultSyncOptions(), resetCache()]);
       break;
     }
     default:

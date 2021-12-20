@@ -1,4 +1,5 @@
 import { SetOptional } from 'type-fest';
+import { v4 as uuidv4 } from 'uuid';
 import {
   Rule,
   SkipType,
@@ -27,9 +28,20 @@ export type CacheEntry<T> = {
   value: T;
 };
 
+export const DEFAULT_SYNC_OPTIONS: SyncOptions = {
+  userId: uuidv4(),
+  skipOptions: DEFAULT_SKIP_OPTIONS,
+};
+
 export type SyncOptions = {
   userId: string;
   skipOptions: SkipOptions;
+};
+
+export const DEFAULT_LOCAL_OPTIONS: LocalOptions = {
+  malIdCache: {},
+  rulesCache: {},
+  skipTimesVoted: {},
 };
 
 export type LocalOptions = {
