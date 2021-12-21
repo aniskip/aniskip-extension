@@ -82,22 +82,42 @@ const addDefaultSyncOptions = async (): Promise<void> => {
     }
   });
 
-  // Add default skip indicator colours if they are not present.
-  Object.keys(DEFAULT_SYNC_OPTIONS.skipIndicatorColours).forEach((key) => {
-    if (
-      !Object.prototype.hasOwnProperty.call(
-        currentSyncOptions.skipIndicatorColours,
-        key
-      )
-    ) {
-      const typedKey = key as keyof SyncOptions['skipIndicatorColours'];
+  browser.storage.sync.set(currentSyncOptions);
+};
 
-      currentSyncOptions.skipIndicatorColours[typedKey] =
-        DEFAULT_SYNC_OPTIONS.skipIndicatorColours[typedKey];
+/**
+ * Adds the default local options if they do not exist.
+ */
+const addDefaultLocalOptions = async (): Promise<void> => {
+  const currentLocalOptions = await browser.storage.local.get(
+    DEFAULT_LOCAL_OPTIONS
+  );
+
+  // If the key does not exist, add a default for it.
+  Object.keys(DEFAULT_LOCAL_OPTIONS).forEach((key) => {
+    if (!Object.prototype.hasOwnProperty.call(currentLocalOptions, key)) {
+      const typedKey = key as keyof LocalOptions;
+
+      currentLocalOptions[typedKey] = DEFAULT_LOCAL_OPTIONS[typedKey];
     }
   });
 
-  browser.storage.sync.set(currentSyncOptions);
+  // Add default skip indicator colours if they are not present.
+  Object.keys(DEFAULT_LOCAL_OPTIONS.skipIndicatorColours).forEach((key) => {
+    if (
+      !Object.prototype.hasOwnProperty.call(
+        currentLocalOptions.skipIndicatorColours,
+        key
+      )
+    ) {
+      const typedKey = key as keyof LocalOptions['skipIndicatorColours'];
+
+      currentLocalOptions.skipIndicatorColours[typedKey] =
+        DEFAULT_LOCAL_OPTIONS.skipIndicatorColours[typedKey];
+    }
+  });
+
+  browser.storage.local.set(currentLocalOptions);
 };
 
 /**
@@ -127,7 +147,13 @@ browser.runtime.onInstalled.addListener((details) => {
       break;
     }
     case 'update': {
-      Promise.all([addDefaultSyncOptions(), resetCache()]);
+      Promise.all([
+        addDefaultSyncOptions(),
+        (async (): Promise<void> => {
+          await addDefaultLocalOptions();
+          return resetCache();
+        })(),
+      ]);
       break;
     }
     default:

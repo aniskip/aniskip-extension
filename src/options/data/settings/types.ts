@@ -7,6 +7,7 @@ import {
 export type SettingsState = {
   skipOptions: SkipOptions;
   skipIndicatorColours: SkipIndicatorColours;
+  isSettingsLoaded: boolean;
 };
 
 export type SetSkipOption = {

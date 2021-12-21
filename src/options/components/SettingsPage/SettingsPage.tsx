@@ -4,6 +4,8 @@ import { browser } from 'webextension-polyfill-ts';
 import { SkipType, SKIP_TYPES, SKIP_TYPE_NAMES } from '../../../api';
 import { DefaultButton, Dropdown } from '../../../components';
 import {
+  DEFAULT_SKIP_INDICATOR_COLOURS,
+  DEFAULT_SKIP_OPTIONS,
   LocalOptions,
   SkipIndicatorColours,
   SkipOptions,
@@ -12,8 +14,10 @@ import {
 import {
   Dispatch,
   RootState,
+  selectIsLoaded,
   selectSkipIndicatorColours,
   selectSkipOptions,
+  setIsSettingsLoaded,
   setSkipIndicatorColour,
   setSkipIndicatorColours,
   setSkipOption,
@@ -28,6 +32,7 @@ export function SettingsPage(): JSX.Element {
   const skipIndicatorColours = useSelector<RootState, SkipIndicatorColours>(
     selectSkipIndicatorColours
   );
+  const isSettingsLoaded = useSelector<RootState, boolean>(selectIsLoaded);
   const dispatch = useDispatch<Dispatch>();
 
   const dropdownOptions = [
@@ -57,28 +62,39 @@ export function SettingsPage(): JSX.Element {
     );
 
     (async (): Promise<void> => {
-      const {
-        skipOptions: syncedSkipOptions,
-        skipIndicatorColours: syncedSkipIndicatorColours,
-      } = (await browser.storage.sync.get([
-        'skipOptions',
-        'skipIndicatorColours',
-      ])) as {
-        skipOptions: SkipOptions;
-        skipIndicatorColours: SkipIndicatorColours;
-      };
+      const syncedSkipOptions = (
+        await browser.storage.sync.get({ skipOptions: DEFAULT_SKIP_OPTIONS })
+      ).skipOptions as SkipOptions;
+
+      const localSkipIndicatorColours = (
+        await browser.storage.local.get({
+          skipIndicatorColours: DEFAULT_SKIP_INDICATOR_COLOURS,
+        })
+      ).skipIndicatorColours as SkipIndicatorColours;
 
       dispatch(setSkipOptions(syncedSkipOptions));
-      dispatch(setSkipIndicatorColours(syncedSkipIndicatorColours));
+      dispatch(setSkipIndicatorColours(localSkipIndicatorColours));
+      dispatch(setIsSettingsLoaded(true));
     })();
   }, []);
 
   /**
-   * Sync with browser storage.
+   * Sync skip options with sync browser storage.
    */
   useEffect(() => {
-    browser.storage.sync.set({ skipOptions, skipIndicatorColours });
-  }, [skipOptions, skipIndicatorColours]);
+    if (isSettingsLoaded) {
+      browser.storage.sync.set({ skipOptions });
+    }
+  }, [skipOptions, isSettingsLoaded]);
+
+  /**
+   * Sync skip indicator colours with local browser storage.
+   */
+  useEffect(() => {
+    if (isSettingsLoaded) {
+      browser.storage.local.set({ skipIndicatorColours });
+    }
+  }, [skipIndicatorColours, isSettingsLoaded]);
 
   /**
    * Clears the cache.

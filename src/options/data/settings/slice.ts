@@ -14,6 +14,7 @@ import { StateSlice } from '../../../utils';
 const initialSettingsState: SettingsState = {
   skipOptions: DEFAULT_SKIP_OPTIONS,
   skipIndicatorColours: DEFAULT_SKIP_INDICATOR_COLOURS,
+  isSettingsLoaded: false,
 };
 
 /**
@@ -28,6 +29,11 @@ export const selectSkipIndicatorColours: Selector<
   StateSlice<SettingsState, 'settings'>,
   SkipIndicatorColours
 > = (state) => state.settings.skipIndicatorColours;
+
+export const selectIsLoaded: Selector<
+  StateSlice<SettingsState, 'settings'>,
+  boolean
+> = (state) => state.settings.isSettingsLoaded;
 
 /**
  * Slice definition.
@@ -54,6 +60,9 @@ const settingsStateSlice = createSlice({
     ) => {
       state.skipIndicatorColours = action.payload;
     },
+    setIsSettingsLoaded: (state, action: PayloadAction<boolean>) => {
+      state.isSettingsLoaded = action.payload;
+    },
   },
 });
 
@@ -62,5 +71,6 @@ export const {
   setSkipOptions,
   setSkipIndicatorColour,
   setSkipIndicatorColours,
+  setIsSettingsLoaded,
 } = settingsStateSlice.actions;
 export default settingsStateSlice.reducer;
