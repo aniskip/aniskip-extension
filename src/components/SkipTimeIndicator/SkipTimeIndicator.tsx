@@ -6,8 +6,9 @@ export function SkipTimeIndicator({
   startTime,
   endTime,
   episodeLength,
-  className,
   variant,
+  className,
+  style,
 }: SkipTimeIndicatorProps): JSX.Element {
   /**
    * Calculates the percentage the skip time indicator has to be translated on the x axis.
@@ -27,6 +28,7 @@ export function SkipTimeIndicator({
       style={{
         left: `${calculateTranslation() * 100}%`,
         width: `${calculateWidth() * 100}%`,
+        ...style,
       }}
     />
   );

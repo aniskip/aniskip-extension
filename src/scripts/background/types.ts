@@ -23,6 +23,21 @@ export const DEFAULT_SKIP_OPTIONS: SkipOptions = {
   recap: 'manual-skip',
 };
 
+export type SkipIndicatorColours = Omit<
+  {
+    [T in SkipType]: string;
+  },
+  'preview'
+>;
+
+export const DEFAULT_SKIP_INDICATOR_COLOURS: SkipIndicatorColours = {
+  op: '#1d4ed8',
+  ed: '#1d4ed8',
+  'mixed-op': '#a21caf',
+  'mixed-ed': '#a21caf',
+  recap: '#be123c',
+};
+
 export type CacheEntry<T> = {
   expires: string;
   value: T;
@@ -31,11 +46,13 @@ export type CacheEntry<T> = {
 export const DEFAULT_SYNC_OPTIONS: SyncOptions = {
   userId: uuidv4(),
   skipOptions: DEFAULT_SKIP_OPTIONS,
+  skipIndicatorColours: DEFAULT_SKIP_INDICATOR_COLOURS,
 };
 
 export type SyncOptions = {
   userId: string;
   skipOptions: SkipOptions;
+  skipIndicatorColours: SkipIndicatorColours;
 };
 
 export const DEFAULT_LOCAL_OPTIONS: LocalOptions = {

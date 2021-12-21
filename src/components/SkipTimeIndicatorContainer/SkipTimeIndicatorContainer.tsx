@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { browser } from 'webextension-polyfill-ts';
 import { selectSkipTimes } from '../../data';
 import { useSelector } from '../../hooks';
+import {
+  DEFAULT_SKIP_INDICATOR_COLOURS,
+  SkipIndicatorColours,
+} from '../../scripts/background';
 import { usePlayerRef } from '../../utils';
 import { SkipTimeIndicator } from '../SkipTimeIndicator';
 import { SkipTimeIndicatorContainerProps } from './SkipTimeIndicatorContainer.types';
@@ -8,9 +13,23 @@ import { SkipTimeIndicatorContainerProps } from './SkipTimeIndicatorContainer.ty
 export function SkipTimeIndicatorContainer({
   variant,
 }: SkipTimeIndicatorContainerProps): JSX.Element {
+  const [skipIndicatorColours, setSkipIndicatorColours] =
+    useState<SkipIndicatorColours>(DEFAULT_SKIP_INDICATOR_COLOURS);
   const skipTimes = useSelector(selectSkipTimes);
   const player = usePlayerRef();
   const videoDuration = player?.getDuration() ?? 0;
+
+  useEffect(() => {
+    (async (): Promise<void> => {
+      const syncedSkipIndicatorColours = (
+        await browser.storage.sync.get({
+          skipIndicatorColours: DEFAULT_SKIP_INDICATOR_COLOURS,
+        })
+      ).skipIndicatorColours as SkipIndicatorColours;
+
+      setSkipIndicatorColours(syncedSkipIndicatorColours);
+    })();
+  }, []);
 
   return (
     <>
@@ -26,7 +45,12 @@ export function SkipTimeIndicatorContainer({
 
         return (
           <SkipTimeIndicator
-            className="bg-blue-700"
+            style={{
+              backgroundColor:
+                skipIndicatorColours[
+                  skipTime.skipType as keyof SkipIndicatorColours
+                ],
+            }}
             startTime={startTime + offset}
             endTime={endTime + offset}
             episodeLength={episodeLength + offset}

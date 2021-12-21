@@ -5,20 +5,29 @@ import { SkipType, SKIP_TYPES, SKIP_TYPE_NAMES } from '../../../api';
 import { DefaultButton, Dropdown } from '../../../components';
 import {
   LocalOptions,
+  SkipIndicatorColours,
   SkipOptions,
   SkipOptionType,
 } from '../../../scripts/background';
 import {
   Dispatch,
   RootState,
+  selectSkipIndicatorColours,
   selectSkipOptions,
+  setSkipIndicatorColour,
+  setSkipIndicatorColours,
   setSkipOption,
   setSkipOptions,
 } from '../../data';
 
 export function SettingsPage(): JSX.Element {
-  const [filteredSkipTypes, setFilteredSkipTypes] = useState<SkipType[]>([]);
+  const [filteredSkipTypes, setFilteredSkipTypes] = useState<
+    Exclude<SkipType, 'preview'>[]
+  >([]);
   const skipOptions = useSelector<RootState, SkipOptions>(selectSkipOptions);
+  const skipIndicatorColours = useSelector<RootState, SkipIndicatorColours>(
+    selectSkipIndicatorColours
+  );
   const dispatch = useDispatch<Dispatch>();
 
   const dropdownOptions = [
@@ -41,15 +50,26 @@ export function SettingsPage(): JSX.Element {
    */
   useEffect(() => {
     setFilteredSkipTypes(
-      SKIP_TYPES.filter((skipType) => skipType !== 'preview')
+      SKIP_TYPES.filter((skipType) => skipType !== 'preview') as Exclude<
+        SkipType,
+        'preview'
+      >[]
     );
 
     (async (): Promise<void> => {
-      const { skipOptions: syncedSkipOptions } = await browser.storage.sync.get(
-        'skipOptions'
-      );
+      const {
+        skipOptions: syncedSkipOptions,
+        skipIndicatorColours: syncedSkipIndicatorColours,
+      } = (await browser.storage.sync.get([
+        'skipOptions',
+        'skipIndicatorColours',
+      ])) as {
+        skipOptions: SkipOptions;
+        skipIndicatorColours: SkipIndicatorColours;
+      };
 
       dispatch(setSkipOptions(syncedSkipOptions));
+      dispatch(setSkipIndicatorColours(syncedSkipIndicatorColours));
     })();
   }, []);
 
@@ -57,8 +77,8 @@ export function SettingsPage(): JSX.Element {
    * Sync with browser storage.
    */
   useEffect(() => {
-    browser.storage.sync.set({ skipOptions });
-  }, [skipOptions]);
+    browser.storage.sync.set({ skipOptions, skipIndicatorColours });
+  }, [skipOptions, skipIndicatorColours]);
 
   /**
    * Clears the cache.
@@ -77,10 +97,23 @@ export function SettingsPage(): JSX.Element {
    *
    * @param skipType Skip type to change the option of.
    */
-  const onChangeOption =
+  const onChangeSkipOption =
     (skipType: SkipType) =>
     (skipOption: SkipOptionType): void => {
       dispatch(setSkipOption({ type: skipType, option: skipOption }));
+    };
+
+  /**
+   * Handles skip option changes.
+   *
+   * @param skipType Skip type to change the option of.
+   */
+  const onChangeSkipIndicatorColour =
+    (skipType: Exclude<SkipType, 'preview'>) =>
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      dispatch(
+        setSkipIndicatorColour({ type: skipType, colour: event.target.value })
+      );
     };
 
   return (
@@ -92,12 +125,20 @@ export function SettingsPage(): JSX.Element {
             <div className="text-xs text-gray-700 uppercase font-semibold">
               {SKIP_TYPE_NAMES[skipType]}
             </div>
-            <Dropdown
-              className="text-sm w-full"
-              value={skipOptions[skipType]!}
-              onChange={onChangeOption(skipType)}
-              options={dropdownOptions}
-            />
+            <div className="flex justify-between items-center space-x-3">
+              <Dropdown
+                className="text-sm grow"
+                value={skipOptions[skipType]!}
+                onChange={onChangeSkipOption(skipType)}
+                options={dropdownOptions}
+              />
+              <input
+                className="h-4 basis-16 bg-transparent"
+                type="color"
+                value={skipIndicatorColours[skipType]}
+                onChange={onChangeSkipIndicatorColour(skipType)}
+              />
+            </div>
           </div>
         ))}
       </div>
