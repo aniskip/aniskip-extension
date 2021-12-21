@@ -29,7 +29,7 @@ export const SkipButton = ({
       }`}
     >
       <DefaultButton
-        className={`transition-opacity font-sans whitespace-nowrap text-white bg-trueGray-800 bg-opacity-80 py-3 border border-gray-300 font-bold uppercase ${
+        className={`transition-opacity font-sans whitespace-nowrap text-white bg-neutral-800 bg-opacity-80 py-3 border border-gray-300 font-bold uppercase ${
           hidden ? 'opacity-0 pointer-events-none' : 'pointer-events-auto '
         }`}
         onClick={onClick}
