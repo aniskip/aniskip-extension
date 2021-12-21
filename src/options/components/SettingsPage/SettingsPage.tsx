@@ -16,7 +16,7 @@ import {
   setSkipOptions,
 } from '../../data';
 
-export const SettingsPage = (): JSX.Element => {
+export function SettingsPage(): JSX.Element {
   const [filteredSkipTypes, setFilteredSkipTypes] = useState<SkipType[]>([]);
   const skipOptions = useSelector<RootState, SkipOptions>(selectSkipOptions);
   const dispatch = useDispatch<Dispatch>();
@@ -124,4 +124,4 @@ export const SettingsPage = (): JSX.Element => {
       </DefaultButton>
     </div>
   );
-};
+}

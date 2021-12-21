@@ -9,9 +9,7 @@ import { useDispatch, useSelector } from '../../hooks';
 import { getDomainName } from '../../utils';
 import { VoteMenuButtonProps } from './VoteMenuButton.types';
 
-export const VoteMenuButton = ({
-  variant,
-}: VoteMenuButtonProps): JSX.Element => {
+export function VoteMenuButton({ variant }: VoteMenuButtonProps): JSX.Element {
   const domainName = getDomainName(window.location.hostname);
   const active = useSelector(selectIsVoteMenuVisible);
   const dispatch = useDispatch();
@@ -48,4 +46,4 @@ export const VoteMenuButton = ({
       <FaListUl className="text-white w-1/2 h-1/2" />
     </div>
   );
-};
+}

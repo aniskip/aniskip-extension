@@ -7,9 +7,9 @@ import { useSelector } from '../../hooks';
 import { selectSkipTimes } from '../../data';
 import { DEFAULT_SKIP_OPTIONS, SkipOptions } from '../../scripts/background';
 
-export const SkipButtonContainer = ({
+export function SkipButtonContainer({
   variant,
-}: SkipButtonContainerProps): JSX.Element => {
+}: SkipButtonContainerProps): JSX.Element {
   const [skipOptions, setSkipOptions] =
     useState<SkipOptions>(DEFAULT_SKIP_OPTIONS);
   const skipTimes = useSelector(selectSkipTimes);
@@ -74,4 +74,4 @@ export const SkipButtonContainer = ({
       })}
     </>
   );
-};
+}

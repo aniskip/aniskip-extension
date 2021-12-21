@@ -13,7 +13,7 @@ import {
   selectSkipTimes,
 } from '../../data';
 
-export const VoteMenu = (): JSX.Element => {
+export function VoteMenu(): JSX.Element {
   const { aniskipHttpClient } = useAniskipHttpClient();
   const [skipTimesVoted, setSkipTimesVoted] = useState<
     Record<string, VoteType>
@@ -231,4 +231,4 @@ export const VoteMenu = (): JSX.Element => {
       </div>
     </div>
   );
-};
+}

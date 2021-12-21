@@ -26,6 +26,12 @@ module.exports = {
       files: ['*.ts', '*.tsx'],
       rules: {
         '@typescript-eslint/explicit-function-return-type': ['error'],
+        'react/function-component-definition': [
+          2,
+          {
+            namedComponents: 'function-declaration',
+          },
+        ],
       },
     },
   ],

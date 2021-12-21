@@ -24,7 +24,7 @@ import {
   selectIsSubmitMenuVisible,
 } from '../../data';
 
-export const SubmitMenu = (): JSX.Element => {
+export function SubmitMenu(): JSX.Element {
   const { aniskipHttpClient } = useAniskipHttpClient();
   const [skipType, setSkipType] = useState<SkipType>('op');
   const [startTime, setStartTime] = useState('');
@@ -560,4 +560,4 @@ export const SubmitMenu = (): JSX.Element => {
       </form>
     </div>
   );
-};
+}

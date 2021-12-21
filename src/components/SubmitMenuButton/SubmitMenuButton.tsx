@@ -10,9 +10,9 @@ import { useDispatch } from '../../hooks';
 import { getDomainName } from '../../utils';
 import { SubmitMenuButtonProps } from './SubmitMenuButton.types';
 
-export const SubmitMenuButton = ({
+export function SubmitMenuButton({
   variant,
-}: SubmitMenuButtonProps): JSX.Element => {
+}: SubmitMenuButtonProps): JSX.Element {
   const domainName = getDomainName(window.location.hostname);
   const active = useSelector(selectIsSubmitMenuVisible);
   const dispatch = useDispatch();
@@ -49,4 +49,4 @@ export const SubmitMenuButton = ({
       <FaCloudUploadAlt className="text-white w-1/2 h-1/2" />
     </div>
   );
-};
+}

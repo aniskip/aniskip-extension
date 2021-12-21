@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction, Selector } from '@reduxjs/toolkit';
-import { SettingsState } from './types';
+import { SettingsState, SetSkipOption } from './types';
 import { DEFAULT_SKIP_OPTIONS, SkipOptions } from '../../../scripts/background';
 import { StateSlice } from '../../../utils';
-import { SetSkipOption } from '.';
 
 /**
  * Initial state.

@@ -5,9 +5,9 @@ import { usePlayerRef } from '../../utils';
 import { SkipTimeIndicator } from '../SkipTimeIndicator';
 import { SkipTimeIndicatorContainerProps } from './SkipTimeIndicatorContainer.types';
 
-export const SkipTimeIndicatorContainer = ({
+export function SkipTimeIndicatorContainer({
   variant,
-}: SkipTimeIndicatorContainerProps): JSX.Element => {
+}: SkipTimeIndicatorContainerProps): JSX.Element {
   const skipTimes = useSelector(selectSkipTimes);
   const player = usePlayerRef();
   const videoDuration = player?.getDuration() ?? 0;
@@ -37,4 +37,4 @@ export const SkipTimeIndicatorContainer = ({
       })}
     </>
   );
-};
+}

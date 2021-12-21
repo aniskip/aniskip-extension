@@ -5,12 +5,12 @@ import { getDomainName } from '../../utils';
 import { DefaultButton } from '../DefaultButton';
 import { SKIP_TYPE_NAMES } from '../../api';
 
-export const SkipButton = ({
+export function SkipButton({
   skipType,
   variant,
   hidden,
   onClick,
-}: SkipButtonProps): JSX.Element => {
+}: SkipButtonProps): JSX.Element {
   const { isFullscreen } = useCheckIsFullscreen();
   const { isMobile } = useCheckIsMobile();
 
@@ -38,4 +38,4 @@ export const SkipButton = ({
       </DefaultButton>
     </div>
   );
-};
+}
