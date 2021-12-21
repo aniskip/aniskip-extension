@@ -30,7 +30,7 @@ jobs:
           yarn zip:chrome
 
       - name: Publish
-        run: yarn webstore upload --source ./web-ext-artifacts/*.zip --auto-publish
+        run: yarn chrome-webstore-upload upload --source ./web-ext-artifacts/*.zip --auto-publish
         env:
           EXTENSION_ID: ${{ env.CHROME_EXTENSION_ID }}
           CLIENT_ID: ${{ env.CHROME_CLIENT_ID }}
