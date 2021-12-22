@@ -35,6 +35,7 @@ export class PlayerFactory {
       case 'kimanime':
       case 'mcloud':
       case 'mcloud2':
+      case 'pstream':
       case 'sbembed':
       case 'sbplay':
       case 'sbplay2':

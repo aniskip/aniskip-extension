@@ -5,6 +5,7 @@
   "injectMenusButtonsReferenceNodeSelectorString": "Settings",
   "seekBarContainerSelectorString": "Seek",
   "playerUrls": [
+    "*://*.pstream.net/e/*",
     "*://*.streamhd.cc/*",
     "*://cloud9.to/*",
     "*://fcdn.stream/*",

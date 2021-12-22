@@ -1,11 +1,12 @@
 import { Page } from './base-page.types';
 import { getDomainName } from '../utils';
-import { Animepahe } from './animepahe';
 import { AniMixPlay } from './animixplay';
+import { Animepahe } from './animepahe';
 import { Aniwatch } from './aniwatch';
 import { Crunchyroll } from './crunchyroll';
 import { FourAnime } from './fouranime';
 import { Gogoanime } from './gogoanime';
+import { NekoSama } from './nekosama';
 import { Nineanime } from './nineanime';
 import { Twistmoe } from './twistmoe';
 
@@ -28,6 +29,8 @@ export class PageFactory {
         return new Animepahe(hostname, pathname, document);
       case 'gogoanime':
         return new Gogoanime(hostname, pathname, document);
+      case 'neko-sama':
+        return new NekoSama(hostname, pathname, document);
       case '9anime':
         return new Nineanime(hostname, pathname, document);
       case 'crunchyroll':
