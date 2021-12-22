@@ -42,8 +42,9 @@ export class Animepahe extends BasePage {
       return 0;
     }
 
-    const episodeString = episodeMenuButton.innerText.split('Episode ')[1];
+    const episodeNumberString =
+      episodeMenuButton.innerText.split('Episode ')[1];
 
-    return parseFloat(episodeString);
+    return parseFloat(episodeNumberString);
   }
 }

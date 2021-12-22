@@ -14,16 +14,16 @@ export class NekoSama extends BasePage {
   }
 
   getRawEpisodeNumber(): number {
-    const episodeStringElement = this.document.querySelector(
+    const episodeNumberStringElement = this.document.querySelector(
       'div.row.no-gutters.anime-info > div.info > div > div > h2'
     );
 
-    const episodeString = (episodeStringElement?.textContent ?? '')
+    const episodeNumberString = (episodeNumberStringElement?.textContent ?? '')
       .trim()
       .split('Episode ')[1];
 
-    if (episodeString) {
-      return parseFloat(episodeString);
+    if (episodeNumberString) {
+      return parseFloat(episodeNumberString);
     }
 
     return 0;

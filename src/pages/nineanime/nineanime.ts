@@ -8,12 +8,12 @@ export class Nineanime extends BasePage {
 
   getRawEpisodeNumber(): number {
     const cleansedPath = this.pathname.replace(/.*\./, '');
-    const episodeString = cleansedPath.split(/\/ep-/)[1];
+    const episodeNumberString = cleansedPath.split(/\/ep-/)[1];
 
-    if (episodeString === 'full') {
+    if (episodeNumberString === 'full') {
       return 1;
     }
 
-    return parseFloat(episodeString);
+    return parseFloat(episodeNumberString);
   }
 }

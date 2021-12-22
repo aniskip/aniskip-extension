@@ -16,12 +16,12 @@ export class AniMixPlay extends BasePage {
   getRawEpisodeNumber(): number {
     const episodeNumberElement = this.document.getElementById('eptitleplace');
 
-    const episodeString = (episodeNumberElement?.textContent ?? '')
+    const episodeNumberString = (episodeNumberElement?.textContent ?? '')
       .trim()
       .split('Episode ')[1];
 
-    if (episodeString) {
-      return parseFloat(episodeString);
+    if (episodeNumberString) {
+      return parseFloat(episodeNumberString);
     }
 
     return 1;
