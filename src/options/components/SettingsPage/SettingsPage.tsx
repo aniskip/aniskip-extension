@@ -64,39 +64,29 @@ export function SettingsPage(): JSX.Element {
     );
 
     (async (): Promise<void> => {
-      const syncedSkipOptions = (
-        await browser.storage.sync.get({ skipOptions: DEFAULT_SKIP_OPTIONS })
-      ).skipOptions as SkipOptions;
-
-      const localSkipIndicatorColours = (
-        await browser.storage.local.get({
-          skipIndicatorColours: DEFAULT_SKIP_INDICATOR_COLOURS,
-        })
-      ).skipIndicatorColours as SkipIndicatorColours;
+      const {
+        skipOptions: syncedSkipOptions,
+        skipIndicatorColours: syncedSkipIndicatorColours,
+      } = await browser.storage.sync.get({
+        skipOptions: DEFAULT_SKIP_OPTIONS,
+        skipIndicatorColours: DEFAULT_SKIP_INDICATOR_COLOURS,
+      });
 
       dispatch(setSkipOptions(syncedSkipOptions));
-      dispatch(setSkipIndicatorColours(localSkipIndicatorColours));
+      dispatch(setSkipIndicatorColours(syncedSkipIndicatorColours));
       dispatch(setIsSettingsLoaded(true));
     })();
   }, []);
 
   /**
-   * Sync skip options with sync browser storage.
+   * Sync options with sync browser storage.
    */
   useEffect(() => {
     if (isSettingsLoaded) {
       browser.storage.sync.set({ skipOptions });
+      browser.storage.sync.set({ skipIndicatorColours });
     }
-  }, [skipOptions, isSettingsLoaded]);
-
-  /**
-   * Sync skip indicator colours with local browser storage.
-   */
-  useEffect(() => {
-    if (isSettingsLoaded) {
-      browser.storage.local.set({ skipIndicatorColours });
-    }
-  }, [skipIndicatorColours, isSettingsLoaded]);
+  }, [skipOptions, skipIndicatorColours, isSettingsLoaded]);
 
   /**
    * Clears the cache.

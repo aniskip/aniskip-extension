@@ -22,7 +22,7 @@ export function SkipTimeIndicatorContainer({
   useEffect(() => {
     (async (): Promise<void> => {
       const syncedSkipIndicatorColours = (
-        await browser.storage.local.get({
+        await browser.storage.sync.get({
           skipIndicatorColours: DEFAULT_SKIP_INDICATOR_COLOURS,
         })
       ).skipIndicatorColours as SkipIndicatorColours;

@@ -82,6 +82,21 @@ const addDefaultSyncOptions = async (): Promise<void> => {
     }
   });
 
+  // Add default skip indicator colours if they are not present.
+  Object.keys(DEFAULT_SYNC_OPTIONS.skipIndicatorColours).forEach((key) => {
+    if (
+      !Object.prototype.hasOwnProperty.call(
+        currentSyncOptions.skipIndicatorColours,
+        key
+      )
+    ) {
+      const typedKey = key as keyof SyncOptions['skipIndicatorColours'];
+
+      currentSyncOptions.skipIndicatorColours[typedKey] =
+        DEFAULT_SYNC_OPTIONS.skipIndicatorColours[typedKey];
+    }
+  });
+
   browser.storage.sync.set(currentSyncOptions);
 };
 
@@ -99,21 +114,6 @@ const addDefaultLocalOptions = async (): Promise<void> => {
       const typedKey = key as keyof LocalOptions;
 
       currentLocalOptions[typedKey] = DEFAULT_LOCAL_OPTIONS[typedKey];
-    }
-  });
-
-  // Add default skip indicator colours if they are not present.
-  Object.keys(DEFAULT_LOCAL_OPTIONS.skipIndicatorColours).forEach((key) => {
-    if (
-      !Object.prototype.hasOwnProperty.call(
-        currentLocalOptions.skipIndicatorColours,
-        key
-      )
-    ) {
-      const typedKey = key as keyof LocalOptions['skipIndicatorColours'];
-
-      currentLocalOptions.skipIndicatorColours[typedKey] =
-        DEFAULT_LOCAL_OPTIONS.skipIndicatorColours[typedKey];
     }
   });
 

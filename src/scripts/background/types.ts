@@ -47,25 +47,25 @@ export type CacheEntry<T> = {
 export const DEFAULT_SYNC_OPTIONS: SyncOptions = {
   userId: uuidv4(),
   skipOptions: DEFAULT_SKIP_OPTIONS,
+  skipIndicatorColours: DEFAULT_SKIP_INDICATOR_COLOURS,
 };
 
 export type SyncOptions = {
   userId: string;
   skipOptions: SkipOptions;
+  skipIndicatorColours: SkipIndicatorColours;
 };
 
 export const DEFAULT_LOCAL_OPTIONS: LocalOptions = {
   malIdCache: {},
   rulesCache: {},
   skipTimesVoted: {},
-  skipIndicatorColours: DEFAULT_SKIP_INDICATOR_COLOURS,
 };
 
 export type LocalOptions = {
   malIdCache: Partial<Record<string, CacheEntry<number>>>;
   rulesCache: Partial<Record<string, CacheEntry<Rule[]>>>;
   skipTimesVoted: Partial<Record<string, VoteType>>;
-  skipIndicatorColours: SkipIndicatorColours;
 };
 
 export type MessageType = 'fetch' | 'get-episode-information';
