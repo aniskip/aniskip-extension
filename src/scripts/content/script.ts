@@ -10,8 +10,8 @@ const getEpisodeInformation = async (): Promise<{
   episodeNumber: number;
   providerName: string;
 }> => {
-  const { pathname, hostname } = window.location;
-  const page = PageFactory.getPage(pathname, hostname);
+  const { hostname, pathname, href } = window.location;
+  const page = PageFactory.getPage(hostname, pathname, href);
 
   await page.applyRules();
   const malId = await page.getMalId();

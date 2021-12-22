@@ -1,6 +1,12 @@
 import { BasePage } from '../base-page';
+import { Metadata } from '../base-page.types';
+import metadata from './metadata.json';
 
 export class NekoSama extends BasePage {
+  static getMetadata(): Metadata {
+    return metadata;
+  }
+
   getTitle(): string {
     const title = this.document.querySelector(
       'div.row.no-gutters.anime-info > div.info > div > div > h1'

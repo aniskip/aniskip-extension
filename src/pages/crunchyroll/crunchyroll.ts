@@ -1,6 +1,12 @@
 import { BasePage } from '../base-page';
+import { Metadata } from '../base-page.types';
+import metadata from './metadata.json';
 
 export class Crunchyroll extends BasePage {
+  static getMetadata(): Metadata {
+    return metadata;
+  }
+
   getIdentifier(): string {
     const title = this.getTitle();
     const encoded = encodeURIComponent(title.toLocaleLowerCase());
@@ -21,11 +27,11 @@ export class Crunchyroll extends BasePage {
   }
 
   getTitle(): string {
-    const metadata = JSON.parse(
+    const pageMetadata = JSON.parse(
       this.document.querySelector('[type="application/ld+json"]')?.innerHTML ??
         '{}'
     );
 
-    return metadata.partOfSeason.name ?? '';
+    return pageMetadata.partOfSeason.name ?? '';
   }
 }

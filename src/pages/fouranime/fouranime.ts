@@ -1,6 +1,12 @@
 import { BasePage } from '../base-page';
+import { Metadata } from '../base-page.types';
+import metadata from './metadata.json';
 
 export class FourAnime extends BasePage {
+  static getMetadata(): Metadata {
+    return metadata;
+  }
+
   getTitle(): string {
     const title = this.document.getElementById('titleleft')?.innerText;
 

@@ -1,11 +1,17 @@
 import { getDomainName } from '../../utils';
 import { BasePage } from '../base-page';
+import { Metadata } from '../base-page.types';
+import metadata from './metadata.json';
 
 export class Animepahe extends BasePage {
   constructor(hostname: string, pathname: string, document: Document) {
     super(hostname, pathname, document);
     const domainName = getDomainName(hostname);
     this.providerName = domainName;
+  }
+
+  static getMetadata(): Metadata {
+    return metadata;
   }
 
   getTitle(): string {
