@@ -127,7 +127,7 @@ export function SettingsPage(): JSX.Element {
       <h1 className="text-lg text-gray-900 font-semibold mb-3">Skip options</h1>
       <div className="space-y-3 w-full mb-6">
         {filteredSkipTypes.map((skipType) => (
-          <div className="space-y-1">
+          <div className="space-y-1" key={skipType}>
             <div className="text-xs text-gray-700 uppercase font-semibold">
               {SKIP_TYPE_NAMES[skipType]}
             </div>
