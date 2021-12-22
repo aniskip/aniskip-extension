@@ -5,10 +5,10 @@ import { ColorResult } from 'react-color';
 import { SkipType, SKIP_TYPES, SKIP_TYPE_NAMES } from '../../../api';
 import { DefaultButton, Dropdown } from '../../../components';
 import {
-  DEFAULT_SKIP_INDICATOR_COLOURS,
+  DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
   DEFAULT_SKIP_OPTIONS,
   LocalOptions,
-  SkipIndicatorColours,
+  SkipTimeIndicatorColours,
   SkipOptions,
   SkipOptionType,
 } from '../../../scripts/background';
@@ -16,11 +16,11 @@ import {
   Dispatch,
   RootState,
   selectIsLoaded,
-  selectSkipIndicatorColours,
+  selectSkipTimeIndicatorColours,
   selectSkipOptions,
   setIsSettingsLoaded,
-  setSkipIndicatorColour,
-  setSkipIndicatorColours,
+  setSkipTimeIndicatorColour,
+  setSkipTimeIndicatorColours,
   setSkipOption,
   setSkipOptions,
 } from '../../data';
@@ -31,9 +31,10 @@ export function SettingsPage(): JSX.Element {
     Exclude<SkipType, 'preview'>[]
   >([]);
   const skipOptions = useSelector<RootState, SkipOptions>(selectSkipOptions);
-  const skipIndicatorColours = useSelector<RootState, SkipIndicatorColours>(
-    selectSkipIndicatorColours
-  );
+  const skipTimeIndicatorColours = useSelector<
+    RootState,
+    SkipTimeIndicatorColours
+  >(selectSkipTimeIndicatorColours);
   const isSettingsLoaded = useSelector<RootState, boolean>(selectIsLoaded);
   const dispatch = useDispatch<Dispatch>();
 
@@ -66,14 +67,14 @@ export function SettingsPage(): JSX.Element {
     (async (): Promise<void> => {
       const {
         skipOptions: syncedSkipOptions,
-        skipIndicatorColours: syncedSkipIndicatorColours,
+        skipTimeIndicatorColours: syncedSkipTimeIndicatorColours,
       } = await browser.storage.sync.get({
         skipOptions: DEFAULT_SKIP_OPTIONS,
-        skipIndicatorColours: DEFAULT_SKIP_INDICATOR_COLOURS,
+        skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
       });
 
       dispatch(setSkipOptions(syncedSkipOptions));
-      dispatch(setSkipIndicatorColours(syncedSkipIndicatorColours));
+      dispatch(setSkipTimeIndicatorColours(syncedSkipTimeIndicatorColours));
       dispatch(setIsSettingsLoaded(true));
     })();
   }, []);
@@ -84,9 +85,9 @@ export function SettingsPage(): JSX.Element {
   useEffect(() => {
     if (isSettingsLoaded) {
       browser.storage.sync.set({ skipOptions });
-      browser.storage.sync.set({ skipIndicatorColours });
+      browser.storage.sync.set({ skipTimeIndicatorColours });
     }
-  }, [skipOptions, skipIndicatorColours, isSettingsLoaded]);
+  }, [skipOptions, skipTimeIndicatorColours, isSettingsLoaded]);
 
   /**
    * Clears the cache.
@@ -116,10 +117,12 @@ export function SettingsPage(): JSX.Element {
    *
    * @param skipType Skip type to change the option of.
    */
-  const onChangeCompleteSkipIndicatorColour =
+  const onChangeCompleteSkipTimeIndicatorColour =
     (skipType: Exclude<SkipType, 'preview'>) =>
     (colour: ColorResult): void => {
-      dispatch(setSkipIndicatorColour({ type: skipType, colour: colour.hex }));
+      dispatch(
+        setSkipTimeIndicatorColour({ type: skipType, colour: colour.hex })
+      );
     };
 
   return (
@@ -139,8 +142,10 @@ export function SettingsPage(): JSX.Element {
                 options={dropdownOptions}
               />
               <ColourPicker
-                colour={skipIndicatorColours[skipType]}
-                onChangeComplete={onChangeCompleteSkipIndicatorColour(skipType)}
+                colour={skipTimeIndicatorColours[skipType]}
+                onChangeComplete={onChangeCompleteSkipTimeIndicatorColour(
+                  skipType
+                )}
               />
             </div>
           </div>

@@ -24,14 +24,14 @@ export const DEFAULT_SKIP_OPTIONS: SkipOptions = {
   recap: 'manual-skip',
 };
 
-export type SkipIndicatorColours = Omit<
+export type SkipTimeIndicatorColours = Omit<
   {
     [T in SkipType]: string;
   },
   'preview'
 >;
 
-export const DEFAULT_SKIP_INDICATOR_COLOURS: SkipIndicatorColours = {
+export const DEFAULT_SKIP_TIME_INDICATOR_COLOURS: SkipTimeIndicatorColours = {
   op: DEFAULT_COLOUR_PICKER_COLOURS[5],
   ed: DEFAULT_COLOUR_PICKER_COLOURS[4],
   'mixed-op': DEFAULT_COLOUR_PICKER_COLOURS[3],
@@ -47,13 +47,13 @@ export type CacheEntry<T> = {
 export const DEFAULT_SYNC_OPTIONS: SyncOptions = {
   userId: uuidv4(),
   skipOptions: DEFAULT_SKIP_OPTIONS,
-  skipIndicatorColours: DEFAULT_SKIP_INDICATOR_COLOURS,
+  skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
 };
 
 export type SyncOptions = {
   userId: string;
   skipOptions: SkipOptions;
-  skipIndicatorColours: SkipIndicatorColours;
+  skipTimeIndicatorColours: SkipTimeIndicatorColours;
 };
 
 export const DEFAULT_LOCAL_OPTIONS: LocalOptions = {

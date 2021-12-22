@@ -83,17 +83,17 @@ const addDefaultSyncOptions = async (): Promise<void> => {
   });
 
   // Add default skip indicator colours if they are not present.
-  Object.keys(DEFAULT_SYNC_OPTIONS.skipIndicatorColours).forEach((key) => {
+  Object.keys(DEFAULT_SYNC_OPTIONS.skipTimeIndicatorColours).forEach((key) => {
     if (
       !Object.prototype.hasOwnProperty.call(
-        currentSyncOptions.skipIndicatorColours,
+        currentSyncOptions.skipTimeIndicatorColours,
         key
       )
     ) {
-      const typedKey = key as keyof SyncOptions['skipIndicatorColours'];
+      const typedKey = key as keyof SyncOptions['skipTimeIndicatorColours'];
 
-      currentSyncOptions.skipIndicatorColours[typedKey] =
-        DEFAULT_SYNC_OPTIONS.skipIndicatorColours[typedKey];
+      currentSyncOptions.skipTimeIndicatorColours[typedKey] =
+        DEFAULT_SYNC_OPTIONS.skipTimeIndicatorColours[typedKey];
     }
   });
 

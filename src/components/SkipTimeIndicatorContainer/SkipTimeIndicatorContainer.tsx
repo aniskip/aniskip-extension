@@ -3,8 +3,8 @@ import { browser } from 'webextension-polyfill-ts';
 import { selectSkipTimes } from '../../data';
 import { useSelector } from '../../hooks';
 import {
-  DEFAULT_SKIP_INDICATOR_COLOURS,
-  SkipIndicatorColours,
+  DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+  SkipTimeIndicatorColours,
 } from '../../scripts/background';
 import { usePlayerRef } from '../../utils';
 import { SkipTimeIndicator } from '../SkipTimeIndicator';
@@ -13,21 +13,21 @@ import { SkipTimeIndicatorContainerProps } from './SkipTimeIndicatorContainer.ty
 export function SkipTimeIndicatorContainer({
   variant,
 }: SkipTimeIndicatorContainerProps): JSX.Element {
-  const [skipIndicatorColours, setSkipIndicatorColours] =
-    useState<SkipIndicatorColours>(DEFAULT_SKIP_INDICATOR_COLOURS);
+  const [skipTimeIndicatorColours, setSkipTimeIndicatorColours] =
+    useState<SkipTimeIndicatorColours>(DEFAULT_SKIP_TIME_INDICATOR_COLOURS);
   const skipTimes = useSelector(selectSkipTimes);
   const player = usePlayerRef();
   const videoDuration = player?.getDuration() ?? 0;
 
   useEffect(() => {
     (async (): Promise<void> => {
-      const syncedSkipIndicatorColours = (
+      const syncedSkipTimeIndicatorColours = (
         await browser.storage.sync.get({
-          skipIndicatorColours: DEFAULT_SKIP_INDICATOR_COLOURS,
+          skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
         })
-      ).skipIndicatorColours as SkipIndicatorColours;
+      ).skipTimeIndicatorColours as SkipTimeIndicatorColours;
 
-      setSkipIndicatorColours(syncedSkipIndicatorColours);
+      setSkipTimeIndicatorColours(syncedSkipTimeIndicatorColours);
     })();
   }, []);
 
@@ -47,8 +47,8 @@ export function SkipTimeIndicatorContainer({
           <SkipTimeIndicator
             style={{
               backgroundColor:
-                skipIndicatorColours[
-                  skipTime.skipType as keyof SkipIndicatorColours
+                skipTimeIndicatorColours[
+                  skipTime.skipType as keyof SkipTimeIndicatorColours
                 ],
             }}
             startTime={startTime + offset}

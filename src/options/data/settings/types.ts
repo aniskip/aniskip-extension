@@ -1,12 +1,12 @@
 import {
-  SkipIndicatorColours,
+  SkipTimeIndicatorColours,
   SkipOptions,
   SkipOptionType,
 } from '../../../scripts/background';
 
 export type SettingsState = {
   skipOptions: SkipOptions;
-  skipIndicatorColours: SkipIndicatorColours;
+  skipTimeIndicatorColours: SkipTimeIndicatorColours;
   isSettingsLoaded: boolean;
 };
 
@@ -15,7 +15,7 @@ export type SetSkipOption = {
   option: SkipOptionType;
 };
 
-export type SetSkipIndicatorColour = {
-  type: keyof SkipIndicatorColours;
+export type SetSkipTimeIndicatorColour = {
+  type: keyof SkipTimeIndicatorColours;
   colour: string;
 };

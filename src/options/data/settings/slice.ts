@@ -1,9 +1,13 @@
 import { createSlice, PayloadAction, Selector } from '@reduxjs/toolkit';
-import { SettingsState, SetSkipOption, SetSkipIndicatorColour } from './types';
 import {
-  DEFAULT_SKIP_INDICATOR_COLOURS,
+  SettingsState,
+  SetSkipOption,
+  SetSkipTimeIndicatorColour,
+} from './types';
+import {
+  DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
   DEFAULT_SKIP_OPTIONS,
-  SkipIndicatorColours,
+  SkipTimeIndicatorColours,
   SkipOptions,
 } from '../../../scripts/background';
 import { StateSlice } from '../../../utils';
@@ -13,7 +17,7 @@ import { StateSlice } from '../../../utils';
  */
 const initialSettingsState: SettingsState = {
   skipOptions: DEFAULT_SKIP_OPTIONS,
-  skipIndicatorColours: DEFAULT_SKIP_INDICATOR_COLOURS,
+  skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
   isSettingsLoaded: false,
 };
 
@@ -25,10 +29,10 @@ export const selectSkipOptions: Selector<
   SkipOptions
 > = (state) => state.settings.skipOptions;
 
-export const selectSkipIndicatorColours: Selector<
+export const selectSkipTimeIndicatorColours: Selector<
   StateSlice<SettingsState, 'settings'>,
-  SkipIndicatorColours
-> = (state) => state.settings.skipIndicatorColours;
+  SkipTimeIndicatorColours
+> = (state) => state.settings.skipTimeIndicatorColours;
 
 export const selectIsLoaded: Selector<
   StateSlice<SettingsState, 'settings'>,
@@ -48,17 +52,18 @@ const settingsStateSlice = createSlice({
     setSkipOptions: (state, action: PayloadAction<SkipOptions>) => {
       state.skipOptions = action.payload;
     },
-    setSkipIndicatorColour: (
+    setSkipTimeIndicatorColour: (
       state,
-      action: PayloadAction<SetSkipIndicatorColour>
+      action: PayloadAction<SetSkipTimeIndicatorColour>
     ) => {
-      state.skipIndicatorColours[action.payload.type] = action.payload.colour;
+      state.skipTimeIndicatorColours[action.payload.type] =
+        action.payload.colour;
     },
-    setSkipIndicatorColours: (
+    setSkipTimeIndicatorColours: (
       state,
-      action: PayloadAction<SkipIndicatorColours>
+      action: PayloadAction<SkipTimeIndicatorColours>
     ) => {
-      state.skipIndicatorColours = action.payload;
+      state.skipTimeIndicatorColours = action.payload;
     },
     setIsSettingsLoaded: (state, action: PayloadAction<boolean>) => {
       state.isSettingsLoaded = action.payload;
@@ -69,8 +74,8 @@ const settingsStateSlice = createSlice({
 export const {
   setSkipOption,
   setSkipOptions,
-  setSkipIndicatorColour,
-  setSkipIndicatorColours,
+  setSkipTimeIndicatorColour,
+  setSkipTimeIndicatorColours,
   setIsSettingsLoaded,
 } = settingsStateSlice.actions;
 export default settingsStateSlice.reducer;
