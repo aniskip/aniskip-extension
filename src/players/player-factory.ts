@@ -1,4 +1,4 @@
-import { getDomainName } from '../utils/string';
+import globToRegExp from 'glob-to-regexp';
 import { Doodstream } from './doodstream';
 import { FourAnime, Videojs } from './videojs';
 import { Jw } from './jw';
@@ -8,57 +8,37 @@ import { Crunchyroll } from './crunchyroll';
 import { Player } from './base-player.types';
 
 export class PlayerFactory {
+  static players = [
+    Crunchyroll,
+    Doodstream,
+    FourAnime,
+    Jw,
+    Plyr,
+    Twistmoe,
+    Videojs,
+  ];
+
   /**
    * Obtains the player object from the domain.
    *
-   * @param hostname Player's host.
+   * @param url Player's url.
    */
-  static getPlayer(hostname: string): Player {
-    const domainName = getDomainName(hostname);
-    switch (domainName) {
-      case 'animixplay':
-      case 'aniwatch':
-      case 'github':
-      case 'googleapis':
-      case 'jzscuqezoqkcpvy':
-      case 'kwik':
-      case 'streamtape':
-      case 'vvid':
-        return new Plyr(document);
-      case 'crunchyroll':
-        return new Crunchyroll(document);
-      case 'cloud9':
-      case 'fcdn':
-      case 'fembed-hd':
-      case 'gogo-play':
-      case 'gogoplay1':
-      case 'kimanime':
-      case 'mcloud':
-      case 'mcloud2':
-      case 'pstream':
-      case 'sbembed':
-      case 'sbplay':
-      case 'sbplay2':
-      case 'sbvideo':
-      case 'streamani':
-      case 'streamhd':
-      case 'streamsb':
-      case 'videovard':
-      case 'vidstream':
-      case 'vidstreamz':
-        return new Jw(document);
-      case 'dood':
-        return new Doodstream(document);
-      case 'mixdrop':
-      case 'mp4':
-      case 'mp4upload':
-        return new Videojs(document);
-      case '4anime':
-        return new FourAnime(document);
-      case 'twist':
-        return new Twistmoe(document);
-      default:
-        throw new Error(`Player ${hostname} not supported`);
+  static getPlayer(url: string): Player {
+    for (let i = 0; i < PlayerFactory.players.length; i += 1) {
+      const CurrentPlayer = PlayerFactory.players[i];
+
+      const metadata = CurrentPlayer.getMetadata();
+      const { playerUrls } = metadata;
+
+      for (let j = 0; j < playerUrls.length; j += 1) {
+        const matcher = globToRegExp(playerUrls[j]);
+
+        if (matcher.test(url)) {
+          return new CurrentPlayer(document);
+        }
+      }
     }
+
+    throw new Error(`Player ${url} not supported`);
   }
 }

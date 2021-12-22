@@ -24,7 +24,7 @@ import {
   Store,
 } from '../data';
 
-export abstract class BasePlayer implements Player {
+export class BasePlayer implements Player {
   document: Document;
 
   metadata: Metadata;
@@ -189,6 +189,10 @@ export abstract class BasePlayer implements Player {
 
   getIsReady(): boolean {
     return selectIsPlayerReady(this.store.getState());
+  }
+
+  static getMetadata(): Metadata {
+    throw new Error('getMetadata() not yet implemented');
   }
 
   getCurrentTime(): number {

@@ -1,6 +1,6 @@
 import { PlayerFactory } from '../../players/player-factory';
 
-const player = PlayerFactory.getPlayer(window.location.hostname);
+const player = PlayerFactory.getPlayer(window.location.href);
 
 // Notify content script when video controls are found.
 new MutationObserver((_mutations, observer) => {

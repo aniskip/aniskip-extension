@@ -10,7 +10,7 @@ export type Metadata = {
   playerUrls: string[];
 };
 
-export type Player = {
+export interface Player {
   document: Document;
 
   metadata: Metadata;
@@ -77,4 +77,4 @@ export type Player = {
    * @param videoElement Video element of the player.
    */
   setVideoElement(videoElement: HTMLVideoElement): void;
-};
+}

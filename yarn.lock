@@ -1315,6 +1315,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/glob-to-regexp@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "@types/glob-to-regexp@npm:0.4.1"
+  checksum: 992029e48c05333e3d64495bf12c8b92bfbdfc21b5284496e669ee73e03921dc101b986d5a331699f66ca952d9029e0e11f3bb4d2bb71048941e0e29dade3b00
+  languageName: node
+  linkType: hard
+
 "@types/glob@npm:^7.1.1":
   version: 7.1.3
   resolution: "@types/glob@npm:7.1.3"
@@ -13346,6 +13353,7 @@ resolve@^2.0.0-next.3:
     "@redux-devtools/cli": ^1.0.0-10
     "@reduxjs/toolkit": ^1.6.1
     "@types/chrome": ^0.0.171
+    "@types/glob-to-regexp": ^0.4.1
     "@types/react": ^17.0.37
     "@types/react-color": ^3.0.6
     "@types/react-dom": ^17.0.11
@@ -13374,6 +13382,7 @@ resolve@^2.0.0-next.3:
     eslint-plugin-react: ^7.27.1
     eslint-plugin-react-hooks: ^4.3.0
     fork-ts-checker-webpack-plugin: ^6.5.0
+    glob-to-regexp: ^0.4.1
     html-webpack-plugin: ^5.5.0
     mini-css-extract-plugin: ^2.4.5
     npm-run-all: ^4.1.5
