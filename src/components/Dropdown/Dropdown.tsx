@@ -49,7 +49,7 @@ export function Dropdown({
             className={`transition transform origin-top bg-white rounded mt-2 absolute w-full shadow-lg z-10 border overflow-y-auto border-gray-200 py-1 focus:outline-none ${
               open
                 ? 'opacity-100 scale-y-100'
-                : 'opacity-0 scale-y-90 pointer-events-none'
+                : 'opacity-0 scale-y-95 pointer-events-none'
             }
             ${dropdownOptionsProps?.className ?? ''}`}
             static
