@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { browser } from 'webextension-polyfill-ts';
+import { ColorResult } from 'react-color';
 import { SkipType, SKIP_TYPES, SKIP_TYPE_NAMES } from '../../../api';
 import { DefaultButton, Dropdown } from '../../../components';
 import {
@@ -23,6 +24,7 @@ import {
   setSkipOption,
   setSkipOptions,
 } from '../../data';
+import { ColourPicker } from '../ColourPicker';
 
 export function SettingsPage(): JSX.Element {
   const [filteredSkipTypes, setFilteredSkipTypes] = useState<
@@ -124,12 +126,10 @@ export function SettingsPage(): JSX.Element {
    *
    * @param skipType Skip type to change the option of.
    */
-  const onChangeSkipIndicatorColour =
+  const onChangeCompleteSkipIndicatorColour =
     (skipType: Exclude<SkipType, 'preview'>) =>
-    (event: React.ChangeEvent<HTMLInputElement>): void => {
-      dispatch(
-        setSkipIndicatorColour({ type: skipType, colour: event.target.value })
-      );
+    (colour: ColorResult): void => {
+      dispatch(setSkipIndicatorColour({ type: skipType, colour: colour.hex }));
     };
 
   return (
@@ -148,11 +148,9 @@ export function SettingsPage(): JSX.Element {
                 onChange={onChangeSkipOption(skipType)}
                 options={dropdownOptions}
               />
-              <input
-                className="h-4 basis-16 bg-transparent"
-                type="color"
-                value={skipIndicatorColours[skipType]}
-                onChange={onChangeSkipIndicatorColour(skipType)}
+              <ColourPicker
+                colour={skipIndicatorColours[skipType]}
+                onChangeComplete={onChangeCompleteSkipIndicatorColour(skipType)}
               />
             </div>
           </div>

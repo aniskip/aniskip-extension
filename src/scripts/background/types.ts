@@ -5,6 +5,7 @@ import {
   SkipType,
   VoteType,
 } from '../../api/aniskip-http-client/aniskip-http-client.types';
+import { DEFAULT_COLOUR_PICKER_COLOURS } from '../../options/components/ColourPicker/ColourPicker.types';
 
 export type SkipOptionType = 'disabled' | 'auto-skip' | 'manual-skip';
 
@@ -31,11 +32,11 @@ export type SkipIndicatorColours = Omit<
 >;
 
 export const DEFAULT_SKIP_INDICATOR_COLOURS: SkipIndicatorColours = {
-  op: '#1d4ed8',
-  ed: '#1d4ed8',
-  'mixed-op': '#a21caf',
-  'mixed-ed': '#a21caf',
-  recap: '#be123c',
+  op: DEFAULT_COLOUR_PICKER_COLOURS[5],
+  ed: DEFAULT_COLOUR_PICKER_COLOURS[4],
+  'mixed-op': DEFAULT_COLOUR_PICKER_COLOURS[3],
+  'mixed-ed': DEFAULT_COLOUR_PICKER_COLOURS[2],
+  recap: DEFAULT_COLOUR_PICKER_COLOURS[8],
 };
 
 export type CacheEntry<T> = {
