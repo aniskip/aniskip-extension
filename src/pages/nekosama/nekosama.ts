@@ -18,13 +18,12 @@ export class NekoSama extends BasePage {
       'div.row.no-gutters.anime-info > div.info > div > div > h2'
     );
 
-    const episodeString = (episodeStringElement?.textContent ?? '').split(
-      ' Episode '
-    )[1];
+    const episodeString = (episodeStringElement?.textContent ?? '')
+      .trim()
+      .split('Episode ')[1];
 
     if (episodeString) {
-      const episodeNumber = parseInt(episodeString, 10);
-      return episodeNumber;
+      return parseFloat(episodeString);
     }
 
     return 0;

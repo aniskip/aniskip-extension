@@ -14,10 +14,14 @@ export class AniMixPlay extends BasePage {
   }
 
   getRawEpisodeNumber(): number {
-    const episodeString = this.pathname.split('ep')[1];
+    const episodeNumberElement = this.document.getElementById('eptitleplace');
+
+    const episodeString = (episodeNumberElement?.textContent ?? '')
+      .trim()
+      .split('Episode ')[1];
+
     if (episodeString) {
-      const episodeNumber = parseInt(episodeString, 10);
-      return episodeNumber;
+      return parseFloat(episodeString);
     }
 
     return 1;

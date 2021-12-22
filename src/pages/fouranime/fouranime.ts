@@ -13,9 +13,9 @@ export class FourAnime extends BasePage {
 
   getRawEpisodeNumber(): number {
     const episodeString = this.pathname.split('episode-')[1];
+
     if (episodeString) {
-      const episodeNumber = parseInt(episodeString, 10);
-      return episodeNumber;
+      return parseFloat(episodeString);
     }
 
     return 1;

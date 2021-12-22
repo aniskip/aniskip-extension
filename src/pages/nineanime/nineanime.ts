@@ -14,8 +14,6 @@ export class Nineanime extends BasePage {
       return 1;
     }
 
-    const episodeNumber = parseInt(episodeString, 10);
-
-    return episodeNumber;
+    return parseFloat(episodeString);
   }
 }

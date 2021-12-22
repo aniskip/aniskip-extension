@@ -9,13 +9,15 @@ export class Crunchyroll extends BasePage {
   }
 
   getRawEpisodeNumber(): number {
-    const matches = this.pathname.match(/episode-([0-9]+)/);
-    if (matches) {
-      const episodeNumber = parseInt(matches[1], 10);
-      return episodeNumber;
-    }
+    const episodeNumberElement = this.document.querySelector(
+      '#showmedia_about_media > h4:not(#showmedia_about_episode_num)'
+    );
 
-    return 1;
+    const episodeNumberString = (
+      episodeNumberElement?.textContent ?? ''
+    ).trim();
+
+    return parseFloat(episodeNumberString.split('Episode ')[1]) || 1;
   }
 
   getTitle(): string {

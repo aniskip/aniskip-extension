@@ -10,6 +10,6 @@ export class Twistmoe extends BasePage {
   }
 
   getRawEpisodeNumber(): number {
-    return parseInt(this.pathname.split('/')[3], 10);
+    return parseFloat(this.pathname.split('/')[3]);
   }
 }

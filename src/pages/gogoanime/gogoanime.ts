@@ -7,6 +7,6 @@ export class Gogoanime extends BasePage {
   }
 
   getRawEpisodeNumber(): number {
-    return parseInt(this.pathname.split('-episode-')[1], 10);
+    return parseFloat(this.pathname.split('-episode-')[1]);
   }
 }
