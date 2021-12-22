@@ -9,7 +9,7 @@ export function SkipButton({
   skipType,
   variant,
   hidden,
-  onClick,
+  ...props
 }: SkipButtonProps): JSX.Element {
   const { isFullscreen } = useCheckIsFullscreen();
   const { isMobile } = useCheckIsMobile();
@@ -32,7 +32,7 @@ export function SkipButton({
         className={`transition-opacity font-sans whitespace-nowrap text-white bg-neutral-800 bg-opacity-80 py-3 border border-gray-300 font-bold uppercase ${
           hidden ? 'opacity-0 pointer-events-none' : 'pointer-events-auto '
         }`}
-        onClick={onClick}
+        {...props}
       >
         {`Skip ${SKIP_TYPE_NAMES[skipType]}`}
       </DefaultButton>
