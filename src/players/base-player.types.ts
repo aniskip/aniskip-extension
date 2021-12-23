@@ -34,6 +34,11 @@ export interface Player {
   getCurrentTime(): number;
 
   /**
+   * Returns the root video container element.
+   */
+  getVideoContainer(): HTMLElement | null;
+
+  /**
    * Returns the video controls container element.
    */
   getVideoControlsContainer(): HTMLElement | null;

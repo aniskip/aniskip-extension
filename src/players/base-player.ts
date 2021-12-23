@@ -199,9 +199,6 @@ export class BasePlayer implements Player {
     return this.videoElement?.currentTime ?? 0;
   }
 
-  /**
-   * Returns the root video container element.
-   */
   getVideoContainer(): HTMLElement | null {
     return this.document.getElementById(
       this.metadata.videoContainerSelectorString

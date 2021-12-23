@@ -13,11 +13,16 @@ export function SkipButtonContainer({
 }: SkipButtonContainerProps): JSX.Element | null {
   const [skipOptions, setSkipOptions] =
     useState<SkipOptions>(DEFAULT_SKIP_OPTIONS);
+  const [timeRemaining, setTimeRemaining] = useState<number>(0);
+  const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setInterval>>();
   const skipTimes = useSelector(selectSkipTimes);
   const player = usePlayerRef();
 
+  const videoDuration = player?.getDuration() ?? 0;
+  const currentTime = player?.getCurrentTime() ?? 0;
+
   /**
-   * Retrieve the skip options.
+   * Retrieve the skip options and initialise countdown.
    */
   useEffect(() => {
     const initialiseSkipOptions = async (): Promise<void> => {
@@ -31,7 +36,40 @@ export function SkipButtonContainer({
     };
 
     initialiseSkipOptions();
+
+    // Setup countdown.
+    if (!timeoutId) {
+      setTimeoutId(
+        setInterval((): void => {
+          setTimeRemaining((currentTimeRemaining) =>
+            currentTimeRemaining > 0 ? currentTimeRemaining - 1 : 0
+          );
+        }, 1000)
+      );
+    }
+
+    return (): void => {
+      if (timeoutId) {
+        clearInterval(timeoutId);
+      }
+    };
   }, []);
+
+  /**
+   * Add on mouse move event listener.
+   */
+  useEffect(() => {
+    const onMouseMove = (): void => {
+      setTimeRemaining(3);
+    };
+
+    const videoElement = player?.getVideoContainer();
+
+    videoElement?.addEventListener('mousemove', onMouseMove);
+
+    return (): void =>
+      videoElement?.removeEventListener('mousemove', onMouseMove);
+  }, [player]);
 
   /**
    * Changes the player current time to the skip end time.
@@ -55,8 +93,6 @@ export function SkipButtonContainer({
         return;
       }
 
-      const currentTime = player?.getCurrentTime() ?? 0;
-
       const { skipType, interval } = skipTime;
       const isManualSkip = skipOptions[skipType] === 'manual-skip';
 
@@ -71,25 +107,51 @@ export function SkipButtonContainer({
     return closestSkipTime;
   };
 
+  /**
+   * Calculates whether or not the player controls are visible.
+   */
+  const calculateIsPlayerControlsVisible = (): boolean => {
+    const playerControlsElement = player?.getVideoControlsContainer();
+
+    if (!playerControlsElement) {
+      return false;
+    }
+
+    const opacity = window
+      .getComputedStyle(playerControlsElement)
+      .getPropertyValue('opacity');
+
+    return parseFloat(opacity) > 0;
+  };
+
   const closestSkipTime = getClosestSkipTime();
 
   if (!closestSkipTime) {
     return null;
   }
 
-  const videoDuration = player?.getDuration() ?? 0;
-  const currentTime = player?.getCurrentTime() ?? 0;
-
   const { startTime, endTime } = closestSkipTime.interval;
   const offset = videoDuration - closestSkipTime.episodeLength;
 
   const inInterval = isInInterval(startTime, endTime, currentTime, offset);
+  const isInStartingInterval = isInInterval(
+    startTime,
+    startTime + 8,
+    currentTime,
+    offset
+  );
+
+  const isPlayerControlsVisible = calculateIsPlayerControlsVisible();
+
+  const isVisible =
+    isInStartingInterval ||
+    (inInterval && timeRemaining !== 0 && isPlayerControlsVisible);
 
   return (
     <SkipButton
       skipType={closestSkipTime.skipType}
       variant={variant}
-      hidden={!inInterval}
+      hidden={!isVisible}
       onClick={onClick(endTime + offset)}
     />
   );
