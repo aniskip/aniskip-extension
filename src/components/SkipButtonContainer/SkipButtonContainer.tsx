@@ -20,8 +20,12 @@ export function SkipButtonContainer({
    */
   useEffect(() => {
     const initialiseSkipOptions = async (): Promise<void> => {
-      const { skipOptions: currentSkipOptions } =
-        await browser.storage.sync.get('skipOptions');
+      const currentSkipOptions = (
+        await browser.storage.sync.get({
+          skipOptions: DEFAULT_SKIP_OPTIONS,
+        })
+      ).skipOptions;
+
       setSkipOptions(currentSkipOptions);
     };
 

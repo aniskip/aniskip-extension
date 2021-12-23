@@ -275,14 +275,12 @@ export class BasePlayer implements Player {
    * Injects the skip button into the player.
    */
   injectSkipButtons(): void {
-    const settingsButtonElement = this.getSettingsButtonElement();
+    const videoContainer = this.getVideoContainer();
     if (
-      settingsButtonElement &&
+      videoContainer &&
       !this.document.getElementById(this.skipButtonRenderer.id)
     ) {
-      settingsButtonElement.parentElement?.appendChild(
-        this.skipButtonRenderer.shadowRootContainer
-      );
+      videoContainer.appendChild(this.skipButtonRenderer.shadowRootContainer);
     }
   }
 

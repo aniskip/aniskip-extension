@@ -105,8 +105,12 @@ form {
       bottom: 4em;
     }
 
-    &--crunchyroll--mobile {
-      right: 0px;
+    &--crunchyroll {
+      bottom: 7em;
+
+      &--mobile {
+        right: 0px;
+      }
     }
 
     &--jw {
