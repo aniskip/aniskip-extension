@@ -28,10 +28,11 @@ export class AniskipHttpClient extends BaseHttpClient {
   async getSkipTimes(
     animeId: number,
     episodeNumber: number,
-    types: SkipType[]
+    types: SkipType[],
+    episodeLength: number
   ): Promise<GetResponseFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
-    const params = { 'types[]': types };
+    const params = { 'types[]': types, episodeLength };
     const response = await this.request(route, 'GET', params);
 
     return response.json<GetResponseFromSkipTimes>();

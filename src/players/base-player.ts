@@ -253,14 +253,17 @@ export class BasePlayer implements Player {
       }
     });
 
-    if (skipTimeTypes.length === 0) {
+    const episodeLength = this.getDuration();
+
+    if (skipTimeTypes.length === 0 || episodeLength === 0) {
       return;
     }
 
     const getSkipTimesResponse = await aniskipHttpClient.getSkipTimes(
       malId,
       episodeNumber,
-      skipTimeTypes
+      skipTimeTypes,
+      episodeLength
     );
 
     if (getSkipTimesResponse.found) {
