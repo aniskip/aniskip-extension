@@ -19,6 +19,9 @@ export function SkipTimeIndicatorContainer({
   const player = usePlayerRef();
   const videoDuration = player?.getDuration() ?? 0;
 
+  /**
+   * Get skip time indicator colours.
+   */
   useEffect(() => {
     (async (): Promise<void> => {
       const syncedSkipTimeIndicatorColours = (

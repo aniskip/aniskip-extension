@@ -25,6 +25,9 @@ export function VoteMenu(): JSX.Element {
   const dispatch = useDispatch();
   const player = usePlayerRef();
 
+  /**
+   * Initialise filtered skip times and voted skip times.
+   */
   useEffect(() => {
     const sortedSkipTimes = [...skipTimes].sort(
       (a, b) => a.interval.startTime - b.interval.endTime
@@ -34,18 +37,14 @@ export function VoteMenu(): JSX.Element {
     ];
     setFilteredSkipTimes(sortedAndFilteredSkipTimes);
 
+    const duration = player?.getDuration() ?? 0;
+    setPlayerDuration(duration);
+
     (async (): Promise<void> => {
-      const { skipTimesVoted: currentSkipTimesVoted } =
-        await browser.storage.local.get('skipTimesVoted');
+      const currentSkipTimesVoted = (
+        await browser.storage.local.get('skipTimesVoted')
+      ).skipTimesVoted;
       setSkipTimesVoted(currentSkipTimesVoted);
-
-      if (skipTimes.length === 0) {
-        return;
-      }
-
-      const duration = player?.getDuration() ?? 0;
-
-      setPlayerDuration(duration);
     })();
   }, [skipTimes]);
 
