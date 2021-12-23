@@ -3,6 +3,12 @@ import { Metadata } from '../base-page.types';
 import metadata from './metadata.json';
 
 export class NekoSama extends BasePage {
+  constructor(hostname: string, pathname: string, document: Document) {
+    super(hostname, pathname, document);
+
+    this.providerName = 'NekoSama';
+  }
+
   static getMetadata(): Metadata {
     return metadata;
   }
@@ -16,7 +22,7 @@ export class NekoSama extends BasePage {
   }
 
   getIdentifier(): string {
-    return this.pathname.split('/')[3];
+    return this.pathname.split('/')[3].split('-')[0];
   }
 
   getRawEpisodeNumber(): number {
