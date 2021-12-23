@@ -37,6 +37,8 @@ export class BasePlayer implements Player {
 
   store: Store;
 
+  lastControlsOpacity: number;
+
   playerButtonsRenderer: PlayerButtonsRenderer;
 
   menusRenderer: MenusRenderer;
@@ -51,7 +53,7 @@ export class BasePlayer implements Player {
     this.videoElement = null;
     this.scheduledSkipTime = null;
     this.store = configuredStore;
-
+    this.lastControlsOpacity = 0;
     this.skipOptions = DEFAULT_SKIP_OPTIONS;
 
     (async (): Promise<void> => {
@@ -325,6 +327,24 @@ export class BasePlayer implements Player {
       );
       this.playerButtonsRenderer.render();
     }
+  }
+
+  isControlsVisible(): boolean {
+    const playerControlsElement = this.getVideoControlsContainer();
+
+    if (!playerControlsElement) {
+      return false;
+    }
+
+    const opacityString = window
+      .getComputedStyle(playerControlsElement)
+      .getPropertyValue('opacity');
+
+    const opacity = parseFloat(opacityString);
+    const isOpacityIncreasing = this.lastControlsOpacity < opacity;
+    this.lastControlsOpacity = opacity;
+
+    return isOpacityIncreasing || opacity === 1;
   }
 
   play(): void {

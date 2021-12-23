@@ -30,7 +30,12 @@ export class Crunchyroll extends BasePlayer {
         this.injectSubmitMenuButton();
         this.injectSkipTimeIndicator();
         this.injectSkipButtons();
+        this.skipButtonRenderer.render();
       }).observe(controlsPackage, { childList: true });
     }
+  }
+
+  isControlsVisible(): boolean {
+    return !!this.document.getElementById(this.playerButtonsRenderer.id);
   }
 }

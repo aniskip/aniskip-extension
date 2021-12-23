@@ -54,6 +54,11 @@ export interface Player {
   initialise(): void;
 
   /**
+   * Checks if the player controls are visible to the user.
+   */
+  isControlsVisible(): boolean;
+
+  /**
    * Plays the player.
    */
   play(): void;

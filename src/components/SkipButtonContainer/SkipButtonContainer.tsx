@@ -13,8 +13,6 @@ export function SkipButtonContainer({
 }: SkipButtonContainerProps): JSX.Element | null {
   const [skipOptions, setSkipOptions] =
     useState<SkipOptions>(DEFAULT_SKIP_OPTIONS);
-  const [timeRemaining, setTimeRemaining] = useState<number>(0);
-  const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setInterval>>();
   const skipTimes = useSelector(selectSkipTimes);
   const player = usePlayerRef();
 
@@ -36,40 +34,7 @@ export function SkipButtonContainer({
     };
 
     initialiseSkipOptions();
-
-    // Setup countdown.
-    if (!timeoutId) {
-      setTimeoutId(
-        setInterval((): void => {
-          setTimeRemaining((currentTimeRemaining) =>
-            currentTimeRemaining > 0 ? currentTimeRemaining - 1 : 0
-          );
-        }, 1000)
-      );
-    }
-
-    return (): void => {
-      if (timeoutId) {
-        clearInterval(timeoutId);
-      }
-    };
   }, []);
-
-  /**
-   * Add on mouse move event listener.
-   */
-  useEffect(() => {
-    const onMouseMove = (): void => {
-      setTimeRemaining(3);
-    };
-
-    const videoElement = player?.getVideoContainer();
-
-    videoElement?.addEventListener('mousemove', onMouseMove);
-
-    return (): void =>
-      videoElement?.removeEventListener('mousemove', onMouseMove);
-  }, [player]);
 
   /**
    * Changes the player current time to the skip end time.
@@ -107,23 +72,6 @@ export function SkipButtonContainer({
     return closestSkipTime;
   };
 
-  /**
-   * Calculates whether or not the player controls are visible.
-   */
-  const calculateIsPlayerControlsVisible = (): boolean => {
-    const playerControlsElement = player?.getVideoControlsContainer();
-
-    if (!playerControlsElement) {
-      return false;
-    }
-
-    const opacity = window
-      .getComputedStyle(playerControlsElement)
-      .getPropertyValue('opacity');
-
-    return parseFloat(opacity) > 0;
-  };
-
   const closestSkipTime = getClosestSkipTime();
 
   if (!closestSkipTime) {
@@ -141,11 +89,10 @@ export function SkipButtonContainer({
     offset
   );
 
-  const isPlayerControlsVisible = calculateIsPlayerControlsVisible();
+  const isPlayerControlsVisible = player?.isControlsVisible() ?? false;
 
   const isVisible =
-    isInStartingInterval ||
-    (inInterval && timeRemaining !== 0 && isPlayerControlsVisible);
+    isInStartingInterval || (inInterval && isPlayerControlsVisible);
 
   return (
     <SkipButton
