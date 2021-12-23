@@ -12,25 +12,6 @@ export class Crunchyroll extends BasePlayer {
     return metadata;
   }
 
-  injectSkipButtons(): void {
-    if (isMobileCheck()) {
-      const seekBarContainer = this.getSeekBarContainer();
-
-      if (
-        seekBarContainer &&
-        !this.document.getElementById(this.skipButtonRenderer.id)
-      ) {
-        seekBarContainer.parentElement?.appendChild(
-          this.skipButtonRenderer.shadowRootContainer
-        );
-      }
-
-      return;
-    }
-
-    super.injectSkipButtons();
-  }
-
   getSeekBarContainer(): HTMLElement | null {
     if (isMobileCheck()) {
       return super.getContainerHelper(
