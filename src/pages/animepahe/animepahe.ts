@@ -6,6 +6,7 @@ import metadata from './metadata.json';
 export class Animepahe extends BasePage {
   constructor(hostname: string, pathname: string, document: Document) {
     super(hostname, pathname, document);
+
     const domainName = getDomainName(hostname);
     this.providerName = domainName;
   }
