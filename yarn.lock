@@ -1219,15 +1219,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cssnano@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@types/cssnano@npm:4.0.1"
-  dependencies:
-    postcss: 5 - 7
-  checksum: 183fa4c41d82c32ef4ddd7ead1eabfa911d0c4ecdcbe78d0289167bf83b129fee0c7160c7247f07163579a4b584b92eda664bbf021b14836370e00c0e437ae19
-  languageName: node
-  linkType: hard
-
 "@types/d3@npm:^3.5.46":
   version: 3.5.46
   resolution: "@types/d3@npm:3.5.46"
@@ -1565,7 +1556,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^17.0.33, @types/react@npm:^17.0.37":
+"@types/react@npm:^17.0.33":
   version: 17.0.37
   resolution: "@types/react@npm:17.0.37"
   dependencies:
@@ -1573,6 +1564,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: e68b0d59aa69577fc6a6d654b25d5d8408625498f4c483f160b557fac21e840f6e8807cbde93e9f039949b6d624a019b1990d18499c1d65aecf3605c25e30242
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^17.0.38":
+  version: 17.0.38
+  resolution: "@types/react@npm:17.0.38"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: 4079f4f959cd4a4bfaeda8b89fe8a1b1f8bdc9d87acfdc5f74a0b39cec9ec6a470724357c62778c0f063180b360c250e920c5a142f1dbcda67d9cc25a6d43a85
   languageName: node
   linkType: hard
 
@@ -4158,11 +4160,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-minimizer-webpack-plugin@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "css-minimizer-webpack-plugin@npm:3.3.0"
+"css-minimizer-webpack-plugin@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "css-minimizer-webpack-plugin@npm:3.3.1"
   dependencies:
-    "@types/cssnano": ^4.0.1
     cssnano: ^5.0.6
     jest-worker: ^27.0.2
     postcss: ^8.3.5
@@ -4178,7 +4179,7 @@ __metadata:
       optional: true
     esbuild:
       optional: true
-  checksum: 53a7c9551602d899aafecc1ca7f012f3c506af3b853e7cb3f3d9313956d06a8177c7c22491fb21cec9de58e030c8234e1921e01902ebcc88ae3a9212b75fe06b
+  checksum: 5e054ef608702dba55dec629503618acfbebb9566f92058a1ebf372f0feb47b9faa3de7142372be629fa327a7223c614b325a08d955d080a64a06983c8782321
   languageName: node
   linkType: hard
 
@@ -5349,9 +5350,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:^7.27.1":
-  version: 7.27.1
-  resolution: "eslint-plugin-react@npm:7.27.1"
+"eslint-plugin-react@npm:^7.28.0":
+  version: 7.28.0
+  resolution: "eslint-plugin-react@npm:7.28.0"
   dependencies:
     array-includes: ^3.1.4
     array.prototype.flatmap: ^1.2.5
@@ -5369,7 +5370,7 @@ __metadata:
     string.prototype.matchall: ^4.0.6
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
-  checksum: db1ce303b597ede0bc8873d3f575b05873b06a058162c80f76604c9096eee8f72f299d7f849a86ac2e59f269c196575e6bcfb1ef9d7cbb23f533d081bcc15ea0
+  checksum: 90293d0fd53bb1f735ffd32141cdd211fb1120c9f7bbe5342f9e923261a39e52a2b2575d4e46c9cd77d257f42db4a99b8b339689fc5b5c1c26048929f69b1784
   languageName: node
   linkType: hard
 
@@ -10031,13 +10032,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picocolors@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "picocolors@npm:0.2.1"
-  checksum: 3b0f441f0062def0c0f39e87b898ae7461c3a16ffc9f974f320b44c799418cabff17780ee647fda42b856a1dc45897e2c62047e1b546d94d6d5c6962f45427b2
-  languageName: node
-  linkType: hard
-
 "picocolors@npm:^1.0.0":
   version: 1.0.0
   resolution: "picocolors@npm:1.0.0"
@@ -10619,16 +10613,6 @@ __metadata:
   version: 4.2.0
   resolution: "postcss-value-parser@npm:4.2.0"
   checksum: 819ffab0c9d51cf0acbabf8996dffbfafbafa57afc0e4c98db88b67f2094cb44488758f06e5da95d7036f19556a4a732525e84289a425f4f6fd8e412a9d7442f
-  languageName: node
-  linkType: hard
-
-"postcss@npm:5 - 7":
-  version: 7.0.39
-  resolution: "postcss@npm:7.0.39"
-  dependencies:
-    picocolors: ^0.2.1
-    source-map: ^0.6.1
-  checksum: 4ac793f506c23259189064bdc921260d869a115a82b5e713973c5af8e94fbb5721a5cc3e1e26840500d7e1f1fa42a209747c5b1a151918a9bc11f0d7ed9048e3
   languageName: node
   linkType: hard
 
@@ -13354,7 +13338,7 @@ resolve@^2.0.0-next.3:
     "@reduxjs/toolkit": ^1.6.1
     "@types/chrome": ^0.0.171
     "@types/glob-to-regexp": ^0.4.1
-    "@types/react": ^17.0.37
+    "@types/react": ^17.0.38
     "@types/react-color": ^3.0.6
     "@types/react-dom": ^17.0.11
     "@types/remote-redux-devtools": ^0.5.5
@@ -13370,7 +13354,7 @@ resolve@^2.0.0-next.3:
     copy-webpack-plugin: ^10.2.0
     cross-env: ^7.0.3
     css-loader: ^6.5.1
-    css-minimizer-webpack-plugin: ^3.3.0
+    css-minimizer-webpack-plugin: ^3.3.1
     eslint: ^8.5.0
     eslint-config-airbnb: ^19.0.2
     eslint-config-airbnb-typescript: ^16.1.0
@@ -13379,7 +13363,7 @@ resolve@^2.0.0-next.3:
     eslint-plugin-import: ^2.25.3
     eslint-plugin-jsx-a11y: ^6.5.1
     eslint-plugin-prettier: ^4.0.0
-    eslint-plugin-react: ^7.27.1
+    eslint-plugin-react: ^7.28.0
     eslint-plugin-react-hooks: ^4.3.0
     fork-ts-checker-webpack-plugin: ^6.5.0
     glob-to-regexp: ^0.4.1
