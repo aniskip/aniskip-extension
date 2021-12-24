@@ -28,11 +28,7 @@ export class AniMixPlay extends BasePage {
   }
 
   getRawEpisodeNumber(): number {
-    const episodeNumberElement = this.document.getElementById('eptitleplace');
-
-    const episodeNumberString = (episodeNumberElement?.textContent ?? '')
-      .trim()
-      .split('Episode ')[1];
+    const episodeNumberString = this.pathname.split('ep')[1];
 
     if (episodeNumberString) {
       return parseFloat(episodeNumberString);
