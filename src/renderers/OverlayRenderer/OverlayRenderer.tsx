@@ -1,14 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AnimeSearchModal, Overlay } from '../../components';
+import { Overlay } from '../../components';
 import { BaseRenderer } from '../base-renderer';
 
 export class OverlayRenderer extends BaseRenderer {
   render(): void {
     ReactDOM.render(
-      <Overlay>
-        <AnimeSearchModal isOpen />
-      </Overlay>,
+      <Overlay isOpen />,
       this.shadowRoot.getElementById(this.reactRootId)
     );
   }
