@@ -1,6 +1,12 @@
 import { BasePage } from '../base-page';
+import { Metadata } from '../base-page.types';
+import metadata from './metadata.json';
 
 export class Twistmoe extends BasePage {
+  static getMetadata(): Metadata {
+    return metadata;
+  }
+
   getProviderName(): string {
     return `${super.getProviderName()}moe`;
   }
@@ -10,6 +16,6 @@ export class Twistmoe extends BasePage {
   }
 
   getRawEpisodeNumber(): number {
-    return parseInt(this.pathname.split('/')[3], 10);
+    return parseFloat(this.pathname.split('/')[3]);
   }
 }

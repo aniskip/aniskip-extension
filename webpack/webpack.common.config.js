@@ -14,9 +14,9 @@ module.exports = {
   context: path.join(__dirname, '..'),
   entry: {
     options: './src/options/index.tsx',
-    background_script: './src/scripts/background/script.ts',
-    content_script: './src/scripts/content/script.ts',
-    player_script: './src/scripts/player/script.ts',
+    'background-script': './src/scripts/background/script.ts',
+    'content-script': './src/scripts/content/script.ts',
+    'player-script': './src/scripts/player/script.ts',
   },
   output: {
     path: path.join(__dirname, '..', 'dist'),
@@ -72,6 +72,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'options.html',
       template: './public/options.html',
+      chunks: ['options'],
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'popup.html',
+      template: './public/popup.html',
       chunks: ['options'],
     }),
     new JsonBuilderPlugin({

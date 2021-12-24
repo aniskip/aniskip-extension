@@ -26,10 +26,21 @@ module.exports = {
       files: ['*.ts', '*.tsx'],
       rules: {
         '@typescript-eslint/explicit-function-return-type': ['error'],
+        'react/function-component-definition': [
+          2,
+          {
+            namedComponents: 'function-declaration',
+          },
+        ],
       },
     },
   ],
-  extends: ['airbnb-typescript', 'plugin:react-hooks/recommended', 'prettier'],
+  extends: [
+    'airbnb',
+    'airbnb-typescript',
+    'plugin:react-hooks/recommended',
+    'prettier',
+  ],
   parserOptions: {
     project: './tsconfig.json',
     createDefaultProgram: true,

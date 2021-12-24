@@ -1,9 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import { FaBackward, FaForward, FaPlay, FaTimes } from 'react-icons/fa';
-import { AniskipHttpClientErrorCode, SkipTime, SkipType } from '../../api';
+import {
+  AniskipHttpClientErrorCode,
+  SkipTime,
+  SkipType,
+  SKIP_TYPE_NAMES,
+  SKIP_TYPES,
+} from '../../api';
 import { DefaultButton } from '../DefaultButton';
-import { Dropdown } from '../Dropdown';
+import { Dropdown, DropdownOptionsProps } from '../Dropdown';
 import { Input } from '../Input';
 import { Message } from '../../scripts/background';
 import {
@@ -18,7 +24,7 @@ import {
   selectIsSubmitMenuVisible,
 } from '../../data';
 
-export const SubmitMenu = (): JSX.Element => {
+export function SubmitMenu(): JSX.Element {
   const { aniskipHttpClient } = useAniskipHttpClient();
   const [skipType, setSkipType] = useState<SkipType>('op');
   const [startTime, setStartTime] = useState('');
@@ -36,6 +42,17 @@ export const SubmitMenu = (): JSX.Element => {
   const visible = useSelector(selectIsSubmitMenuVisible);
   const player = usePlayerRef();
   const dispatch = useDispatch();
+
+  const skipTypeDropdownOptions = SKIP_TYPES.filter(
+    (type) => type !== 'preview'
+  ).map((type) => ({
+    id: type,
+    label: SKIP_TYPE_NAMES[type],
+  }));
+
+  const skipTypeDropdownOptionsProps: DropdownOptionsProps = {
+    className: 'max-h-[5.5em]',
+  };
 
   /**
    * Initialise the start time to the current time and the end time to the
@@ -126,7 +143,7 @@ export const SubmitMenu = (): JSX.Element => {
     const endTimeSeconds = timeStringToSeconds(endTime);
 
     try {
-      const { skip_id: skipId } = await aniskipHttpClient.createSkipTimes(
+      const { skipId } = await aniskipHttpClient.createSkipTimes(
         malId,
         episodeNumber,
         skipType,
@@ -139,20 +156,20 @@ export const SubmitMenu = (): JSX.Element => {
 
       const skipTime: SkipTime = {
         interval: {
-          start_time: startTimeSeconds,
-          end_time: endTimeSeconds,
+          startTime: startTimeSeconds,
+          endTime: endTimeSeconds,
         },
-        skip_type: skipType,
-        skip_id: skipId,
-        episode_length: duration,
+        skipType,
+        skipId,
+        episodeLength: duration,
       };
 
       player?.addSkipTime(skipTime);
 
       setServerError('');
       dispatch(changeSubmitMenuVisibility(false));
-    } catch (err) {
-      switch (err.code as AniskipHttpClientErrorCode) {
+    } catch (error: any) {
+      switch (error.code as AniskipHttpClientErrorCode) {
         case 'skip-times/parameter-error':
           setServerError('Input errors, please double check your skip times');
           break;
@@ -246,13 +263,14 @@ export const SubmitMenu = (): JSX.Element => {
    * Formats time input on blur.
    *
    * @param setTime Set time useState function.
+   * @param currentTime Current start or end time.
    */
   const onBlur =
     (
       setTime: React.Dispatch<React.SetStateAction<string>>,
       currentTime: string
     ) =>
-    async (): Promise<void> => {
+    (): void => {
       const formatted = formatTimeString(currentTime);
       const seconds = errorCorrectTime(timeStringToSeconds(formatted));
       setTime(secondsToTimeString(seconds));
@@ -273,12 +291,12 @@ export const SubmitMenu = (): JSX.Element => {
 
     const skipTime: SkipTime = {
       interval: {
-        start_time: timeStringToSeconds(startTime),
-        end_time: timeStringToSeconds(endTime),
+        startTime: timeStringToSeconds(startTime),
+        endTime: timeStringToSeconds(endTime),
       },
-      skip_type: 'preview',
-      skip_id: '',
-      episode_length: episodeLength,
+      skipType: 'preview',
+      skipId: '',
+      episodeLength,
     };
 
     player?.addSkipTime(skipTime);
@@ -349,9 +367,58 @@ export const SubmitMenu = (): JSX.Element => {
     }
   };
 
+  /**
+   * Handles the mouse wheel scroll in input boxes.
+   *
+   * @param setTime Set time useState function.
+   * @param currentTime Current start or end time.
+   */
+  const onWheel =
+    (
+      setTime: React.Dispatch<React.SetStateAction<string>>,
+      currentTime: string
+    ) =>
+    (event: React.WheelEvent<HTMLInputElement>): void => {
+      const timeSeconds = timeStringToSeconds(currentTime);
+      const seekOffset = event.deltaY > 0 ? -0.01 : 0.01;
+      const updatedTime = errorCorrectTime(timeSeconds + seekOffset);
+
+      setTime(secondsToTimeString(updatedTime));
+
+      player?.setCurrentTime(updatedTime);
+    };
+
+  /**
+   * Prevents page scrolling.
+   *
+   * @param event Mouse wheel event.
+   */
+  const preventDefault = useCallback(
+    (event: WheelEvent): void => event.preventDefault(),
+    []
+  );
+
+  /**
+   * Handles the disabling of page scroll when the mouse enters the input
+   * element.
+   */
+  const onPointerEnter = (): void => {
+    window.addEventListener('wheel', preventDefault, {
+      passive: false,
+    });
+  };
+
+  /**
+   * Handles the enabling of page scroll when the mouse exists the input
+   * element.
+   */
+  const onPointerLeave = (): void => {
+    window.removeEventListener('wheel', preventDefault, false);
+  };
+
   return (
     <div
-      className={`text-sm md:text-base font-sans w-[26em] px-5 pt-2 pb-4 bg-trueGray-800 bg-opacity-80 border border-gray-300 select-none rounded-md transition-opacity text-white opacity-0 pointer-events-none ${
+      className={`text-sm md:text-base font-sans w-[26em] px-5 pt-2 pb-4 bg-neutral-800 bg-opacity-80 border border-gray-300 select-none rounded-md transition-opacity text-white opacity-0 pointer-events-none ${
         visible ? 'sm:opacity-100 sm:pointer-events-auto' : ''
       }`}
       role="menu"
@@ -389,6 +456,9 @@ export const SubmitMenu = (): JSX.Element => {
               onKeyDown={onKeyDown(setStartTime)}
               onFocus={(): void => setCurrentInputFocus('start-time')}
               onBlur={onBlur(setStartTime, startTime)}
+              onWheel={onWheel(setStartTime, startTime)}
+              onPointerEnter={onPointerEnter}
+              onPointerLeave={onPointerLeave}
             />
           </div>
           <div className="flex-1">
@@ -409,6 +479,9 @@ export const SubmitMenu = (): JSX.Element => {
               onKeyDown={onKeyDown(setEndTime)}
               onFocus={(): void => setCurrentInputFocus('end-time')}
               onBlur={onBlur(setEndTime, endTime)}
+              onWheel={onWheel(setEndTime, endTime)}
+              onPointerEnter={onPointerEnter}
+              onPointerLeave={onPointerLeave}
             />
           </div>
         </div>
@@ -467,10 +540,8 @@ export const SubmitMenu = (): JSX.Element => {
               className="flex-1 text-sm"
               value={skipType}
               onChange={setSkipType}
-              options={[
-                { value: 'op', label: 'Opening' },
-                { value: 'ed', label: 'Ending' },
-              ]}
+              options={skipTypeDropdownOptions}
+              dropdownOptionsProps={skipTypeDropdownOptionsProps}
             />
             <div className="flex-1">
               <DefaultButton
@@ -489,4 +560,4 @@ export const SubmitMenu = (): JSX.Element => {
       </form>
     </div>
   );
-};
+}

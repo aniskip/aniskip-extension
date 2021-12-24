@@ -1,5 +1,6 @@
 import { isMobileCheck } from '../../utils';
 import { BasePlayer } from '../base-player';
+import { Metadata } from '../base-player.types';
 import metadata from './metadata.json';
 
 export class Crunchyroll extends BasePlayer {
@@ -7,23 +8,8 @@ export class Crunchyroll extends BasePlayer {
     super(document, metadata);
   }
 
-  injectSkipButtons(): void {
-    if (isMobileCheck()) {
-      const seekBarContainer = this.getSeekBarContainer();
-
-      if (
-        seekBarContainer &&
-        !this.document.getElementById(this.skipButtonRenderer.id)
-      ) {
-        seekBarContainer.parentElement?.appendChild(
-          this.skipButtonRenderer.shadowRootContainer
-        );
-      }
-
-      return;
-    }
-
-    super.injectSkipButtons();
+  static getMetadata(): Metadata {
+    return metadata;
   }
 
   getSeekBarContainer(): HTMLElement | null {
@@ -44,7 +30,12 @@ export class Crunchyroll extends BasePlayer {
         this.injectSubmitMenuButton();
         this.injectSkipTimeIndicator();
         this.injectSkipButtons();
+        this.skipButtonRenderer.render();
       }).observe(controlsPackage, { childList: true });
     }
+  }
+
+  isControlsVisible(): boolean {
+    return !!this.document.getElementById(this.playerButtonsRenderer.id);
   }
 }

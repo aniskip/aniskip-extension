@@ -1,11 +1,18 @@
 import { getDomainName } from '../../utils';
 import { BasePage } from '../base-page';
+import { Metadata } from '../base-page.types';
+import metadata from './metadata.json';
 
 export class Animepahe extends BasePage {
   constructor(hostname: string, pathname: string, document: Document) {
     super(hostname, pathname, document);
+
     const domainName = getDomainName(hostname);
     this.providerName = domainName;
+  }
+
+  static getMetadata(): Metadata {
+    return metadata;
   }
 
   getTitle(): string {
@@ -42,8 +49,9 @@ export class Animepahe extends BasePage {
       return 0;
     }
 
-    const episodeString = episodeMenuButton.innerHTML.split('Episode ')[1];
+    const episodeNumberString =
+      episodeMenuButton.innerText.split('Episode ')[1];
 
-    return parseInt(episodeString, 10);
+    return parseFloat(episodeNumberString);
   }
 }

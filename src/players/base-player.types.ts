@@ -7,10 +7,10 @@ export type Metadata = {
   injectMenusButtonsReferenceNodeSelectorString: string;
   seekBarContainerSelectorString: string;
   seekBarContainerSelectorStringMobile?: string;
-  player_urls: string[];
+  playerUrls: string[];
 };
 
-export type Player = {
+export interface Player {
   document: Document;
 
   metadata: Metadata;
@@ -34,6 +34,11 @@ export type Player = {
   getCurrentTime(): number;
 
   /**
+   * Returns the root video container element.
+   */
+  getVideoContainer(): HTMLElement | null;
+
+  /**
    * Returns the video controls container element.
    */
   getVideoControlsContainer(): HTMLElement | null;
@@ -47,6 +52,11 @@ export type Player = {
    * Initialises the player by injecting the extension buttons.
    */
   initialise(): void;
+
+  /**
+   * Checks if the player controls are visible to the user.
+   */
+  isControlsVisible(): boolean;
 
   /**
    * Plays the player.
@@ -77,4 +87,4 @@ export type Player = {
    * @param videoElement Video element of the player.
    */
   setVideoElement(videoElement: HTMLVideoElement): void;
-};
+}

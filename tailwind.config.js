@@ -1,19 +1,13 @@
-const colors = require('tailwindcss/colors');
+const colours = require('tailwindcss/colors');
 
 module.exports = {
-  mode: 'jit',
-  purge: [
+  content: [
     './src/**/*.html',
     './src/**/*.js',
     './src/**/*.ts',
     './src/**/*.tsx',
   ],
-  darkMode: false, // or 'media' or 'class'
   theme: {
-    colors: {
-      ...colors,
-      primary: colors.amber[500],
-    },
     fontSize: {
       xs: '0.75em',
       sm: '0.875em',
@@ -70,8 +64,15 @@ module.exports = {
       DEFAULT: '0.25em',
       md: '0.375em',
       lg: '0.5em',
+      xl: '0.75em',
+      '2xl': '1em',
+      '3xl': '1.5em',
+      full: '9999px',
     },
     extend: {
+      colors: {
+        primary: colours.amber[500],
+      },
       spacing: {
         '3/2': '150%',
         '2/1': '200%',

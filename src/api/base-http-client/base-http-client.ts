@@ -12,7 +12,7 @@ export abstract class BaseHttpClient implements HttpClient {
   async request(
     route: string,
     method: string,
-    params: Record<string, string | string[]> = {},
+    params: Record<string, string | string[] | number> = {},
     body: string = ''
   ): Promise<Response> {
     const url = new URL(`${this.baseUrl}${route}`);
@@ -24,7 +24,7 @@ export abstract class BaseHttpClient implements HttpClient {
         return;
       }
 
-      url.searchParams.append(key, param);
+      url.searchParams.append(key, param.toString());
     });
     const options: RequestInit = {
       method,

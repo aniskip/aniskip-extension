@@ -1,6 +1,12 @@
 import { BasePage } from '../base-page';
+import { Metadata } from '../base-page.types';
+import metadata from './metadata.json';
 
 export class Nineanime extends BasePage {
+  static getMetadata(): Metadata {
+    return metadata;
+  }
+
   getIdentifier(): string {
     const cleansedPath = this.pathname.replace(/.*\./, '');
     return cleansedPath.split(/\/ep-/)[0];
@@ -8,14 +14,12 @@ export class Nineanime extends BasePage {
 
   getRawEpisodeNumber(): number {
     const cleansedPath = this.pathname.replace(/.*\./, '');
-    const episodeString = cleansedPath.split(/\/ep-/)[1];
+    const episodeNumberString = cleansedPath.split(/\/ep-/)[1];
 
-    if (episodeString === 'full') {
+    if (episodeNumberString === 'full') {
       return 1;
     }
 
-    const episodeNumber = parseInt(episodeString, 10);
-
-    return episodeNumber;
+    return parseFloat(episodeNumberString);
   }
 }

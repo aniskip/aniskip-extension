@@ -1,43 +1,50 @@
+import globToRegExp from 'glob-to-regexp';
 import { Page } from './base-page.types';
-import { getDomainName } from '../utils';
-import { Animepahe } from './animepahe';
 import { AniMixPlay } from './animixplay';
+import { Animepahe } from './animepahe';
 import { Aniwatch } from './aniwatch';
 import { Crunchyroll } from './crunchyroll';
 import { FourAnime } from './fouranime';
 import { Gogoanime } from './gogoanime';
+import { NekoSama } from './nekosama';
 import { Nineanime } from './nineanime';
 import { Twistmoe } from './twistmoe';
 
 export class PageFactory {
+  static pages = [
+    AniMixPlay,
+    Animepahe,
+    Aniwatch,
+    Crunchyroll,
+    FourAnime,
+    Gogoanime,
+    NekoSama,
+    Nineanime,
+    Twistmoe,
+  ];
+
   /**
    * Obtains the page object from the domain.
    *
    * @param pathname Provider's url path.
-   * @param hostname Provider's host.
+   * @param url Provider's host.
    */
-  static getPage(pathname: string, hostname: string): Page {
-    const domainName = getDomainName(hostname);
+  static getPage(hostname: string, pathname: string, url: string): Page {
+    for (let i = 0; i < PageFactory.pages.length; i += 1) {
+      const CurrentPage = PageFactory.pages[i];
 
-    switch (domainName) {
-      case 'animixplay':
-        return new AniMixPlay(hostname, pathname, document);
-      case 'aniwatch':
-        return new Aniwatch(hostname, pathname, document);
-      case 'animepahe':
-        return new Animepahe(hostname, pathname, document);
-      case 'gogoanime':
-        return new Gogoanime(hostname, pathname, document);
-      case '9anime':
-        return new Nineanime(hostname, pathname, document);
-      case 'crunchyroll':
-        return new Crunchyroll(hostname, pathname, document);
-      case 'twist':
-        return new Twistmoe(hostname, pathname, document);
-      case '4anime':
-        return new FourAnime(hostname, pathname, document);
-      default:
-        throw new Error(`Page ${hostname} not supported`);
+      const metadata = CurrentPage.getMetadata();
+      const { pageUrls } = metadata;
+
+      for (let j = 0; j < pageUrls.length; j += 1) {
+        const matcher = globToRegExp(pageUrls[j]);
+
+        if (matcher.test(url)) {
+          return new CurrentPage(hostname, pathname, document);
+        }
+      }
     }
+
+    throw new Error(`Page ${url} not supported`);
   }
 }

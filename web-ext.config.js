@@ -21,12 +21,6 @@ switch (process.env.BROWSER) {
 module.exports = {
   sourceDir: './dist',
   run: {
-    watchFile: [
-      './background_scripts.js',
-      './content_script.js',
-      './options.js',
-      './player_script.js',
-    ],
     startUrl,
     // If using Edge/Opera etc Chromium based browsers.
     //   chromiumBinary:

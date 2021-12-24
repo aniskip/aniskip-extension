@@ -6,7 +6,7 @@ import {
   AnilistHttpClient,
   Rule,
 } from '../api';
-import { Page } from './base-page.types';
+import { Metadata, Page } from './base-page.types';
 import {
   capitalizeFirstLetter,
   getDomainName,
@@ -138,6 +138,10 @@ export abstract class BasePage implements Page {
     browser.storage.local.set({ malIdCache });
 
     return this.malId;
+  }
+
+  static getMetadata(): Metadata {
+    throw new Error('getMetadata() not yet implemented');
   }
 
   /**

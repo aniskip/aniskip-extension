@@ -1,3 +1,7 @@
+export type Metadata = {
+  pageUrls: string[];
+};
+
 export type Page = {
   hostname: string;
 

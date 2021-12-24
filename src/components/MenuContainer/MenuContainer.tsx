@@ -3,10 +3,10 @@ import { MenuContainerProps } from './MenuContainer.types';
 import { useCheckIsFullscreen, useCheckIsMobile } from '../../hooks';
 import { getDomainName } from '../../utils';
 
-export const MenuContainer = ({
+export function MenuContainer({
   variant,
   children,
-}: MenuContainerProps): JSX.Element => {
+}: MenuContainerProps): JSX.Element {
   const { isFullscreen } = useCheckIsFullscreen();
   const { isMobile } = useCheckIsMobile();
   const domainName = getDomainName(window.location.hostname);
@@ -26,4 +26,4 @@ export const MenuContainer = ({
       {children}
     </div>
   );
-};
+}

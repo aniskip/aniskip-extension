@@ -3,21 +3,16 @@ import { useCheckIsFullscreen, useCheckIsMobile } from '../../hooks';
 import { SkipButtonProps } from './SkipButton.types';
 import { getDomainName } from '../../utils';
 import { DefaultButton } from '../DefaultButton';
+import { SKIP_TYPE_NAMES } from '../../api';
 
-export const SkipButton = ({
+export function SkipButton({
   skipType,
   variant,
   hidden,
-  onClick,
-}: SkipButtonProps): JSX.Element => {
+  ...props
+}: SkipButtonProps): JSX.Element {
   const { isFullscreen } = useCheckIsFullscreen();
   const { isMobile } = useCheckIsMobile();
-
-  const skipTypeFullNames = {
-    op: 'Opening',
-    ed: 'Ending',
-    preview: 'Preview',
-  };
 
   const domainName = getDomainName(window.location.hostname);
 
@@ -34,13 +29,13 @@ export const SkipButton = ({
       }`}
     >
       <DefaultButton
-        className={`transition-opacity font-sans whitespace-nowrap text-white bg-trueGray-800 bg-opacity-80 py-3 border border-gray-300 font-bold uppercase ${
+        className={`transition-opacity font-sans whitespace-nowrap text-white bg-neutral-800 bg-opacity-80 py-3 border border-gray-300 font-bold uppercase ${
           hidden ? 'opacity-0 pointer-events-none' : 'pointer-events-auto '
         }`}
-        onClick={onClick}
+        {...props}
       >
-        {`Skip ${skipTypeFullNames[skipType]}`}
+        {`Skip ${SKIP_TYPE_NAMES[skipType]}`}
       </DefaultButton>
     </div>
   );
-};
+}
