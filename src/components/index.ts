@@ -1,3 +1,4 @@
+export * from './AnimeSearchModal';
 export * from './DefaultButton';
 export * from './Dropdown';
 export * from './Input';
@@ -5,6 +6,7 @@ export * from './LinkButton';
 export * from './MenuContainer';
 export * from './Menus';
 export * from './PlayerButtons';
+export * from './Overlay';
 export * from './SkipButton';
 export * from './SkipButtonContainer';
 export * from './SkipTimeIndicator';

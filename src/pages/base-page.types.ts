@@ -32,4 +32,9 @@ export type Page = {
    * Returns the MAL identification id from the url.
    */
   getMalId(): Promise<number>;
+
+  /**
+   * Injects the search overlay for manual anime detection.
+   */
+  injectSearchOverlay(): void;
 };

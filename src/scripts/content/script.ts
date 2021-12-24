@@ -4,6 +4,14 @@ import { PageFactory } from '../../pages/page-factory';
 
 const page = PageFactory.getPage(window.location.href);
 
+// Inject search overlay once when the document body loads.
+new MutationObserver((_mutations, observer) => {
+  if (document.body) {
+    page.injectSearchOverlay();
+    observer.disconnect();
+  }
+}).observe(document, { subtree: true, childList: true });
+
 /**
  * Returns the MAL id, episode number and provider name.
  */
@@ -34,6 +42,7 @@ const messageHandler = (message: Message): any => {
     case 'get-episode-information': {
       (async (): Promise<void> => {
         const episodeInformation = await getEpisodeInformation();
+
         browser.runtime.sendMessage({
           payload: episodeInformation,
           uuid: message.uuid,

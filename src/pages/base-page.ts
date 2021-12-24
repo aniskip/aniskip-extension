@@ -13,6 +13,7 @@ import {
   getNextWeekDate,
 } from '../utils';
 import { LocalOptions } from '../scripts/background';
+import { OverlayRenderer } from '../renderers';
 
 export abstract class BasePage implements Page {
   providerName: string;
@@ -21,11 +22,14 @@ export abstract class BasePage implements Page {
 
   episodeNumber: number;
 
+  overlayRenderer: OverlayRenderer;
+
   constructor() {
     const domainName = getDomainName(window.location.hostname);
     this.providerName = capitalizeFirstLetter(domainName);
     this.malId = 0;
     this.episodeNumber = 0;
+    this.overlayRenderer = new OverlayRenderer('aniskip-overay');
   }
 
   abstract getIdentifier(): string;
@@ -219,5 +223,11 @@ export abstract class BasePage implements Page {
     }
 
     return cacheEntry.value;
+  }
+
+  injectSearchOverlay(): void {
+    document.body.appendChild(this.overlayRenderer.shadowRootContainer);
+
+    this.overlayRenderer.render();
   }
 }
