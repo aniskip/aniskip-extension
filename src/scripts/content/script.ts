@@ -2,6 +2,8 @@ import { browser } from 'webextension-polyfill-ts';
 import { Message } from '../background';
 import { PageFactory } from '../../pages/page-factory';
 
+const page = PageFactory.getPage(window.location.href);
+
 /**
  * Returns the MAL id, episode number and provider name.
  */
@@ -10,8 +12,6 @@ const getEpisodeInformation = async (): Promise<{
   episodeNumber: number;
   providerName: string;
 }> => {
-  const page = PageFactory.getPage(window.location.href);
-
   await page.applyRules();
   const malId = await page.getMalId();
   const providerName = page.getProviderName();

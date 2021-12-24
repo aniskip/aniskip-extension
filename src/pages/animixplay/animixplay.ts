@@ -39,7 +39,7 @@ export class AniMixPlay extends BasePage {
 
   getMalId(): Promise<number> {
     // Redirection rules applied.
-    if (this.malId) {
+    if (this.malId > 0) {
       return Promise.resolve(this.malId);
     }
 
