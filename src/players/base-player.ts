@@ -25,8 +25,6 @@ import {
 } from '../data';
 
 export class BasePlayer implements Player {
-  document: Document;
-
   metadata: Metadata;
 
   scheduledSkipTime: ReturnType<typeof setTimeout> | null;
@@ -47,8 +45,7 @@ export class BasePlayer implements Player {
 
   skipTimeIndicatorsRenderer: SkipTimeIndicatorsRenderer;
 
-  constructor(document: Document, metadata: Metadata) {
-    this.document = document;
+  constructor(metadata: Metadata) {
     this.metadata = metadata;
     this.videoElement = null;
     this.scheduledSkipTime = null;
@@ -141,7 +138,7 @@ export class BasePlayer implements Player {
     selectorString: string,
     index: number = 0
   ): HTMLElement | null {
-    const containers = this.document.getElementsByClassName(selectorString);
+    const containers = document.getElementsByClassName(selectorString);
     return containers[index] as HTMLElement;
   }
 
@@ -202,13 +199,11 @@ export class BasePlayer implements Player {
   }
 
   getVideoContainer(): HTMLElement | null {
-    return this.document.getElementById(
-      this.metadata.videoContainerSelectorString
-    );
+    return document.getElementById(this.metadata.videoContainerSelectorString);
   }
 
   getVideoControlsContainer(): HTMLElement | null {
-    return this.document.getElementById(
+    return document.getElementById(
       this.metadata.videoControlsContainerSelectorString
     );
   }
@@ -223,7 +218,7 @@ export class BasePlayer implements Player {
   }
 
   getSettingsButtonElement(): HTMLElement | null {
-    return this.document.getElementById(
+    return document.getElementById(
       this.metadata.injectMenusButtonsReferenceNodeSelectorString
     );
   }
@@ -280,7 +275,7 @@ export class BasePlayer implements Player {
     const videoContainer = this.getVideoContainer();
     if (
       videoContainer &&
-      !this.document.getElementById(this.skipButtonRenderer.id)
+      !document.getElementById(this.skipButtonRenderer.id)
     ) {
       videoContainer.appendChild(this.skipButtonRenderer.shadowRootContainer);
     }
@@ -293,7 +288,7 @@ export class BasePlayer implements Player {
     const seekBarContainer = this.getSeekBarContainer();
     if (
       seekBarContainer &&
-      !this.document.getElementById(this.skipTimeIndicatorsRenderer.id)
+      !document.getElementById(this.skipTimeIndicatorsRenderer.id)
     ) {
       seekBarContainer.appendChild(
         this.skipTimeIndicatorsRenderer.shadowRootContainer
@@ -308,7 +303,7 @@ export class BasePlayer implements Player {
     const videoContainer = this.getVideoContainer();
     if (
       videoContainer &&
-      !this.document.getElementById(this.playerButtonsRenderer.id)
+      !document.getElementById(this.playerButtonsRenderer.id)
     ) {
       videoContainer.appendChild(this.menusRenderer.shadowRootContainer);
       this.menusRenderer.render();
@@ -322,7 +317,7 @@ export class BasePlayer implements Player {
     const settingsButtonElement = this.getSettingsButtonElement();
     if (
       settingsButtonElement &&
-      !this.document.getElementById(this.playerButtonsRenderer.id)
+      !document.getElementById(this.playerButtonsRenderer.id)
     ) {
       settingsButtonElement.insertAdjacentElement(
         'beforebegin',

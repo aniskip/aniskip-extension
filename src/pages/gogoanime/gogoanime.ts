@@ -8,11 +8,11 @@ export class Gogoanime extends BasePage {
   }
 
   getIdentifier(): string {
-    const identifierUnclean = this.pathname.split('-episode-')[0];
+    const identifierUnclean = window.location.pathname.split('-episode-')[0];
     return identifierUnclean.substring(1);
   }
 
   getRawEpisodeNumber(): number {
-    return parseFloat(this.pathname.split('-episode-')[1]);
+    return parseFloat(window.location.pathname.split('-episode-')[1]);
   }
 }

@@ -3,12 +3,6 @@ export type Metadata = {
 };
 
 export type Page = {
-  hostname: string;
-
-  pathname: string;
-
-  document: Document;
-
   /**
    * Fetches and applies the episode number redirection rules.
    */

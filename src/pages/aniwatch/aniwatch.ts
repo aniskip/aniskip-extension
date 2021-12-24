@@ -8,10 +8,10 @@ export class Aniwatch extends BasePage {
   }
 
   getIdentifier(): string {
-    return this.pathname.split('/')[2];
+    return window.location.pathname.split('/')[2];
   }
 
   getRawEpisodeNumber(): number {
-    return parseFloat(this.pathname.split('/')[3]);
+    return parseFloat(window.location.pathname.split('/')[3]);
   }
 }

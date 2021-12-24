@@ -29,7 +29,7 @@ export class PageFactory {
    * @param pathname Provider's url path.
    * @param url Provider's host.
    */
-  static getPage(hostname: string, pathname: string, url: string): Page {
+  static getPage(url: string): Page {
     for (let i = 0; i < PageFactory.pages.length; i += 1) {
       const CurrentPage = PageFactory.pages[i];
 
@@ -40,7 +40,7 @@ export class PageFactory {
         const matcher = globToRegExp(pageUrls[j]);
 
         if (matcher.test(url)) {
-          return new CurrentPage(hostname, pathname, document);
+          return new CurrentPage();
         }
       }
     }

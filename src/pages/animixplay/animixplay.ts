@@ -3,8 +3,8 @@ import { Metadata } from '../base-page.types';
 import metadata from './metadata.json';
 
 export class AniMixPlay extends BasePage {
-  constructor(hostname: string, pathname: string, document: Document) {
-    super(hostname, pathname, document);
+  constructor() {
+    super();
 
     this.providerName = 'AniMixPlay';
   }
@@ -14,7 +14,7 @@ export class AniMixPlay extends BasePage {
   }
 
   getTitle(): string {
-    const titleSpan = this.document.getElementsByClassName('animetitle')[0];
+    const titleSpan = document.getElementsByClassName('animetitle')[0];
     if (titleSpan) {
       return titleSpan.innerHTML;
     }
@@ -22,13 +22,13 @@ export class AniMixPlay extends BasePage {
   }
 
   getIdentifier(): string {
-    const identifierElement = this.document.getElementById('animebtn');
+    const identifierElement = document.getElementById('animebtn');
 
     return identifierElement?.getAttribute('href')?.split('/')[2] ?? '';
   }
 
   getRawEpisodeNumber(): number {
-    const episodeNumberString = this.pathname.split('ep')[1];
+    const episodeNumberString = window.location.pathname.split('ep')[1];
 
     if (episodeNumberString) {
       return parseFloat(episodeNumberString);

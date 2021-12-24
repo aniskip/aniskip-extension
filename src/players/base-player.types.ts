@@ -11,8 +11,6 @@ export type Metadata = {
 };
 
 export interface Player {
-  document: Document;
-
   metadata: Metadata;
 
   /**

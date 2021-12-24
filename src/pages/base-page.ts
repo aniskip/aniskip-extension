@@ -15,23 +15,14 @@ import {
 import { LocalOptions } from '../scripts/background';
 
 export abstract class BasePage implements Page {
-  hostname: string;
-
-  pathname: string;
-
-  document: Document;
-
   providerName: string;
 
   malId: number;
 
   episodeNumber: number;
 
-  constructor(hostname: string, pathname: string, document: Document) {
-    this.hostname = hostname;
-    this.pathname = pathname;
-    this.document = document;
-    const domainName = getDomainName(this.hostname);
+  constructor() {
+    const domainName = getDomainName(window.location.hostname);
     this.providerName = capitalizeFirstLetter(domainName);
     this.malId = 0;
     this.episodeNumber = 0;

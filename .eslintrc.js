@@ -20,6 +20,7 @@ module.exports = {
       'error',
       { props: true, ignorePropertyModificationsFor: ['state'] },
     ],
+    'class-methods-use-this': 'off',
   },
   overrides: [
     {

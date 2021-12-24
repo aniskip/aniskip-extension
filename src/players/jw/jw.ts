@@ -3,8 +3,8 @@ import { Metadata } from '../base-player.types';
 import metadata from './metadata.json';
 
 export class Jw extends BasePlayer {
-  constructor(document: Document) {
-    super(document, metadata);
+  constructor() {
+    super(metadata);
   }
 
   static getMetadata(): Metadata {
@@ -12,7 +12,7 @@ export class Jw extends BasePlayer {
   }
 
   getVideoContainer(): HTMLElement | null {
-    return this.document.querySelector<HTMLElement>(
+    return document.querySelector<HTMLElement>(
       `[aria-label="${metadata.videoContainerSelectorString}"]`
     );
   }
@@ -24,7 +24,7 @@ export class Jw extends BasePlayer {
   }
 
   getSeekBarContainer(): HTMLElement | null {
-    const slider = this.document.querySelector<HTMLElement>(
+    const slider = document.querySelector<HTMLElement>(
       `[aria-label^="${metadata.seekBarContainerSelectorString}"]`
     );
     const firstChild = slider?.firstChild;
@@ -35,7 +35,7 @@ export class Jw extends BasePlayer {
   }
 
   getSettingsButtonElement(): HTMLElement | null {
-    return this.document.querySelector<HTMLElement>(
+    return document.querySelector<HTMLElement>(
       `[aria-label="${metadata.injectMenusButtonsReferenceNodeSelectorString}"]`
     );
   }
