@@ -1,3 +1,3 @@
-export type AnimeSearchProps = {
-  isOpen: boolean;
+export type AnimeSearchModalProps = {
+  onClose?: () => any;
 };
