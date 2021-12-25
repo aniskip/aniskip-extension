@@ -13368,6 +13368,7 @@ resolve@^2.0.0-next.3:
     fork-ts-checker-webpack-plugin: ^6.5.0
     glob-to-regexp: ^0.4.1
     html-webpack-plugin: ^5.5.0
+    lodash.debounce: ^4.0.8
     mini-css-extract-plugin: ^2.4.5
     npm-run-all: ^4.1.5
     postcss: ^8.4.5

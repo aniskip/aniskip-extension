@@ -148,7 +148,9 @@ export abstract class BasePage implements Page {
     const anilistHttpClient = new AnilistHttpClient();
     const sanitisedTitle = title.replace(/\(.*\)/, '').trim();
 
-    const searchResponse = await anilistHttpClient.search(sanitisedTitle);
+    const searchResponse = await anilistHttpClient.searchTitleSynonyms(
+      sanitisedTitle
+    );
     const searchResults = searchResponse.data.Page.media;
 
     let closest = 0;

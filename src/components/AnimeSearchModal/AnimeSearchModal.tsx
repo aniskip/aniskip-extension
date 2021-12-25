@@ -1,17 +1,45 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
+import debounce from 'lodash.debounce';
+import { AnilistHttpClient } from '../../api';
 import {
   useShadowRootRef,
   useWindowEvent,
   useShadowRootEvent,
 } from '../../utils';
-import { AnimeSearchModalProps } from './AnimeSearchModal.types';
+import { AnimeSearchModalProps, SearchResult } from './AnimeSearchModal.types';
 
 export function AnimeSearchModal({
   onClose,
 }: AnimeSearchModalProps): JSX.Element {
-  const shadowRoot = useShadowRootRef();
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const anilistHttpClient = useRef<AnilistHttpClient>(new AnilistHttpClient());
   const animeSearchModalRef = useRef<HTMLDivElement>(null);
+  const shadowRoot = useShadowRootRef();
+
+  /**
+   * Handles search bar input change.
+   */
+  const onChangeSearchBar = useCallback(
+    debounce(
+      async (event: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+        const title = event.target.value;
+
+        const searchResponse =
+          await anilistHttpClient.current.searchTitleCoverImages(title);
+
+        const results = searchResponse.data.Page.media.map((searchResult) => ({
+          malId: searchResult.idMal,
+          title: searchResult.title.english,
+          coverImage: searchResult.coverImage.medium,
+        }));
+
+        setSearchResults(results);
+      },
+      500
+    ),
+    []
+  );
 
   /**
    * Close the modal if the overlay was clicked.
@@ -49,6 +77,7 @@ export function AnimeSearchModal({
           <input
             className="h-14 w-full bg-inherit focus:outline-none"
             placeholder="Search anime"
+            onChange={onChangeSearchBar}
           />
         </div>
         <button
