@@ -2,6 +2,7 @@ import { BaseHttpClient } from '../base-http-client';
 import {
   Media,
   MediaCoverImage,
+  MediaFormat,
   MediaTitle,
   PostResponseFromPage,
 } from './anilist-http-client.types';
@@ -87,7 +88,11 @@ export class AnilistHttpClient extends BaseHttpClient {
     title: string
   ): Promise<
     PostResponseFromPage<
-      Media<Pick<MediaTitle, 'english'>, Pick<MediaCoverImage, 'medium'>>
+      Media<
+        Pick<MediaTitle, 'english'>,
+        Pick<MediaCoverImage, 'medium'>,
+        MediaFormat
+      >
     >
   > {
     const query = `
@@ -95,6 +100,8 @@ export class AnilistHttpClient extends BaseHttpClient {
         Page {
           media (search: $title, type: ANIME) {
             idMal
+            format
+            seasonYear
             title {
               english
             }
@@ -111,7 +118,11 @@ export class AnilistHttpClient extends BaseHttpClient {
 
     return this.query<
       PostResponseFromPage<
-        Media<Pick<MediaTitle, 'english'>, Pick<MediaCoverImage, 'medium'>>
+        Media<
+          Pick<MediaTitle, 'english'>,
+          Pick<MediaCoverImage, 'medium'>,
+          MediaFormat
+        >
       >
     >(query, variables);
   }
