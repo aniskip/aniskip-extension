@@ -7,7 +7,7 @@ const page = PageFactory.getPage(window.location.href);
 // Inject search overlay once when the document body loads.
 new MutationObserver((_mutations, observer) => {
   if (document.body) {
-    page.injectSearchOverlay();
+    page.injectOverlay();
     observer.disconnect();
   }
 }).observe(document, { subtree: true, childList: true });

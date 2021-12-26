@@ -34,7 +34,17 @@ export type Page = {
   getMalId(): Promise<number>;
 
   /**
-   * Injects the search overlay for manual anime detection.
+   * Injects the anime search overlay for manual anime detection.
    */
-  injectSearchOverlay(): void;
+  injectOverlay(): void;
+
+  /**
+   * Opens the anime search overlay for manual anime detection.
+   */
+  openOverlay(): void;
+
+  /**
+   * Closes the anime search overlay for manual anime detection.
+   */
+  closeOverlay(): void;
 };
