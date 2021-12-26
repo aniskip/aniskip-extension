@@ -2,9 +2,10 @@ import { configureStore, ConfigureStoreOptions } from '@reduxjs/toolkit';
 import devToolsEnhancer from 'remote-redux-devtools';
 import page from './page';
 import player from './player';
+import settings from './settings';
 
 const options: ConfigureStoreOptions = {
-  reducer: { player, page },
+  reducer: { player, page, settings },
   devTools: false,
 };
 

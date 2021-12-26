@@ -23,7 +23,7 @@ import {
   setSkipTimeIndicatorColours,
   setSkipOption,
   setSkipOptions,
-} from '../../data';
+} from '../../../data';
 import { ColourPicker } from '../ColourPicker';
 
 export function SettingsPage(): JSX.Element {

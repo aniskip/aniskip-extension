@@ -2,7 +2,7 @@ import {
   SkipTimeIndicatorColours,
   SkipOptions,
   SkipOptionType,
-} from '../../../scripts/background';
+} from '../../scripts/background';
 
 export type SettingsState = {
   skipOptions: SkipOptions;

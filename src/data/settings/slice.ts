@@ -9,8 +9,8 @@ import {
   DEFAULT_SKIP_OPTIONS,
   SkipTimeIndicatorColours,
   SkipOptions,
-} from '../../../scripts/background';
-import { StateSlice } from '../../../utils';
+} from '../../scripts/background';
+import { StateSlice } from '../../utils';
 
 /**
  * Initial state.
