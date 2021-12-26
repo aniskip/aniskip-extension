@@ -6,7 +6,7 @@ import { PageState } from './types';
  * Initial state.
  */
 const initialPageState: PageState = {
-  isOverlayOpen: true,
+  isOverlayOpen: false,
 };
 
 /**

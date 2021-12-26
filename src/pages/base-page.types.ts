@@ -42,9 +42,4 @@ export type Page = {
    * Opens the anime search overlay for manual anime detection.
    */
   openOverlay(): void;
-
-  /**
-   * Closes the anime search overlay for manual anime detection.
-   */
-  closeOverlay(): void;
 };

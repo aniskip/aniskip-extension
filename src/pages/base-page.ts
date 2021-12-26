@@ -14,7 +14,7 @@ import {
 } from '../utils';
 import { LocalOptions } from '../scripts/background';
 import { OverlayRenderer } from '../renderers';
-import { closeOverlay, configuredStore, openOverlay, Store } from '../data';
+import { configuredStore, openOverlay, Store } from '../data';
 
 export abstract class BasePage implements Page {
   providerName: string;
@@ -239,11 +239,6 @@ export abstract class BasePage implements Page {
 
   openOverlay(): void {
     this.store.dispatch(openOverlay());
-    this.overlayRenderer.render();
-  }
-
-  closeOverlay(): void {
-    this.store.dispatch(closeOverlay());
     this.overlayRenderer.render();
   }
 }

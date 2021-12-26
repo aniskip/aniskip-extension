@@ -41,16 +41,21 @@ const messageHandler = (message: Message): any => {
   switch (message.type) {
     case 'get-episode-information': {
       (async (): Promise<void> => {
-        const episodeInformation = await getEpisodeInformation();
+        try {
+          const episodeInformation = await getEpisodeInformation();
 
-        browser.runtime.sendMessage({
-          payload: episodeInformation,
-          uuid: message.uuid,
-        } as Message);
+          browser.runtime.sendMessage({
+            payload: episodeInformation,
+            uuid: message.uuid,
+          } as Message);
+        } catch (error: any) {
+          page.openOverlay();
+        }
       })();
       break;
     }
     default:
+    // no default
   }
 };
 
