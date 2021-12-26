@@ -1,8 +1,9 @@
 import React from 'react';
 import { Transition } from '@headlessui/react';
-import { closeOverlay, selectIsOverlayOpen } from '../../data';
+import { closeOverlay, openOverlay, selectIsOverlayOpen } from '../../data';
 import { useDispatch, useSelector } from '../../hooks';
 import { AnimeSearchModal } from '../AnimeSearchModal';
+import { useWindowEvent } from '../../utils';
 
 export function Overlay(): JSX.Element {
   const isOpen = useSelector(selectIsOverlayOpen);
@@ -20,6 +21,17 @@ export function Overlay(): JSX.Element {
   const onClose = (): void => {
     dispatch(closeOverlay());
   };
+
+  /**
+   * Open the modal if the shortcut was pressed.
+   */
+  useWindowEvent('keydown', (event: KeyboardEvent): void => {
+    if (event.key !== ' ' || !event.ctrlKey || !onClose) {
+      return;
+    }
+
+    dispatch(openOverlay());
+  });
 
   return (
     <Transition

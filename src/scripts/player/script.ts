@@ -43,6 +43,7 @@ const messageHandler = (message: Message): any => {
         return;
       }
 
+      player.clearSkipTimes();
       player.initialiseSkipTimes();
       break;
     }

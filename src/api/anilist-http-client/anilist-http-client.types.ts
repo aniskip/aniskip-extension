@@ -58,3 +58,9 @@ export type PostResponseFromPage<M extends Partial<Media>> = {
     };
   };
 };
+
+export type PostResponseFromMedia<M extends Partial<Media>> = {
+  data: {
+    Media: M;
+  };
+};

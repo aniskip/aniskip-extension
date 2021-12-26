@@ -18,6 +18,7 @@ import {
   configuredStore,
   readyPlayer,
   removePreviewSkipTimes,
+  removeSkipTimes,
   reset,
   selectIsPlayerReady,
   selectSkipTimes,
@@ -128,6 +129,11 @@ export class BasePlayer implements Player {
 
       this.scheduledSkipTime = null;
     }
+  }
+
+  clearSkipTimes(): void {
+    this.clearScheduledSkipTime();
+    this.store.dispatch(removeSkipTimes());
   }
 
   /**

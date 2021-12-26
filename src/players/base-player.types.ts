@@ -22,6 +22,11 @@ export interface Player {
   addSkipTime(skipTime: SkipTime, manual?: boolean): void;
 
   /**
+   * Clears the stored skip times.
+   */
+  clearSkipTimes(): void;
+
+  /**
    * Returns the video element duration.
    */
   getDuration(): number;

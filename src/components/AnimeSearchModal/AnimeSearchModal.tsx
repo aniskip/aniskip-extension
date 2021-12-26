@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import debounce from 'lodash.debounce';
 import { BiSearch } from 'react-icons/bi';
@@ -11,15 +11,23 @@ import {
 } from '../../utils';
 import { AnimeSearchModalProps, SearchResult } from './AnimeSearchModal.types';
 import { Message } from '../../scripts/background';
-import { useDispatch } from '../../hooks';
-import { setMalId } from '../../data';
+import { useDispatch, useSelector } from '../../hooks';
+import {
+  selectIsInitialOverlayOpen,
+  selectMalId,
+  setIsInitialOverlayOpen,
+  setMalId,
+} from '../../data';
 
 export function AnimeSearchModal({
   onClose,
 }: AnimeSearchModalProps): JSX.Element {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [animeDetected, setAnimeDetected] = useState<SearchResult>();
   const anilistHttpClient = useRef<AnilistHttpClient>(new AnilistHttpClient());
   const animeSearchModalRef = useRef<HTMLDivElement>(null);
+  const isInitialOverlayOpen = useSelector(selectIsInitialOverlayOpen);
+  const detectedMalId = useSelector(selectMalId);
   const shadowRoot = useShadowRootRef();
   const page = usePageRef();
   const dispatch = useDispatch();
@@ -39,15 +47,20 @@ export function AnimeSearchModal({
           .filter(
             (searchResult) => searchResult.idMal && searchResult.title.english
           )
-          .map((searchResult) => ({
-            malId: searchResult.idMal,
-            title: searchResult.title.english,
-            format: searchResult.format,
-            seasonYear: searchResult.seasonYear,
-            coverImage: searchResult.coverImage.medium,
-          }));
+          .map(
+            (searchResult) =>
+              ({
+                malId: searchResult.idMal,
+                title: searchResult.title.english,
+                format: searchResult.format,
+                seasonYear: searchResult.seasonYear,
+                coverImage: searchResult.coverImage.medium,
+              } as SearchResult)
+          );
 
         setSearchResults(results);
+
+        dispatch(setIsInitialOverlayOpen(false));
       },
       500
     ),
@@ -116,6 +129,34 @@ export function AnimeSearchModal({
     onClose();
   });
 
+  /**
+   * Display detected episode on first open.
+   */
+  useEffect(() => {
+    (async (): Promise<void> => {
+      dispatch(setIsInitialOverlayOpen(true));
+
+      if (detectedMalId === 0) {
+        return;
+      }
+
+      const searchResponse = await anilistHttpClient.current?.searchCoverImage(
+        detectedMalId
+      );
+      const media = searchResponse.data.Media;
+
+      const searchResult: SearchResult = {
+        coverImage: media.coverImage.medium,
+        format: media.format,
+        seasonYear: media.seasonYear,
+        malId: media.idMal,
+        title: media.title.english,
+      };
+
+      setAnimeDetected(searchResult);
+    })();
+  }, []);
+
   return (
     <div
       role="dialog"
@@ -140,43 +181,72 @@ export function AnimeSearchModal({
         </button>
       </div>
       <hr />
-      {searchResults.length === 0 ? (
-        <div className="flex items-center justify-center p-20">
-          <span className="text-lg text-gray-400">No search results</span>
-        </div>
-      ) : (
-        <ul
-          className="flex flex-col space-y-2 overflow-y-auto px-4 py-6"
-          role="listbox"
-        >
-          {searchResults.map((searchResult) => (
-            <li
-              tabIndex={0}
-              role="option"
-              aria-selected="false"
-              className="group flex space-x-2 bg-gray-100 rounded-md p-4 hover:bg-amber-100"
-              key={searchResult.malId}
-              onClick={onClickAnimeOption(searchResult.malId)}
-              onKeyDown={onKeyDownAnimeOption(searchResult.malId)}
-            >
+      {isInitialOverlayOpen &&
+        (animeDetected ? (
+          <div className="flex flex-col space-y-4 overflow-y-auto px-4 py-6">
+            <span className="font-semibold">Anime detected</span>
+            <div className="flex space-x-2 bg-gray-100 rounded-md p-4">
               <img
                 className="object-cover rounded-md w-16"
-                src={searchResult.coverImage}
-                alt={`${searchResult.title} cover`}
+                src={animeDetected.coverImage}
+                alt={`${animeDetected.title} cover`}
               />
-              <div className="flex flex-col justify-center overflow-auto">
-                <span className="font-bold truncate group-hover:text-amber-900">
-                  {searchResult.title}
+              <div className="flex flex-col justify-center">
+                <span className="font-bold truncate">
+                  {animeDetected.title}
                 </span>
-                <span className="font-semibold text-sm text-gray-500 group-hover:text-amber-900">
-                  {searchResult.seasonYear}{' '}
-                  {MEDIA_FORMAT_NAMES[searchResult.format]}
+                <span className="font-semibold text-sm text-gray-500">
+                  {animeDetected.seasonYear}{' '}
+                  {MEDIA_FORMAT_NAMES[animeDetected.format]}
                 </span>
               </div>
-            </li>
-          ))}
-        </ul>
-      )}
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center p-20">
+            <span className="text-lg text-gray-400">No anime detected</span>
+          </div>
+        ))}
+      {!isInitialOverlayOpen &&
+        (searchResults.length === 0 ? (
+          <div className="flex items-center justify-center p-20">
+            <span className="text-lg text-gray-400">No search results</span>
+          </div>
+        ) : (
+          <div className="px-4 py-6 overflow-y-auto">
+            <div className="pb-4">
+              <span className="font-semibold">Search results</span>
+            </div>
+            <ul className="flex flex-col space-y-2" role="listbox">
+              {searchResults.map((searchResult) => (
+                <li
+                  tabIndex={0}
+                  role="option"
+                  aria-selected="false"
+                  className="group flex space-x-2 bg-gray-100 rounded-md p-4 hover:bg-amber-100"
+                  key={searchResult.malId}
+                  onClick={onClickAnimeOption(searchResult.malId)}
+                  onKeyDown={onKeyDownAnimeOption(searchResult.malId)}
+                >
+                  <img
+                    className="object-cover rounded-md w-16"
+                    src={searchResult.coverImage}
+                    alt={`${searchResult.title} cover`}
+                  />
+                  <div className="flex flex-col justify-center overflow-auto">
+                    <span className="font-bold truncate group-hover:text-amber-900">
+                      {searchResult.title}
+                    </span>
+                    <span className="font-semibold text-sm text-gray-500 group-hover:text-amber-900">
+                      {searchResult.seasonYear}{' '}
+                      {MEDIA_FORMAT_NAMES[searchResult.format]}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
     </div>
   );
 }

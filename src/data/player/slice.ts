@@ -65,6 +65,9 @@ const playerStateSlice = createSlice({
         }
       }
     },
+    removeSkipTimes: (state) => {
+      state.skipTimes = [];
+    },
     removePreviewSkipTimes: (state) => {
       state.skipTimes.forEach((skipTime, index) => {
         if (skipTime.skipType === 'preview') {
@@ -83,6 +86,7 @@ export const {
   readyPlayer,
   removePreviewSkipTimes,
   removeSkipTime,
+  removeSkipTimes,
   reset,
 } = playerStateSlice.actions;
 export default playerStateSlice.reducer;

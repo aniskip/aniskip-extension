@@ -4,6 +4,7 @@ import {
   MediaCoverImage,
   MediaFormat,
   MediaTitle,
+  PostResponseFromMedia,
   PostResponseFromPage,
 } from './anilist-http-client.types';
 
@@ -35,9 +36,7 @@ export class AnilistHttpClient extends BaseHttpClient {
   /**
    * Searches Anilist for title synonyms.
    *
-   * @param type Specify what to search.
-   * @param q Query to search.
-   * @param limit search result limit.
+   * @param title Title to search for.
    */
   async searchTitleSynonyms(
     title: string
@@ -80,9 +79,7 @@ export class AnilistHttpClient extends BaseHttpClient {
   /**
    * Searches Anilist title cover images.
    *
-   * @param type Specify what to search.
-   * @param q Query to search.
-   * @param limit search result limit.
+   * @param title Title to search for.
    */
   async searchTitleCoverImages(
     title: string
@@ -112,12 +109,60 @@ export class AnilistHttpClient extends BaseHttpClient {
         }
       }
     `;
+
     const variables = {
       title,
     };
 
     return this.query<
       PostResponseFromPage<
+        Media<
+          Pick<MediaTitle, 'english'>,
+          Pick<MediaCoverImage, 'medium'>,
+          MediaFormat
+        >
+      >
+    >(query, variables);
+  }
+
+  /**
+   * Searches Anilist for the cover image.
+   *
+   * @param malId MAL id of the cover image to search for.
+   */
+  async searchCoverImage(
+    malId: number
+  ): Promise<
+    PostResponseFromMedia<
+      Media<
+        Pick<MediaTitle, 'english'>,
+        Pick<MediaCoverImage, 'medium'>,
+        MediaFormat
+      >
+    >
+  > {
+    const query = `
+      query ($malId: Int) {
+        Media (idMal: $malId, type: ANIME) {
+          idMal
+          title {
+            english
+          }
+          coverImage {
+            medium
+          }
+          format
+          seasonYear
+        }
+      }
+    `;
+
+    const variables = {
+      malId,
+    };
+
+    return this.query<
+      PostResponseFromMedia<
         Media<
           Pick<MediaTitle, 'english'>,
           Pick<MediaCoverImage, 'medium'>,
