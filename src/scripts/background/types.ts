@@ -60,12 +60,14 @@ export const DEFAULT_LOCAL_OPTIONS: LocalOptions = {
   malIdCache: {},
   rulesCache: {},
   skipTimesVoted: {},
+  manualTitleMalIdMap: {},
 };
 
 export type LocalOptions = {
   malIdCache: Partial<Record<string, CacheEntry<number>>>;
   rulesCache: Partial<Record<string, CacheEntry<Rule[]>>>;
   skipTimesVoted: Partial<Record<string, VoteType>>;
+  manualTitleMalIdMap: Partial<Record<string, number>>;
 };
 
 export type MessageType =

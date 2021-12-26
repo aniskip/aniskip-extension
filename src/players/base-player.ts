@@ -54,7 +54,9 @@ export class BasePlayer implements Player {
     this.skipOptions = DEFAULT_SKIP_OPTIONS;
 
     (async (): Promise<void> => {
-      const { skipOptions } = await browser.storage.sync.get('skipOptions');
+      const { skipOptions } = await browser.storage.sync.get({
+        skipOptions: DEFAULT_SKIP_OPTIONS,
+      });
       this.skipOptions = skipOptions;
     })();
 
@@ -244,7 +246,9 @@ export class BasePlayer implements Player {
       return;
     }
 
-    const { skipOptions } = await browser.storage.sync.get('skipOptions');
+    const { skipOptions } = await browser.storage.sync.get({
+      skipOptions: DEFAULT_SKIP_OPTIONS,
+    });
 
     const skipTimeTypes: SkipType[] = [];
     Object.entries(skipOptions).forEach(([skipType, value]) => {

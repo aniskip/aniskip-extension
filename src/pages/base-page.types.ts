@@ -9,6 +9,11 @@ export type Page = {
   applyRules(): Promise<void>;
 
   /**
+   * Stores the manually selected title to MAL id mapping.
+   */
+  storeManualTitleToMalIdMapping(malId: number): Promise<void>;
+
+  /**
    * Returns the title.
    */
   getTitle(): string;

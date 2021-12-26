@@ -7,6 +7,7 @@ import {
   useShadowRootRef,
   useWindowEvent,
   useShadowRootEvent,
+  usePageRef,
 } from '../../utils';
 import { AnimeSearchModalProps, SearchResult } from './AnimeSearchModal.types';
 import { Message } from '../../scripts/background';
@@ -20,6 +21,7 @@ export function AnimeSearchModal({
   const anilistHttpClient = useRef<AnilistHttpClient>(new AnilistHttpClient());
   const animeSearchModalRef = useRef<HTMLDivElement>(null);
   const shadowRoot = useShadowRootRef();
+  const page = usePageRef();
   const dispatch = useDispatch();
 
   /**
@@ -63,6 +65,7 @@ export function AnimeSearchModal({
     }
 
     dispatch(setMalId(malId));
+    page?.storeManualTitleToMalIdMapping(malId);
 
     browser.runtime.sendMessage({ type: 'initialise-skip-times' } as Message);
 
@@ -81,9 +84,10 @@ export function AnimeSearchModal({
         return;
       }
 
-      browser.runtime.sendMessage({ type: 'initialise-skip-times' } as Message);
-
       dispatch(setMalId(malId));
+      page?.storeManualTitleToMalIdMapping(malId);
+
+      browser.runtime.sendMessage({ type: 'initialise-skip-times' } as Message);
 
       onClose();
     };
