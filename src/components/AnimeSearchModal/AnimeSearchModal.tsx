@@ -18,6 +18,7 @@ import {
   setIsInitialOverlayOpen,
   setMalId,
 } from '../../data';
+import { Keyboard } from '../Keyboard';
 
 export function AnimeSearchModal({
   onClose,
@@ -26,6 +27,7 @@ export function AnimeSearchModal({
   const [animeDetected, setAnimeDetected] = useState<SearchResult>();
   const anilistHttpClient = useRef<AnilistHttpClient>(new AnilistHttpClient());
   const animeSearchModalRef = useRef<HTMLDivElement>(null);
+  const searchBarRef = useRef<HTMLInputElement>(null);
   const isInitialOverlayOpen = useSelector(selectIsInitialOverlayOpen);
   const detectedMalId = useSelector(selectMalId);
   const shadowRoot = useShadowRootRef();
@@ -130,9 +132,11 @@ export function AnimeSearchModal({
   });
 
   /**
-   * Display detected episode on first open.
+   * Focus the search bar and display the detected episode on first open.
    */
   useEffect(() => {
+    searchBarRef.current?.focus();
+
     (async (): Promise<void> => {
       dispatch(setIsInitialOverlayOpen(true));
 
@@ -167,18 +171,20 @@ export function AnimeSearchModal({
         <BiSearch className="w-5 h-5" />
         <div className="px-4 flex-auto">
           <input
+            ref={searchBarRef}
             className="h-14 w-full bg-inherit focus:outline-none"
             placeholder="Search anime"
             onChange={onChangeSearchBar}
           />
         </div>
-        <button
+        <Keyboard
+          as="button"
           className="font-semibold uppercase text-[0.625em] border border-gray-200 p-2 rounded-md hover:shadow-md hover:border-gray-300 active:border-gray-400"
           type="button"
           onClick={onClose}
         >
           Esc
-        </button>
+        </Keyboard>
       </div>
       <hr />
       {isInitialOverlayOpen &&

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { browser } from 'webextension-polyfill-ts';
 import { ColorResult } from 'react-color';
 import { SkipType, SKIP_TYPES, SKIP_TYPE_NAMES } from '../../../api';
-import { DefaultButton, Dropdown } from '../../../components';
+import { DefaultButton, Dropdown, Input } from '../../../components';
 import {
   DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
   DEFAULT_SKIP_OPTIONS,
@@ -127,7 +127,7 @@ export function SettingsPage(): JSX.Element {
 
   return (
     <div className="sm:border sm:rounded-md border-gray-300 px-8 py-8 sm:bg-white">
-      <h1 className="text-lg text-gray-900 font-semibold mb-3">Skip options</h1>
+      <h2 className="text-lg text-gray-900 font-semibold mb-3">Skip options</h2>
       <div className="space-y-3 w-full mb-6">
         {filteredSkipTypes.map((skipType) => (
           <div className="space-y-1" key={skipType}>
@@ -152,9 +152,19 @@ export function SettingsPage(): JSX.Element {
         ))}
       </div>
       <hr className="mb-6" />
-      <h1 className="text-lg text-gray-900 font-semibold mb-3">
+      <h2 className="text-lg text-gray-900 font-semibold mb-3">Keybinds</h2>
+      <div className="space-y-3 w-full mb-6">
+        <div className="space-y-1">
+          <div className="text-xs text-gray-700 uppercase font-semibold">
+            Open overlay
+          </div>
+          <Input className="w-full" />
+        </div>
+      </div>
+      <hr className="mb-6" />
+      <h2 className="text-lg text-gray-900 font-semibold mb-3">
         Miscellaneous options
-      </h1>
+      </h2>
       <div className="space-y-1">
         <div className="flex items-center justify-between">
           <div className="text-xs text-gray-700 uppercase font-semibold">
