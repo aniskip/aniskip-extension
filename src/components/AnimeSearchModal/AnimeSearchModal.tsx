@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { BiSearch } from 'react-icons/bi';
 import debounce from 'lodash.debounce';
+import { BiSearch } from 'react-icons/bi';
 import { AnilistHttpClient, MEDIA_FORMAT_NAMES } from '../../api';
 import {
   useShadowRootRef,
@@ -46,6 +46,34 @@ export function AnimeSearchModal({
     ),
     []
   );
+
+  /**
+   * Sends the selected anime MAL ID to the player script.
+   *
+   * @param malId MAL ID to send.
+   */
+  const onClickAnimeOption = (malId: number) => (): void => {
+    if (!onClose) {
+      return;
+    }
+
+    onClose();
+  };
+
+  /**
+   * Sends the selected anime MAL ID to the player script.
+   *
+   * @param malId MAL ID to send.
+   */
+  const onKeyDownAnimeOption =
+    (malId: number) =>
+    (event: React.KeyboardEvent<HTMLLIElement>): void => {
+      if (event.key !== 'Enter' || !onClose) {
+        return;
+      }
+
+      onClose();
+    };
 
   /**
    * Close the modal if the overlay was clicked.
@@ -100,11 +128,19 @@ export function AnimeSearchModal({
           <span className="text-lg text-gray-400">No search results</span>
         </div>
       ) : (
-        <div className="flex flex-col space-y-2 overflow-y-auto px-4 py-6">
+        <ul
+          className="flex flex-col space-y-2 overflow-y-auto px-4 py-6"
+          role="listbox"
+        >
           {searchResults.map((searchResult) => (
-            <div
+            <li
+              tabIndex={0}
+              role="option"
+              aria-selected="false"
               className="group flex space-x-2 bg-gray-100 rounded-md p-4 hover:bg-amber-100"
               key={searchResult.malId}
+              onClick={onClickAnimeOption(searchResult.malId)}
+              onKeyDown={onKeyDownAnimeOption(searchResult.malId)}
             >
               <img
                 className="object-cover rounded-md w-16"
@@ -120,9 +156,9 @@ export function AnimeSearchModal({
                   {MEDIA_FORMAT_NAMES[searchResult.format]}
                 </span>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );
