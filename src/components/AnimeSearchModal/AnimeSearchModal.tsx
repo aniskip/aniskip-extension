@@ -75,7 +75,7 @@ export function AnimeSearchModal({
     <div
       role="dialog"
       ref={animeSearchModalRef}
-      className="flex flex-col bg-neutral-50 rounded-md font-sans shadow-md max-w-2xl max-h-full md:mx-auto"
+      className="flex flex-col bg-neutral-50 rounded-md font-sans shadow-md max-w-2xl max-h-full sm:mx-auto"
     >
       <div className="flex items-center px-4">
         <BiSearch className="w-5 h-5" />
