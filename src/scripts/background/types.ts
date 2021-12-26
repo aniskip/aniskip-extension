@@ -68,7 +68,10 @@ export type LocalOptions = {
   skipTimesVoted: Partial<Record<string, VoteType>>;
 };
 
-export type MessageType = 'fetch' | 'get-episode-information';
+export type MessageType =
+  | 'fetch'
+  | 'get-episode-information'
+  | 'initialise-skip-times';
 
 export type Message = {
   type: MessageType;

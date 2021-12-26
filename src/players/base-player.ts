@@ -236,9 +236,14 @@ export class BasePlayer implements Player {
    */
   async initialiseSkipTimes(): Promise<void> {
     const aniskipHttpClient = new AniskipHttpClient();
-    const { malId, episodeNumber } = await browser.runtime.sendMessage({
+    const { malId, episodeNumber, error } = await browser.runtime.sendMessage({
       type: 'get-episode-information',
     } as Message);
+
+    if (error) {
+      return;
+    }
+
     const { skipOptions } = await browser.storage.sync.get('skipOptions');
 
     const skipTimeTypes: SkipType[] = [];

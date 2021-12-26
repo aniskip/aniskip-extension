@@ -13,27 +13,7 @@ new MutationObserver((_mutations, observer) => {
 }).observe(document, { subtree: true, childList: true });
 
 /**
- * Returns the MAL id, episode number and provider name.
- */
-const getEpisodeInformation = async (): Promise<{
-  malId: number;
-  episodeNumber: number;
-  providerName: string;
-}> => {
-  await page.applyRules();
-  const malId = await page.getMalId();
-  const providerName = page.getProviderName();
-  const episodeNumber = page.getEpisodeNumber();
-
-  return {
-    malId,
-    episodeNumber,
-    providerName,
-  };
-};
-
-/**
- * Handles messages between the player and the background script.
+ * Handles messages from the player script.
  *
  * @param message Message containing the type of action and the payload.
  */
@@ -41,16 +21,26 @@ const messageHandler = (message: Message): any => {
   switch (message.type) {
     case 'get-episode-information': {
       (async (): Promise<void> => {
-        try {
-          const episodeInformation = await getEpisodeInformation();
+        await page.applyRules();
+        const malId = await page.getMalId();
+        const providerName = page.getProviderName();
+        const episodeNumber = page.getEpisodeNumber();
 
+        if (malId === 0) {
           browser.runtime.sendMessage({
-            payload: episodeInformation,
+            payload: { error: 'MAL id not found' },
             uuid: message.uuid,
           } as Message);
-        } catch (error: any) {
+
           page.openOverlay();
+
+          return;
         }
+
+        browser.runtime.sendMessage({
+          payload: { malId, providerName, episodeNumber },
+          uuid: message.uuid,
+        } as Message);
       })();
       break;
     }

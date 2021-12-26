@@ -1,4 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
+import { browser } from 'webextension-polyfill-ts';
 import debounce from 'lodash.debounce';
 import { BiSearch } from 'react-icons/bi';
 import { AnilistHttpClient, MEDIA_FORMAT_NAMES } from '../../api';
@@ -8,6 +9,9 @@ import {
   useShadowRootEvent,
 } from '../../utils';
 import { AnimeSearchModalProps, SearchResult } from './AnimeSearchModal.types';
+import { Message } from '../../scripts/background';
+import { useDispatch } from '../../hooks';
+import { setMalId } from '../../data';
 
 export function AnimeSearchModal({
   onClose,
@@ -16,6 +20,7 @@ export function AnimeSearchModal({
   const anilistHttpClient = useRef<AnilistHttpClient>(new AnilistHttpClient());
   const animeSearchModalRef = useRef<HTMLDivElement>(null);
   const shadowRoot = useShadowRootRef();
+  const dispatch = useDispatch();
 
   /**
    * Handles search bar input change.
@@ -48,24 +53,26 @@ export function AnimeSearchModal({
   );
 
   /**
-   * Sends the selected anime MAL ID to the player script.
+   * Sends the selected anime MAL id to the player script.
    *
-   * @param malId MAL ID to send.
+   * @param malId MAL id to send.
    */
   const onClickAnimeOption = (malId: number) => (): void => {
     if (!onClose) {
       return;
     }
 
-    console.log({ malId });
+    dispatch(setMalId(malId));
+
+    browser.runtime.sendMessage({ type: 'initialise-skip-times' } as Message);
 
     onClose();
   };
 
   /**
-   * Sends the selected anime MAL ID to the player script.
+   * Sends the selected anime MAL id to the player script.
    *
-   * @param malId MAL ID to send.
+   * @param malId MAL id to send.
    */
   const onKeyDownAnimeOption =
     (malId: number) =>
@@ -74,7 +81,9 @@ export function AnimeSearchModal({
         return;
       }
 
-      console.log({ malId });
+      browser.runtime.sendMessage({ type: 'initialise-skip-times' } as Message);
+
+      dispatch(setMalId(malId));
 
       onClose();
     };

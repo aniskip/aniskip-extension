@@ -14,14 +14,18 @@ import {
 } from '../utils';
 import { LocalOptions } from '../scripts/background';
 import { OverlayRenderer } from '../renderers';
-import { configuredStore, openOverlay, Store } from '../data';
+import {
+  configuredStore,
+  openOverlay,
+  selectEpisodeNumber,
+  selectMalId,
+  setEpisodeNumber,
+  setMalId,
+  Store,
+} from '../data';
 
 export abstract class BasePage implements Page {
   providerName: string;
-
-  malId: number;
-
-  episodeNumber: number;
 
   store: Store;
 
@@ -30,8 +34,6 @@ export abstract class BasePage implements Page {
   constructor() {
     const domainName = getDomainName(window.location.hostname);
     this.providerName = capitalizeFirstLetter(domainName);
-    this.malId = 0;
-    this.episodeNumber = 0;
     this.store = configuredStore;
     this.overlayRenderer = new OverlayRenderer('aniskip-overay', this.store);
   }
@@ -43,6 +45,12 @@ export abstract class BasePage implements Page {
   async applyRules(): Promise<void> {
     const aniskipHttpClient = new AniskipHttpClient();
     const malId = await this.getMalId();
+
+    // MAL id not found automatically.
+    if (malId === 0) {
+      return;
+    }
+
     let rules = await BasePage.getCachedRules(malId);
 
     if (!rules) {
@@ -62,7 +70,7 @@ export abstract class BasePage implements Page {
     }
 
     let rawEpisodeNumber = this.getRawEpisodeNumber();
-    this.episodeNumber = rawEpisodeNumber;
+    this.store.dispatch(setEpisodeNumber(rawEpisodeNumber));
 
     rules.forEach((rule) => {
       const { start, end: endOrUndefined } = rule.from;
@@ -77,14 +85,14 @@ export abstract class BasePage implements Page {
       }
 
       if (rawEpisodeNumber >= start && rawEpisodeNumber <= end) {
-        this.malId = toMalId;
-        this.episodeNumber = rawEpisodeNumber - (start - 1);
+        this.store.dispatch(setMalId(toMalId));
+        this.store.dispatch(setEpisodeNumber(rawEpisodeNumber - (start - 1)));
       }
     });
   }
 
   getEpisodeNumber(): number {
-    return this.episodeNumber;
+    return selectEpisodeNumber(this.store.getState());
   }
 
   getTitle(): string {
@@ -96,9 +104,11 @@ export abstract class BasePage implements Page {
   }
 
   async getMalId(): Promise<number> {
+    let malId = selectMalId(this.store.getState());
+
     // Episode redirection rules applied.
-    if (this.malId > 0) {
-      return this.malId;
+    if (malId > 0) {
+      return malId;
     }
 
     const identifier = this.getIdentifier();
@@ -106,22 +116,33 @@ export abstract class BasePage implements Page {
       return 0;
     }
 
-    this.malId = await BasePage.getCachedMalId(identifier);
-    if (this.malId > 0) {
-      return this.malId;
+    this.store.dispatch(setMalId(await BasePage.getCachedMalId(identifier)));
+    malId = selectMalId(this.store.getState());
+
+    if (malId > 0) {
+      return malId;
     }
 
     try {
       const providerName = this.getProviderName();
       const malsyncHttpClient = new MalsyncHttpClient();
-      this.malId = await malsyncHttpClient.getMalId(providerName, identifier);
+      this.store.dispatch(
+        setMalId(await malsyncHttpClient.getMalId(providerName, identifier))
+      );
     } catch {
       // MALSync was not able to find the id.
       const title = this.getTitle();
       if (!title) {
         return 0;
       }
-      this.malId = await BasePage.findClosestMalId(title);
+
+      this.store.dispatch(setMalId(await BasePage.findClosestMalId(title)));
+      malId = selectMalId(this.store.getState());
+
+      // Titles found were not similar enough.
+      if (malId === 0) {
+        return 0;
+      }
     }
 
     // Cache MAL id and expire it next week.
@@ -131,12 +152,12 @@ export abstract class BasePage implements Page {
 
     malIdCache[identifier] = {
       expires: getNextWeekDate().toJSON(),
-      value: this.malId,
+      value: malId,
     };
 
     browser.storage.local.set({ malIdCache });
 
-    return this.malId;
+    return malId;
   }
 
   static getMetadata(): Metadata {
@@ -182,7 +203,7 @@ export abstract class BasePage implements Page {
       return closest;
     }
 
-    throw new Error('Closest MAL id not found');
+    return 0;
   }
 
   /**

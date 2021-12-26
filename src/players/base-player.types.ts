@@ -52,6 +52,11 @@ export interface Player {
   initialise(): void;
 
   /**
+   * Initialises the skip times.
+   */
+  initialiseSkipTimes(): Promise<void>;
+
+  /**
    * Checks if the player controls are visible to the user.
    */
   isControlsVisible(): boolean;

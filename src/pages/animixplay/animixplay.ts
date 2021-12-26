@@ -1,3 +1,4 @@
+import { selectMalId, setMalId } from '../../data';
 import { BasePage } from '../base-page';
 import { Metadata } from '../base-page.types';
 import metadata from './metadata.json';
@@ -38,13 +39,16 @@ export class AniMixPlay extends BasePage {
   }
 
   getMalId(): Promise<number> {
+    let malId = selectMalId(this.store.getState());
+
     // Redirection rules applied.
-    if (this.malId > 0) {
-      return Promise.resolve(this.malId);
+    if (malId > 0) {
+      return Promise.resolve(malId);
     }
 
-    this.malId = parseInt(this.getIdentifier(), 10);
+    this.store.dispatch(setMalId(parseInt(this.getIdentifier(), 10)));
+    malId = selectMalId(this.store.getState());
 
-    return Promise.resolve(this.malId);
+    return Promise.resolve(malId);
   }
 }
