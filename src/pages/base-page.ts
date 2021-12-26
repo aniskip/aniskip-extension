@@ -14,6 +14,7 @@ import {
 } from '../utils';
 import { LocalOptions } from '../scripts/background';
 import { OverlayRenderer } from '../renderers';
+import { configuredStore, Store } from '../data';
 
 export abstract class BasePage implements Page {
   providerName: string;
@@ -22,6 +23,8 @@ export abstract class BasePage implements Page {
 
   episodeNumber: number;
 
+  store: Store;
+
   overlayRenderer: OverlayRenderer;
 
   constructor() {
@@ -29,7 +32,8 @@ export abstract class BasePage implements Page {
     this.providerName = capitalizeFirstLetter(domainName);
     this.malId = 0;
     this.episodeNumber = 0;
-    this.overlayRenderer = new OverlayRenderer('aniskip-overay');
+    this.store = configuredStore;
+    this.overlayRenderer = new OverlayRenderer('aniskip-overay', this.store);
   }
 
   abstract getIdentifier(): string;

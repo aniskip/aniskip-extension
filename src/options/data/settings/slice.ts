@@ -43,7 +43,7 @@ export const selectIsLoaded: Selector<
  * Slice definition.
  */
 const settingsStateSlice = createSlice({
-  name: 'player',
+  name: 'settings',
   initialState: initialSettingsState,
   reducers: {
     setSkipOption: (state, action: PayloadAction<SetSkipOption>) => {

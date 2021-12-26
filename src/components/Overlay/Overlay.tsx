@@ -1,16 +1,25 @@
+import React from 'react';
 import { Transition } from '@headlessui/react';
-import React, { useState } from 'react';
+import { closeOverlay, selectIsOverlayOpen } from '../../data';
+import { useDispatch, useSelector } from '../../hooks';
 import { AnimeSearchModal } from '../AnimeSearchModal';
-import { OverlayProps } from './Overlay.types';
 
-export function Overlay({ isOpen: _unused }: OverlayProps): JSX.Element {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+export function Overlay(): JSX.Element {
+  const isOpen = useSelector(selectIsOverlayOpen);
+  const dispatch = useDispatch();
 
   if (isOpen) {
     document.body.style.overflow = 'hidden';
   } else {
     document.body.style.overflow = 'auto';
   }
+
+  /**
+   * Close the overlay.
+   */
+  const onClose = (): void => {
+    dispatch(closeOverlay());
+  };
 
   return (
     <Transition
@@ -24,7 +33,7 @@ export function Overlay({ isOpen: _unused }: OverlayProps): JSX.Element {
       leaveTo="opacity-0"
     >
       <div className="fixed inset-0 w-screen h-screen z-[9999] backdrop-blur-sm p-4 md:p-[10vh]">
-        <AnimeSearchModal onClose={(): void => setIsOpen(false)} />
+        <AnimeSearchModal onClose={onClose} />
       </div>
     </Transition>
   );

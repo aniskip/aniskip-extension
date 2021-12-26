@@ -57,6 +57,8 @@ export function AnimeSearchModal({
       return;
     }
 
+    console.log({ malId });
+
     onClose();
   };
 
@@ -71,6 +73,8 @@ export function AnimeSearchModal({
       if (event.key !== 'Enter' || !onClose) {
         return;
       }
+
+      console.log({ malId });
 
       onClose();
     };
