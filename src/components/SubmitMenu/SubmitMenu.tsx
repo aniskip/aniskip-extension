@@ -11,10 +11,15 @@ import {
 import { DefaultButton } from '../DefaultButton';
 import { Dropdown, DropdownOptionsProps } from '../Dropdown';
 import { Input } from '../Input';
-import { Message } from '../../scripts/background';
+import {
+  DEFAULT_KEYBINDS,
+  Message,
+  SyncOptions,
+} from '../../scripts/background';
 import {
   formatTimeString,
   secondsToTimeString,
+  serialiseKeybind,
   timeStringToSeconds,
   usePlayerRef,
 } from '../../utils';
@@ -22,6 +27,8 @@ import { useAniskipHttpClient, useDispatch, useSelector } from '../../hooks';
 import {
   changeSubmitMenuVisibility,
   selectIsSubmitMenuVisible,
+  selectKeybinds,
+  setKeybinds,
 } from '../../data';
 
 export function SubmitMenu(): JSX.Element {
@@ -40,6 +47,7 @@ export function SubmitMenu(): JSX.Element {
   );
   const inputPatternTestRegexRef = useRef(/^[0-9:.]*$/);
   const visible = useSelector(selectIsSubmitMenuVisible);
+  const keybinds = useSelector(selectKeybinds);
   const player = usePlayerRef();
   const dispatch = useDispatch();
 
@@ -53,26 +61,6 @@ export function SubmitMenu(): JSX.Element {
   const skipTypeDropdownOptionsProps: DropdownOptionsProps = {
     className: 'max-h-[5.5em]',
   };
-
-  /**
-   * Initialise the start time to the current time and the end time to the
-   * current time + 90 seconds.
-   */
-  useEffect(() => {
-    if (visible) {
-      const duration = player?.getDuration() ?? 0;
-
-      const currentTime = player?.getCurrentTime() ?? 0;
-
-      setStartTime(secondsToTimeString(currentTime));
-      let newEndTime = currentTime + 90;
-      if (newEndTime > duration) {
-        newEndTime = Math.floor(duration);
-      }
-      setEndTime(secondsToTimeString(newEndTime));
-      setSkipType(currentTime < duration / 2 ? 'op' : 'ed');
-    }
-  }, [visible]);
 
   /**
    * Correct user input errors such as negative time or time greater than video
@@ -198,20 +186,20 @@ export function SubmitMenu(): JSX.Element {
       let modifier = 0.25;
       let updatedTime = timeSeconds;
 
-      switch (event.key) {
-        case 'J': {
+      switch (serialiseKeybind(event)) {
+        case keybinds['decrease-current-time-large']: {
           modifier = 0.1;
         }
         /* falls through */
-        case 'j': {
+        case keybinds['decrease-current-time']: {
           updatedTime -= modifier;
           break;
         }
-        case 'L': {
+        case keybinds['increase-current-time-large']: {
           modifier = 0.1;
         }
         /* falls through */
-        case 'l': {
+        case keybinds['increase-current-time']: {
           updatedTime += modifier;
           break;
         }
@@ -415,6 +403,44 @@ export function SubmitMenu(): JSX.Element {
   const onPointerLeave = (): void => {
     window.removeEventListener('wheel', preventDefault, false);
   };
+
+  /**
+   * Initialise the start time to the current time and the end time to the
+   * current time + 90 seconds.
+   */
+  useEffect(() => {
+    if (!visible) {
+      return;
+    }
+
+    // Initialise the start and end time.
+    const duration = player?.getDuration() ?? 0;
+
+    const currentTime = player?.getCurrentTime() ?? 0;
+
+    setStartTime(secondsToTimeString(currentTime));
+    let newEndTime = currentTime + 90;
+    if (newEndTime > duration) {
+      newEndTime = Math.floor(duration);
+    }
+    setEndTime(secondsToTimeString(newEndTime));
+    setSkipType(currentTime < duration / 2 ? 'op' : 'ed');
+  }, [visible]);
+
+  /**
+   * Initialise keybinds.
+   */
+  useEffect(() => {
+    (async (): Promise<void> => {
+      const syncedKeybinds = (
+        (await browser.storage.sync.get({
+          keybinds: DEFAULT_KEYBINDS,
+        })) as SyncOptions
+      ).keybinds;
+
+      dispatch(setKeybinds(syncedKeybinds));
+    })();
+  }, []);
 
   return (
     <div

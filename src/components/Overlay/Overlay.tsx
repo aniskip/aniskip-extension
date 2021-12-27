@@ -6,7 +6,6 @@ import {
   openOverlay,
   selectIsOverlayOpen,
   selectKeybinds,
-  setIsSettingsLoaded,
   setKeybinds,
 } from '../../data';
 import { useDispatch, useSelector } from '../../hooks';
@@ -49,7 +48,7 @@ export function Overlay(): JSX.Element {
   });
 
   /**
-   * Initialise keybinds.
+   * Initialise the keybinds.
    */
   useEffect(() => {
     (async (): Promise<void> => {
@@ -60,7 +59,6 @@ export function Overlay(): JSX.Element {
       ).keybinds;
 
       dispatch(setKeybinds(syncedKeybinds));
-      dispatch(setIsSettingsLoaded(true));
     })();
   }, []);
 

@@ -214,8 +214,8 @@ export function SettingsPage(): JSX.Element {
 
   return (
     <div className="sm:border sm:rounded-md border-gray-300 px-8 py-8 sm:bg-white">
-      <h2 className="text-lg text-gray-900 font-semibold mb-3">Skip options</h2>
-      <div className="space-y-3 mb-6">
+      <h2 className="text-xl text-gray-900 font-semibold mb-3">Skip options</h2>
+      <div className="space-y-3 mb-12">
         {filteredSkipTypes.map((skipType) => (
           <div className="space-y-2" key={skipType}>
             <div className="text-xs text-gray-700 uppercase font-semibold">
@@ -238,11 +238,10 @@ export function SettingsPage(): JSX.Element {
           </div>
         ))}
       </div>
-      <hr className="mb-6" />
-      <h2 className="text-lg text-gray-900 font-semibold mb-3">Keybinds</h2>
-      <div className="space-y-3 mb-6">
+      <h2 className="text-xl text-gray-900 font-semibold mb-1">Keybinds</h2>
+      <div className="space-y-3 mb-12 divide-y">
         {Object.entries(keybinds).map(([type, keybind]) => (
-          <div className="space-y-2" key={type}>
+          <div className="space-y-2 pt-3" key={type}>
             <div className="flex justify-between items-center space-x-3 w-full focus:outline-none">
               <button
                 className="text-base text-gray-700 font-semibold"
@@ -281,14 +280,15 @@ export function SettingsPage(): JSX.Element {
                 />
               )}
             </div>
-            <div className="text-sm text-gray-500">
-              {KEYBIND_INFO[type as KeybindType]}
-            </div>
+            {KEYBIND_INFO[type as KeybindType] && (
+              <div className="text-sm text-gray-500">
+                {KEYBIND_INFO[type as KeybindType]}
+              </div>
+            )}
           </div>
         ))}
       </div>
-      <hr className="mb-6" />
-      <h2 className="text-lg text-gray-900 font-semibold mb-3">
+      <h2 className="text-xl text-gray-900 font-semibold mb-3">
         Miscellaneous options
       </h2>
       <div className="space-y-2">
