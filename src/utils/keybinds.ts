@@ -25,7 +25,12 @@ export const serialiseKeybind = (
 
   if (keyboardEvent.key === ' ') {
     keys.push('Space');
-  } else if (keyboardEvent.key) {
+  } else if (
+    keyboardEvent.key &&
+    keyboardEvent.key !== 'Control' &&
+    keyboardEvent.key !== 'Alt' &&
+    keyboardEvent.key !== 'Shift'
+  ) {
     keys.push(keyboardEvent.key);
   }
 
