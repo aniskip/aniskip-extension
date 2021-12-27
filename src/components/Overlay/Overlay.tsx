@@ -73,7 +73,7 @@ export function Overlay(): JSX.Element {
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
-      <div className="fixed inset-0 w-screen h-screen z-[9999] backdrop-blur-sm p-4 backdrop-brightness-75 md:p-[10vh]">
+      <div className="fixed inset-0 w-screen h-screen z-[9999] backdrop-blur-sm bg-black bg-opacity-30 p-4 md:p-[10vh]">
         <AnimeSearchModal onClose={onClose} />
       </div>
     </Transition>
