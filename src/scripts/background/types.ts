@@ -39,11 +39,13 @@ export const DEFAULT_SKIP_TIME_INDICATOR_COLOURS: SkipTimeIndicatorColours = {
   recap: DEFAULT_COLOUR_PICKER_COLOURS[8],
 } as const;
 
-export type Keybinds = {
-  'open-anime-search-overlay': string;
-};
+export const KEYBIND_TYPES = ['open-anime-search-overlay'] as const;
 
-export type KeybindType = keyof Keybinds;
+export type KeybindType = typeof KEYBIND_TYPES[number];
+
+export type Keybinds = {
+  [T in KeybindType]: string;
+};
 
 export const DEFAULT_KEYBINDS: Keybinds = {
   'open-anime-search-overlay': 'Ctrl+Space',

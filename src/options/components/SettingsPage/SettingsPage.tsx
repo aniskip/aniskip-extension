@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { browser } from 'webextension-polyfill-ts';
 import { ColorResult } from 'react-color';
 import debounce from 'lodash.debounce';
@@ -27,10 +28,12 @@ import {
   setKeybinds,
   selectKeybinds,
   setKeybind,
+  selectIsUserEditingKeybind,
+  setIsUserEditingKeybind,
 } from '../../../data';
 import { ColourPicker } from '../ColourPicker';
 import { useDispatch, useSelector } from '../../../hooks';
-import { serialiseKeybind } from '../../../utils/keybinds';
+import { serialiseKeybind } from '../../../utils';
 
 export function SettingsPage(): JSX.Element {
   const [filteredSkipTypes, setFilteredSkipTypes] = useState<
@@ -39,7 +42,9 @@ export function SettingsPage(): JSX.Element {
   const skipOptions = useSelector(selectSkipOptions);
   const skipTimeIndicatorColours = useSelector(selectSkipTimeIndicatorColours);
   const keybinds = useSelector(selectKeybinds);
+  const isUserEditingKeybind = useSelector(selectIsUserEditingKeybind);
   const isSettingsLoaded = useSelector(selectIsLoaded);
+  const keybindInputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch();
 
   const dropdownOptions = [
@@ -56,6 +61,106 @@ export function SettingsPage(): JSX.Element {
       label: 'Disabled',
     },
   ];
+
+  /**
+   * Clears the cache.
+   */
+  const onClickClearCache = (): void => {
+    const cacheCleared: Partial<LocalOptions> = {
+      rulesCache: {},
+      malIdCache: {},
+    };
+
+    browser.storage.local.set(cacheCleared);
+  };
+
+  /**
+   * Handles skip option changes.
+   *
+   * @param skipType Skip type to change the option of.
+   */
+  const onChangeSkipOption =
+    (skipType: SkipType) =>
+    (skipOption: SkipOptionType): void => {
+      dispatch(setSkipOption({ type: skipType, option: skipOption }));
+    };
+
+  /**
+   * Handles skip option changes.
+   *
+   * @param skipType Skip type to change the option of.
+   */
+  const onChangeCompleteSkipTimeIndicatorColour =
+    (skipType: Exclude<SkipType, 'preview'>) =>
+    (colour: ColorResult): void => {
+      dispatch(
+        setSkipTimeIndicatorColour({ type: skipType, colour: colour.hex })
+      );
+    };
+
+  /**
+   * Handles keybind changes.
+   *
+   * @param keybindType Keybind type to change.
+   */
+  const onChangeCompleteKeybind = (
+    keybindType: KeybindType
+  ): DebouncedFunc<React.KeyboardEventHandler<HTMLInputElement>> =>
+    debounce(
+      (event: React.KeyboardEvent<HTMLInputElement>): void => {
+        if (event.key === 'Escape') {
+          dispatch(
+            setKeybind({
+              type: keybindType,
+              keybind: '',
+            })
+          );
+
+          return;
+        }
+
+        dispatch(
+          setKeybind({
+            type: keybindType,
+            keybind: serialiseKeybind(event),
+          })
+        );
+      },
+      500,
+      { leading: false, trailing: true }
+    );
+
+  /**
+   * Handles user clicking on the edit keybind button.
+   *
+   * @param keybindType Type of keybind to edit.
+   */
+  const onClickEditKeybind = (keybindType: KeybindType) => (): void => {
+    flushSync(() => {
+      dispatch(
+        setIsUserEditingKeybind({
+          type: keybindType,
+          isUserEditingKeybind: true,
+        })
+      );
+    });
+
+    keybindInputRef.current?.focus();
+  };
+
+  /**
+   * Handles on blur event when user clicks off the keybind editor.
+   *
+   * @param keybindType Type of keybind being edited.
+   */
+  const onBlurKeybindEditor = (keybindType: KeybindType) => (): void => {
+    dispatch(
+      setIsUserEditingKeybind({
+        type: keybindType,
+        isUserEditingKeybind: false,
+      })
+    );
+  };
 
   /**
    * Initialise filtered skip types, store skip options and keybinds.
@@ -93,20 +198,9 @@ export function SettingsPage(): JSX.Element {
     if (isSettingsLoaded) {
       browser.storage.sync.set({ skipOptions });
       browser.storage.sync.set({ skipTimeIndicatorColours });
+      browser.storage.sync.set({ keybinds });
     }
-  }, [skipOptions, skipTimeIndicatorColours, isSettingsLoaded]);
-
-  /**
-   * Clears the cache.
-   */
-  const onClickClearCache = (): void => {
-    const cacheCleared: Partial<LocalOptions> = {
-      rulesCache: {},
-      malIdCache: {},
-    };
-
-    browser.storage.local.set(cacheCleared);
-  };
+  }, [skipOptions, skipTimeIndicatorColours, keybinds, isSettingsLoaded]);
 
   /**
    * Sync options with sync browser storage.
@@ -115,49 +209,8 @@ export function SettingsPage(): JSX.Element {
     if (isSettingsLoaded) {
       browser.storage.sync.set({ skipOptions });
       browser.storage.sync.set({ skipTimeIndicatorColours });
-      browser.storage.sync.set({ keybinds });
     }
-  }, [skipOptions, skipTimeIndicatorColours, keybinds, isSettingsLoaded]);
-
-  /**
-   * Handles skip option changes.
-   *
-   * @param skipType Skip type to change the option of.
-   */
-  const onChangeSkipOption =
-    (skipType: SkipType) =>
-    (skipOption: SkipOptionType): void => {
-      dispatch(setSkipOption({ type: skipType, option: skipOption }));
-    };
-
-  /**
-   * Handles skip option changes.
-   *
-   * @param skipType Skip type to change the option of.
-   */
-  const onChangeCompleteSkipTimeIndicatorColour =
-    (skipType: Exclude<SkipType, 'preview'>) =>
-    (colour: ColorResult): void => {
-      dispatch(
-        setSkipTimeIndicatorColour({ type: skipType, colour: colour.hex })
-      );
-    };
-
-  const onChangeCompleteKeybind = (
-    keybindType: KeybindType
-  ): DebouncedFunc<React.KeyboardEventHandler<HTMLInputElement>> =>
-    debounce(
-      (event: React.KeyboardEvent<HTMLInputElement>): void => {
-        dispatch(
-          setKeybind({
-            type: keybindType,
-            keybind: serialiseKeybind(event),
-          })
-        );
-      },
-      500,
-      { leading: false, trailing: true }
-    );
+  }, [skipOptions, skipTimeIndicatorColours, isSettingsLoaded]);
 
   return (
     <div className="sm:border sm:rounded-md border-gray-300 px-8 py-8 sm:bg-white">
@@ -190,27 +243,43 @@ export function SettingsPage(): JSX.Element {
       <div className="space-y-3 mb-6">
         {Object.entries(keybinds).map(([type, keybind]) => (
           <div className="space-y-2" key={type}>
-            <span className="text-xs text-gray-700 uppercase font-semibold">
-              {KEYBIND_NAMES[type as KeybindType]}
-            </span>
-            <div className="flex justify-between items-center space-x-3">
-              <Input
-                className="text-sm select-none w-full uppercase focus:ring-1 focus:ring-primary focus:border-primary"
-                type="text"
-                spellCheck="false"
-                onKeyDown={onChangeCompleteKeybind(type as KeybindType)}
-                value={keybind}
-                readOnly
-              />
-              <span className="flex items-center">
-                {keybind
-                  .split('+')
-                  .map((key, index) =>
-                    ([index ? '+' : ''] as (JSX.Element | string)[]).concat([
-                      <Keyboard key={`${type}-${key}`}>{key}</Keyboard>,
-                    ])
-                  )}
-              </span>
+            <div className="flex justify-between items-center space-x-3 w-full focus:outline-none">
+              <button
+                className="text-base text-gray-700 font-semibold"
+                type="button"
+                disabled={isUserEditingKeybind[type as KeybindType]}
+                onClick={onClickEditKeybind(type as KeybindType)}
+              >
+                {KEYBIND_NAMES[type as KeybindType]}
+              </button>
+              {!isUserEditingKeybind[type as KeybindType] ? (
+                <button
+                  className="flex items-center"
+                  type="button"
+                  disabled={isUserEditingKeybind[type as KeybindType]}
+                  onClick={onClickEditKeybind(type as KeybindType)}
+                >
+                  {keybind &&
+                    keybind
+                      .split('+')
+                      .map((key, index) =>
+                        ([index ? '+' : ''] as (JSX.Element | string)[]).concat(
+                          [<Keyboard key={`${type}-${key}`}>{key}</Keyboard>]
+                        )
+                      )}
+                </button>
+              ) : (
+                <Input
+                  ref={keybindInputRef}
+                  className="text-xs select-none uppercase focus:ring-1 w-36 focus:ring-primary focus:border-primary"
+                  type="text"
+                  spellCheck="false"
+                  onKeyDown={onChangeCompleteKeybind(type as KeybindType)}
+                  onBlur={onBlurKeybindEditor(type as KeybindType)}
+                  value={keybind}
+                  readOnly
+                />
+              )}
             </div>
             <div className="text-sm text-gray-500">
               {KEYBIND_INFO[type as KeybindType]}

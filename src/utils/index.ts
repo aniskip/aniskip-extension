@@ -1,3 +1,4 @@
+export * from './keybinds';
 export * from './message';
 export * from './page';
 export * from './player';
