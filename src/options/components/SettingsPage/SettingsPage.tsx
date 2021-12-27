@@ -13,6 +13,7 @@ import {
   KeybindType,
   LocalOptions,
   SkipOptionType,
+  KEYBIND_INFO,
 } from '../../../scripts/background';
 import {
   selectIsLoaded,
@@ -163,7 +164,7 @@ export function SettingsPage(): JSX.Element {
       <h2 className="text-lg text-gray-900 font-semibold mb-3">Skip options</h2>
       <div className="space-y-3 mb-6">
         {filteredSkipTypes.map((skipType) => (
-          <div className="space-y-1" key={skipType}>
+          <div className="space-y-2" key={skipType}>
             <div className="text-xs text-gray-700 uppercase font-semibold">
               {SKIP_TYPE_NAMES[skipType]}
             </div>
@@ -188,7 +189,7 @@ export function SettingsPage(): JSX.Element {
       <h2 className="text-lg text-gray-900 font-semibold mb-3">Keybinds</h2>
       <div className="space-y-3 mb-6">
         {Object.entries(keybinds).map(([type, keybind]) => (
-          <div className="space-y-1" key={type}>
+          <div className="space-y-2" key={type}>
             <span className="text-xs text-gray-700 uppercase font-semibold">
               {KEYBIND_NAMES[type as KeybindType]}
             </span>
@@ -211,6 +212,9 @@ export function SettingsPage(): JSX.Element {
                   )}
               </span>
             </div>
+            <div className="text-sm text-gray-500">
+              {KEYBIND_INFO[type as KeybindType]}
+            </div>
           </div>
         ))}
       </div>
@@ -218,7 +222,7 @@ export function SettingsPage(): JSX.Element {
       <h2 className="text-lg text-gray-900 font-semibold mb-3">
         Miscellaneous options
       </h2>
-      <div className="space-y-1">
+      <div className="space-y-2">
         <div className="flex items-center justify-between">
           <div className="text-xs text-gray-700 uppercase font-semibold">
             Cache

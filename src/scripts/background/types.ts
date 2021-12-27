@@ -40,17 +40,22 @@ export const DEFAULT_SKIP_TIME_INDICATOR_COLOURS: SkipTimeIndicatorColours = {
 } as const;
 
 export type Keybinds = {
-  'open-overlay': string;
+  'open-anime-search-overlay': string;
 };
 
 export type KeybindType = keyof Keybinds;
 
 export const DEFAULT_KEYBINDS: Keybinds = {
-  'open-overlay': 'Ctrl+Space',
+  'open-anime-search-overlay': 'Ctrl+Space',
 } as const;
 
 export const KEYBIND_NAMES: Record<KeybindType, string> = {
-  'open-overlay': 'Open overlay',
+  'open-anime-search-overlay': 'Open anime search overlay',
+} as const;
+
+export const KEYBIND_INFO: Record<KeybindType, string> = {
+  'open-anime-search-overlay':
+    'Used when auto-detection does not work or to manually override incorrect anime detection.',
 } as const;
 
 export type SyncOptions = {

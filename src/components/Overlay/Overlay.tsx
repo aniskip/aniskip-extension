@@ -41,7 +41,7 @@ export function Overlay(): JSX.Element {
       return;
     }
 
-    if (serialiseKeybind(event) !== keybinds['open-overlay']) {
+    if (serialiseKeybind(event) !== keybinds['open-anime-search-overlay']) {
       return;
     }
 
