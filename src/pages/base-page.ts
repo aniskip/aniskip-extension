@@ -115,19 +115,6 @@ export abstract class BasePage implements Page {
       return malId;
     }
 
-    const identifier = this.getIdentifier();
-    if (!identifier) {
-      return 0;
-    }
-
-    // Search cache.
-    this.store.dispatch(setMalId(await BasePage.getCachedMalId(identifier)));
-    malId = selectMalId(this.store.getState());
-
-    if (malId > 0) {
-      return malId;
-    }
-
     // Search manually detected anime titles.
     const title = this.getTitle();
 
@@ -138,6 +125,19 @@ export abstract class BasePage implements Page {
     this.store.dispatch(
       setMalId(await BasePage.searchManualTitleToMalIdMapping(title))
     );
+    malId = selectMalId(this.store.getState());
+
+    if (malId > 0) {
+      return malId;
+    }
+
+    // Search cache.
+    const identifier = this.getIdentifier();
+    if (!identifier) {
+      return 0;
+    }
+
+    this.store.dispatch(setMalId(await BasePage.getCachedMalId(identifier)));
     malId = selectMalId(this.store.getState());
 
     if (malId > 0) {
