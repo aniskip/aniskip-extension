@@ -2,8 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { browser } from 'webextension-polyfill-ts';
 import { ColorResult } from 'react-color';
-import debounce from 'lodash.debounce';
-import { DebouncedFunc } from 'lodash.debounce/node_modules/@types/lodash';
+import { debounce, DebouncedFunc } from 'lodash';
 import { SkipType, SKIP_TYPES, SKIP_TYPE_NAMES } from '../../../api';
 import { DefaultButton, Dropdown, Input, Keyboard } from '../../../components';
 import {

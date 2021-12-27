@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
-import debounce from 'lodash.debounce';
+import { debounce } from 'lodash';
 import { BiSearch } from 'react-icons/bi';
 import { AnilistHttpClient, MEDIA_FORMAT_NAMES } from '../../api';
 import {
