@@ -3,8 +3,8 @@ import { Metadata } from '../base-player.types';
 import metadata from './metadata.json';
 
 export class Twistmoe extends BasePlayer {
-  constructor(document: Document) {
-    super(document, metadata);
+  constructor() {
+    super(metadata);
   }
 
   static getMetadata(): Metadata {

@@ -15,7 +15,7 @@ export class Crunchyroll extends BasePage {
   }
 
   getRawEpisodeNumber(): number {
-    const episodeNumberElement = this.document.querySelector(
+    const episodeNumberElement = document.querySelector(
       '#showmedia_about_media > h4:not(#showmedia_about_episode_num)'
     );
 
@@ -28,8 +28,7 @@ export class Crunchyroll extends BasePage {
 
   getTitle(): string {
     const pageMetadata = JSON.parse(
-      this.document.querySelector('[type="application/ld+json"]')?.innerHTML ??
-        '{}'
+      document.querySelector('[type="application/ld+json"]')?.innerHTML ?? '{}'
     );
 
     return pageMetadata.partOfSeason.name ?? '';

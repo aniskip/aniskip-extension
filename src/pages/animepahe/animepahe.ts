@@ -4,10 +4,10 @@ import { Metadata } from '../base-page.types';
 import metadata from './metadata.json';
 
 export class Animepahe extends BasePage {
-  constructor(hostname: string, pathname: string, document: Document) {
-    super(hostname, pathname, document);
+  constructor() {
+    super();
 
-    const domainName = getDomainName(hostname);
+    const domainName = getDomainName(window.location.hostname);
     this.providerName = domainName;
   }
 
@@ -16,7 +16,7 @@ export class Animepahe extends BasePage {
   }
 
   getTitle(): string {
-    const titleElement = this.document.getElementsByTagName('title')[0];
+    const titleElement = document.getElementsByTagName('title')[0];
     if (!titleElement) {
       return '';
     }
@@ -26,7 +26,7 @@ export class Animepahe extends BasePage {
 
   getIdentifier(): string {
     const [identifierScript] = Array.from(
-      this.document.getElementsByTagName('script')
+      document.getElementsByTagName('script')
     ).filter((script) => script.innerHTML.includes('getUrls'));
 
     if (!identifierScript) {
@@ -43,7 +43,7 @@ export class Animepahe extends BasePage {
   }
 
   getRawEpisodeNumber(): number {
-    const episodeMenuButton = this.document.getElementById('episodeMenu');
+    const episodeMenuButton = document.getElementById('episodeMenu');
 
     if (!episodeMenuButton) {
       return 0;

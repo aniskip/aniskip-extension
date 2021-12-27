@@ -1,16 +1,22 @@
 import { createSlice, PayloadAction, Selector } from '@reduxjs/toolkit';
 import {
-  SettingsState,
+  SetIsUserEditingKeybind,
+  SetKeybind,
   SetSkipOption,
   SetSkipTimeIndicatorColour,
+  SettingsState,
 } from './types';
 import {
-  DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+  DEFAULT_KEYBINDS,
   DEFAULT_SKIP_OPTIONS,
-  SkipTimeIndicatorColours,
+  DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+  Keybinds,
+  KeybindType,
+  KEYBIND_TYPES,
   SkipOptions,
-} from '../../../scripts/background';
-import { StateSlice } from '../../../utils';
+  SkipTimeIndicatorColours,
+} from '../../scripts/background';
+import { StateSlice } from '../../utils';
 
 /**
  * Initial state.
@@ -18,6 +24,11 @@ import { StateSlice } from '../../../utils';
 const initialSettingsState: SettingsState = {
   skipOptions: DEFAULT_SKIP_OPTIONS,
   skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+  keybinds: DEFAULT_KEYBINDS,
+  isUserEditingKeybind: Object.assign(
+    {},
+    ...KEYBIND_TYPES.map((type) => ({ [type]: false }))
+  ),
   isSettingsLoaded: false,
 };
 
@@ -39,11 +50,21 @@ export const selectIsLoaded: Selector<
   boolean
 > = (state) => state.settings.isSettingsLoaded;
 
+export const selectKeybinds: Selector<
+  StateSlice<SettingsState, 'settings'>,
+  Keybinds
+> = (state) => state.settings.keybinds;
+
+export const selectIsUserEditingKeybind: Selector<
+  StateSlice<SettingsState, 'settings'>,
+  Record<KeybindType, boolean>
+> = (state) => state.settings.isUserEditingKeybind;
+
 /**
  * Slice definition.
  */
 const settingsStateSlice = createSlice({
-  name: 'player',
+  name: 'settings',
   initialState: initialSettingsState,
   reducers: {
     setSkipOption: (state, action: PayloadAction<SetSkipOption>) => {
@@ -65,6 +86,19 @@ const settingsStateSlice = createSlice({
     ) => {
       state.skipTimeIndicatorColours = action.payload;
     },
+    setKeybind: (state, action: PayloadAction<SetKeybind>) => {
+      state.keybinds[action.payload.type] = action.payload.keybind;
+    },
+    setKeybinds: (state, action: PayloadAction<Keybinds>) => {
+      state.keybinds = action.payload;
+    },
+    setIsUserEditingKeybind: (
+      state,
+      action: PayloadAction<SetIsUserEditingKeybind>
+    ) => {
+      state.isUserEditingKeybind[action.payload.type] =
+        action.payload.isUserEditingKeybind;
+    },
     setIsSettingsLoaded: (state, action: PayloadAction<boolean>) => {
       state.isSettingsLoaded = action.payload;
     },
@@ -76,6 +110,9 @@ export const {
   setSkipOptions,
   setSkipTimeIndicatorColour,
   setSkipTimeIndicatorColours,
+  setKeybind,
+  setKeybinds,
+  setIsUserEditingKeybind,
   setIsSettingsLoaded,
 } = settingsStateSlice.actions;
 export default settingsStateSlice.reducer;

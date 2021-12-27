@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { browser } from 'webextension-polyfill-ts';
 import { ColorResult } from 'react-color';
+import { debounce, DebouncedFunc } from 'lodash';
 import { SkipType, SKIP_TYPES, SKIP_TYPE_NAMES } from '../../../api';
-import { DefaultButton, Dropdown } from '../../../components';
+import { DefaultButton, Dropdown, Input, Keyboard } from '../../../components';
 import {
-  DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+  DEFAULT_KEYBINDS,
   DEFAULT_SKIP_OPTIONS,
+  DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+  KEYBIND_NAMES,
+  KeybindType,
   LocalOptions,
-  SkipTimeIndicatorColours,
-  SkipOptions,
   SkipOptionType,
+  KEYBIND_INFO,
 } from '../../../scripts/background';
 import {
-  Dispatch,
-  RootState,
   selectIsLoaded,
   selectSkipTimeIndicatorColours,
   selectSkipOptions,
@@ -23,20 +24,27 @@ import {
   setSkipTimeIndicatorColours,
   setSkipOption,
   setSkipOptions,
-} from '../../data';
+  setKeybinds,
+  selectKeybinds,
+  setKeybind,
+  selectIsUserEditingKeybind,
+  setIsUserEditingKeybind,
+} from '../../../data';
 import { ColourPicker } from '../ColourPicker';
+import { useDispatch, useSelector } from '../../../hooks';
+import { serialiseKeybind } from '../../../utils';
 
 export function SettingsPage(): JSX.Element {
   const [filteredSkipTypes, setFilteredSkipTypes] = useState<
     Exclude<SkipType, 'preview'>[]
   >([]);
-  const skipOptions = useSelector<RootState, SkipOptions>(selectSkipOptions);
-  const skipTimeIndicatorColours = useSelector<
-    RootState,
-    SkipTimeIndicatorColours
-  >(selectSkipTimeIndicatorColours);
-  const isSettingsLoaded = useSelector<RootState, boolean>(selectIsLoaded);
-  const dispatch = useDispatch<Dispatch>();
+  const skipOptions = useSelector(selectSkipOptions);
+  const skipTimeIndicatorColours = useSelector(selectSkipTimeIndicatorColours);
+  const keybinds = useSelector(selectKeybinds);
+  const isUserEditingKeybind = useSelector(selectIsUserEditingKeybind);
+  const isSettingsLoaded = useSelector(selectIsLoaded);
+  const keybindInputRef = useRef<HTMLInputElement | null>(null);
+  const dispatch = useDispatch();
 
   const dropdownOptions = [
     {
@@ -52,42 +60,6 @@ export function SettingsPage(): JSX.Element {
       label: 'Disabled',
     },
   ];
-
-  /**
-   * Initialise filtered skip types and store skip options.
-   */
-  useEffect(() => {
-    setFilteredSkipTypes(
-      SKIP_TYPES.filter((skipType) => skipType !== 'preview') as Exclude<
-        SkipType,
-        'preview'
-      >[]
-    );
-
-    (async (): Promise<void> => {
-      const {
-        skipOptions: syncedSkipOptions,
-        skipTimeIndicatorColours: syncedSkipTimeIndicatorColours,
-      } = await browser.storage.sync.get({
-        skipOptions: DEFAULT_SKIP_OPTIONS,
-        skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
-      });
-
-      dispatch(setSkipOptions(syncedSkipOptions));
-      dispatch(setSkipTimeIndicatorColours(syncedSkipTimeIndicatorColours));
-      dispatch(setIsSettingsLoaded(true));
-    })();
-  }, []);
-
-  /**
-   * Sync options with sync browser storage.
-   */
-  useEffect(() => {
-    if (isSettingsLoaded) {
-      browser.storage.sync.set({ skipOptions });
-      browser.storage.sync.set({ skipTimeIndicatorColours });
-    }
-  }, [skipOptions, skipTimeIndicatorColours, isSettingsLoaded]);
 
   /**
    * Clears the cache.
@@ -125,12 +97,126 @@ export function SettingsPage(): JSX.Element {
       );
     };
 
+  /**
+   * Handles keybind changes.
+   *
+   * @param keybindType Keybind type to change.
+   */
+  const onChangeCompleteKeybind = (
+    keybindType: KeybindType
+  ): DebouncedFunc<React.KeyboardEventHandler<HTMLInputElement>> =>
+    debounce(
+      (event: React.KeyboardEvent<HTMLInputElement>): void => {
+        if (event.key === 'Escape') {
+          dispatch(
+            setKeybind({
+              type: keybindType,
+              keybind: '',
+            })
+          );
+
+          return;
+        }
+
+        dispatch(
+          setKeybind({
+            type: keybindType,
+            keybind: serialiseKeybind(event),
+          })
+        );
+      },
+      500,
+      { leading: false, trailing: true }
+    );
+
+  /**
+   * Handles user clicking on the edit keybind button.
+   *
+   * @param keybindType Type of keybind to edit.
+   */
+  const onClickEditKeybind = (keybindType: KeybindType) => (): void => {
+    flushSync(() => {
+      dispatch(
+        setIsUserEditingKeybind({
+          type: keybindType,
+          isUserEditingKeybind: true,
+        })
+      );
+    });
+
+    keybindInputRef.current?.focus();
+  };
+
+  /**
+   * Handles on blur event when user clicks off the keybind editor.
+   *
+   * @param keybindType Type of keybind being edited.
+   */
+  const onBlurKeybindEditor = (keybindType: KeybindType) => (): void => {
+    dispatch(
+      setIsUserEditingKeybind({
+        type: keybindType,
+        isUserEditingKeybind: false,
+      })
+    );
+  };
+
+  /**
+   * Initialise filtered skip types, store skip options and keybinds.
+   */
+  useEffect(() => {
+    setFilteredSkipTypes(
+      SKIP_TYPES.filter((skipType) => skipType !== 'preview') as Exclude<
+        SkipType,
+        'preview'
+      >[]
+    );
+
+    (async (): Promise<void> => {
+      const {
+        skipOptions: syncedSkipOptions,
+        skipTimeIndicatorColours: syncedSkipTimeIndicatorColours,
+        keybinds: syncedKeybinds,
+      } = await browser.storage.sync.get({
+        skipOptions: DEFAULT_SKIP_OPTIONS,
+        skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+        keybinds: DEFAULT_KEYBINDS,
+      });
+
+      dispatch(setSkipOptions(syncedSkipOptions));
+      dispatch(setSkipTimeIndicatorColours(syncedSkipTimeIndicatorColours));
+      dispatch(setKeybinds(syncedKeybinds));
+      dispatch(setIsSettingsLoaded(true));
+    })();
+  }, []);
+
+  /**
+   * Sync options with sync browser storage.
+   */
+  useEffect(() => {
+    if (isSettingsLoaded) {
+      browser.storage.sync.set({ skipOptions });
+      browser.storage.sync.set({ skipTimeIndicatorColours });
+      browser.storage.sync.set({ keybinds });
+    }
+  }, [skipOptions, skipTimeIndicatorColours, keybinds, isSettingsLoaded]);
+
+  /**
+   * Sync options with sync browser storage.
+   */
+  useEffect(() => {
+    if (isSettingsLoaded) {
+      browser.storage.sync.set({ skipOptions });
+      browser.storage.sync.set({ skipTimeIndicatorColours });
+    }
+  }, [skipOptions, skipTimeIndicatorColours, isSettingsLoaded]);
+
   return (
     <div className="sm:border sm:rounded-md border-gray-300 px-8 py-8 sm:bg-white">
-      <h1 className="text-lg text-gray-900 font-semibold mb-3">Skip options</h1>
-      <div className="space-y-3 w-full mb-6">
+      <h2 className="text-xl text-gray-900 font-semibold mb-3">Skip options</h2>
+      <div className="space-y-3 mb-12">
         {filteredSkipTypes.map((skipType) => (
-          <div className="space-y-1" key={skipType}>
+          <div className="space-y-2" key={skipType}>
             <div className="text-xs text-gray-700 uppercase font-semibold">
               {SKIP_TYPE_NAMES[skipType]}
             </div>
@@ -151,11 +237,60 @@ export function SettingsPage(): JSX.Element {
           </div>
         ))}
       </div>
-      <hr className="mb-6" />
-      <h1 className="text-lg text-gray-900 font-semibold mb-3">
+      <h2 className="text-xl text-gray-900 font-semibold mb-1">Keybinds</h2>
+      <div className="space-y-3 mb-12 divide-y">
+        {Object.entries(keybinds).map(([type, keybind]) => (
+          <div className="space-y-2 pt-3" key={type}>
+            <div className="flex justify-between items-center space-x-3 w-full focus:outline-none">
+              <button
+                className="text-base text-gray-700 font-semibold"
+                type="button"
+                disabled={isUserEditingKeybind[type as KeybindType]}
+                onClick={onClickEditKeybind(type as KeybindType)}
+              >
+                {KEYBIND_NAMES[type as KeybindType]}
+              </button>
+              {!isUserEditingKeybind[type as KeybindType] ? (
+                <button
+                  className="flex items-center"
+                  type="button"
+                  disabled={isUserEditingKeybind[type as KeybindType]}
+                  onClick={onClickEditKeybind(type as KeybindType)}
+                >
+                  {keybind &&
+                    keybind
+                      .split('+')
+                      .map((key, index) =>
+                        ([index ? '+' : ''] as (JSX.Element | string)[]).concat(
+                          [<Keyboard key={`${type}-${key}`}>{key}</Keyboard>]
+                        )
+                      )}
+                </button>
+              ) : (
+                <Input
+                  ref={keybindInputRef}
+                  className="text-xs select-none uppercase focus:ring-1 w-36 focus:ring-primary focus:border-primary"
+                  type="text"
+                  spellCheck="false"
+                  onKeyDown={onChangeCompleteKeybind(type as KeybindType)}
+                  onBlur={onBlurKeybindEditor(type as KeybindType)}
+                  value={keybind}
+                  readOnly
+                />
+              )}
+            </div>
+            {KEYBIND_INFO[type as KeybindType] && (
+              <div className="text-sm text-gray-500">
+                {KEYBIND_INFO[type as KeybindType]}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <h2 className="text-xl text-gray-900 font-semibold mb-3">
         Miscellaneous options
-      </h1>
-      <div className="space-y-1">
+      </h2>
+      <div className="space-y-2">
         <div className="flex items-center justify-between">
           <div className="text-xs text-gray-700 uppercase font-semibold">
             Cache

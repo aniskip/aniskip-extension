@@ -42,7 +42,7 @@ export function VoteMenu(): JSX.Element {
 
     (async (): Promise<void> => {
       const currentSkipTimesVoted = (
-        await browser.storage.local.get('skipTimesVoted')
+        await browser.storage.local.get({ skipTimesVoted: {} })
       ).skipTimesVoted;
       setSkipTimesVoted(currentSkipTimesVoted);
     })();
@@ -81,7 +81,7 @@ export function VoteMenu(): JSX.Element {
       }
 
       const { skipTimesVoted: currentSkipTimesVoted } =
-        await browser.storage.local.get('skipTimesVoted');
+        await browser.storage.local.get({ skipTimesVoted: {} });
 
       const updatedSkipTimesVoted = {
         ...skipTimesVoted,
@@ -110,7 +110,7 @@ export function VoteMenu(): JSX.Element {
       }
 
       const { skipTimesVoted: currentSkipTimesVoted } =
-        await browser.storage.local.get('skipTimesVoted');
+        await browser.storage.local.get({ skipTimesVoted: {} });
 
       const updatedSkipTimesVoted = {
         ...skipTimesVoted,

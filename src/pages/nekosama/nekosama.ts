@@ -3,8 +3,8 @@ import { Metadata } from '../base-page.types';
 import metadata from './metadata.json';
 
 export class NekoSama extends BasePage {
-  constructor(hostname: string, pathname: string, document: Document) {
-    super(hostname, pathname, document);
+  constructor() {
+    super();
 
     this.providerName = 'NekoSama';
   }
@@ -14,7 +14,7 @@ export class NekoSama extends BasePage {
   }
 
   getTitle(): string {
-    const title = this.document.querySelector(
+    const title = document.querySelector(
       'div.row.no-gutters.anime-info > div.info > div > div > h1'
     )?.textContent;
 
@@ -22,11 +22,11 @@ export class NekoSama extends BasePage {
   }
 
   getIdentifier(): string {
-    return this.pathname.split('/')[3].split('-')[0];
+    return window.location.pathname.split('/')[3].split('-')[0];
   }
 
   getRawEpisodeNumber(): number {
-    const episodeNumberStringElement = this.document.querySelector(
+    const episodeNumberStringElement = document.querySelector(
       'div.row.no-gutters.anime-info > div.info > div > div > h2'
     );
 

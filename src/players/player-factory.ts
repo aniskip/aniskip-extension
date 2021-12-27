@@ -34,7 +34,7 @@ export class PlayerFactory {
         const matcher = globToRegExp(playerUrls[j]);
 
         if (matcher.test(url)) {
-          return new CurrentPlayer(document);
+          return new CurrentPlayer();
         }
       }
     }

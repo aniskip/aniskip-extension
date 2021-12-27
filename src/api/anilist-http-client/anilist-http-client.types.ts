@@ -1,39 +1,3 @@
-export type MediaRelation =
-  | 'ADAPTATION'
-  | 'PREQUEL'
-  | 'SEQUEL'
-  | 'PARENT'
-  | 'SIDE_STORY'
-  | 'CHARACTER'
-  | 'SUMMARY'
-  | 'ALTERNATIVE'
-  | 'SPIN_OFF'
-  | 'OTHER'
-  | 'SOURCE'
-  | 'COMPILATION'
-  | 'CONTAINS';
-
-export type MediaFormat =
-  | 'TV'
-  | 'TV_SHORT'
-  | 'MOVIE'
-  | 'SPECIAL'
-  | 'OVA'
-  | 'ONA'
-  | 'MUSIC'
-  | 'MANGA'
-  | 'NOVEL'
-  | 'ONE_SHOT';
-
-export type MediaEdge<M extends Partial<Media> | undefined> = {
-  node: M;
-  relationType: MediaRelation;
-};
-
-export type MediaConnection<M extends Partial<Media> | undefined> = {
-  edges: MediaEdge<M>[];
-};
-
 export type MediaTitle = {
   romaji: string;
   english: string;
@@ -41,35 +5,62 @@ export type MediaTitle = {
   userPreferred: string;
 };
 
+export type MediaCoverImage = {
+  extraLarge: string;
+  large: string;
+  medium: string;
+  colour: string;
+};
+
+export const MEDIA_FORMAT_NAMES = {
+  TV: 'TV',
+  TV_SHORT: 'TV SHORT',
+  MOVIE: 'MOVIE',
+  SPECIAL: 'SPECIAL',
+  OVA: 'OVA',
+  ONA: 'ONA',
+  MUSIC: 'MUSIC',
+  MANGA: 'MANGA',
+  NOVEL: 'NOVEL',
+  ONE_SHOT: 'ONE SHOT',
+} as const;
+
+export type MediaFormat = keyof typeof MEDIA_FORMAT_NAMES;
+
 export type Media<
-  M extends Partial<Media> | undefined = undefined,
-  MT extends Partial<MediaTitle> | undefined = undefined
+  MT extends Partial<MediaTitle> | undefined = undefined,
+  MCI extends Partial<MediaCoverImage> | undefined = undefined,
+  MF extends MediaFormat | undefined = undefined
 > = {
-  episodes: number | null;
-  format: MediaFormat;
   idMal: number;
-  synonyms: string[];
-} & (M extends undefined
+} & (MT extends undefined
   ? {}
   : {
-      relations: MediaConnection<M>;
+      title: MT;
+      synonyms: string[];
     }) &
-  (MT extends undefined
+  (MCI extends undefined
     ? {}
     : {
-        title: MT;
+        coverImage: MCI;
+      }) &
+  (MF extends undefined
+    ? {}
+    : {
+        format: MF;
+        seasonYear: number;
       });
-
-export type PostResponseFromMedia<M extends Partial<Media>> = {
-  data: {
-    Media: M;
-  };
-};
 
 export type PostResponseFromPage<M extends Partial<Media>> = {
   data: {
     Page: {
       media: M[];
     };
+  };
+};
+
+export type PostResponseFromMedia<M extends Partial<Media>> = {
+  data: {
+    Media: M;
   };
 };

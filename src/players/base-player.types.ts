@@ -11,8 +11,6 @@ export type Metadata = {
 };
 
 export interface Player {
-  document: Document;
-
   metadata: Metadata;
 
   /**
@@ -22,6 +20,11 @@ export interface Player {
    * @param manual True if the user has to click skip opening / ending button, false if auto skip.
    */
   addSkipTime(skipTime: SkipTime, manual?: boolean): void;
+
+  /**
+   * Clears the stored skip times.
+   */
+  clearSkipTimes(): void;
 
   /**
    * Returns the video element duration.
@@ -52,6 +55,11 @@ export interface Player {
    * Initialises the player by injecting the extension buttons.
    */
   initialise(): void;
+
+  /**
+   * Initialises the skip times.
+   */
+  initialiseSkipTimes(): Promise<void>;
 
   /**
    * Checks if the player controls are visible to the user.

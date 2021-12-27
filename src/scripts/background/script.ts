@@ -97,6 +97,18 @@ const addDefaultSyncOptions = async (): Promise<void> => {
     }
   });
 
+  // Add default keybinds if they are not present.
+  Object.keys(DEFAULT_SYNC_OPTIONS.keybinds).forEach((key) => {
+    if (
+      !Object.prototype.hasOwnProperty.call(currentSyncOptions.keybinds, key)
+    ) {
+      const typedKey = key as keyof SyncOptions['keybinds'];
+
+      currentSyncOptions.keybinds[typedKey] =
+        DEFAULT_SYNC_OPTIONS.keybinds[typedKey];
+    }
+  });
+
   browser.storage.sync.set(currentSyncOptions);
 };
 

@@ -4,8 +4,8 @@ import { Metadata } from '../base-player.types';
 import metadata from './metadata.json';
 
 export class Crunchyroll extends BasePlayer {
-  constructor(document: Document) {
-    super(document, metadata);
+  constructor() {
+    super(metadata);
   }
 
   static getMetadata(): Metadata {
@@ -36,6 +36,6 @@ export class Crunchyroll extends BasePlayer {
   }
 
   isControlsVisible(): boolean {
-    return !!this.document.getElementById(this.playerButtonsRenderer.id);
+    return !!document.getElementById(this.playerButtonsRenderer.id);
   }
 }

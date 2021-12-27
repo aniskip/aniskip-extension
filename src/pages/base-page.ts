@@ -13,28 +13,33 @@ import {
   getNextWeekDate,
 } from '../utils';
 import { LocalOptions } from '../scripts/background';
+import { OverlayRenderer } from '../renderers';
+import {
+  configuredStore,
+  openOverlay,
+  selectEpisodeNumber,
+  selectMalId,
+  setEpisodeNumber,
+  setMalId,
+  Store,
+} from '../data';
 
 export abstract class BasePage implements Page {
-  hostname: string;
-
-  pathname: string;
-
-  document: Document;
-
   providerName: string;
 
-  malId: number;
+  store: Store;
 
-  episodeNumber: number;
+  overlayRenderer: OverlayRenderer;
 
-  constructor(hostname: string, pathname: string, document: Document) {
-    this.hostname = hostname;
-    this.pathname = pathname;
-    this.document = document;
-    const domainName = getDomainName(this.hostname);
+  constructor() {
+    const domainName = getDomainName(window.location.hostname);
     this.providerName = capitalizeFirstLetter(domainName);
-    this.malId = 0;
-    this.episodeNumber = 0;
+    this.store = configuredStore;
+    this.overlayRenderer = new OverlayRenderer(
+      'aniskip-overay',
+      this.store,
+      this
+    );
   }
 
   abstract getIdentifier(): string;
@@ -44,15 +49,21 @@ export abstract class BasePage implements Page {
   async applyRules(): Promise<void> {
     const aniskipHttpClient = new AniskipHttpClient();
     const malId = await this.getMalId();
+
+    // MAL id not found automatically.
+    if (malId === 0) {
+      return;
+    }
+
     let rules = await BasePage.getCachedRules(malId);
 
     if (!rules) {
       ({ rules } = await aniskipHttpClient.getRules(malId));
 
       // Cache rules and expire it next week.
-      const { rulesCache } = (await browser.storage.local.get(
-        'rulesCache'
-      )) as LocalOptions;
+      const { rulesCache } = (await browser.storage.local.get({
+        rulesCache: {},
+      })) as LocalOptions;
 
       rulesCache[malId] = {
         expires: getNextWeekDate().toJSON(),
@@ -63,7 +74,7 @@ export abstract class BasePage implements Page {
     }
 
     let rawEpisodeNumber = this.getRawEpisodeNumber();
-    this.episodeNumber = rawEpisodeNumber;
+    this.store.dispatch(setEpisodeNumber(rawEpisodeNumber));
 
     rules.forEach((rule) => {
       const { start, end: endOrUndefined } = rule.from;
@@ -78,14 +89,14 @@ export abstract class BasePage implements Page {
       }
 
       if (rawEpisodeNumber >= start && rawEpisodeNumber <= end) {
-        this.malId = toMalId;
-        this.episodeNumber = rawEpisodeNumber - (start - 1);
+        this.store.dispatch(setMalId(toMalId));
+        this.store.dispatch(setEpisodeNumber(rawEpisodeNumber - (start - 1)));
       }
     });
   }
 
   getEpisodeNumber(): number {
-    return this.episodeNumber;
+    return selectEpisodeNumber(this.store.getState());
   }
 
   getTitle(): string {
@@ -97,47 +108,72 @@ export abstract class BasePage implements Page {
   }
 
   async getMalId(): Promise<number> {
+    let malId = selectMalId(this.store.getState());
+
     // Episode redirection rules applied.
-    if (this.malId > 0) {
-      return this.malId;
+    if (malId > 0) {
+      return malId;
     }
 
+    // Search manually detected anime titles.
+    const title = this.getTitle();
+
+    if (!title) {
+      return 0;
+    }
+
+    this.store.dispatch(
+      setMalId(await BasePage.searchManualTitleToMalIdMapping(title))
+    );
+    malId = selectMalId(this.store.getState());
+
+    if (malId > 0) {
+      return malId;
+    }
+
+    // Search cache.
     const identifier = this.getIdentifier();
     if (!identifier) {
       return 0;
     }
 
-    this.malId = await BasePage.getCachedMalId(identifier);
-    if (this.malId > 0) {
-      return this.malId;
+    this.store.dispatch(setMalId(await BasePage.getCachedMalId(identifier)));
+    malId = selectMalId(this.store.getState());
+
+    if (malId > 0) {
+      return malId;
     }
 
     try {
       const providerName = this.getProviderName();
       const malsyncHttpClient = new MalsyncHttpClient();
-      this.malId = await malsyncHttpClient.getMalId(providerName, identifier);
+      this.store.dispatch(
+        setMalId(await malsyncHttpClient.getMalId(providerName, identifier))
+      );
     } catch {
       // MALSync was not able to find the id.
-      const title = this.getTitle();
-      if (!title) {
+      this.store.dispatch(setMalId(await BasePage.findClosestMalId(title)));
+      malId = selectMalId(this.store.getState());
+
+      // Titles found were not similar enough.
+      if (malId === 0) {
         return 0;
       }
-      this.malId = await BasePage.findClosestMalId(title);
     }
 
     // Cache MAL id and expire it next week.
-    const { malIdCache } = (await browser.storage.local.get(
-      'malIdCache'
-    )) as LocalOptions;
+    const { malIdCache } = (await browser.storage.local.get({
+      malIdCache: {},
+    })) as LocalOptions;
 
     malIdCache[identifier] = {
       expires: getNextWeekDate().toJSON(),
-      value: this.malId,
+      value: malId,
     };
 
     browser.storage.local.set({ malIdCache });
 
-    return this.malId;
+    return malId;
   }
 
   static getMetadata(): Metadata {
@@ -153,7 +189,9 @@ export abstract class BasePage implements Page {
     const anilistHttpClient = new AnilistHttpClient();
     const sanitisedTitle = title.replace(/\(.*\)/, '').trim();
 
-    const searchResponse = await anilistHttpClient.search(sanitisedTitle);
+    const searchResponse = await anilistHttpClient.searchTitleSynonyms(
+      sanitisedTitle
+    );
     const searchResults = searchResponse.data.Page.media;
 
     let closest = 0;
@@ -181,7 +219,7 @@ export abstract class BasePage implements Page {
       return closest;
     }
 
-    throw new Error('Closest MAL id not found');
+    return 0;
   }
 
   /**
@@ -190,9 +228,9 @@ export abstract class BasePage implements Page {
    * @param identifier Provider anime identifier.
    */
   static async getCachedMalId(identifier: string): Promise<number> {
-    const { malIdCache } = (await browser.storage.local.get(
-      'malIdCache'
-    )) as LocalOptions;
+    const { malIdCache } = (await browser.storage.local.get({
+      malIdCache: {},
+    })) as LocalOptions;
 
     const cacheEntry = malIdCache[identifier];
 
@@ -213,9 +251,9 @@ export abstract class BasePage implements Page {
    * @param malId MAL identification number.
    */
   static async getCachedRules(malId: number): Promise<Rule[] | undefined> {
-    const { rulesCache } = (await browser.storage.local.get(
-      'rulesCache'
-    )) as LocalOptions;
+    const { rulesCache } = (await browser.storage.local.get({
+      rulesCache: {},
+    })) as LocalOptions;
 
     const cacheEntry = rulesCache[malId];
 
@@ -228,5 +266,65 @@ export abstract class BasePage implements Page {
     }
 
     return cacheEntry.value;
+  }
+
+  injectOverlay(): void {
+    document.body.appendChild(this.overlayRenderer.shadowRootContainer);
+
+    this.overlayRenderer.render();
+  }
+
+  openOverlay(): void {
+    this.store.dispatch(openOverlay());
+    this.overlayRenderer.render();
+  }
+
+  /**
+   * Searches the manual title mapping for the MAL id with the most similar
+   * title.
+   */
+  static async searchManualTitleToMalIdMapping(title: string): Promise<number> {
+    const { manualTitleMalIdMap } = (await browser.storage.local.get({
+      manualTitleMalIdMap: {},
+    })) as LocalOptions;
+
+    const titles = Object.keys(manualTitleMalIdMap);
+
+    let closest = 0;
+    let bestSimilarity = 0;
+
+    titles.forEach((titleVariant) => {
+      const similarity = stringSimilarity.compareTwoStrings(
+        titleVariant.toLocaleLowerCase(),
+        title.toLocaleLowerCase()
+      );
+
+      if (similarity >= bestSimilarity && manualTitleMalIdMap[title]) {
+        bestSimilarity = similarity;
+        closest = manualTitleMalIdMap[title]!;
+      }
+    });
+
+    if (bestSimilarity > 0.6) {
+      return closest;
+    }
+
+    return 0;
+  }
+
+  async storeManualTitleToMalIdMapping(malId: number): Promise<void> {
+    const { manualTitleMalIdMap } = (await browser.storage.local.get({
+      manualTitleMalIdMap: {},
+    })) as LocalOptions;
+
+    const title = this.getTitle();
+
+    if (!title) {
+      return;
+    }
+
+    manualTitleMalIdMap[title] = malId;
+
+    browser.storage.local.set({ manualTitleMalIdMap });
   }
 }

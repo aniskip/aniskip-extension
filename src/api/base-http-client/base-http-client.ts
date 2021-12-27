@@ -24,7 +24,13 @@ export abstract class BaseHttpClient implements HttpClient {
         return;
       }
 
-      url.searchParams.append(key, param.toString());
+      if (typeof param === 'number') {
+        url.searchParams.append(key, param.toFixed(3));
+
+        return;
+      }
+
+      url.searchParams.append(key, param);
     });
     const options: RequestInit = {
       method,
