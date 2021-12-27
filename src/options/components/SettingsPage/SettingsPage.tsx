@@ -57,7 +57,7 @@ export function SettingsPage(): JSX.Element {
   ];
 
   /**
-   * Initialise filtered skip types and store skip options.
+   * Initialise filtered skip types, store skip options and keybinds.
    */
   useEffect(() => {
     setFilteredSkipTypes(
@@ -150,12 +150,7 @@ export function SettingsPage(): JSX.Element {
         dispatch(
           setKeybind({
             type: keybindType,
-            keybind: serialiseKeybind(
-              event.ctrlKey,
-              event.altKey,
-              event.shiftKey,
-              event.key
-            ),
+            keybind: serialiseKeybind(event),
           })
         );
       },

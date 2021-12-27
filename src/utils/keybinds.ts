@@ -7,29 +7,26 @@
  * @param keyPressed The key pressed.
  */
 export const serialiseKeybind = (
-  isControlKeyPressed: boolean,
-  isAltKeyPressed: boolean,
-  isShiftKeyPressed: boolean,
-  keyPressed: string
+  keyboardEvent: React.KeyboardEvent | KeyboardEvent
 ): string => {
   const keys = [];
 
-  if (isControlKeyPressed) {
+  if (keyboardEvent.ctrlKey) {
     keys.push('Ctrl');
   }
 
-  if (isAltKeyPressed) {
+  if (keyboardEvent.altKey) {
     keys.push('Alt');
   }
 
-  if (isShiftKeyPressed) {
+  if (keyboardEvent.shiftKey) {
     keys.push('Shift');
   }
 
-  if (keyPressed === ' ') {
+  if (keyboardEvent.key === ' ') {
     keys.push('Space');
-  } else if (keyPressed) {
-    keys.push(keyPressed);
+  } else if (keyboardEvent.key) {
+    keys.push(keyboardEvent.key);
   }
 
   return keys.join('+');

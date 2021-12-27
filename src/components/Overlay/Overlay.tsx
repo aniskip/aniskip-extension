@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Transition } from '@headlessui/react';
-import { closeOverlay, openOverlay, selectIsOverlayOpen } from '../../data';
+import { browser } from 'webextension-polyfill-ts';
+import {
+  closeOverlay,
+  openOverlay,
+  selectIsOverlayOpen,
+  selectKeybinds,
+  setIsSettingsLoaded,
+  setKeybinds,
+} from '../../data';
 import { useDispatch, useSelector } from '../../hooks';
 import { AnimeSearchModal } from '../AnimeSearchModal';
 import { useWindowEvent } from '../../utils';
+import { serialiseKeybind } from '../../utils/keybinds';
+import { DEFAULT_KEYBINDS, SyncOptions } from '../../scripts/background';
 
 export function Overlay(): JSX.Element {
+  const keybinds = useSelector(selectKeybinds);
   const isOpen = useSelector(selectIsOverlayOpen);
   const dispatch = useDispatch();
 
@@ -26,12 +37,32 @@ export function Overlay(): JSX.Element {
    * Open the modal if the shortcut was pressed.
    */
   useWindowEvent('keydown', (event: KeyboardEvent): void => {
-    if (event.key !== ' ' || !event.ctrlKey || !onClose) {
+    if (!onClose) {
+      return;
+    }
+
+    if (serialiseKeybind(event) !== keybinds['open-overlay']) {
       return;
     }
 
     dispatch(openOverlay());
   });
+
+  /**
+   * Initialise keybinds.
+   */
+  useEffect(() => {
+    (async (): Promise<void> => {
+      const syncedKeybinds = (
+        (await browser.storage.sync.get({
+          keybinds: DEFAULT_KEYBINDS,
+        })) as SyncOptions
+      ).keybinds;
+
+      dispatch(setKeybinds(syncedKeybinds));
+      dispatch(setIsSettingsLoaded(true));
+    })();
+  }, []);
 
   return (
     <Transition
