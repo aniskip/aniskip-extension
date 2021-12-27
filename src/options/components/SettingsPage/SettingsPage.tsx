@@ -6,14 +6,13 @@ import { debounce, DebouncedFunc } from 'lodash';
 import { SkipType, SKIP_TYPES, SKIP_TYPE_NAMES } from '../../../api';
 import { DefaultButton, Dropdown, Input, Keyboard } from '../../../components';
 import {
-  DEFAULT_KEYBINDS,
-  DEFAULT_SKIP_OPTIONS,
-  DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
   KEYBIND_NAMES,
   KeybindType,
   LocalOptions,
   SkipOptionType,
   KEYBIND_INFO,
+  DEFAULT_SYNC_OPTIONS,
+  SyncOptions,
 } from '../../../scripts/background';
 import {
   selectIsLoaded,
@@ -125,7 +124,7 @@ export function SettingsPage(): JSX.Element {
           })
         );
       },
-      500,
+      100,
       { leading: false, trailing: true }
     );
 
@@ -173,19 +172,15 @@ export function SettingsPage(): JSX.Element {
     );
 
     (async (): Promise<void> => {
-      const {
-        skipOptions: syncedSkipOptions,
-        skipTimeIndicatorColours: syncedSkipTimeIndicatorColours,
-        keybinds: syncedKeybinds,
-      } = await browser.storage.sync.get({
-        skipOptions: DEFAULT_SKIP_OPTIONS,
-        skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
-        keybinds: DEFAULT_KEYBINDS,
-      });
+      const syncOptions = (await browser.storage.sync.get(
+        DEFAULT_SYNC_OPTIONS
+      )) as SyncOptions;
 
-      dispatch(setSkipOptions(syncedSkipOptions));
-      dispatch(setSkipTimeIndicatorColours(syncedSkipTimeIndicatorColours));
-      dispatch(setKeybinds(syncedKeybinds));
+      dispatch(setSkipOptions(syncOptions.skipOptions));
+      dispatch(
+        setSkipTimeIndicatorColours(syncOptions.skipTimeIndicatorColours)
+      );
+      dispatch(setKeybinds(syncOptions.keybinds));
       dispatch(setIsSettingsLoaded(true));
     })();
   }, []);
@@ -195,21 +190,13 @@ export function SettingsPage(): JSX.Element {
    */
   useEffect(() => {
     if (isSettingsLoaded) {
-      browser.storage.sync.set({ skipOptions });
-      browser.storage.sync.set({ skipTimeIndicatorColours });
-      browser.storage.sync.set({ keybinds });
+      browser.storage.sync.set({
+        skipOptions,
+        skipTimeIndicatorColours,
+        keybinds,
+      });
     }
   }, [skipOptions, skipTimeIndicatorColours, keybinds, isSettingsLoaded]);
-
-  /**
-   * Sync options with sync browser storage.
-   */
-  useEffect(() => {
-    if (isSettingsLoaded) {
-      browser.storage.sync.set({ skipOptions });
-      browser.storage.sync.set({ skipTimeIndicatorColours });
-    }
-  }, [skipOptions, skipTimeIndicatorColours, isSettingsLoaded]);
 
   return (
     <div className="sm:border sm:rounded-md border-gray-300 px-8 py-8 sm:bg-white">
