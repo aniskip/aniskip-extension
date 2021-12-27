@@ -54,7 +54,7 @@ export type Keybinds = {
 };
 
 export const DEFAULT_KEYBINDS: Keybinds = {
-  'open-anime-search-overlay': 'Ctrl+Space',
+  'open-anime-search-overlay': 'Ctrl+Shift+F',
   'increase-current-time': 'l',
   'increase-current-time-large': 'Shift+L',
   'decrease-current-time': 'j',
