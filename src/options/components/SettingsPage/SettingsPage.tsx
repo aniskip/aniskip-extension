@@ -243,7 +243,7 @@ export function SettingsPage(): JSX.Element {
           <div className="space-y-2 pt-3" key={type}>
             <div className="flex justify-between items-center space-x-3 w-full focus:outline-none">
               <button
-                className="text-base text-gray-700 font-semibold"
+                className="text-base text-gray-700 font-semibold text-left"
                 type="button"
                 disabled={isUserEditingKeybind[type as KeybindType]}
                 onClick={onClickEditKeybind(type as KeybindType)}
