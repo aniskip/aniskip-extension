@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
+import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { browser } from 'webextension-polyfill-ts';
 import { ColorResult } from 'react-color';
 import { debounce, DebouncedFunc } from 'lodash';
+import { sprintf } from 'sprintf-js';
 import { SkipType, SKIP_TYPES, SKIP_TYPE_NAMES } from '../../../api';
 import { DefaultButton, Dropdown, Input, Keyboard } from '../../../components';
 import {
@@ -28,10 +30,17 @@ import {
   setKeybind,
   selectIsUserEditingKeybind,
   setIsUserEditingKeybind,
+  selectSkipTimeLength,
+  selectChangeCurrentTimeLength,
+  selectChangeCurrentTimeLargeLength,
+  setSkipTimeLength,
+  setChangeCurrentTimeLength,
+  setChangeCurrentTimeLargeLength,
 } from '../../../data';
 import { ColourPicker } from '../ColourPicker';
 import { useDispatch, useSelector } from '../../../hooks';
 import { serialiseKeybind } from '../../../utils';
+import { Setting } from '../Setting';
 
 export function SettingsPage(): JSX.Element {
   const [filteredSkipTypes, setFilteredSkipTypes] = useState<
@@ -40,6 +49,11 @@ export function SettingsPage(): JSX.Element {
   const skipOptions = useSelector(selectSkipOptions);
   const skipTimeIndicatorColours = useSelector(selectSkipTimeIndicatorColours);
   const keybinds = useSelector(selectKeybinds);
+  const skipTimeLength = useSelector(selectSkipTimeLength);
+  const changeCurrentTimeLength = useSelector(selectChangeCurrentTimeLength);
+  const changeCurrentTimeLargeLength = useSelector(
+    selectChangeCurrentTimeLargeLength
+  );
   const isUserEditingKeybind = useSelector(selectIsUserEditingKeybind);
   const isSettingsLoaded = useSelector(selectIsLoaded);
   const keybindInputRef = useRef<HTMLInputElement | null>(null);
@@ -161,6 +175,37 @@ export function SettingsPage(): JSX.Element {
   };
 
   /**
+   * Formats keybind info strings.
+   *
+   * @param keybindType Type of kebind to get the formatted info of.
+   */
+  const formatKeybindInfo = (keybindType: KeybindType): string => {
+    switch (keybindType) {
+      case 'increase-current-time':
+      case 'decrease-current-time':
+        return sprintf(KEYBIND_INFO[keybindType], changeCurrentTimeLength);
+      case 'increase-current-time-large':
+      case 'decrease-current-time-large':
+        return sprintf(KEYBIND_INFO[keybindType], changeCurrentTimeLargeLength);
+      default:
+      // no default
+    }
+
+    return KEYBIND_INFO[keybindType];
+  };
+
+  /**
+   * Generic input handler for number inputs.
+   *
+   * @param action Action used to update state.
+   */
+  const onChangeNumericInput =
+    (action: ActionCreatorWithPayload<number, string>) =>
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      dispatch(action(parseFloat(event.target.value)));
+    };
+
+  /**
    * Initialise filtered skip types, store skip options and keybinds.
    */
   useEffect(() => {
@@ -181,6 +226,13 @@ export function SettingsPage(): JSX.Element {
         setSkipTimeIndicatorColours(syncOptions.skipTimeIndicatorColours)
       );
       dispatch(setKeybinds(syncOptions.keybinds));
+      dispatch(setSkipTimeLength(syncOptions.skipTimeLength));
+      dispatch(setChangeCurrentTimeLength(syncOptions.changeCurrentTimeLength));
+      dispatch(
+        setChangeCurrentTimeLargeLength(
+          syncOptions.changeCurrentTimeLargeLength
+        )
+      );
       dispatch(setIsSettingsLoaded(true));
     })();
   }, []);
@@ -194,19 +246,30 @@ export function SettingsPage(): JSX.Element {
         skipOptions,
         skipTimeIndicatorColours,
         keybinds,
+        skipTimeLength,
+        changeCurrentTimeLength,
+        changeCurrentTimeLargeLength,
       });
     }
-  }, [skipOptions, skipTimeIndicatorColours, keybinds, isSettingsLoaded]);
+  }, [
+    skipOptions,
+    skipTimeIndicatorColours,
+    keybinds,
+    skipTimeLength,
+    changeCurrentTimeLength,
+    changeCurrentTimeLargeLength,
+    isSettingsLoaded,
+  ]);
 
   return (
     <div className="sm:border sm:rounded-md border-gray-300 px-8 py-8 sm:bg-white">
       <h2 className="text-xl text-gray-900 font-semibold mb-3">Skip options</h2>
       <div className="space-y-3 mb-12">
         {filteredSkipTypes.map((skipType) => (
-          <div className="space-y-2" key={skipType}>
-            <div className="text-xs text-gray-700 uppercase font-semibold">
+          <div className="space-y-1" key={skipType}>
+            <span className="text-xs text-gray-700 uppercase font-semibold">
               {SKIP_TYPE_NAMES[skipType]}
-            </div>
+            </span>
             <div className="flex justify-between items-center space-x-3">
               <Dropdown
                 className="text-sm grow"
@@ -223,27 +286,80 @@ export function SettingsPage(): JSX.Element {
             </div>
           </div>
         ))}
+        <div className="space-y-1">
+          <span className="text-xs text-gray-700 uppercase font-semibold">
+            Skip menu behavior
+          </span>
+          <div className="space-y-3 divide-y">
+            <Setting
+              name="Skip time length"
+              description="Time in seconds used when calculating the end time when the skip menu is opened."
+            >
+              <div className="flex items-end">
+                <Input
+                  className="text-xs select-none uppercase focus:ring-1 w-24 focus:ring-primary focus:border-primary"
+                  type="number"
+                  value={skipTimeLength}
+                  spellCheck="false"
+                  onChange={onChangeNumericInput(setSkipTimeLength)}
+                />
+                <span className="pl-1">s</span>
+              </div>
+            </Setting>
+            <Setting
+              className="pt-3"
+              name="Change current time"
+              description="Time in seconds used when increasing or decreasing the start or end time used for fine-tuning."
+            >
+              <div className="flex items-end">
+                <Input
+                  className="text-xs select-none uppercase focus:ring-1 w-24 focus:ring-primary focus:border-primary"
+                  type="number"
+                  value={changeCurrentTimeLength}
+                  spellCheck="false"
+                  onChange={onChangeNumericInput(setChangeCurrentTimeLength)}
+                />
+                <span className="pl-1">s</span>
+              </div>
+            </Setting>
+            <Setting
+              className="pt-3"
+              name="Change current time (large)"
+              description="Time in seconds used when increasing or decreasing the start or end time used for fine-tuning."
+            >
+              <div className="flex items-end">
+                <Input
+                  className="text-xs select-none uppercase focus:ring-1 w-24 focus:ring-primary focus:border-primary"
+                  type="number"
+                  value={changeCurrentTimeLargeLength}
+                  spellCheck="false"
+                  onChange={onChangeNumericInput(
+                    setChangeCurrentTimeLargeLength
+                  )}
+                />
+                <span className="pl-1">s</span>
+              </div>
+            </Setting>
+          </div>
+        </div>
       </div>
       <h2 className="text-xl text-gray-900 font-semibold mb-1">Keybinds</h2>
       <div className="space-y-3 mb-12 divide-y">
         {Object.entries(keybinds).map(([type, keybind]) => (
-          <div className="space-y-2 pt-3" key={type}>
-            <div className="flex justify-between items-center space-x-3 w-full focus:outline-none">
-              <button
-                className="text-base text-gray-700 font-semibold text-left"
-                type="button"
-                disabled={isUserEditingKeybind[type as KeybindType]}
-                onClick={onClickEditKeybind(type as KeybindType)}
-              >
-                {KEYBIND_NAMES[type as KeybindType]}
-              </button>
+          <button
+            key={type}
+            className="block w-full text-left"
+            type="button"
+            disabled={isUserEditingKeybind[type as KeybindType]}
+            onClick={onClickEditKeybind(type as KeybindType)}
+          >
+            <Setting
+              className="pt-3"
+              name={KEYBIND_NAMES[type as KeybindType]}
+              description={formatKeybindInfo(type as KeybindType)}
+            >
               {!isUserEditingKeybind[type as KeybindType] ? (
-                <button
-                  className="flex items-center"
-                  type="button"
-                  disabled={isUserEditingKeybind[type as KeybindType]}
-                  onClick={onClickEditKeybind(type as KeybindType)}
-                >
+                <span className="flex items-center">
                   {keybind &&
                     keybind
                       .split('+')
@@ -252,7 +368,7 @@ export function SettingsPage(): JSX.Element {
                           [<Keyboard key={`${type}-${key}`}>{key}</Keyboard>]
                         )
                       )}
-                </button>
+                </span>
               ) : (
                 <Input
                   ref={keybindInputRef}
@@ -265,13 +381,8 @@ export function SettingsPage(): JSX.Element {
                   readOnly
                 />
               )}
-            </div>
-            {KEYBIND_INFO[type as KeybindType] && (
-              <div className="text-sm text-gray-500">
-                {KEYBIND_INFO[type as KeybindType]}
-              </div>
-            )}
-          </div>
+            </Setting>
+          </button>
         ))}
       </div>
       <h2 className="text-xl text-gray-900 font-semibold mb-3">

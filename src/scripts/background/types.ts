@@ -72,12 +72,10 @@ export const KEYBIND_NAMES: Record<KeybindType, string> = {
 export const KEYBIND_INFO: Record<KeybindType, string> = {
   'open-anime-search-overlay':
     'Used when auto-detection does not work or to manually override incorrect anime detection.',
-  'increase-current-time': 'Increases the start time or end time by 0.1s.',
-  'increase-current-time-large':
-    'Increases the start time or end time by 0.25s.',
-  'decrease-current-time': 'Decreases the start time or end time by 0.1s.',
-  'decrease-current-time-large':
-    'Decreases the start time or end time by 0.25s.',
+  'increase-current-time': 'Increases the start time or end time by %ss.',
+  'increase-current-time-large': 'Increases the start time or end time by %ss.',
+  'decrease-current-time': 'Decreases the start time or end time by %ss.',
+  'decrease-current-time-large': 'Decreases the start time or end time by %ss.',
 } as const;
 
 export type SyncOptions = {
@@ -85,6 +83,9 @@ export type SyncOptions = {
   skipOptions: SkipOptions;
   skipTimeIndicatorColours: SkipTimeIndicatorColours;
   keybinds: Keybinds;
+  skipTimeLength: number;
+  changeCurrentTimeLength: number;
+  changeCurrentTimeLargeLength: number;
 };
 
 export const DEFAULT_SYNC_OPTIONS: SyncOptions = {
@@ -92,6 +93,9 @@ export const DEFAULT_SYNC_OPTIONS: SyncOptions = {
   skipOptions: DEFAULT_SKIP_OPTIONS,
   skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
   keybinds: DEFAULT_KEYBINDS,
+  skipTimeLength: 90,
+  changeCurrentTimeLength: 0.1,
+  changeCurrentTimeLargeLength: 0.25,
 };
 
 export type CacheEntry<T> = {
