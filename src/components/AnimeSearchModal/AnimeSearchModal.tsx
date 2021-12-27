@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import debounce from 'lodash.debounce';
 import { BiSearch } from 'react-icons/bi';
@@ -37,36 +37,33 @@ export function AnimeSearchModal({
   /**
    * Handles search bar input change.
    */
-  const onChangeSearchBar = useCallback(
-    debounce(
-      async (event: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
-        const title = event.target.value;
+  const onChangeSearchBar = debounce(
+    async (event: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+      const title = event.target.value;
 
-        const searchResponse =
-          await anilistHttpClient.current.searchTitleCoverImages(title);
+      const searchResponse =
+        await anilistHttpClient.current.searchTitleCoverImages(title);
 
-        const results = searchResponse.data.Page.media
-          .filter(
-            (searchResult) => searchResult.idMal && searchResult.title.english
-          )
-          .map(
-            (searchResult) =>
-              ({
-                malId: searchResult.idMal,
-                title: searchResult.title.english,
-                format: searchResult.format,
-                seasonYear: searchResult.seasonYear,
-                coverImage: searchResult.coverImage.medium,
-              } as SearchResult)
-          );
+      const results = searchResponse.data.Page.media
+        .filter(
+          (searchResult) => searchResult.idMal && searchResult.title.english
+        )
+        .map(
+          (searchResult) =>
+            ({
+              malId: searchResult.idMal,
+              title: searchResult.title.english,
+              format: searchResult.format,
+              seasonYear: searchResult.seasonYear,
+              coverImage: searchResult.coverImage.medium,
+            } as SearchResult)
+        );
 
-        setSearchResults(results);
+      setSearchResults(results);
 
-        dispatch(setIsInitialOverlayOpen(false));
-      },
-      500
-    ),
-    []
+      dispatch(setIsInitialOverlayOpen(false));
+    },
+    500
   );
 
   /**
