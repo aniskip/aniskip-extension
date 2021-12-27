@@ -176,7 +176,7 @@ export function AnimeSearchModal({
         </div>
         <Keyboard
           as="button"
-          className="font-semibold uppercase text-[0.625em] border border-gray-200 p-2 rounded-md hover:shadow-md hover:border-gray-300 active:border-gray-400"
+          className="hover:shadow-md hover:border-gray-300 active:border-gray-400 "
           type="button"
           onClick={onClose}
         >
@@ -194,7 +194,7 @@ export function AnimeSearchModal({
                 src={animeDetected.coverImage}
                 alt={`${animeDetected.title} cover`}
               />
-              <div className="flex flex-col justify-center">
+              <div className="flex flex-col justify-center overflow-auto">
                 <span className="font-bold truncate">
                   {animeDetected.title}
                 </span>

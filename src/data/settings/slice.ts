@@ -1,14 +1,17 @@
 import { createSlice, PayloadAction, Selector } from '@reduxjs/toolkit';
 import {
-  SettingsState,
+  SetKeybind,
   SetSkipOption,
   SetSkipTimeIndicatorColour,
+  SettingsState,
 } from './types';
 import {
-  DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+  DEFAULT_KEYBINDS,
   DEFAULT_SKIP_OPTIONS,
-  SkipTimeIndicatorColours,
+  DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+  Keybinds,
   SkipOptions,
+  SkipTimeIndicatorColours,
 } from '../../scripts/background';
 import { StateSlice } from '../../utils';
 
@@ -18,6 +21,7 @@ import { StateSlice } from '../../utils';
 const initialSettingsState: SettingsState = {
   skipOptions: DEFAULT_SKIP_OPTIONS,
   skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+  keybinds: DEFAULT_KEYBINDS,
   isSettingsLoaded: false,
 };
 
@@ -38,6 +42,11 @@ export const selectIsLoaded: Selector<
   StateSlice<SettingsState, 'settings'>,
   boolean
 > = (state) => state.settings.isSettingsLoaded;
+
+export const selectKeybinds: Selector<
+  StateSlice<SettingsState, 'settings'>,
+  Keybinds
+> = (state) => state.settings.keybinds;
 
 /**
  * Slice definition.
@@ -65,6 +74,12 @@ const settingsStateSlice = createSlice({
     ) => {
       state.skipTimeIndicatorColours = action.payload;
     },
+    setKeybind: (state, action: PayloadAction<SetKeybind>) => {
+      state.keybinds[action.payload.type] = action.payload.keybind;
+    },
+    setKeybinds: (state, action: PayloadAction<Keybinds>) => {
+      state.keybinds = action.payload;
+    },
     setIsSettingsLoaded: (state, action: PayloadAction<boolean>) => {
       state.isSettingsLoaded = action.payload;
     },
@@ -76,6 +91,8 @@ export const {
   setSkipOptions,
   setSkipTimeIndicatorColour,
   setSkipTimeIndicatorColours,
+  setKeybind,
+  setKeybinds,
   setIsSettingsLoaded,
 } = settingsStateSlice.actions;
 export default settingsStateSlice.reducer;

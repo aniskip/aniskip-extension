@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { browser } from 'webextension-polyfill-ts';
 import { ColorResult } from 'react-color';
+import debounce from 'lodash.debounce';
+import { DebouncedFunc } from 'lodash.debounce/node_modules/@types/lodash';
 import { SkipType, SKIP_TYPES, SKIP_TYPE_NAMES } from '../../../api';
-import { DefaultButton, Dropdown, Input } from '../../../components';
+import { DefaultButton, Dropdown, Input, Keyboard } from '../../../components';
 import {
-  DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+  DEFAULT_KEYBINDS,
   DEFAULT_SKIP_OPTIONS,
+  DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+  KEYBIND_NAMES,
+  KeybindType,
   LocalOptions,
-  SkipTimeIndicatorColours,
-  SkipOptions,
   SkipOptionType,
 } from '../../../scripts/background';
 import {
-  Dispatch,
-  RootState,
   selectIsLoaded,
   selectSkipTimeIndicatorColours,
   selectSkipOptions,
@@ -23,20 +23,23 @@ import {
   setSkipTimeIndicatorColours,
   setSkipOption,
   setSkipOptions,
+  setKeybinds,
+  selectKeybinds,
+  setKeybind,
 } from '../../../data';
 import { ColourPicker } from '../ColourPicker';
+import { useDispatch, useSelector } from '../../../hooks';
+import { serialiseKeybind } from '../../../utils/keybinds';
 
 export function SettingsPage(): JSX.Element {
   const [filteredSkipTypes, setFilteredSkipTypes] = useState<
     Exclude<SkipType, 'preview'>[]
   >([]);
-  const skipOptions = useSelector<RootState, SkipOptions>(selectSkipOptions);
-  const skipTimeIndicatorColours = useSelector<
-    RootState,
-    SkipTimeIndicatorColours
-  >(selectSkipTimeIndicatorColours);
-  const isSettingsLoaded = useSelector<RootState, boolean>(selectIsLoaded);
-  const dispatch = useDispatch<Dispatch>();
+  const skipOptions = useSelector(selectSkipOptions);
+  const skipTimeIndicatorColours = useSelector(selectSkipTimeIndicatorColours);
+  const keybinds = useSelector(selectKeybinds);
+  const isSettingsLoaded = useSelector(selectIsLoaded);
+  const dispatch = useDispatch();
 
   const dropdownOptions = [
     {
@@ -68,13 +71,16 @@ export function SettingsPage(): JSX.Element {
       const {
         skipOptions: syncedSkipOptions,
         skipTimeIndicatorColours: syncedSkipTimeIndicatorColours,
+        keybinds: syncedKeybinds,
       } = await browser.storage.sync.get({
         skipOptions: DEFAULT_SKIP_OPTIONS,
         skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+        keybinds: DEFAULT_KEYBINDS,
       });
 
       dispatch(setSkipOptions(syncedSkipOptions));
       dispatch(setSkipTimeIndicatorColours(syncedSkipTimeIndicatorColours));
+      dispatch(setKeybinds(syncedKeybinds));
       dispatch(setIsSettingsLoaded(true));
     })();
   }, []);
@@ -102,6 +108,17 @@ export function SettingsPage(): JSX.Element {
   };
 
   /**
+   * Sync options with sync browser storage.
+   */
+  useEffect(() => {
+    if (isSettingsLoaded) {
+      browser.storage.sync.set({ skipOptions });
+      browser.storage.sync.set({ skipTimeIndicatorColours });
+      browser.storage.sync.set({ keybinds });
+    }
+  }, [skipOptions, skipTimeIndicatorColours, keybinds, isSettingsLoaded]);
+
+  /**
    * Handles skip option changes.
    *
    * @param skipType Skip type to change the option of.
@@ -125,10 +142,31 @@ export function SettingsPage(): JSX.Element {
       );
     };
 
+  const onChangeCompleteKeybind = (
+    keybindType: KeybindType
+  ): DebouncedFunc<React.KeyboardEventHandler<HTMLInputElement>> =>
+    debounce(
+      (event: React.KeyboardEvent<HTMLInputElement>): void => {
+        dispatch(
+          setKeybind({
+            type: keybindType,
+            keybind: serialiseKeybind(
+              event.ctrlKey,
+              event.altKey,
+              event.shiftKey,
+              event.key
+            ),
+          })
+        );
+      },
+      500,
+      { leading: false, trailing: true }
+    );
+
   return (
     <div className="sm:border sm:rounded-md border-gray-300 px-8 py-8 sm:bg-white">
       <h2 className="text-lg text-gray-900 font-semibold mb-3">Skip options</h2>
-      <div className="space-y-3 w-full mb-6">
+      <div className="space-y-3 mb-6">
         {filteredSkipTypes.map((skipType) => (
           <div className="space-y-1" key={skipType}>
             <div className="text-xs text-gray-700 uppercase font-semibold">
@@ -153,13 +191,33 @@ export function SettingsPage(): JSX.Element {
       </div>
       <hr className="mb-6" />
       <h2 className="text-lg text-gray-900 font-semibold mb-3">Keybinds</h2>
-      <div className="space-y-3 w-full mb-6">
-        <div className="space-y-1">
-          <div className="text-xs text-gray-700 uppercase font-semibold">
-            Open overlay
+      <div className="space-y-3 mb-6">
+        {Object.entries(keybinds).map(([type, keybind]) => (
+          <div className="space-y-1" key={type}>
+            <span className="text-xs text-gray-700 uppercase font-semibold">
+              {KEYBIND_NAMES[type as KeybindType]}
+            </span>
+            <div className="flex justify-between items-center space-x-3">
+              <Input
+                className="text-sm select-none w-full uppercase focus:ring-1 focus:ring-primary focus:border-primary"
+                type="text"
+                spellCheck="false"
+                onKeyDown={onChangeCompleteKeybind(type as KeybindType)}
+                value={keybind}
+                readOnly
+              />
+              <span className="flex items-center">
+                {keybind
+                  .split('+')
+                  .map((key, index) =>
+                    ([index ? '+' : ''] as (JSX.Element | string)[]).concat([
+                      <Keyboard key={`${type}-${key}`}>{key}</Keyboard>,
+                    ])
+                  )}
+              </span>
+            </div>
           </div>
-          <Input className="w-full" />
-        </div>
+        ))}
       </div>
       <hr className="mb-6" />
       <h2 className="text-lg text-gray-900 font-semibold mb-3">

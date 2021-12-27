@@ -22,7 +22,7 @@ export const DEFAULT_SKIP_OPTIONS: SkipOptions = {
   'mixed-ed': 'manual-skip',
   'mixed-op': 'manual-skip',
   recap: 'manual-skip',
-};
+} as const;
 
 export type SkipTimeIndicatorColours = Omit<
   {
@@ -37,6 +37,34 @@ export const DEFAULT_SKIP_TIME_INDICATOR_COLOURS: SkipTimeIndicatorColours = {
   'mixed-op': DEFAULT_COLOUR_PICKER_COLOURS[3],
   'mixed-ed': DEFAULT_COLOUR_PICKER_COLOURS[2],
   recap: DEFAULT_COLOUR_PICKER_COLOURS[8],
+} as const;
+
+export type Keybinds = {
+  'open-overlay': string;
+};
+
+export type KeybindType = keyof Keybinds;
+
+export const DEFAULT_KEYBINDS: Keybinds = {
+  'open-overlay': 'Ctrl+Space',
+} as const;
+
+export const KEYBIND_NAMES: Record<KeybindType, string> = {
+  'open-overlay': 'Open overlay',
+} as const;
+
+export type SyncOptions = {
+  userId: string;
+  skipOptions: SkipOptions;
+  skipTimeIndicatorColours: SkipTimeIndicatorColours;
+  keybinds: Keybinds;
+};
+
+export const DEFAULT_SYNC_OPTIONS: SyncOptions = {
+  userId: uuidv4(),
+  skipOptions: DEFAULT_SKIP_OPTIONS,
+  skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+  keybinds: DEFAULT_KEYBINDS,
 };
 
 export type CacheEntry<T> = {
@@ -44,16 +72,11 @@ export type CacheEntry<T> = {
   value: T;
 };
 
-export const DEFAULT_SYNC_OPTIONS: SyncOptions = {
-  userId: uuidv4(),
-  skipOptions: DEFAULT_SKIP_OPTIONS,
-  skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
-};
-
-export type SyncOptions = {
-  userId: string;
-  skipOptions: SkipOptions;
-  skipTimeIndicatorColours: SkipTimeIndicatorColours;
+export type LocalOptions = {
+  malIdCache: Partial<Record<string, CacheEntry<number>>>;
+  rulesCache: Partial<Record<string, CacheEntry<Rule[]>>>;
+  skipTimesVoted: Partial<Record<string, VoteType>>;
+  manualTitleMalIdMap: Partial<Record<string, number>>;
 };
 
 export const DEFAULT_LOCAL_OPTIONS: LocalOptions = {
@@ -61,13 +84,6 @@ export const DEFAULT_LOCAL_OPTIONS: LocalOptions = {
   rulesCache: {},
   skipTimesVoted: {},
   manualTitleMalIdMap: {},
-};
-
-export type LocalOptions = {
-  malIdCache: Partial<Record<string, CacheEntry<number>>>;
-  rulesCache: Partial<Record<string, CacheEntry<Rule[]>>>;
-  skipTimesVoted: Partial<Record<string, VoteType>>;
-  manualTitleMalIdMap: Partial<Record<string, number>>;
 };
 
 export type MessageType =
