@@ -1,5 +1,6 @@
 import { SetOptional } from 'type-fest';
 import { v4 as uuidv4 } from 'uuid';
+import { MediaTitle } from '../../api/anilist-http-client/anilist-http-client.types';
 import {
   Rule,
   SkipType,
@@ -89,6 +90,8 @@ export const KEYBIND_INFO: Record<KeybindType, string> = {
   'decrease-current-time-large': 'Decreases the start time or end time by %ss.',
 } as const;
 
+export type AnimeTitleLanguageType = Exclude<keyof MediaTitle, 'userPreferred'>;
+
 export type SyncOptions = {
   userId: string;
   skipOptions: SkipOptions;
@@ -97,6 +100,7 @@ export type SyncOptions = {
   skipTimeLength: number;
   changeCurrentTimeLength: number;
   changeCurrentTimeLargeLength: number;
+  animeTitleLanguage: AnimeTitleLanguageType;
 };
 
 export const DEFAULT_SYNC_OPTIONS: SyncOptions = {
@@ -107,6 +111,7 @@ export const DEFAULT_SYNC_OPTIONS: SyncOptions = {
   skipTimeLength: 90,
   changeCurrentTimeLength: 0.1,
   changeCurrentTimeLargeLength: 0.25,
+  animeTitleLanguage: 'english',
 };
 
 export type CacheEntry<T> = {

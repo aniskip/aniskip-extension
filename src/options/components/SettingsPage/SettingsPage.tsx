@@ -8,15 +8,16 @@ import { sprintf } from 'sprintf-js';
 import { SkipType, SKIP_TYPES, SKIP_TYPE_NAMES } from '../../../api';
 import { DefaultButton, Dropdown, Input, Keyboard } from '../../../components';
 import {
+  ANIME_SEARCH_OVERLAY_KEYBIND_TYPES,
+  DEFAULT_SYNC_OPTIONS,
+  KEYBIND_INFO,
   KEYBIND_NAMES,
   KeybindType,
   LocalOptions,
-  SkipOptionType,
-  KEYBIND_INFO,
-  DEFAULT_SYNC_OPTIONS,
-  SyncOptions,
-  ANIME_SEARCH_OVERLAY_KEYBIND_TYPES,
   SUBMIT_MENU_KEYBIND_TYPES,
+  SkipOptionType,
+  SyncOptions,
+  AnimeTitleLanguageType,
 } from '../../../scripts/background';
 import {
   selectIsLoaded,
@@ -38,6 +39,8 @@ import {
   setSkipTimeLength,
   setChangeCurrentTimeLength,
   setChangeCurrentTimeLargeLength,
+  setAnimeTitleLanguage,
+  selectAnimeTitleLanguage,
 } from '../../../data';
 import { ColourPicker } from '../ColourPicker';
 import { useDispatch, useSelector } from '../../../hooks';
@@ -56,12 +59,13 @@ export function SettingsPage(): JSX.Element {
   const changeCurrentTimeLargeLength = useSelector(
     selectChangeCurrentTimeLargeLength
   );
+  const animeTitleLanguage = useSelector(selectAnimeTitleLanguage);
   const isUserEditingKeybind = useSelector(selectIsUserEditingKeybind);
   const isSettingsLoaded = useSelector(selectIsLoaded);
   const keybindInputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch();
 
-  const dropdownOptions = [
+  const skipOptionDropdownOptions = [
     {
       id: 'manual-skip',
       label: 'Manual skip',
@@ -73,6 +77,21 @@ export function SettingsPage(): JSX.Element {
     {
       id: 'disabled',
       label: 'Disabled',
+    },
+  ];
+
+  const animeTitleLanguageDropdownOptions = [
+    {
+      id: 'romaji',
+      label: 'Romaji',
+    },
+    {
+      id: 'english',
+      label: 'English',
+    },
+    {
+      id: 'native',
+      label: 'Native',
     },
   ];
 
@@ -214,6 +233,17 @@ export function SettingsPage(): JSX.Element {
     };
 
   /**
+   * Handles changes to the anime title language.
+   *
+   * @param languageType Language type to set.
+   */
+  const onChangeAnimeTitleLanguage = (
+    languageType: AnimeTitleLanguageType
+  ): void => {
+    dispatch(setAnimeTitleLanguage(languageType));
+  };
+
+  /**
    * Renders a keybind. If no keybind is present, render an add keybind
    * button.
    *
@@ -321,6 +351,7 @@ export function SettingsPage(): JSX.Element {
         skipTimeLength,
         changeCurrentTimeLength,
         changeCurrentTimeLargeLength,
+        animeTitleLanguage,
       });
     }
   }, [
@@ -330,6 +361,7 @@ export function SettingsPage(): JSX.Element {
     skipTimeLength,
     changeCurrentTimeLength,
     changeCurrentTimeLargeLength,
+    animeTitleLanguage,
     isSettingsLoaded,
   ]);
 
@@ -347,7 +379,7 @@ export function SettingsPage(): JSX.Element {
                 className="text-sm grow"
                 value={skipOptions[skipType]!}
                 onChange={onChangeSkipOption(skipType)}
-                options={dropdownOptions}
+                options={skipOptionDropdownOptions}
               />
               <ColourPicker
                 colour={skipTimeIndicatorColours[skipType]}
@@ -414,6 +446,21 @@ export function SettingsPage(): JSX.Element {
             </Setting>
           </div>
         </div>
+      </div>
+      <h2 className="text-xl text-gray-900 font-semibold mb-3">
+        Anime search overlay options
+      </h2>
+      <span className="text-xs text-gray-700 uppercase font-semibold block mb-3">
+        Title language
+      </span>
+      <Dropdown
+        className="text-sm grow mb-2"
+        value={animeTitleLanguage}
+        onChange={onChangeAnimeTitleLanguage}
+        options={animeTitleLanguageDropdownOptions}
+      />
+      <div className="text-sm text-gray-500 mb-12">
+        Title displayed when searching for anime.
       </div>
       <h2 className="text-xl text-gray-900 font-semibold mb-1">Keybinds</h2>
       <span className="text-xs text-gray-700 uppercase font-semibold">

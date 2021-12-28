@@ -16,6 +16,7 @@ import {
   KEYBIND_TYPES,
   SkipOptions,
   SkipTimeIndicatorColours,
+  AnimeTitleLanguageType,
 } from '../../scripts/background';
 import { StateSlice } from '../../utils';
 
@@ -30,6 +31,7 @@ const initialSettingsState: SettingsState = {
   changeCurrentTimeLength: DEFAULT_SYNC_OPTIONS.changeCurrentTimeLength,
   changeCurrentTimeLargeLength:
     DEFAULT_SYNC_OPTIONS.changeCurrentTimeLargeLength,
+  animeTitleLanguage: DEFAULT_SYNC_OPTIONS.animeTitleLanguage,
   isUserEditingKeybind: Object.assign(
     {},
     ...KEYBIND_TYPES.map((type) => ({ [type]: false }))
@@ -80,6 +82,11 @@ export const selectChangeCurrentTimeLargeLength: Selector<
   number
 > = (state) => state.settings.changeCurrentTimeLargeLength;
 
+export const selectAnimeTitleLanguage: Selector<
+  StateSlice<SettingsState, 'settings'>,
+  AnimeTitleLanguageType
+> = (state) => state.settings.animeTitleLanguage;
+
 /**
  * Slice definition.
  */
@@ -121,6 +128,12 @@ const settingsStateSlice = createSlice({
     setChangeCurrentTimeLargeLength: (state, action: PayloadAction<number>) => {
       state.changeCurrentTimeLargeLength = action.payload;
     },
+    setAnimeTitleLanguage: (
+      state,
+      action: PayloadAction<AnimeTitleLanguageType>
+    ) => {
+      state.animeTitleLanguage = action.payload;
+    },
     setIsUserEditingKeybind: (
       state,
       action: PayloadAction<SetIsUserEditingKeybind>
@@ -144,6 +157,7 @@ export const {
   setSkipTimeLength,
   setChangeCurrentTimeLength,
   setChangeCurrentTimeLargeLength,
+  setAnimeTitleLanguage,
   setIsUserEditingKeybind,
   setIsSettingsLoaded,
 } = settingsStateSlice.actions;
