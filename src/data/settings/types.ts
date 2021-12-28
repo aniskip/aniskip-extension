@@ -2,17 +2,14 @@ import {
   SkipTimeIndicatorColours,
   SkipOptions,
   SkipOptionType,
-  Keybinds,
   KeybindType,
+  SyncOptions,
 } from '../../scripts/background';
 
 export type SettingsState = {
-  skipOptions: SkipOptions;
-  skipTimeIndicatorColours: SkipTimeIndicatorColours;
-  keybinds: Keybinds;
   isUserEditingKeybind: Record<KeybindType, boolean>;
   isSettingsLoaded: boolean;
-};
+} & Omit<SyncOptions, 'userId'>;
 
 export type SetSkipOption = {
   type: keyof SkipOptions;

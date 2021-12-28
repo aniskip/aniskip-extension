@@ -4,7 +4,7 @@ import { FaCheck, FaChevronDown } from 'react-icons/fa';
 import { DropdownProps } from './Dropdown.types';
 
 export function Dropdown({
-  className,
+  className = '',
   value,
   onChange,
   options,

@@ -1638,6 +1638,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/sprintf-js@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@types/sprintf-js@npm:1.1.2"
+  checksum: 9679e069eebebd910af12e4f90cfde44cd9af5974792bac572f41cd365eca2a6868287679281f2eb600b7960b28ae951d2a1b5980fb2966be71af18f3def58c7
+  languageName: node
+  linkType: hard
+
 "@types/string-similarity@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/string-similarity@npm:4.0.0"
@@ -13342,6 +13349,7 @@ resolve@^2.0.0-next.3:
     "@types/react-color": ^3.0.6
     "@types/react-dom": ^17.0.11
     "@types/remote-redux-devtools": ^0.5.5
+    "@types/sprintf-js": ^1.1.2
     "@types/string-similarity": ^4.0.0
     "@types/tailwindcss": ^2.2.4
     "@types/uuid": ^8.3.3
@@ -13386,6 +13394,7 @@ resolve@^2.0.0-next.3:
     sass: ^1.45.1
     sass-loader: ^12.4.0
     schema-utils: ^4.0.0
+    sprintf-js: ^1.1.2
     string-similarity: ^4.0.4
     style-loader: ^3.3.1
     tailwindcss: ^3.0.7

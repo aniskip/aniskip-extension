@@ -86,7 +86,7 @@ export class AnilistHttpClient extends BaseHttpClient {
   ): Promise<
     PostResponseFromPage<
       Media<
-        Pick<MediaTitle, 'english'>,
+        Omit<MediaTitle, 'userPreferred'>,
         Pick<MediaCoverImage, 'medium'>,
         MediaFormat
       >
@@ -100,7 +100,9 @@ export class AnilistHttpClient extends BaseHttpClient {
             format
             seasonYear
             title {
+              romaji
               english
+              native
             }
             coverImage {
               medium
@@ -117,7 +119,7 @@ export class AnilistHttpClient extends BaseHttpClient {
     return this.query<
       PostResponseFromPage<
         Media<
-          Pick<MediaTitle, 'english'>,
+          Omit<MediaTitle, 'userPreferred'>,
           Pick<MediaCoverImage, 'medium'>,
           MediaFormat
         >
@@ -135,7 +137,7 @@ export class AnilistHttpClient extends BaseHttpClient {
   ): Promise<
     PostResponseFromMedia<
       Media<
-        Pick<MediaTitle, 'english'>,
+        Omit<MediaTitle, 'userPreferred'>,
         Pick<MediaCoverImage, 'medium'>,
         MediaFormat
       >
@@ -146,7 +148,9 @@ export class AnilistHttpClient extends BaseHttpClient {
         Media (idMal: $malId, type: ANIME) {
           idMal
           title {
+            romaji
             english
+            native
           }
           coverImage {
             medium
@@ -164,7 +168,7 @@ export class AnilistHttpClient extends BaseHttpClient {
     return this.query<
       PostResponseFromMedia<
         Media<
-          Pick<MediaTitle, 'english'>,
+          Omit<MediaTitle, 'userPreferred'>,
           Pick<MediaCoverImage, 'medium'>,
           MediaFormat
         >

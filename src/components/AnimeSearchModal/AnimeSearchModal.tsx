@@ -10,11 +10,17 @@ import {
   usePageRef,
 } from '../../utils';
 import { AnimeSearchModalProps, SearchResult } from './AnimeSearchModal.types';
-import { Message } from '../../scripts/background';
+import {
+  DEFAULT_SYNC_OPTIONS,
+  Message,
+  SyncOptions,
+} from '../../scripts/background';
 import { useDispatch, useSelector } from '../../hooks';
 import {
+  selectAnimeTitleLanguage,
   selectIsInitialOverlayOpen,
   selectMalId,
+  setAnimeTitleLanguage,
   setIsInitialOverlayOpen,
   setMalId,
 } from '../../data';
@@ -30,6 +36,7 @@ export function AnimeSearchModal({
   const searchBarRef = useRef<HTMLInputElement>(null);
   const isInitialOverlayOpen = useSelector(selectIsInitialOverlayOpen);
   const detectedMalId = useSelector(selectMalId);
+  const animeTitleLanguage = useSelector(selectAnimeTitleLanguage);
   const shadowRoot = useShadowRootRef();
   const page = usePageRef();
   const dispatch = useDispatch();
@@ -45,14 +52,14 @@ export function AnimeSearchModal({
         await anilistHttpClient.current.searchTitleCoverImages(title);
 
       const results = searchResponse.data.Page.media
-        .filter(
-          (searchResult) => searchResult.idMal && searchResult.title.english
-        )
+        .filter((searchResult) => searchResult.idMal)
         .map(
           (searchResult) =>
             ({
               malId: searchResult.idMal,
-              title: searchResult.title.english,
+              title:
+                searchResult.title[animeTitleLanguage] ||
+                searchResult.title.romaji,
               format: searchResult.format,
               seasonYear: searchResult.seasonYear,
               coverImage: searchResult.coverImage.medium,
@@ -129,7 +136,8 @@ export function AnimeSearchModal({
   });
 
   /**
-   * Focus the search bar and display the detected episode on first open.
+   * Focus the search bar and display the detected episode on first open and
+   * sync with browser storage.
    */
   useEffect(() => {
     searchBarRef.current?.focus();
@@ -137,6 +145,14 @@ export function AnimeSearchModal({
     (async (): Promise<void> => {
       dispatch(setIsInitialOverlayOpen(true));
 
+      // Sync options with sync browser storage.
+      const syncOptions = (await browser.storage.sync.get(
+        DEFAULT_SYNC_OPTIONS
+      )) as SyncOptions;
+
+      dispatch(setAnimeTitleLanguage(syncOptions.animeTitleLanguage));
+
+      // Search for detected anime cover image.
       if (detectedMalId === 0) {
         return;
       }
@@ -151,7 +167,7 @@ export function AnimeSearchModal({
         format: media.format,
         seasonYear: media.seasonYear,
         malId: media.idMal,
-        title: media.title.english,
+        title: media.title[animeTitleLanguage] ?? media.title.romaji,
       };
 
       setAnimeDetected(searchResult);
