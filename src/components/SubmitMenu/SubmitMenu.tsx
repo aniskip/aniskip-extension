@@ -12,7 +12,7 @@ import { DefaultButton } from '../DefaultButton';
 import { Dropdown, DropdownOptionsProps } from '../Dropdown';
 import { Input } from '../Input';
 import {
-  DEFAULT_KEYBINDS,
+  DEFAULT_SYNC_OPTIONS,
   Message,
   SyncOptions,
 } from '../../scripts/background';
@@ -26,9 +26,15 @@ import {
 import { useAniskipHttpClient, useDispatch, useSelector } from '../../hooks';
 import {
   changeSubmitMenuVisibility,
+  selectChangeCurrentTimeLargeLength,
+  selectChangeCurrentTimeLength,
   selectIsSubmitMenuVisible,
   selectKeybinds,
+  selectSkipTimeLength,
+  setChangeCurrentTimeLargeLength,
+  setChangeCurrentTimeLength,
   setKeybinds,
+  setSkipTimeLength,
 } from '../../data';
 
 export function SubmitMenu(): JSX.Element {
@@ -48,6 +54,11 @@ export function SubmitMenu(): JSX.Element {
   const inputPatternTestRegexRef = useRef(/^[0-9:.]*$/);
   const visible = useSelector(selectIsSubmitMenuVisible);
   const keybinds = useSelector(selectKeybinds);
+  const skipTimeLength = useSelector(selectSkipTimeLength);
+  const changeCurrentTimeLength = useSelector(selectChangeCurrentTimeLength);
+  const changeCurrentTimeLargeLength = useSelector(
+    selectChangeCurrentTimeLargeLength
+  );
   const player = usePlayerRef();
   const dispatch = useDispatch();
 
@@ -183,12 +194,12 @@ export function SubmitMenu(): JSX.Element {
     (event: React.KeyboardEvent<HTMLInputElement>): void => {
       const timeString = event.currentTarget.value;
       const timeSeconds = timeStringToSeconds(timeString);
-      let modifier = 0.25;
+      let modifier = changeCurrentTimeLargeLength;
       let updatedTime = timeSeconds;
 
       switch (serialiseKeybind(event)) {
         case keybinds['decrease-current-time-large']: {
-          modifier = 0.1;
+          modifier = changeCurrentTimeLength;
         }
         /* falls through */
         case keybinds['decrease-current-time']: {
@@ -196,7 +207,7 @@ export function SubmitMenu(): JSX.Element {
           break;
         }
         case keybinds['increase-current-time-large']: {
-          modifier = 0.1;
+          modifier = changeCurrentTimeLength;
         }
         /* falls through */
         case keybinds['increase-current-time']: {
@@ -406,7 +417,7 @@ export function SubmitMenu(): JSX.Element {
 
   /**
    * Initialise the start time to the current time and the end time to the
-   * current time + 90 seconds.
+   * current time + 90 (by default) seconds.
    */
   useEffect(() => {
     if (!visible) {
@@ -419,7 +430,7 @@ export function SubmitMenu(): JSX.Element {
     const currentTime = player?.getCurrentTime() ?? 0;
 
     setStartTime(secondsToTimeString(currentTime));
-    let newEndTime = currentTime + 90;
+    let newEndTime = currentTime + skipTimeLength;
     if (newEndTime > duration) {
       newEndTime = Math.floor(duration);
     }
@@ -428,17 +439,22 @@ export function SubmitMenu(): JSX.Element {
   }, [visible]);
 
   /**
-   * Initialise keybinds.
+   * Initialise settings.
    */
   useEffect(() => {
     (async (): Promise<void> => {
-      const syncedKeybinds = (
-        (await browser.storage.sync.get({
-          keybinds: DEFAULT_KEYBINDS,
-        })) as SyncOptions
-      ).keybinds;
+      const syncOptions = (await browser.storage.sync.get(
+        DEFAULT_SYNC_OPTIONS
+      )) as SyncOptions;
 
-      dispatch(setKeybinds(syncedKeybinds));
+      dispatch(setKeybinds(syncOptions.keybinds));
+      dispatch(setSkipTimeLength(syncOptions.skipTimeLength));
+      dispatch(setChangeCurrentTimeLength(syncOptions.changeCurrentTimeLength));
+      dispatch(
+        setChangeCurrentTimeLargeLength(
+          syncOptions.changeCurrentTimeLargeLength
+        )
+      );
     })();
   }, []);
 
