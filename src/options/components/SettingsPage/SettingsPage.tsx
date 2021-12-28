@@ -43,8 +43,7 @@ import {
   selectAnimeTitleLanguage,
 } from '../../../data';
 import { ColourPicker } from '../ColourPicker';
-import { useDispatch, useSelector } from '../../../hooks';
-import { serialiseKeybind } from '../../../utils';
+import { serialiseKeybind, useDispatch, useSelector } from '../../../utils';
 import { Setting } from '../Setting';
 
 export function SettingsPage(): JSX.Element {

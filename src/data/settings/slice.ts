@@ -18,7 +18,7 @@ import {
   SkipTimeIndicatorColours,
   AnimeTitleLanguageType,
 } from '../../scripts/background';
-import { StateSlice } from '../../utils';
+import { StateSlice } from '../../utils/types';
 
 /**
  * Initial state.

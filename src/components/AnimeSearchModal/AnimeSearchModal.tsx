@@ -8,6 +8,8 @@ import {
   useWindowEvent,
   useShadowRootEvent,
   usePageRef,
+  useDispatch,
+  useSelector,
 } from '../../utils';
 import { AnimeSearchModalProps, SearchResult } from './AnimeSearchModal.types';
 import {
@@ -15,7 +17,6 @@ import {
   Message,
   SyncOptions,
 } from '../../scripts/background';
-import { useDispatch, useSelector } from '../../hooks';
 import {
   selectAnimeTitleLanguage,
   selectIsInitialOverlayOpen,

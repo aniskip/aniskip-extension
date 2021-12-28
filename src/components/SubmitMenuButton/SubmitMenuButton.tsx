@@ -6,8 +6,7 @@ import {
   changeVoteMenuVisibility,
   selectIsSubmitMenuVisible,
 } from '../../data';
-import { useDispatch } from '../../hooks';
-import { getDomainName } from '../../utils';
+import { getDomainName, useDispatch } from '../../utils';
 import { SubmitMenuButtonProps } from './SubmitMenuButton.types';
 
 export function SubmitMenuButton({

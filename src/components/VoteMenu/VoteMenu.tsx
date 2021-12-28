@@ -1,9 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaChevronDown, FaChevronUp, FaPlay, FaTimes } from 'react-icons/fa';
 import { browser } from 'webextension-polyfill-ts';
-import { useAniskipHttpClient, useDispatch, useSelector } from '../../hooks';
-import { SkipTime, SKIP_TYPE_NAMES, VoteType } from '../../api';
-import { secondsToTimeString, usePlayerRef } from '../../utils';
+import {
+  AniskipHttpClient,
+  SkipTime,
+  SKIP_TYPE_NAMES,
+  VoteType,
+} from '../../api';
+import {
+  secondsToTimeString,
+  usePlayerRef,
+  useDispatch,
+  useSelector,
+} from '../../utils';
 import { LinkButton } from '../LinkButton';
 import {
   changeSubmitMenuVisibility,
@@ -14,7 +23,9 @@ import {
 } from '../../data';
 
 export function VoteMenu(): JSX.Element {
-  const { aniskipHttpClient } = useAniskipHttpClient();
+  const aniskipHttpClientRef = useRef<AniskipHttpClient>(
+    new AniskipHttpClient()
+  );
   const [skipTimesVoted, setSkipTimesVoted] = useState<
     Record<string, VoteType>
   >({});
@@ -95,7 +106,7 @@ export function VoteMenu(): JSX.Element {
         skipTimesVoted: updatedSkipTimesVoted,
       });
 
-      await aniskipHttpClient.upvote(skipId);
+      await aniskipHttpClientRef.current.upvote(skipId);
     };
 
   /**
@@ -126,7 +137,7 @@ export function VoteMenu(): JSX.Element {
         skipTimesVoted: updatedSkipTimesVoted,
       });
 
-      await aniskipHttpClient.downvote(skipId);
+      await aniskipHttpClientRef.current.downvote(skipId);
     };
 
   return (

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import { selectSkipTimes } from '../../data';
-import { useSelector } from '../../hooks';
 import {
   DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
   SkipTimeIndicatorColours,
 } from '../../scripts/background';
-import { usePlayerRef } from '../../utils';
+import { usePlayerRef, useSelector } from '../../utils';
 import { SkipTimeIndicator } from '../SkipTimeIndicator';
 import { SkipTimeIndicatorContainerProps } from './SkipTimeIndicatorContainer.types';
 

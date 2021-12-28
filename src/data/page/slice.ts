@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, Selector } from '@reduxjs/toolkit';
-import { StateSlice } from '../../utils';
+import { StateSlice } from '../../utils/types';
 import { PageState } from './types';
 
 /**

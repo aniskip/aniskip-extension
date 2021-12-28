@@ -1,7 +1,10 @@
 import React from 'react';
 import { MenuContainerProps } from './MenuContainer.types';
-import { useCheckIsFullscreen, useCheckIsMobile } from '../../hooks';
-import { getDomainName } from '../../utils';
+import {
+  getDomainName,
+  useCheckIsFullscreen,
+  useCheckIsMobile,
+} from '../../utils';
 
 export function MenuContainer({
   variant,

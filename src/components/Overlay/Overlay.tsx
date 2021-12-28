@@ -8,9 +8,8 @@ import {
   selectKeybinds,
   setKeybinds,
 } from '../../data';
-import { useDispatch, useSelector } from '../../hooks';
 import { AnimeSearchModal } from '../AnimeSearchModal';
-import { useWindowEvent } from '../../utils';
+import { useDispatch, useSelector, useWindowEvent } from '../../utils';
 import { serialiseKeybind } from '../../utils/keybinds';
 import { DEFAULT_KEYBINDS, SyncOptions } from '../../scripts/background';
 

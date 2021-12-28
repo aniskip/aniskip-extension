@@ -5,8 +5,7 @@ import {
   changeVoteMenuVisibility,
   selectIsVoteMenuVisible,
 } from '../../data';
-import { useDispatch, useSelector } from '../../hooks';
-import { getDomainName } from '../../utils';
+import { getDomainName, useDispatch, useSelector } from '../../utils';
 import { VoteMenuButtonProps } from './VoteMenuButton.types';
 
 export function VoteMenuButton({ variant }: VoteMenuButtonProps): JSX.Element {

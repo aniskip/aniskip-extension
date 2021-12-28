@@ -7,6 +7,7 @@ import {
   SkipType,
   SKIP_TYPE_NAMES,
   SKIP_TYPES,
+  AniskipHttpClient,
 } from '../../api';
 import { DefaultButton } from '../DefaultButton';
 import { Dropdown, DropdownOptionsProps } from '../Dropdown';
@@ -21,9 +22,10 @@ import {
   secondsToTimeString,
   serialiseKeybind,
   timeStringToSeconds,
+  useDispatch,
   usePlayerRef,
+  useSelector,
 } from '../../utils';
-import { useAniskipHttpClient, useDispatch, useSelector } from '../../hooks';
 import {
   changeSubmitMenuVisibility,
   selectChangeCurrentTimeLargeLength,
@@ -38,7 +40,9 @@ import {
 } from '../../data';
 
 export function SubmitMenu(): JSX.Element {
-  const { aniskipHttpClient } = useAniskipHttpClient();
+  const aniskipHttpClientRef = useRef<AniskipHttpClient>(
+    new AniskipHttpClient()
+  );
   const [skipType, setSkipType] = useState<SkipType>('op');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -142,7 +146,7 @@ export function SubmitMenu(): JSX.Element {
     const endTimeSeconds = timeStringToSeconds(endTime);
 
     try {
-      const { skipId } = await aniskipHttpClient.createSkipTimes(
+      const { skipId } = await aniskipHttpClientRef.current.createSkipTimes(
         malId,
         episodeNumber,
         skipType,

@@ -2,8 +2,7 @@ import React from 'react';
 import { PlayerButtonsProps } from './PlayerButtons.types';
 import { SubmitMenuButton } from '../SubmitMenuButton';
 import { VoteMenuButton } from '../VoteMenuButton';
-import { getDomainName } from '../../utils';
-import { useCheckIsFullscreen } from '../../hooks';
+import { getDomainName, useCheckIsFullscreen } from '../../utils';
 
 export function PlayerButtons({ variant }: PlayerButtonsProps): JSX.Element {
   const { isFullscreen } = useCheckIsFullscreen();

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import { SkipButton } from '../SkipButton';
-import { isInInterval, usePlayerRef } from '../../utils';
+import { isInInterval, usePlayerRef, useSelector } from '../../utils';
 import { SkipButtonContainerProps } from './SkipButtonContainer.types';
-import { useSelector } from '../../hooks';
 import { selectSkipTimes } from '../../data';
 import { DEFAULT_SKIP_OPTIONS, SkipOptions } from '../../scripts/background';
 import { SkipTime } from '../../api';
