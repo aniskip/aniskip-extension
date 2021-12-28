@@ -293,7 +293,7 @@ export function SettingsPage(): JSX.Element {
         ) : (
           <Input
             ref={keybindInputRef}
-            className="text-xs select-none uppercase focus:ring-1 w-36 text-center focus:ring-primary focus:border-primary"
+            className="text-xs select-none uppercase focus:ring-1 w-36 focus:ring-primary focus:border-primary"
             type="text"
             spellCheck="false"
             onKeyDown={onChangeCompleteKeybind(type as KeybindType)}
