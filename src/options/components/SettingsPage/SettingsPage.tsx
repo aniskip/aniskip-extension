@@ -460,7 +460,7 @@ export function SettingsPage(): JSX.Element {
         options={animeTitleLanguageDropdownOptions}
       />
       <div className="text-sm text-gray-500 mb-12">
-        Title displayed when searching for anime.
+        Language used to display titles when searching for anime.
       </div>
       <h2 className="text-xl text-gray-900 font-semibold mb-1">Keybinds</h2>
       <span className="text-xs text-gray-700 uppercase font-semibold">
