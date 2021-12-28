@@ -1,6 +1,7 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable import/no-extraneous-dependencies */
 const { default: merge } = require('webpack-merge');
-
+const WebExtPlugin = require('@mantiquillal/web-ext-plugin');
+const webExtConfig = require('../web-ext.config');
 const commonConfig = require('./webpack.common.config');
 
 module.exports = merge(commonConfig, {
@@ -22,4 +23,19 @@ module.exports = merge(commonConfig, {
       // By default webpack and loaders are build dependencies
     },
   },
+  plugins: [
+    new WebExtPlugin({
+      sourceDir: webExtConfig.sourceDir,
+      ...(process.env.BUILD === 'true'
+        ? {
+            ...webExtConfig.build,
+            buildPackage: true,
+          }
+        : {
+            ...webExtConfig.run,
+            target: process.env.BROWSER === 'chromium' ? 'chromium' : undefined,
+            lint: false,
+          }),
+    }),
+  ],
 });

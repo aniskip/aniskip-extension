@@ -608,6 +608,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mantiquillal/web-ext-plugin@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "@mantiquillal/web-ext-plugin@npm:1.5.1"
+  dependencies:
+    web-ext: ^6.5.0
+  checksum: 2479900a9ed3d0458fb3278c97e428b7030902ea74f36258942fe24c4d694ae0ad0e13b88f3c45a0e15635ea49a4c47945a3357fb107eaa7f380090c182edbf8
+  languageName: node
+  linkType: hard
+
 "@mdn/browser-compat-data@npm:4.0.11":
   version: 4.0.11
   resolution: "@mdn/browser-compat-data@npm:4.0.11"
@@ -13341,6 +13350,7 @@ resolve@^2.0.0-next.3:
   resolution: "typescript-aniskip-extension@workspace:."
   dependencies:
     "@headlessui/react": ^1.4.2
+    "@mantiquillal/web-ext-plugin": ^1.5.1
     "@redux-devtools/cli": ^1.0.0-10
     "@reduxjs/toolkit": ^1.6.1
     "@types/chrome": ^0.0.173
@@ -13763,7 +13773,7 @@ typescript@^4.5.4:
   languageName: node
   linkType: hard
 
-"web-ext@npm:^6.6.0":
+"web-ext@npm:^6.5.0, web-ext@npm:^6.6.0":
   version: 6.6.0
   resolution: "web-ext@npm:6.6.0"
   dependencies:
