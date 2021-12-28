@@ -49,6 +49,17 @@ export const KEYBIND_TYPES = [
 
 export type KeybindType = typeof KEYBIND_TYPES[number];
 
+export const ANIME_SEARCH_OVERLAY_KEYBIND_TYPES = [
+  'open-anime-search-overlay',
+] as const;
+
+export const SUBMIT_MENU_KEYBIND_TYPES = [
+  'increase-current-time',
+  'increase-current-time-large',
+  'decrease-current-time',
+  'decrease-current-time-large',
+] as const;
+
 export type Keybinds = {
   [T in KeybindType]: string;
 };

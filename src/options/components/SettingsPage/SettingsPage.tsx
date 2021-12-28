@@ -15,6 +15,8 @@ import {
   KEYBIND_INFO,
   DEFAULT_SYNC_OPTIONS,
   SyncOptions,
+  ANIME_SEARCH_OVERLAY_KEYBIND_TYPES,
+  SUBMIT_MENU_KEYBIND_TYPES,
 } from '../../../scripts/background';
 import {
   selectIsLoaded,
@@ -194,6 +196,30 @@ export function SettingsPage(): JSX.Element {
     return KEYBIND_INFO[keybindType];
   };
 
+  /**
+   * Generic input handler for number inputs.
+   *
+   * @param action Action used to update state.
+   */
+  const onChangeNumericInput =
+    (action: ActionCreatorWithPayload<number, string>) =>
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      let number = parseFloat(event.target.value) || 0;
+
+      if (number < 0) {
+        number = 0;
+      }
+
+      dispatch(action(number));
+    };
+
+  /**
+   * Renders a keybind. If no keybind is present, render an add keybind
+   * button.
+   *
+   * @param keybind Keybind to render.
+   * @param type Type of keybind to render.
+   */
   const renderKeybind = (keybind: string, type?: KeybindType): JSX.Element => {
     if (!keybind) {
       return (
@@ -216,22 +242,40 @@ export function SettingsPage(): JSX.Element {
     );
   };
 
-  /**
-   * Generic input handler for number inputs.
-   *
-   * @param action Action used to update state.
-   */
-  const onChangeNumericInput =
-    (action: ActionCreatorWithPayload<number, string>) =>
-    (event: React.ChangeEvent<HTMLInputElement>): void => {
-      let number = parseFloat(event.target.value) || 0;
-
-      if (number < 0) {
-        number = 0;
-      }
-
-      dispatch(action(number));
-    };
+  const renderKeybindSetting = (
+    keybind: string,
+    type: KeybindType
+  ): JSX.Element => (
+    <button
+      key={type}
+      className="block w-full text-left"
+      type="button"
+      disabled={isUserEditingKeybind[type as KeybindType]}
+      onClick={onClickEditKeybind(type as KeybindType)}
+    >
+      <Setting
+        className="pt-3"
+        name={KEYBIND_NAMES[type as KeybindType]}
+        description={formatKeybindInfo(type as KeybindType)}
+      >
+        {!isUserEditingKeybind[type as KeybindType] ? (
+          renderKeybind(keybind, type as KeybindType)
+        ) : (
+          <Input
+            ref={keybindInputRef}
+            className="text-xs select-none uppercase focus:ring-1 w-36 text-center focus:ring-primary focus:border-primary"
+            type="text"
+            spellCheck="false"
+            onKeyDown={onChangeCompleteKeybind(type as KeybindType)}
+            onBlur={onBlurKeybindEditor(type as KeybindType)}
+            value={keybind}
+            placeholder="Keybind"
+            readOnly
+          />
+        )}
+      </Setting>
+    </button>
+  );
 
   /**
    * Initialise filtered skip types, store skip options and keybinds.
@@ -372,38 +416,22 @@ export function SettingsPage(): JSX.Element {
         </div>
       </div>
       <h2 className="text-xl text-gray-900 font-semibold mb-1">Keybinds</h2>
+      <span className="text-xs text-gray-700 uppercase font-semibold">
+        Anime search overlay
+      </span>
+      <div className="space-y-3 mb-3 divide-y">
+        {ANIME_SEARCH_OVERLAY_KEYBIND_TYPES.map(
+          (type): JSX.Element => renderKeybindSetting(keybinds[type], type)
+        )}
+      </div>
+      <hr className="mb-1" />
+      <span className="text-xs text-gray-700 uppercase font-semibold">
+        Submit menu
+      </span>
       <div className="space-y-3 mb-12 divide-y">
-        {Object.entries(keybinds).map(([type, keybind]) => (
-          <button
-            key={type}
-            className="block w-full text-left"
-            type="button"
-            disabled={isUserEditingKeybind[type as KeybindType]}
-            onClick={onClickEditKeybind(type as KeybindType)}
-          >
-            <Setting
-              className="pt-3"
-              name={KEYBIND_NAMES[type as KeybindType]}
-              description={formatKeybindInfo(type as KeybindType)}
-            >
-              {!isUserEditingKeybind[type as KeybindType] ? (
-                renderKeybind(keybind, type as KeybindType)
-              ) : (
-                <Input
-                  ref={keybindInputRef}
-                  className="text-xs select-none uppercase focus:ring-1 w-36 text-center focus:ring-primary focus:border-primary"
-                  type="text"
-                  spellCheck="false"
-                  onKeyDown={onChangeCompleteKeybind(type as KeybindType)}
-                  onBlur={onBlurKeybindEditor(type as KeybindType)}
-                  value={keybind}
-                  placeholder="Keybind"
-                  readOnly
-                />
-              )}
-            </Setting>
-          </button>
-        ))}
+        {SUBMIT_MENU_KEYBIND_TYPES.map(
+          (type): JSX.Element => renderKeybindSetting(keybinds[type], type)
+        )}
       </div>
       <h2 className="text-xl text-gray-900 font-semibold mb-3">
         Miscellaneous options
