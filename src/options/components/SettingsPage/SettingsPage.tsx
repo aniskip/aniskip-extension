@@ -194,6 +194,28 @@ export function SettingsPage(): JSX.Element {
     return KEYBIND_INFO[keybindType];
   };
 
+  const renderKeybind = (keybind: string, type?: KeybindType): JSX.Element => {
+    if (!keybind) {
+      return (
+        <div className="px-4 py-2 border-transparent rounded text-sm bg-primary border border-gray-300 text-white font-medium focus:outline-none sm:w-auto w-full">
+          Add keybind
+        </div>
+      );
+    }
+
+    return (
+      <span className="flex items-center">
+        {keybind
+          .split('+')
+          .map((key, index) =>
+            ([index ? '+' : ''] as (JSX.Element | string)[]).concat([
+              <Keyboard key={`${type}_${keybind}`}>{key}</Keyboard>,
+            ])
+          )}
+      </span>
+    );
+  };
+
   /**
    * Generic input handler for number inputs.
    *
@@ -202,7 +224,13 @@ export function SettingsPage(): JSX.Element {
   const onChangeNumericInput =
     (action: ActionCreatorWithPayload<number, string>) =>
     (event: React.ChangeEvent<HTMLInputElement>): void => {
-      dispatch(action(parseFloat(event.target.value)));
+      let number = parseFloat(event.target.value) || 0;
+
+      if (number < 0) {
+        number = 0;
+      }
+
+      dispatch(action(number));
     };
 
   /**
@@ -359,25 +387,17 @@ export function SettingsPage(): JSX.Element {
               description={formatKeybindInfo(type as KeybindType)}
             >
               {!isUserEditingKeybind[type as KeybindType] ? (
-                <span className="flex items-center">
-                  {keybind &&
-                    keybind
-                      .split('+')
-                      .map((key, index) =>
-                        ([index ? '+' : ''] as (JSX.Element | string)[]).concat(
-                          [<Keyboard key={`${type}-${key}`}>{key}</Keyboard>]
-                        )
-                      )}
-                </span>
+                renderKeybind(keybind, type as KeybindType)
               ) : (
                 <Input
                   ref={keybindInputRef}
-                  className="text-xs select-none uppercase focus:ring-1 w-36 focus:ring-primary focus:border-primary"
+                  className="text-xs select-none uppercase focus:ring-1 w-36 text-center focus:ring-primary focus:border-primary"
                   type="text"
                   spellCheck="false"
                   onKeyDown={onChangeCompleteKeybind(type as KeybindType)}
                   onBlur={onBlurKeybindEditor(type as KeybindType)}
                   value={keybind}
+                  placeholder="Keybind"
                   readOnly
                 />
               )}
