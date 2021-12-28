@@ -335,6 +335,7 @@ export function SettingsPage(): JSX.Element {
           syncOptions.changeCurrentTimeLargeLength
         )
       );
+      dispatch(setAnimeTitleLanguage(syncOptions.animeTitleLanguage));
       dispatch(setIsSettingsLoaded(true));
     })();
   }, []);

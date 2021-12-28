@@ -541,9 +541,9 @@ export function SubmitMenu(): JSX.Element {
             </DefaultButton>
             <div className="flex justify-between bg-primary bg-opacity-80 border border-gray-300 rounded">
               <DefaultButton
-                title="Seek -0.25s"
+                title={`Seek -${changeCurrentTimeLargeLength}s`}
                 className="group px-3"
-                onClick={onClickSeekTime(-0.25)}
+                onClick={onClickSeekTime(-changeCurrentTimeLargeLength)}
               >
                 <FaBackward
                   className="transition-transform duration-150 transform group-hover:scale-125 group-active:scale-100"
@@ -557,9 +557,9 @@ export function SubmitMenu(): JSX.Element {
                 Now
               </DefaultButton>
               <DefaultButton
-                title="Seek +0.25s"
+                title={`Seek +${changeCurrentTimeLargeLength}s`}
                 className="group px-3"
-                onClick={onClickSeekTime(0.25)}
+                onClick={onClickSeekTime(changeCurrentTimeLargeLength)}
               >
                 <FaForward
                   className="transition-transform duration-150 transform group-hover:scale-125 group-active:scale-100"
