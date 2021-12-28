@@ -37,7 +37,7 @@ export function Keyboard<T extends React.ElementType = 'span'>({
   return React.createElement(
     as ?? 'span',
     {
-      className: `font-semibold uppercase text-[0.625em] border border-gray-200 p-2 rounded-md min-w-[2em] ${className}`,
+      className: `font-semibold uppercase text-[0.625em] border border-gray-200 p-2 rounded-md min-w-[2em] text-center ${className}`,
       ...props,
     },
     renderChildren()
