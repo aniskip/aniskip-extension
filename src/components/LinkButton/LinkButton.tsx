@@ -2,7 +2,7 @@ import React from 'react';
 import { LinkButtonProps } from './LinkButton.types';
 
 export function LinkButton({
-  className,
+  className = '',
   children,
   ...props
 }: LinkButtonProps): JSX.Element {

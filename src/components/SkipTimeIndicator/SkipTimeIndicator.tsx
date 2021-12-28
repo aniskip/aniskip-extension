@@ -7,7 +7,7 @@ export function SkipTimeIndicator({
   endTime,
   episodeLength,
   variant,
-  className,
+  className = '',
   style,
 }: SkipTimeIndicatorProps): JSX.Element {
   /**

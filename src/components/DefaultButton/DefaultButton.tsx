@@ -2,7 +2,7 @@ import React from 'react';
 import { DefaultButtonProps } from './DefaultButton.types';
 
 export function DefaultButton({
-  className,
+  className = '',
   children,
   submit,
   ...props
