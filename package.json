@@ -1,7 +1,7 @@
 {
   "name": "typescript-aniskip-extension",
   "extensionName": "Aniskip",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "An extension which gives the option to skip anime opening and endings on various streaming sites",
   "repository": "https://github.com/lexesjan/typescript-aniskip-extension",
   "contributors": [
