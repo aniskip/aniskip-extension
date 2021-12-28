@@ -235,8 +235,9 @@ export function SubmitMenu(): JSX.Element {
    * @param seekOffset Number to add to current time.
    */
   const onClickSeekTime = (seekOffset: number) => async (): Promise<void> => {
-    let setTimeFunction = (_newValue: string): void => {};
+    let setTimeFunction: React.Dispatch<React.SetStateAction<string>>;
     let currentTime = '';
+
     switch (currentInputFocus) {
       case 'start-time':
         setTimeFunction = setStartTime;

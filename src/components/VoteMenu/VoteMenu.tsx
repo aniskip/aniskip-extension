@@ -44,6 +44,7 @@ export function VoteMenu(): JSX.Element {
       const currentSkipTimesVoted = (
         await browser.storage.local.get({ skipTimesVoted: {} })
       ).skipTimesVoted;
+
       setSkipTimesVoted(currentSkipTimesVoted);
     })();
   }, [skipTimes]);

@@ -13,6 +13,9 @@ export function Keyboard<T extends React.ElementType = 'span'>({
   children,
   ...props
 }: KeybindProps<T>): JSX.Element {
+  /**
+   * Renders keybind text.
+   */
   const renderChildren = (): JSX.Element | string => {
     if (typeof children !== 'string') {
       return children;

@@ -24,6 +24,8 @@ export function VoteMenuButton({ variant }: VoteMenuButtonProps): JSX.Element {
 
   /**
    * Toggles the vote menu if the key pressed is Enter.
+   *
+   * @param event Event to be handled.
    */
   const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     if (event.key === 'Enter') {
