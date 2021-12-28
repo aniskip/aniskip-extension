@@ -10,6 +10,9 @@ module.exports = merge(commonConfig, {
     moduleIds: 'named',
     chunkIds: 'named',
     mangleExports: false,
+    removeAvailableModules: false,
+    removeEmptyChunks: false,
+    splitChunks: false,
   },
   cache: {
     type: 'filesystem',
