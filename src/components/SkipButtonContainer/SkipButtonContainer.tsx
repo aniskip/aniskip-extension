@@ -51,8 +51,8 @@ export function SkipButtonContainer(): JSX.Element | null {
   /**
    * Returns the skip time closest to the current time.
    */
-  const getClosestSkipTime = (): SkipTime | null => {
-    let closestSkipTime: SkipTime | null = null;
+  const getClosestSkipTime = (): SkipTime | undefined => {
+    let closestSkipTime: SkipTime | undefined;
     let minimumDistance = Infinity;
 
     skipTimes.forEach((skipTime) => {

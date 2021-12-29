@@ -6,10 +6,10 @@ import { Message } from '../scripts/background';
  *
  * @param uuid UUID of the message to wait for.
  */
-export const waitForMessage = (uuid: string): Promise<Message | null> =>
-  new Promise<Message | null>((resolve) => {
+export const waitForMessage = (uuid: string): Promise<Message | undefined> =>
+  new Promise<Message | undefined>((resolve) => {
     const timeout = setTimeout(() => {
-      resolve(null);
+      resolve(undefined);
     }, 2000);
 
     const handler = (message: Message): void => {

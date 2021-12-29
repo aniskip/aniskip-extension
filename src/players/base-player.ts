@@ -26,7 +26,7 @@ import {
 export class BasePlayer implements Player {
   metadata: Metadata;
 
-  scheduledSkipTime: ReturnType<typeof setTimeout> | null;
+  scheduledSkipTime: ReturnType<typeof setTimeout> | undefined;
 
   videoElement: HTMLVideoElement | null;
 
@@ -49,7 +49,7 @@ export class BasePlayer implements Player {
   constructor(metadata: Metadata) {
     this.metadata = metadata;
     this.videoElement = null;
-    this.scheduledSkipTime = null;
+    this.scheduledSkipTime = undefined;
     this.store = configuredStore;
     this.lastControlsOpacity = 0;
     this.isReady = false;
@@ -125,10 +125,10 @@ export class BasePlayer implements Player {
    * Cancels the current scheduled skip time.
    */
   clearScheduledSkipTime(): void {
-    if (this.scheduledSkipTime !== null) {
+    if (this.scheduledSkipTime) {
       clearInterval(this.scheduledSkipTime);
 
-      this.scheduledSkipTime = null;
+      this.scheduledSkipTime = undefined;
     }
   }
 
@@ -154,8 +154,8 @@ export class BasePlayer implements Player {
   /**
    * Returns the next skip time to be scheduled.
    */
-  getNextSkipTime(): SkipTime | null {
-    let nextSkipTime: SkipTime | null = null;
+  getNextSkipTime(): SkipTime | undefined {
+    let nextSkipTime: SkipTime | undefined;
     let earliestStartTime = Infinity;
 
     const currentTime = this.getCurrentTime();
@@ -398,7 +398,7 @@ export class BasePlayer implements Player {
     }
 
     const nextSkipTime = this.getNextSkipTime();
-    if (nextSkipTime === null) {
+    if (!nextSkipTime) {
       return;
     }
 

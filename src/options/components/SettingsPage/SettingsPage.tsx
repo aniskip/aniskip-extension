@@ -61,7 +61,7 @@ export function SettingsPage(): JSX.Element {
   const animeTitleLanguage = useSelector(selectAnimeTitleLanguage);
   const isUserEditingKeybind = useSelector(selectIsUserEditingKeybind);
   const isSettingsLoaded = useSelector(selectIsLoaded);
-  const keybindInputRef = useRef<HTMLInputElement | null>(null);
+  const keybindInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
   const skipOptionDropdownOptions = [
