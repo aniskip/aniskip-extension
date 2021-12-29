@@ -74,6 +74,7 @@ export abstract class BasePage implements Page {
     }
 
     let rawEpisodeNumber = this.getRawEpisodeNumber();
+
     this.store.dispatch(setEpisodeNumber(rawEpisodeNumber));
 
     rules.forEach((rule) => {
@@ -145,11 +146,13 @@ export abstract class BasePage implements Page {
     }
 
     try {
-      const providerName = this.getProviderName();
       const malsyncHttpClient = new MalsyncHttpClient();
+      const providerName = this.getProviderName();
+
       this.store.dispatch(
         setMalId(await malsyncHttpClient.getMalId(providerName, identifier))
       );
+      malId = selectMalId(this.store.getState());
     } catch {
       // MALSync was not able to find the id.
       this.store.dispatch(setMalId(await BasePage.findClosestMalId(title)));
