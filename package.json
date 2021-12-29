@@ -9,6 +9,7 @@
     "Dabreadman <tany3@tcd.ie>"
   ],
   "license": "MIT",
+  "sideEffects": "false",
   "scripts": {
     "build:dev:chrome": "cross-env NODE_ENV=development BROWSER=chromium BUILD=true webpack --config ./webpack/webpack.dev.config.js",
     "build:dev:firefox": "cross-env NODE_ENV=development BROWSER=firefox BUILD=true webpack --config ./webpack/webpack.dev.config.js",
@@ -25,6 +26,11 @@
     "start:prod:firefox": "cross-env NODE_ENV=production BROWSER=firefox webpack --config ./webpack/webpack.prod.config.js --watch"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/plugin-transform-runtime": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "@babel/preset-react": "^7.16.5",
+    "@babel/preset-typescript": "^7.16.5",
     "@mantiquillal/web-ext-plugin": "^1.5.1",
     "@redux-devtools/cli": "^1.0.0-10",
     "@types/chrome": "^0.0.173",
@@ -41,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
     "autoprefixer": "^10.4.0",
+    "babel-loader": "^8.2.3",
     "chrome-webstore-upload-cli": "^2.0.1",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^10.2.0",
@@ -71,7 +78,6 @@
     "schema-utils": "^4.0.0",
     "style-loader": "^3.3.1",
     "to-string-loader": "^1.2.0",
-    "ts-loader": "^9.2.6",
     "typescript": "^4.5.4",
     "wait-on": "^6.0.0",
     "web-ext": "^6.6.0",
@@ -82,6 +88,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@babel/runtime": "^7.16.5",
     "@headlessui/react": "^1.4.2",
     "@reduxjs/toolkit": "^1.6.1",
     "glob-to-regexp": "^0.4.1",
