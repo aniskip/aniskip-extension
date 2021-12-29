@@ -1,9 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const { default: merge } = require('webpack-merge');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const BundleAnalyzerPlugin =
-  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const WebExtPlugin = require('@mantiquillal/web-ext-plugin');
 const webExtConfig = require('../web-ext.config');
 const commonConfig = require('./webpack.common.config');
