@@ -11,6 +11,8 @@
   "license": "MIT",
   "sideEffects": "false",
   "scripts": {
+    "analyze:chrome": "cross-env NODE_ENV=production BROWSER=chromium ANALYZE=true BUILD=true webpack --config ./webpack/webpack.prod.config.js",
+    "analyze:firefox": "cross-env NODE_ENV=production BROWSER=firefox ANALYZE=true BUILD=true webpack --config ./webpack/webpack.prod.config.js",
     "build:dev:chrome": "cross-env NODE_ENV=development BROWSER=chromium BUILD=true webpack --config ./webpack/webpack.dev.config.js",
     "build:dev:firefox": "cross-env NODE_ENV=development BROWSER=firefox BUILD=true webpack --config ./webpack/webpack.dev.config.js",
     "build:prod:chrome": "cross-env NODE_ENV=production BROWSER=chromium BUILD=true webpack --config ./webpack/webpack.prod.config.js",
@@ -83,6 +85,7 @@
     "web-ext": "^6.6.0",
     "web-ext-submit": "^6.6.0",
     "webpack": "^5.65.0",
+    "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.1",
     "webpack-copy-plugin": "^0.0.4",
     "webpack-merge": "^5.8.0"
