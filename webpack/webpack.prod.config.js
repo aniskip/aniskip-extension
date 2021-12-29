@@ -13,7 +13,7 @@ module.exports = merge(commonConfig, {
   },
   plugins: [
     new LodashModuleReplacementPlugin(),
-    ...(process.env.ANALYZE === 'true' ? [new BundleAnalyzerPlugin()] : []),
+    ...(process.env.ANALYSE === 'true' ? [new BundleAnalyzerPlugin()] : []),
     new WebExtPlugin({
       sourceDir: webExtConfig.sourceDir,
       ...(!process.env.BUILD || process.env.BUILD === 'false'

@@ -10,8 +10,8 @@
   ],
   "license": "MIT",
   "scripts": {
-    "analyze:chrome": "cross-env NODE_ENV=production BROWSER=chromium ANALYZE=true BUILD=true webpack --config ./webpack/webpack.prod.config.js",
-    "analyze:firefox": "cross-env NODE_ENV=production BROWSER=firefox ANALYZE=true BUILD=true webpack --config ./webpack/webpack.prod.config.js",
+    "analyse:chrome": "cross-env NODE_ENV=production BROWSER=chromium ANALYSE=true BUILD=true webpack --config ./webpack/webpack.prod.config.js",
+    "analyse:firefox": "cross-env NODE_ENV=production BROWSER=firefox ANALYSE=true BUILD=true webpack --config ./webpack/webpack.prod.config.js",
     "build:dev:chrome": "cross-env NODE_ENV=development BROWSER=chromium BUILD=true webpack --config ./webpack/webpack.dev.config.js",
     "build:dev:firefox": "cross-env NODE_ENV=development BROWSER=firefox BUILD=true webpack --config ./webpack/webpack.dev.config.js",
     "build:prod:chrome": "cross-env NODE_ENV=production BROWSER=chromium BUILD=true webpack --config ./webpack/webpack.prod.config.js",
