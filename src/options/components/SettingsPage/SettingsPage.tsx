@@ -368,7 +368,7 @@ export function SettingsPage(): JSX.Element {
   return (
     <div className="sm:border sm:rounded-md border-gray-300 px-8 py-8 sm:bg-white">
       <h2 className="text-xl text-gray-900 font-semibold">Skip options</h2>
-      <div className="space-y-3 mt-3">
+      <div className="space-y-3 mt-1">
         {filteredSkipTypes.map((skipType) => (
           <div className="space-y-1" key={skipType}>
             <span className="text-xs text-gray-700 uppercase font-semibold">
