@@ -14,11 +14,11 @@ import { Player, Metadata } from './base-player.types';
 import { AniskipHttpClient, SkipTime, SkipType } from '../api';
 import { isInInterval } from '../utils';
 import {
-  addSkipTime,
+  skipTimeAdded,
   configuredStore,
-  removePreviewSkipTimes,
-  removeSkipTimes,
-  reset,
+  previewSkipTimesRemoved,
+  skipTimesRemoved,
+  stateReset,
   selectSkipTimes,
   Store,
 } from '../data';
@@ -95,7 +95,7 @@ export class BasePlayer implements Player {
       return;
     }
 
-    this.store.dispatch(addSkipTime(skipTime));
+    this.store.dispatch(skipTimeAdded(skipTime));
     this.skipButtonRenderer.render();
     this.skipTimeIndicatorsRenderer.render();
 
@@ -134,7 +134,7 @@ export class BasePlayer implements Player {
 
   clearSkipTimes(): void {
     this.clearScheduledSkipTime();
-    this.store.dispatch(removeSkipTimes());
+    this.store.dispatch(skipTimesRemoved());
   }
 
   /**
@@ -377,7 +377,7 @@ export class BasePlayer implements Player {
 
   reset(): void {
     this.clearScheduledSkipTime();
-    this.store.dispatch(reset());
+    this.store.dispatch(stateReset());
   }
 
   /**
@@ -417,7 +417,7 @@ export class BasePlayer implements Player {
       this.setCurrentTime(endTime + offset);
 
       if (skipType === 'preview') {
-        this.store.dispatch(removePreviewSkipTimes());
+        this.store.dispatch(previewSkipTimesRemoved());
       }
     }, timeUntilSkipTime * 1000);
   }

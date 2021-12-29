@@ -1,4 +1,4 @@
-import { selectMalId, setMalId } from '../../data';
+import { selectMalId, malIdUpdated } from '../../data';
 import { BasePage } from '../base-page';
 import { Metadata } from '../base-page.types';
 import metadata from './metadata.json';
@@ -47,7 +47,7 @@ export class AniMixPlay extends BasePage {
     }
 
     malId = this.store.dispatch(
-      setMalId(parseInt(this.getIdentifier(), 10))
+      malIdUpdated(parseInt(this.getIdentifier(), 10))
     ).payload;
 
     return Promise.resolve(malId);

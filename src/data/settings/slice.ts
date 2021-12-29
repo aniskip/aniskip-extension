@@ -94,71 +94,74 @@ const settingsStateSlice = createSlice({
   name: 'settings',
   initialState: initialSettingsState,
   reducers: {
-    setSkipOption: (state, action: PayloadAction<SetSkipOption>) => {
+    skipOptionUpdated: (state, action: PayloadAction<SetSkipOption>) => {
       state.skipOptions[action.payload.type] = action.payload.option;
     },
-    setSkipOptions: (state, action: PayloadAction<SkipOptions>) => {
+    skipOptionsUpdated: (state, action: PayloadAction<SkipOptions>) => {
       state.skipOptions = action.payload;
     },
-    setSkipTimeIndicatorColour: (
+    skipTimeIndicatorColourUpdated: (
       state,
       action: PayloadAction<SetSkipTimeIndicatorColour>
     ) => {
       state.skipTimeIndicatorColours[action.payload.type] =
         action.payload.colour;
     },
-    setSkipTimeIndicatorColours: (
+    skipTimeIndicatorColoursUpdated: (
       state,
       action: PayloadAction<SkipTimeIndicatorColours>
     ) => {
       state.skipTimeIndicatorColours = action.payload;
     },
-    setKeybind: (state, action: PayloadAction<SetKeybind>) => {
+    keybindUpdated: (state, action: PayloadAction<SetKeybind>) => {
       state.keybinds[action.payload.type] = action.payload.keybind;
     },
-    setKeybinds: (state, action: PayloadAction<Keybinds>) => {
+    keybindsUpdated: (state, action: PayloadAction<Keybinds>) => {
       state.keybinds = action.payload;
     },
-    setSkipTimeLength: (state, action: PayloadAction<number>) => {
+    skipTimeLengthUpdated: (state, action: PayloadAction<number>) => {
       state.skipTimeLength = action.payload;
     },
-    setChangeCurrentTimeLength: (state, action: PayloadAction<number>) => {
+    changeCurrentTimeLengthUpdated: (state, action: PayloadAction<number>) => {
       state.changeCurrentTimeLength = action.payload;
     },
-    setChangeCurrentTimeLargeLength: (state, action: PayloadAction<number>) => {
+    changeCurrentTimeLargeLengthUpdated: (
+      state,
+      action: PayloadAction<number>
+    ) => {
       state.changeCurrentTimeLargeLength = action.payload;
     },
-    setAnimeTitleLanguage: (
+    animeTitleLanguageUpdated: (
       state,
       action: PayloadAction<AnimeTitleLanguageType>
     ) => {
       state.animeTitleLanguage = action.payload;
     },
-    setIsUserEditingKeybind: (
+    isUserEditingKeybindUpdated: (
       state,
       action: PayloadAction<SetIsUserEditingKeybind>
     ) => {
       state.isUserEditingKeybind[action.payload.type] =
         action.payload.isUserEditingKeybind;
     },
-    setIsSettingsLoaded: (state, action: PayloadAction<boolean>) => {
+    isSettingsLoadedUpdated: (state, action: PayloadAction<boolean>) => {
       state.isSettingsLoaded = action.payload;
     },
   },
 });
 
 export const {
-  setSkipOption,
-  setSkipOptions,
-  setSkipTimeIndicatorColour,
-  setSkipTimeIndicatorColours,
-  setKeybind,
-  setKeybinds,
-  setSkipTimeLength,
-  setChangeCurrentTimeLength,
-  setChangeCurrentTimeLargeLength,
-  setAnimeTitleLanguage,
-  setIsUserEditingKeybind,
-  setIsSettingsLoaded,
+  skipOptionUpdated,
+  skipOptionsUpdated,
+  skipTimeIndicatorColourUpdated,
+  skipTimeIndicatorColoursUpdated,
+  keybindUpdated,
+  keybindsUpdated,
+  skipTimeLengthUpdated,
+  changeCurrentTimeLengthUpdated,
+  changeCurrentTimeLargeLengthUpdated,
+  animeTitleLanguageUpdated,
+  isUserEditingKeybindUpdated,
+  isSettingsLoadedUpdated,
 } = settingsStateSlice.actions;
 export default settingsStateSlice.reducer;

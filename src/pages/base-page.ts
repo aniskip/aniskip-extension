@@ -16,9 +16,9 @@ import { LocalOptions } from '../scripts/background';
 import { OverlayRenderer } from '../renderers';
 import {
   configuredStore,
-  openOverlay,
+  overlayOpened,
   selectMalId,
-  setMalId,
+  malIdUpdated,
   Store,
 } from '../data';
 
@@ -90,7 +90,7 @@ export abstract class BasePage implements Page {
       }
 
       if (rawEpisodeNumber >= start && rawEpisodeNumber <= end) {
-        this.store.dispatch(setMalId(toMalId));
+        this.store.dispatch(malIdUpdated(toMalId));
         this.episodeNumber = rawEpisodeNumber - (start - 1);
       }
     });
@@ -124,7 +124,7 @@ export abstract class BasePage implements Page {
     }
 
     malId = this.store.dispatch(
-      setMalId(await BasePage.searchManualTitleToMalIdMapping(title))
+      malIdUpdated(await BasePage.searchManualTitleToMalIdMapping(title))
     ).payload;
 
     if (malId > 0) {
@@ -138,7 +138,7 @@ export abstract class BasePage implements Page {
     }
 
     malId = this.store.dispatch(
-      setMalId(await BasePage.getCachedMalId(identifier))
+      malIdUpdated(await BasePage.getCachedMalId(identifier))
     ).payload;
 
     if (malId > 0) {
@@ -150,12 +150,12 @@ export abstract class BasePage implements Page {
       const providerName = this.getProviderName();
 
       malId = this.store.dispatch(
-        setMalId(await malsyncHttpClient.getMalId(providerName, identifier))
+        malIdUpdated(await malsyncHttpClient.getMalId(providerName, identifier))
       ).payload;
     } catch {
       // MALSync was not able to find the id.
       malId = this.store.dispatch(
-        setMalId(await BasePage.findClosestMalId(title))
+        malIdUpdated(await BasePage.findClosestMalId(title))
       ).payload;
 
       // Titles found were not similar enough.
@@ -278,7 +278,7 @@ export abstract class BasePage implements Page {
   }
 
   openOverlay(): void {
-    this.store.dispatch(openOverlay());
+    this.store.dispatch(overlayOpened());
     this.overlayRenderer.render();
   }
 

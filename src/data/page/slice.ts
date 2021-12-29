@@ -35,21 +35,25 @@ const pageStateSlice = createSlice({
   name: 'page',
   initialState: initialPageState,
   reducers: {
-    openOverlay: (state) => {
+    overlayOpened: (state) => {
       state.isOverlayOpen = true;
     },
-    closeOverlay: (state) => {
+    overlayClosed: (state) => {
       state.isOverlayOpen = false;
     },
-    setMalId: (state, action: PayloadAction<number>) => {
+    malIdUpdated: (state, action: PayloadAction<number>) => {
       state.malId = action.payload;
     },
-    setIsInitialOverlayOpen: (state, action: PayloadAction<boolean>) => {
+    isInitialOverlayOpenUpdated: (state, action: PayloadAction<boolean>) => {
       state.isInitialOverlayOpen = action.payload;
     },
   },
 });
 
-export const { openOverlay, closeOverlay, setMalId, setIsInitialOverlayOpen } =
-  pageStateSlice.actions;
+export const {
+  overlayOpened,
+  overlayClosed,
+  malIdUpdated,
+  isInitialOverlayOpenUpdated,
+} = pageStateSlice.actions;
 export default pageStateSlice.reducer;

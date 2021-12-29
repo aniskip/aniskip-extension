@@ -15,9 +15,9 @@ import {
 } from '../../utils';
 import { LinkButton } from '../LinkButton';
 import {
-  changeSubmitMenuVisibility,
-  changeVoteMenuVisibility,
-  removeSkipTime,
+  submitMenuVisibilityUpdated,
+  voteMenuVisibilityUpdated,
+  skipTimeRemoved,
   selectIsVoteMenuVisible,
   selectSkipTimes,
 } from '../../data';
@@ -69,15 +69,15 @@ export function VoteMenu(): JSX.Element {
    * Closes the vote menu.
    */
   const onClickCloseButton = (): void => {
-    dispatch(changeVoteMenuVisibility(false));
+    dispatch(voteMenuVisibilityUpdated(false));
   };
 
   /**
    * Closes the vote menu and opens the submit menu.
    */
   const onClickSubmitLink = (): void => {
-    dispatch(changeVoteMenuVisibility(false));
-    dispatch(changeSubmitMenuVisibility(true));
+    dispatch(voteMenuVisibilityUpdated(false));
+    dispatch(submitMenuVisibilityUpdated(true));
   };
 
   /**
@@ -130,7 +130,7 @@ export function VoteMenu(): JSX.Element {
         [skipId]: 'downvote',
       };
 
-      dispatch(removeSkipTime(skipId));
+      dispatch(skipTimeRemoved(skipId));
 
       setSkipTimesVoted(updatedSkipTimesVoted);
       browser.storage.local.set({

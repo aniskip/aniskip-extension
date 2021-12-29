@@ -27,16 +27,16 @@ import {
   useSelector,
 } from '../../utils';
 import {
-  changeSubmitMenuVisibility,
+  submitMenuVisibilityUpdated,
   selectChangeCurrentTimeLargeLength,
   selectChangeCurrentTimeLength,
   selectIsSubmitMenuVisible,
   selectKeybinds,
   selectSkipTimeLength,
-  setChangeCurrentTimeLargeLength,
-  setChangeCurrentTimeLength,
-  setKeybinds,
-  setSkipTimeLength,
+  changeCurrentTimeLargeLengthUpdated,
+  changeCurrentTimeLengthUpdated,
+  keybindsUpdated,
+  skipTimeLengthUpdated,
 } from '../../data';
 
 export function SubmitMenu(): JSX.Element {
@@ -170,7 +170,7 @@ export function SubmitMenu(): JSX.Element {
       player?.addSkipTime(skipTime);
 
       setServerError('');
-      dispatch(changeSubmitMenuVisibility(false));
+      dispatch(submitMenuVisibilityUpdated(false));
     } catch (error: any) {
       switch (error.code as AniskipHttpClientErrorCode) {
         case 'skip-times/parameter-error':
@@ -284,7 +284,7 @@ export function SubmitMenu(): JSX.Element {
    * Closes the submit menu.
    */
   const onClickCloseButton = (): void => {
-    dispatch(changeSubmitMenuVisibility(false));
+    dispatch(submitMenuVisibilityUpdated(false));
   };
 
   /**
@@ -452,11 +452,13 @@ export function SubmitMenu(): JSX.Element {
         DEFAULT_SYNC_OPTIONS
       )) as SyncOptions;
 
-      dispatch(setKeybinds(syncOptions.keybinds));
-      dispatch(setSkipTimeLength(syncOptions.skipTimeLength));
-      dispatch(setChangeCurrentTimeLength(syncOptions.changeCurrentTimeLength));
+      dispatch(keybindsUpdated(syncOptions.keybinds));
+      dispatch(skipTimeLengthUpdated(syncOptions.skipTimeLength));
       dispatch(
-        setChangeCurrentTimeLargeLength(
+        changeCurrentTimeLengthUpdated(syncOptions.changeCurrentTimeLength)
+      );
+      dispatch(
+        changeCurrentTimeLargeLengthUpdated(
           syncOptions.changeCurrentTimeLargeLength
         )
       );

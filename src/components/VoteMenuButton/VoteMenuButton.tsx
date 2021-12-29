@@ -2,8 +2,8 @@ import React from 'react';
 import { FaListUl } from 'react-icons/fa';
 import { VoteMenuButtonProps } from './VoteMenuButton.types';
 import {
-  changeSubmitMenuVisibility,
-  changeVoteMenuVisibility,
+  submitMenuVisibilityUpdated,
+  voteMenuVisibilityUpdated,
   selectIsVoteMenuVisible,
 } from '../../data';
 import { getDomainName, useDispatch, useSelector } from '../../utils';
@@ -17,8 +17,8 @@ export function VoteMenuButton({ variant }: VoteMenuButtonProps): JSX.Element {
    * Toggles the vote menu.
    */
   const onClick = (): void => {
-    dispatch(changeVoteMenuVisibility(!active));
-    dispatch(changeSubmitMenuVisibility(false));
+    dispatch(voteMenuVisibilityUpdated(!active));
+    dispatch(submitMenuVisibilityUpdated(false));
   };
 
   /**
@@ -28,8 +28,8 @@ export function VoteMenuButton({ variant }: VoteMenuButtonProps): JSX.Element {
    */
   const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     if (event.key === 'Enter') {
-      dispatch(changeVoteMenuVisibility(!active));
-      dispatch(changeSubmitMenuVisibility(false));
+      dispatch(voteMenuVisibilityUpdated(!active));
+      dispatch(submitMenuVisibilityUpdated(false));
     }
   };
 

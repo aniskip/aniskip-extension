@@ -2,8 +2,8 @@ import React from 'react';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import {
-  changeSubmitMenuVisibility,
-  changeVoteMenuVisibility,
+  submitMenuVisibilityUpdated,
+  voteMenuVisibilityUpdated,
   selectIsSubmitMenuVisible,
 } from '../../data';
 import { getDomainName, useDispatch } from '../../utils';
@@ -18,8 +18,8 @@ export function SubmitMenuButton({ variant }: SubmitMenuProps): JSX.Element {
    * Toggles the submit menu.
    */
   const onClick = (): void => {
-    dispatch(changeSubmitMenuVisibility(!active));
-    dispatch(changeVoteMenuVisibility(false));
+    dispatch(submitMenuVisibilityUpdated(!active));
+    dispatch(voteMenuVisibilityUpdated(false));
   };
 
   /**
@@ -27,8 +27,8 @@ export function SubmitMenuButton({ variant }: SubmitMenuProps): JSX.Element {
    */
   const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     if (event.key === 'Enter') {
-      dispatch(changeSubmitMenuVisibility(!active));
-      dispatch(changeVoteMenuVisibility(false));
+      dispatch(submitMenuVisibilityUpdated(!active));
+      dispatch(voteMenuVisibilityUpdated(false));
     }
   };
 

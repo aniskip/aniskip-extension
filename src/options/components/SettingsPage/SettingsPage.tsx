@@ -23,23 +23,23 @@ import {
   selectIsLoaded,
   selectSkipTimeIndicatorColours,
   selectSkipOptions,
-  setIsSettingsLoaded,
-  setSkipTimeIndicatorColour,
-  setSkipTimeIndicatorColours,
-  setSkipOption,
-  setSkipOptions,
-  setKeybinds,
+  isSettingsLoadedUpdated,
+  skipTimeIndicatorColourUpdated,
+  skipTimeIndicatorColoursUpdated,
+  skipOptionUpdated,
+  skipOptionsUpdated,
+  keybindsUpdated,
   selectKeybinds,
-  setKeybind,
+  keybindUpdated,
   selectIsUserEditingKeybind,
-  setIsUserEditingKeybind,
+  isUserEditingKeybindUpdated,
   selectSkipTimeLength,
   selectChangeCurrentTimeLength,
   selectChangeCurrentTimeLargeLength,
-  setSkipTimeLength,
-  setChangeCurrentTimeLength,
-  setChangeCurrentTimeLargeLength,
-  setAnimeTitleLanguage,
+  skipTimeLengthUpdated,
+  changeCurrentTimeLengthUpdated,
+  changeCurrentTimeLargeLengthUpdated,
+  animeTitleLanguageUpdated,
   selectAnimeTitleLanguage,
 } from '../../../data';
 import { ColourPicker } from '../ColourPicker';
@@ -114,7 +114,7 @@ export function SettingsPage(): JSX.Element {
   const onChangeSkipOption =
     (skipType: SkipType) =>
     (skipOption: SkipOptionType): void => {
-      dispatch(setSkipOption({ type: skipType, option: skipOption }));
+      dispatch(skipOptionUpdated({ type: skipType, option: skipOption }));
     };
 
   /**
@@ -126,7 +126,7 @@ export function SettingsPage(): JSX.Element {
     (skipType: Exclude<SkipType, 'preview'>) =>
     (colour: ColorResult): void => {
       dispatch(
-        setSkipTimeIndicatorColour({ type: skipType, colour: colour.hex })
+        skipTimeIndicatorColourUpdated({ type: skipType, colour: colour.hex })
       );
     };
 
@@ -142,7 +142,7 @@ export function SettingsPage(): JSX.Element {
       (event: React.KeyboardEvent<HTMLInputElement>): void => {
         if (event.key === 'Escape') {
           dispatch(
-            setKeybind({
+            keybindUpdated({
               type: keybindType,
               keybind: '',
             })
@@ -152,7 +152,7 @@ export function SettingsPage(): JSX.Element {
         }
 
         dispatch(
-          setKeybind({
+          keybindUpdated({
             type: keybindType,
             keybind: serialiseKeybind(event),
           })
@@ -170,7 +170,7 @@ export function SettingsPage(): JSX.Element {
   const onClickEditKeybind = (keybindType: KeybindType) => (): void => {
     flushSync(() => {
       dispatch(
-        setIsUserEditingKeybind({
+        isUserEditingKeybindUpdated({
           type: keybindType,
           isUserEditingKeybind: true,
         })
@@ -187,7 +187,7 @@ export function SettingsPage(): JSX.Element {
    */
   const onBlurKeybindEditor = (keybindType: KeybindType) => (): void => {
     dispatch(
-      setIsUserEditingKeybind({
+      isUserEditingKeybindUpdated({
         type: keybindType,
         isUserEditingKeybind: false,
       })
@@ -239,7 +239,7 @@ export function SettingsPage(): JSX.Element {
   const onChangeAnimeTitleLanguage = (
     languageType: AnimeTitleLanguageType
   ): void => {
-    dispatch(setAnimeTitleLanguage(languageType));
+    dispatch(animeTitleLanguageUpdated(languageType));
   };
 
   /**
@@ -322,20 +322,22 @@ export function SettingsPage(): JSX.Element {
         DEFAULT_SYNC_OPTIONS
       )) as SyncOptions;
 
-      dispatch(setSkipOptions(syncOptions.skipOptions));
+      dispatch(skipOptionsUpdated(syncOptions.skipOptions));
       dispatch(
-        setSkipTimeIndicatorColours(syncOptions.skipTimeIndicatorColours)
+        skipTimeIndicatorColoursUpdated(syncOptions.skipTimeIndicatorColours)
       );
-      dispatch(setKeybinds(syncOptions.keybinds));
-      dispatch(setSkipTimeLength(syncOptions.skipTimeLength));
-      dispatch(setChangeCurrentTimeLength(syncOptions.changeCurrentTimeLength));
+      dispatch(keybindsUpdated(syncOptions.keybinds));
+      dispatch(skipTimeLengthUpdated(syncOptions.skipTimeLength));
       dispatch(
-        setChangeCurrentTimeLargeLength(
+        changeCurrentTimeLengthUpdated(syncOptions.changeCurrentTimeLength)
+      );
+      dispatch(
+        changeCurrentTimeLargeLengthUpdated(
           syncOptions.changeCurrentTimeLargeLength
         )
       );
-      dispatch(setAnimeTitleLanguage(syncOptions.animeTitleLanguage));
-      dispatch(setIsSettingsLoaded(true));
+      dispatch(animeTitleLanguageUpdated(syncOptions.animeTitleLanguage));
+      dispatch(isSettingsLoadedUpdated(true));
     })();
   }, []);
 
@@ -405,7 +407,7 @@ export function SettingsPage(): JSX.Element {
                   type="number"
                   value={skipTimeLength}
                   spellCheck="false"
-                  onChange={onChangeNumericInput(setSkipTimeLength)}
+                  onChange={onChangeNumericInput(skipTimeLengthUpdated)}
                 />
                 <span className="pl-1">s</span>
               </div>
@@ -421,7 +423,9 @@ export function SettingsPage(): JSX.Element {
                   type="number"
                   value={changeCurrentTimeLength}
                   spellCheck="false"
-                  onChange={onChangeNumericInput(setChangeCurrentTimeLength)}
+                  onChange={onChangeNumericInput(
+                    changeCurrentTimeLengthUpdated
+                  )}
                 />
                 <span className="pl-1">s</span>
               </div>
@@ -438,7 +442,7 @@ export function SettingsPage(): JSX.Element {
                   value={changeCurrentTimeLargeLength}
                   spellCheck="false"
                   onChange={onChangeNumericInput(
-                    setChangeCurrentTimeLargeLength
+                    changeCurrentTimeLargeLengthUpdated
                   )}
                 />
                 <span className="pl-1">s</span>

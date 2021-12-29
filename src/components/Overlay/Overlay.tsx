@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { Transition } from '@headlessui/react';
 import { browser } from 'webextension-polyfill-ts';
 import {
-  closeOverlay,
-  openOverlay,
+  overlayClosed,
+  overlayOpened,
   selectIsOverlayOpen,
   selectKeybinds,
-  setKeybinds,
+  keybindsUpdated,
 } from '../../data';
 import { AnimeSearchModal } from '../AnimeSearchModal';
 import { useDispatch, useSelector, useWindowEvent } from '../../utils';
@@ -28,7 +28,7 @@ export function Overlay(): JSX.Element {
    * Close the overlay.
    */
   const onClose = (): void => {
-    dispatch(closeOverlay());
+    dispatch(overlayClosed());
   };
 
   /**
@@ -43,7 +43,7 @@ export function Overlay(): JSX.Element {
       return;
     }
 
-    dispatch(openOverlay());
+    dispatch(overlayOpened());
   });
 
   /**
@@ -57,7 +57,7 @@ export function Overlay(): JSX.Element {
         })) as SyncOptions
       ).keybinds;
 
-      dispatch(setKeybinds(syncedKeybinds));
+      dispatch(keybindsUpdated(syncedKeybinds));
     })();
   }, []);
 

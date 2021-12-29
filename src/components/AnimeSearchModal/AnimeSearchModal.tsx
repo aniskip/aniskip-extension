@@ -21,9 +21,9 @@ import {
   selectAnimeTitleLanguage,
   selectIsInitialOverlayOpen,
   selectMalId,
-  setAnimeTitleLanguage,
-  setIsInitialOverlayOpen,
-  setMalId,
+  animeTitleLanguageUpdated,
+  isInitialOverlayOpenUpdated,
+  malIdUpdated,
 } from '../../data';
 import { Keyboard } from '../Keyboard';
 
@@ -69,7 +69,7 @@ export function AnimeSearchModal({
 
       setSearchResults(results);
 
-      dispatch(setIsInitialOverlayOpen(false));
+      dispatch(isInitialOverlayOpenUpdated(false));
     },
     500
   );
@@ -84,7 +84,7 @@ export function AnimeSearchModal({
       return;
     }
 
-    dispatch(setMalId(malId));
+    dispatch(malIdUpdated(malId));
     page?.storeManualTitleToMalIdMapping(malId);
 
     browser.runtime.sendMessage({ type: 'initialise-skip-times' } as Message);
@@ -104,7 +104,7 @@ export function AnimeSearchModal({
         return;
       }
 
-      dispatch(setMalId(malId));
+      dispatch(malIdUpdated(malId));
       page?.storeManualTitleToMalIdMapping(malId);
 
       browser.runtime.sendMessage({ type: 'initialise-skip-times' } as Message);
@@ -144,14 +144,14 @@ export function AnimeSearchModal({
     searchBarRef.current?.focus();
 
     (async (): Promise<void> => {
-      dispatch(setIsInitialOverlayOpen(true));
+      dispatch(isInitialOverlayOpenUpdated(true));
 
       // Sync options with sync browser storage.
       const syncOptions = (await browser.storage.sync.get(
         DEFAULT_SYNC_OPTIONS
       )) as SyncOptions;
 
-      dispatch(setAnimeTitleLanguage(syncOptions.animeTitleLanguage));
+      dispatch(animeTitleLanguageUpdated(syncOptions.animeTitleLanguage));
 
       // Search for detected anime cover image.
       if (detectedMalId === 0) {
