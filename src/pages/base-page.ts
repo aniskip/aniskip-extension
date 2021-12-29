@@ -152,7 +152,6 @@ export abstract class BasePage implements Page {
       malId = this.store.dispatch(
         setMalId(await malsyncHttpClient.getMalId(providerName, identifier))
       ).payload;
-      malId = selectMalId(this.store.getState());
     } catch {
       // MALSync was not able to find the id.
       malId = this.store.dispatch(
