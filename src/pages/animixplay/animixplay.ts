@@ -46,8 +46,9 @@ export class AniMixPlay extends BasePage {
       return Promise.resolve(malId);
     }
 
-    this.store.dispatch(setMalId(parseInt(this.getIdentifier(), 10)));
-    malId = selectMalId(this.store.getState());
+    malId = this.store.dispatch(
+      setMalId(parseInt(this.getIdentifier(), 10))
+    ).payload;
 
     return Promise.resolve(malId);
   }

@@ -17,15 +17,15 @@ import { OverlayRenderer } from '../renderers';
 import {
   configuredStore,
   openOverlay,
-  selectEpisodeNumber,
   selectMalId,
-  setEpisodeNumber,
   setMalId,
   Store,
 } from '../data';
 
 export abstract class BasePage implements Page {
   providerName: string;
+
+  episodeNumber: number;
 
   store: Store;
 
@@ -34,6 +34,7 @@ export abstract class BasePage implements Page {
   constructor() {
     const domainName = getDomainName(window.location.hostname);
     this.providerName = capitalizeFirstLetter(domainName);
+    this.episodeNumber = 0;
     this.store = configuredStore;
     this.overlayRenderer = new OverlayRenderer(
       'aniskip-overay',
@@ -74,8 +75,7 @@ export abstract class BasePage implements Page {
     }
 
     let rawEpisodeNumber = this.getRawEpisodeNumber();
-
-    this.store.dispatch(setEpisodeNumber(rawEpisodeNumber));
+    this.episodeNumber = rawEpisodeNumber;
 
     rules.forEach((rule) => {
       const { start, end: endOrUndefined } = rule.from;
@@ -91,13 +91,13 @@ export abstract class BasePage implements Page {
 
       if (rawEpisodeNumber >= start && rawEpisodeNumber <= end) {
         this.store.dispatch(setMalId(toMalId));
-        this.store.dispatch(setEpisodeNumber(rawEpisodeNumber - (start - 1)));
+        this.episodeNumber = rawEpisodeNumber - (start - 1);
       }
     });
   }
 
   getEpisodeNumber(): number {
-    return selectEpisodeNumber(this.store.getState());
+    return this.episodeNumber;
   }
 
   getTitle(): string {
@@ -123,10 +123,9 @@ export abstract class BasePage implements Page {
       return 0;
     }
 
-    this.store.dispatch(
+    malId = this.store.dispatch(
       setMalId(await BasePage.searchManualTitleToMalIdMapping(title))
-    );
-    malId = selectMalId(this.store.getState());
+    ).payload;
 
     if (malId > 0) {
       return malId;
@@ -138,8 +137,9 @@ export abstract class BasePage implements Page {
       return 0;
     }
 
-    this.store.dispatch(setMalId(await BasePage.getCachedMalId(identifier)));
-    malId = selectMalId(this.store.getState());
+    malId = this.store.dispatch(
+      setMalId(await BasePage.getCachedMalId(identifier))
+    ).payload;
 
     if (malId > 0) {
       return malId;
@@ -149,14 +149,15 @@ export abstract class BasePage implements Page {
       const malsyncHttpClient = new MalsyncHttpClient();
       const providerName = this.getProviderName();
 
-      this.store.dispatch(
+      malId = this.store.dispatch(
         setMalId(await malsyncHttpClient.getMalId(providerName, identifier))
-      );
+      ).payload;
       malId = selectMalId(this.store.getState());
     } catch {
       // MALSync was not able to find the id.
-      this.store.dispatch(setMalId(await BasePage.findClosestMalId(title)));
-      malId = selectMalId(this.store.getState());
+      malId = this.store.dispatch(
+        setMalId(await BasePage.findClosestMalId(title))
+      ).payload;
 
       // Titles found were not similar enough.
       if (malId === 0) {
