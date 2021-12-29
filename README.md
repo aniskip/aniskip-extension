@@ -68,7 +68,7 @@ This will start a chromium browser with the built extension loaded. This script 
 
    ```
    yarn install
-   yarn build:chrome
+   yarn build:prod:chrome
    ```
 
 This will build an unpacked extension in the `dist` folder. You can replace `chrome` with `firefox` to build for firefox.
