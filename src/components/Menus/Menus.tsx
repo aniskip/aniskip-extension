@@ -1,16 +1,15 @@
 import React from 'react';
-import { MenusProps } from './Menus.types';
 import { SubmitMenu } from '../SubmitMenu';
 import { VoteMenu } from '../VoteMenu';
 import { MenuContainer } from '../MenuContainer';
 
-export function Menus({ variant }: MenusProps): JSX.Element {
+export function Menus(): JSX.Element {
   return (
     <>
-      <MenuContainer variant={variant}>
+      <MenuContainer>
         <SubmitMenu />
       </MenuContainer>
-      <MenuContainer variant={variant}>
+      <MenuContainer>
         <VoteMenu />
       </MenuContainer>
     </>

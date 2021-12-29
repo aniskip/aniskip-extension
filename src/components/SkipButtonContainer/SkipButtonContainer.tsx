@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import { SkipButton } from '../SkipButton';
-import { isInInterval, usePlayerRef, useSelector } from '../../utils';
-import { SkipButtonContainerProps } from './SkipButtonContainer.types';
+import {
+  isInInterval,
+  usePlayerRef,
+  useSelector,
+  useVariantRef,
+} from '../../utils';
 import { selectSkipTimes } from '../../data';
 import { DEFAULT_SKIP_OPTIONS, SkipOptions } from '../../scripts/background';
 import { SkipTime } from '../../api';
 
-export function SkipButtonContainer({
-  variant,
-}: SkipButtonContainerProps): JSX.Element | null {
+export function SkipButtonContainer(): JSX.Element | null {
   const [skipOptions, setSkipOptions] =
     useState<SkipOptions>(DEFAULT_SKIP_OPTIONS);
   const skipTimes = useSelector(selectSkipTimes);
+  const variant = useVariantRef();
   const player = usePlayerRef();
 
   const videoDuration = player?.getDuration() ?? 0;

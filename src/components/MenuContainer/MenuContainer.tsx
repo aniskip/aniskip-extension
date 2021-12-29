@@ -4,14 +4,13 @@ import {
   getDomainName,
   useCheckIsFullscreen,
   useCheckIsMobile,
+  useVariantRef,
 } from '../../utils';
 
-export function MenuContainer({
-  variant,
-  children,
-}: MenuContainerProps): JSX.Element {
+export function MenuContainer({ children }: MenuContainerProps): JSX.Element {
   const { isFullscreen } = useCheckIsFullscreen();
   const { isMobile } = useCheckIsMobile();
+  const variant = useVariantRef();
   const domainName = getDomainName(window.location.hostname);
 
   return (

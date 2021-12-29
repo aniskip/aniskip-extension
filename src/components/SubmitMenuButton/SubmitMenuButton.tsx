@@ -7,11 +7,9 @@ import {
   selectIsSubmitMenuVisible,
 } from '../../data';
 import { getDomainName, useDispatch } from '../../utils';
-import { SubmitMenuButtonProps } from './SubmitMenuButton.types';
+import { SubmitMenuProps } from './SubmitMenuButton.types';
 
-export function SubmitMenuButton({
-  variant,
-}: SubmitMenuButtonProps): JSX.Element {
+export function SubmitMenuButton({ variant }: SubmitMenuProps): JSX.Element {
   const domainName = getDomainName(window.location.hostname);
   const active = useSelector(selectIsSubmitMenuVisible);
   const dispatch = useDispatch();

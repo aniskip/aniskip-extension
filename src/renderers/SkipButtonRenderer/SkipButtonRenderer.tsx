@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { SkipButtonContainer } from '../../components';
 import { Store } from '../../data';
 import { Player } from '../../players/base-player.types';
-import { PlayerProvider } from '../../utils';
+import { PlayerProvider, VariantProvider } from '../../utils';
 import { BaseRenderer } from '../base-renderer';
 
 export class SkipButtonsRenderer extends BaseRenderer {
@@ -34,7 +34,9 @@ export class SkipButtonsRenderer extends BaseRenderer {
     ReactDOM.render(
       <Provider store={this.store}>
         <PlayerProvider value={this.player}>
-          <SkipButtonContainer variant={this.variant} />
+          <VariantProvider value={this.variant}>
+            <SkipButtonContainer />
+          </VariantProvider>
         </PlayerProvider>
       </Provider>,
       this.shadowRoot.getElementById(this.reactRootId)

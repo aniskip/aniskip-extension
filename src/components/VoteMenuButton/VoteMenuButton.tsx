@@ -1,12 +1,12 @@
 import React from 'react';
 import { FaListUl } from 'react-icons/fa';
+import { VoteMenuButtonProps } from './VoteMenuButton.types';
 import {
   changeSubmitMenuVisibility,
   changeVoteMenuVisibility,
   selectIsVoteMenuVisible,
 } from '../../data';
 import { getDomainName, useDispatch, useSelector } from '../../utils';
-import { VoteMenuButtonProps } from './VoteMenuButton.types';
 
 export function VoteMenuButton({ variant }: VoteMenuButtonProps): JSX.Element {
   const domainName = getDomainName(window.location.hostname);

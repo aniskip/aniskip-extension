@@ -9,3 +9,4 @@ export * from './string';
 export * from './time';
 export * from './types';
 export * from './window';
+export * from './variant';
