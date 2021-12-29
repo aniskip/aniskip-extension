@@ -1,30 +1,24 @@
-import { configureStore, ConfigureStoreOptions } from '@reduxjs/toolkit';
+import { configureStore as configureReduxStore } from '@reduxjs/toolkit';
 import devToolsEnhancer from 'remote-redux-devtools';
 import page from './page';
 import player from './player';
 import settings from './settings';
 
-const options: ConfigureStoreOptions = {
-  reducer: { player, page, settings },
-  devTools: false,
-};
+// Typescript auto return type inferrance gives stronger types.
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export const configureStore = (name: string) =>
+  configureReduxStore({
+    reducer: { player, page, settings },
+    devTools: false,
+    enhancers: [
+      devToolsEnhancer({
+        name,
+        hostname: 'localhost',
+        port: 8000,
+      }),
+    ],
+  });
 
-if (process.env.NODE_ENV === 'development') {
-  options.enhancers = [
-    devToolsEnhancer({
-      name: 'aniskip-extension',
-      realtime: true,
-      hostname: 'localhost',
-      port: 8000,
-    }),
-  ];
-}
-
-/**
- * Create store.
- */
-export const configuredStore = configureStore(options);
-
-export type Store = typeof configuredStore;
-export type RootState = ReturnType<typeof configuredStore.getState>;
-export type Dispatch = typeof configuredStore.dispatch;
+export type Store = ReturnType<typeof configureStore>;
+export type RootState = ReturnType<Store['getState']>;
+export type Dispatch = Store['dispatch'];

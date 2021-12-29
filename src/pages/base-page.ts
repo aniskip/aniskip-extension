@@ -15,11 +15,11 @@ import {
 import { LocalOptions } from '../scripts/background';
 import { OverlayRenderer } from '../renderers';
 import {
-  configuredStore,
+  Store,
+  configureStore,
+  malIdUpdated,
   overlayOpened,
   selectMalId,
-  malIdUpdated,
-  Store,
 } from '../data';
 
 export abstract class BasePage implements Page {
@@ -35,7 +35,7 @@ export abstract class BasePage implements Page {
     const domainName = getDomainName(window.location.hostname);
     this.providerName = capitalizeFirstLetter(domainName);
     this.episodeNumber = 0;
-    this.store = configuredStore;
+    this.store = configureStore('aniskip-page');
     this.overlayRenderer = new OverlayRenderer(
       'aniskip-overay',
       this.store,

@@ -15,12 +15,12 @@ import { AniskipHttpClient, SkipTime, SkipType } from '../api';
 import { isInInterval } from '../utils';
 import {
   skipTimeAdded,
-  configuredStore,
   previewSkipTimesRemoved,
   skipTimesRemoved,
   stateReset,
   selectSkipTimes,
   Store,
+  configureStore,
 } from '../data';
 
 export class BasePlayer implements Player {
@@ -50,7 +50,7 @@ export class BasePlayer implements Player {
     this.metadata = metadata;
     this.videoElement = null;
     this.scheduledSkipTime = undefined;
-    this.store = configuredStore;
+    this.store = configureStore('aniskip-player');
     this.lastControlsOpacity = 0;
     this.isReady = false;
     this.skipOptions = DEFAULT_SKIP_OPTIONS;
