@@ -71,4 +71,4 @@ This will start a chromium browser with the built extension loaded. This script 
    yarn build:prod:chrome
    ```
 
-This will build an unpacked extension in the `dist` folder. You can replace `chrome` with `firefox` to build for firefox.
+This will build a zipped extension in the `web-ext-artifacts` folder. You can replace `chrome` with `firefox` to build for firefox.
