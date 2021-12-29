@@ -3,7 +3,7 @@ import { flushSync } from 'react-dom';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { browser } from 'webextension-polyfill-ts';
 import { ColorResult } from 'react-color';
-import { debounce, DebouncedFunc } from 'lodash';
+import { debounce } from 'lodash';
 import { sprintf } from 'sprintf-js';
 import { SkipType, SKIP_TYPES, SKIP_TYPE_NAMES } from '../../../api';
 import { DefaultButton, Dropdown, Input, Keyboard } from '../../../components';
@@ -137,7 +137,7 @@ export function SettingsPage(): JSX.Element {
    */
   const onChangeCompleteKeybind = (
     keybindType: KeybindType
-  ): DebouncedFunc<React.KeyboardEventHandler<HTMLInputElement>> =>
+  ): ReturnType<typeof debounce> =>
     debounce(
       (event: React.KeyboardEvent<HTMLInputElement>): void => {
         if (event.key === 'Escape') {

@@ -9,7 +9,6 @@
     "Dabreadman <tany3@tcd.ie>"
   ],
   "license": "MIT",
-  "sideEffects": "false",
   "scripts": {
     "analyze:chrome": "cross-env NODE_ENV=production BROWSER=chromium ANALYZE=true BUILD=true webpack --config ./webpack/webpack.prod.config.js",
     "analyze:firefox": "cross-env NODE_ENV=production BROWSER=firefox ANALYZE=true BUILD=true webpack --config ./webpack/webpack.prod.config.js",
@@ -50,6 +49,7 @@
     "@typescript-eslint/parser": "^5.8.0",
     "autoprefixer": "^10.4.0",
     "babel-loader": "^8.2.3",
+    "babel-plugin-lodash": "^3.3.4",
     "chrome-webstore-upload-cli": "^2.0.1",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^10.2.0",
@@ -68,6 +68,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "fork-ts-checker-webpack-plugin": "^6.5.0",
     "html-webpack-plugin": "^5.5.0",
+    "lodash-webpack-plugin": "^0.11.6",
     "mini-css-extract-plugin": "^2.4.5",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.5",
