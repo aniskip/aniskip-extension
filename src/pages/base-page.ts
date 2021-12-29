@@ -133,6 +133,7 @@ export abstract class BasePage implements Page {
 
     // Search cache.
     const identifier = this.getIdentifier();
+
     if (!identifier) {
       return 0;
     }
@@ -145,6 +146,7 @@ export abstract class BasePage implements Page {
       return malId;
     }
 
+    // Query MALSync for MAL id.
     try {
       const malsyncHttpClient = new MalsyncHttpClient();
       const providerName = this.getProviderName();
@@ -201,16 +203,19 @@ export abstract class BasePage implements Page {
     let bestSimilarity = 0;
     searchResults.forEach(({ title: titleVariants, idMal, synonyms }) => {
       const titles = [...synonyms];
+
       Object.values(titleVariants).forEach((titleVariant) => {
         if (titleVariant) {
           titles.push(titleVariant);
         }
       });
+
       titles.forEach((titleVariant) => {
         const similarity = stringSimilarity.compareTwoStrings(
           titleVariant.toLocaleLowerCase(),
           title.toLocaleLowerCase()
         );
+
         if (similarity >= bestSimilarity) {
           bestSimilarity = similarity;
           closest = idMal;
