@@ -16,11 +16,9 @@ import { isInInterval } from '../utils';
 import {
   addSkipTime,
   configuredStore,
-  readyPlayer,
   removePreviewSkipTimes,
   removeSkipTimes,
   reset,
-  selectIsPlayerReady,
   selectSkipTimes,
   Store,
 } from '../data';
@@ -38,6 +36,8 @@ export class BasePlayer implements Player {
 
   lastControlsOpacity: number;
 
+  isReady: boolean;
+
   playerButtonsRenderer: PlayerButtonsRenderer;
 
   menusRenderer: MenusRenderer;
@@ -52,6 +52,7 @@ export class BasePlayer implements Player {
     this.scheduledSkipTime = null;
     this.store = configuredStore;
     this.lastControlsOpacity = 0;
+    this.isReady = false;
     this.skipOptions = DEFAULT_SKIP_OPTIONS;
 
     (async (): Promise<void> => {
@@ -195,7 +196,7 @@ export class BasePlayer implements Player {
   }
 
   getIsReady(): boolean {
-    return selectIsPlayerReady(this.store.getState());
+    return this.isReady;
   }
 
   static getMetadata(): Metadata {
@@ -252,12 +253,8 @@ export class BasePlayer implements Player {
       return;
     }
 
-    const { skipOptions } = await browser.storage.sync.get({
-      skipOptions: DEFAULT_SKIP_OPTIONS,
-    });
-
     const skipTimeTypes: SkipType[] = [];
-    Object.entries(skipOptions).forEach(([skipType, value]) => {
+    Object.entries(this.skipOptions).forEach(([skipType, value]) => {
       if (value !== 'disabled') {
         skipTimeTypes.push(skipType as SkipType);
       }
@@ -366,7 +363,7 @@ export class BasePlayer implements Player {
 
   onReady(): void {
     if (this.videoElement && this.getVideoControlsContainer()) {
-      this.store.dispatch(readyPlayer());
+      this.isReady = true;
 
       this.videoElement.addEventListener('timeupdate', () => {
         this.scheduleSkipTimes();

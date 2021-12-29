@@ -7,7 +7,6 @@ import { PlayerState } from './types';
  * Initial state.
  */
 const initialPlayerState: PlayerState = {
-  isReady: false,
   skipTimes: [],
   isSubmitMenuVisible: false,
   isVoteMenuVisible: false,
@@ -16,11 +15,6 @@ const initialPlayerState: PlayerState = {
 /**
  * Selectors.
  */
-export const selectIsPlayerReady: Selector<
-  StateSlice<PlayerState, 'player'>,
-  boolean
-> = (state) => state.player.isReady;
-
 export const selectSkipTimes: Selector<
   StateSlice<PlayerState, 'player'>,
   SkipTime[]
@@ -52,9 +46,6 @@ const playerStateSlice = createSlice({
     changeSubmitMenuVisibility: (state, action: PayloadAction<boolean>) => {
       state.isSubmitMenuVisible = action.payload;
     },
-    readyPlayer: (state) => {
-      state.isReady = true;
-    },
     removeSkipTime: (state, action: PayloadAction<string>) => {
       for (let i = 0; i < state.skipTimes.length; i += 1) {
         const skipTime = state.skipTimes[i];
@@ -83,7 +74,6 @@ export const {
   addSkipTime,
   changeSubmitMenuVisibility,
   changeVoteMenuVisibility,
-  readyPlayer,
   removePreviewSkipTimes,
   removeSkipTime,
   removeSkipTimes,
