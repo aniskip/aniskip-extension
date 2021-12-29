@@ -367,8 +367,8 @@ export function SettingsPage(): JSX.Element {
 
   return (
     <div className="sm:border sm:rounded-md border-gray-300 px-8 py-8 sm:bg-white">
-      <h2 className="text-xl text-gray-900 font-semibold mb-3">Skip options</h2>
-      <div className="space-y-3 mb-12">
+      <h2 className="text-xl text-gray-900 font-semibold">Skip options</h2>
+      <div className="space-y-3 mt-3">
         {filteredSkipTypes.map((skipType) => (
           <div className="space-y-1" key={skipType}>
             <span className="text-xs text-gray-700 uppercase font-semibold">
@@ -447,43 +447,43 @@ export function SettingsPage(): JSX.Element {
           </div>
         </div>
       </div>
-      <h2 className="text-xl text-gray-900 font-semibold mb-3">
+      <h2 className="text-xl text-gray-900 font-semibold mt-8">
         Anime search overlay options
       </h2>
-      <span className="text-xs text-gray-700 uppercase font-semibold block mb-3">
+      <span className="text-xs text-gray-700 uppercase font-semibold block mt-3">
         Title language
       </span>
       <Dropdown
-        className="text-sm grow mb-2"
+        className="text-sm grow mt-2"
         value={animeTitleLanguage}
         onChange={onChangeAnimeTitleLanguage}
         options={animeTitleLanguageDropdownOptions}
       />
-      <div className="text-sm text-gray-500 mb-12">
+      <div className="text-sm text-gray-500 mt-2">
         Language used to display titles when searching for anime.
       </div>
-      <h2 className="text-xl text-gray-900 font-semibold mb-1">Keybinds</h2>
-      <span className="text-xs text-gray-700 uppercase font-semibold">
+      <h2 className="text-xl text-gray-900 font-semibold mt-8">Keybinds</h2>
+      <span className="text-xs text-gray-700 uppercase font-semibold mt-1">
         Anime search overlay
       </span>
-      <div className="space-y-3 mb-3 divide-y">
+      <div className="space-y-3 divide-y">
         {ANIME_SEARCH_OVERLAY_KEYBIND_TYPES.map(
           (type): JSX.Element => renderKeybindSetting(keybinds[type], type)
         )}
       </div>
-      <hr className="mb-1" />
+      <hr className="mt-3" />
       <span className="text-xs text-gray-700 uppercase font-semibold">
         Submit menu
       </span>
-      <div className="space-y-3 mb-12 divide-y">
+      <div className="space-y-3 divide-y">
         {SUBMIT_MENU_KEYBIND_TYPES.map(
           (type): JSX.Element => renderKeybindSetting(keybinds[type], type)
         )}
       </div>
-      <h2 className="text-xl text-gray-900 font-semibold mb-3">
+      <h2 className="text-xl text-gray-900 font-semibold mt-8">
         Miscellaneous options
       </h2>
-      <div className="space-y-2">
+      <div className="space-y-2 mt-1">
         <div className="flex items-center justify-between">
           <div className="text-xs text-gray-700 uppercase font-semibold">
             Cache
