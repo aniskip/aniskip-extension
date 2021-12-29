@@ -168,12 +168,13 @@ export function AnimeSearchModal({
         format: media.format,
         seasonYear: media.seasonYear,
         malId: media.idMal,
-        title: media.title[animeTitleLanguage] || media.title.romaji,
+        title:
+          media.title[syncOptions.animeTitleLanguage] || media.title.romaji,
       };
 
       setAnimeDetected(searchResult);
     })();
-  }, [animeTitleLanguage]);
+  }, []);
 
   return (
     <div
