@@ -271,15 +271,24 @@ export function SettingsPage(): JSX.Element {
     );
   };
 
+  /**
+   * Renders a keybind setting.
+   *
+   * @param keybind Keybind to render
+   * @param type Type of keybind to render
+   */
   const renderKeybindSetting = (
     keybind: string,
     type: KeybindType
   ): JSX.Element => (
     <button
       key={type}
-      className="block w-full text-left"
+      className={`block w-full text-left ${
+        isUserEditingKeybind[type as KeybindType]
+          ? 'pointer-events-none'
+          : 'pointer-events-auto'
+      }`}
       type="button"
-      disabled={isUserEditingKeybind[type as KeybindType]}
       onClick={onClickEditKeybind(type as KeybindType)}
     >
       <Setting
