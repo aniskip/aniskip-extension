@@ -43,10 +43,14 @@ export type OptionProps<TTag extends React.ElementType, TValue> = {
 /**
  * State types.
  */
+export type Option = { id: number; value: any };
+
 export type ChangeHandler = (value: any) => void;
 
 export type SearchboxState = {
   onChange: ChangeHandler;
-  activeOption: any;
   value: any;
+  activeOptionId: number;
+  idCounter: number;
+  options: Option[];
 };

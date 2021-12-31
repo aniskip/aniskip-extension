@@ -1,12 +1,18 @@
 import React, { useEffect, useReducer } from 'react';
 import { forwardRefTyped } from '../../utils/component';
 import {
-  activeOptionUpdated,
+  activeOptionIdUpdated,
   changeHandlerUpdated,
   initialSearchboxState,
+  nextOptionActivated,
+  optionAdded,
+  optionRemoved,
+  previousOptionActivated,
   reducer,
-  selectActiveOption,
+  selectActiveOptionId,
   selectOnChange,
+  selectOptionByValue,
+  selectOptions,
   selectValue,
   valueUpdated,
 } from './Searchbox.data';
@@ -42,7 +48,7 @@ export function Searchbox<
     }
 
     dispatch(changeHandlerUpdated(onChange));
-  }, [onChange]);
+  }, [onChange, dispatch]);
 
   /**
    * Initialise onChange handler.
@@ -53,7 +59,14 @@ export function Searchbox<
     }
 
     dispatch(valueUpdated(value));
-  }, [value]);
+  }, [value, dispatch]);
+
+  /**
+   * Reset active option on options change.
+   */
+  useEffect(() => {
+    dispatch(activeOptionIdUpdated(-1));
+  }, [selectOptions(state)]);
 
   return React.createElement(
     as,
@@ -66,7 +79,39 @@ const Input = React.forwardRef(
   (
     props: InputProps,
     ref: React.ForwardedRef<HTMLInputElement>
-  ): JSX.Element => <input {...props} ref={ref} />
+  ): JSX.Element => {
+    const searchboxContext = useSearchboxRef();
+
+    if (!searchboxContext) {
+      throw new Error(
+        '<Searchbox.Option /> component is unable to to find the parent <Searchbox /> component'
+      );
+    }
+
+    const dispatch = searchboxContext[1];
+
+    /**
+     * Handles keyboard selection of options.
+     *
+     * @param event Event to handle.
+     */
+    const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+      switch (event.key) {
+        case 'ArrowUp':
+          event.preventDefault();
+          dispatch(previousOptionActivated());
+          break;
+        case 'ArrowDown':
+          event.preventDefault();
+          dispatch(nextOptionActivated());
+          break;
+        default:
+        // no default
+      }
+    };
+
+    return <input {...props} ref={ref} onKeyDown={onKeyDown} />;
+  }
 );
 
 const Options = forwardRefTyped(
@@ -97,6 +142,8 @@ const Option = forwardRefTyped(
 
     const [state, dispatch] = searchboxContext;
 
+    const id = selectOptionByValue(selectOptions(state), value)?.id ?? -1;
+
     /**
      * Handler for selecting the option.
      */
@@ -110,14 +157,14 @@ const Option = forwardRefTyped(
      * Set the current option to the active option on enter.
      */
     const onEnter = (): void => {
-      dispatch(activeOptionUpdated(value));
+      dispatch(activeOptionIdUpdated(id));
     };
 
     /**
      * Remove the current active option on leave.
      */
     const onLeave = (): void => {
-      dispatch(activeOptionUpdated(undefined));
+      dispatch(activeOptionIdUpdated(-1));
     };
 
     /**
@@ -128,7 +175,21 @@ const Option = forwardRefTyped(
     /**
      * Returns true if the option is active, otherwise false.
      */
-    const isOptionActive = (): boolean => selectActiveOption(state) === value;
+    const isOptionActive = (): boolean => selectActiveOptionId(state) === id;
+
+    /**
+     * Returns the classes or pass props into the class name render function.
+     */
+    const calculateClassName = (): string | undefined => {
+      if (typeof className !== 'function') {
+        return className;
+      }
+
+      return className({
+        active: isOptionActive(),
+        selected: isOptionSelected(),
+      });
+    };
 
     /**
      * Renders the children or pass props into the render function.
@@ -145,18 +206,15 @@ const Option = forwardRefTyped(
     };
 
     /**
-     * Returns the classes or pass props into the class name render function.
+     * Add and remove options from state.
      */
-    const calculateClassName = (): string | undefined => {
-      if (typeof className !== 'function') {
-        return className;
-      }
+    useEffect(() => {
+      dispatch(optionAdded(value));
 
-      return className({
-        active: isOptionActive(),
-        selected: isOptionSelected(),
-      });
-    };
+      return (): void => {
+        dispatch(optionRemoved(id));
+      };
+    }, [value, id]);
 
     return React.createElement(
       as,

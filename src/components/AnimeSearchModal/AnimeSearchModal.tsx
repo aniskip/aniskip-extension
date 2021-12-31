@@ -223,24 +223,40 @@ export function AnimeSearchModal({
               <Searchbox.Options className="flex flex-col space-y-2">
                 {searchResults.map((searchResult) => (
                   <Searchbox.Option
-                    className="group flex space-x-2 bg-gray-100 rounded-md p-4 hover:bg-amber-100"
+                    className={({ active }): string =>
+                      `flex space-x-2 bg-gray-100 rounded-md p-4 ${
+                        active ? 'bg-amber-100' : ''
+                      }`
+                    }
                     key={searchResult.malId}
                     value={searchResult.malId}
                   >
-                    <img
-                      className="object-cover rounded-md w-16"
-                      src={searchResult.coverImage}
-                      alt={`${searchResult.title} cover`}
-                    />
-                    <div className="flex flex-col justify-center overflow-auto">
-                      <span className="font-bold truncate group-hover:text-amber-900">
-                        {searchResult.title}
-                      </span>
-                      <span className="font-semibold text-sm text-gray-500 group-hover:text-amber-900">
-                        {searchResult.seasonYear}{' '}
-                        {MEDIA_FORMAT_NAMES[searchResult.format]}
-                      </span>
-                    </div>
+                    {({ active }): JSX.Element => (
+                      <>
+                        <img
+                          className="object-cover rounded-md w-16"
+                          src={searchResult.coverImage}
+                          alt={`${searchResult.title} cover`}
+                        />
+                        <div className="flex flex-col justify-center overflow-auto">
+                          <span
+                            className={`font-bold truncate ${
+                              active ? 'text-amber-900' : ''
+                            }`}
+                          >
+                            {searchResult.title}
+                          </span>
+                          <span
+                            className={`font-semibold text-sm text-gray-500 ${
+                              active ? 'text-amber-900' : ''
+                            }`}
+                          >
+                            {searchResult.seasonYear}{' '}
+                            {MEDIA_FORMAT_NAMES[searchResult.format]}
+                          </span>
+                        </div>
+                      </>
+                    )}
                   </Searchbox.Option>
                 ))}
               </Searchbox.Options>

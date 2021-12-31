@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import React, { createContext, useContext } from 'react';
 import { Actions } from './Searchbox.data';
 import { SearchboxState } from './Searchbox.types';
 
@@ -11,7 +11,7 @@ const SearchboxContext = createContext<
 export const SearchboxProvider = SearchboxContext.Provider;
 
 /**
- * Custom hook to return a reference to the Searchbox state and dispatch.
+ * Custom hook to return a reference to the searchbox state and dispatch.
  */
 export const useSearchboxRef = ():
   | [SearchboxState, React.Dispatch<Actions>]
