@@ -22,11 +22,6 @@ export const selectOptionByValue = (
   value: any
 ): Option | undefined => options.find((option) => option.value === value);
 
-export const selectOptionById = (
-  options: Option[],
-  id: number
-): Option | undefined => options.find((option) => option.id === id);
-
 export const selectActiveOptionId: Selector<SearchboxState, number> = (state) =>
   state.activeOptionId;
 
@@ -69,9 +64,9 @@ const searchboxSlice = createSlice({
       state.options.push({ id: state.idCounter, value: action.payload });
       state.idCounter += 1;
     },
-    optionRemoved: (state, action: PayloadAction<any>) => {
+    optionRemoved: (state, action: PayloadAction<number>) => {
       state.options = state.options.filter(
-        (option) => option.value !== action.payload
+        (option) => option.id !== action.payload
       );
       state.idCounter -= 1;
     },
