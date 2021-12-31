@@ -9,6 +9,7 @@ import {
   optionRemoved,
   previousOptionActivated,
   reducer,
+  selectActiveOption,
   selectActiveOptionId,
   selectOnChange,
   selectOptionByValue,
@@ -66,7 +67,7 @@ export function Searchbox<
    */
   useEffect(() => {
     dispatch(activeOptionIdUpdated(-1));
-  }, [selectOptions(state)]);
+  }, [selectOptions(state).length]);
 
   return React.createElement(
     as,
@@ -88,7 +89,7 @@ const Input = React.forwardRef(
       );
     }
 
-    const dispatch = searchboxContext[1];
+    const [state, dispatch] = searchboxContext;
 
     /**
      * Handles keyboard selection of options.
@@ -97,14 +98,27 @@ const Input = React.forwardRef(
      */
     const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
       switch (event.key) {
-        case 'ArrowUp':
+        case 'Enter': {
+          const activeOption = selectActiveOption(state);
+
+          if (!activeOption) {
+            return;
+          }
+
+          const onChange = selectOnChange(state);
+          onChange(activeOption.value);
+          break;
+        }
+        case 'ArrowUp': {
           event.preventDefault();
           dispatch(previousOptionActivated());
           break;
-        case 'ArrowDown':
+        }
+        case 'ArrowDown': {
           event.preventDefault();
           dispatch(nextOptionActivated());
           break;
+        }
         default:
         // no default
       }
@@ -212,9 +226,9 @@ const Option = forwardRefTyped(
       dispatch(optionAdded(value));
 
       return (): void => {
-        dispatch(optionRemoved(id));
+        dispatch(optionRemoved(value));
       };
-    }, [value, id]);
+    }, [value]);
 
     return React.createElement(
       as,

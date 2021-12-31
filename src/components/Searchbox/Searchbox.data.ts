@@ -43,6 +43,15 @@ export const selectIdCounter: Selector<SearchboxState, number> = (state) =>
 export const selectOptions: Selector<SearchboxState, Option[]> = (state) =>
   state.options;
 
+export const selectActiveOption: Selector<
+  SearchboxState,
+  Option | undefined
+> = (state) => {
+  const activeOptionId = selectActiveOptionId(state);
+
+  return state.options.find((option) => option.id === activeOptionId);
+};
+
 /**
  * State definition.
  */
@@ -60,35 +69,35 @@ const searchboxSlice = createSlice({
       state.options.push({ id: state.idCounter, value: action.payload });
       state.idCounter += 1;
     },
-    optionRemoved: (state, action: PayloadAction<number>) => {
+    optionRemoved: (state, action: PayloadAction<any>) => {
       state.options = state.options.filter(
-        (option) => option.id !== action.payload
+        (option) => option.value !== action.payload
       );
+      state.idCounter -= 1;
     },
     valueUpdated: (state, action: PayloadAction<any>) => {
       state.value = action.payload;
     },
     nextOptionActivated: (state) => {
-      const previousActiveOptionId = state.activeOptionId;
+      for (let i = 0; i < state.options.length; i += 1) {
+        const option = state.options[i];
 
-      state.activeOptionId = state.options.findIndex(
-        (option) => option.id > state.activeOptionId
-      );
+        if (option.id > state.activeOptionId) {
+          state.activeOptionId = option.id;
 
-      if (state.activeOptionId === -1) {
-        state.activeOptionId = previousActiveOptionId;
+          return;
+        }
       }
     },
     previousOptionActivated: (state) => {
-      const previousActiveOptionId = state.activeOptionId;
-      const optionsCopy = [...state.options];
+      for (let i = state.options.length - 1; i >= 0; i -= 1) {
+        const option = state.options[i];
 
-      state.activeOptionId = optionsCopy
-        .reverse()
-        .findIndex((option) => option.id < state.activeOptionId);
+        if (option.id < state.activeOptionId) {
+          state.activeOptionId = option.id;
 
-      if (state.activeOptionId === -1) {
-        state.activeOptionId = previousActiveOptionId;
+          return;
+        }
       }
     },
   },
