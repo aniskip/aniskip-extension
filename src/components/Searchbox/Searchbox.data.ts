@@ -17,14 +17,6 @@ export const initialSearchboxState: SearchboxState = {
 /**
  * Selectors.
  */
-export const selectOptionByValue = (
-  options: Option[],
-  value: any
-): Option | undefined => options.find((option) => option.value === value);
-
-export const selectActiveOptionId: Selector<SearchboxState, number> = (state) =>
-  state.activeOptionId;
-
 export const selectOnChange: Selector<SearchboxState, ChangeHandler> = (
   state
 ) => state.onChange;
@@ -41,11 +33,13 @@ export const selectOptions: Selector<SearchboxState, Option[]> = (state) =>
 export const selectActiveOption: Selector<
   SearchboxState,
   Option | undefined
-> = (state) => {
-  const activeOptionId = selectActiveOptionId(state);
+> = (state) =>
+  state.options.find((option) => option.id === state.activeOptionId);
 
-  return state.options.find((option) => option.id === activeOptionId);
-};
+export const selectOptionByValue = (
+  options: Option[],
+  value: any
+): Option | undefined => options.find((option) => option.value === value);
 
 /**
  * State definition.
@@ -63,12 +57,14 @@ const searchboxSlice = createSlice({
     optionAdded: (state, action: PayloadAction<any>) => {
       state.options.push({ id: state.idCounter, value: action.payload });
       state.idCounter += 1;
+      state.activeOptionId = -1;
     },
     optionRemoved: (state, action: PayloadAction<number>) => {
       state.options = state.options.filter(
         (option) => option.id !== action.payload
       );
       state.idCounter -= 1;
+      state.activeOptionId = -1;
     },
     valueUpdated: (state, action: PayloadAction<any>) => {
       state.value = action.payload;

@@ -9,7 +9,6 @@ import {
   previousOptionActivated,
   reducer,
   selectActiveOption,
-  selectActiveOptionId,
   selectOnChange,
   selectOptionByValue,
   selectOptions,
@@ -60,13 +59,6 @@ export function Searchbox<
 
     dispatch(valueUpdated(value));
   }, [value, dispatch]);
-
-  /**
-   * Reset active option on options change.
-   */
-  useEffect(() => {
-    dispatch(activeOptionIdUpdated(-1));
-  }, [selectOptions(state).length]);
 
   return React.createElement(
     as,
@@ -127,26 +119,23 @@ const Input = React.forwardRef(
   }
 );
 
-function Options<TTag extends React.ElementType = typeof DEFAULT_OPTIONS_TAG>(
-  { as = DEFAULT_OPTIONS_TAG as TTag, ...props }: OptionsProps<TTag>,
-  ref: React.ForwardedRef<unknown>
-): JSX.Element {
-  return React.createElement(as, { ...props, ref, role: 'listbox' });
+function Options<TTag extends React.ElementType = typeof DEFAULT_OPTIONS_TAG>({
+  as = DEFAULT_OPTIONS_TAG as TTag,
+  ...props
+}: OptionsProps<TTag>): JSX.Element {
+  return React.createElement(as, { ...props, role: 'listbox' });
 }
 
 function Option<
   TTag extends React.ElementType = typeof DEFAULT_OPTION_TAG,
   TValue = any
->(
-  {
-    as = DEFAULT_OPTION_TAG as TTag,
-    className,
-    children,
-    value,
-    ...props
-  }: OptionProps<TTag, TValue>,
-  ref: React.ForwardedRef<unknown>
-): JSX.Element {
+>({
+  as = DEFAULT_OPTION_TAG as TTag,
+  className,
+  children,
+  value,
+  ...props
+}: OptionProps<TTag, TValue>): JSX.Element {
   const searchboxContext = useSearchboxRef();
 
   if (!searchboxContext) {
@@ -190,7 +179,11 @@ function Option<
   /**
    * Returns true if the option is active, otherwise false.
    */
-  const isOptionActive = (): boolean => selectActiveOptionId(state) === id;
+  const isOptionActive = (): boolean => {
+    const activeOption = selectActiveOption(state);
+
+    return !!activeOption && id === activeOption.id;
+  };
 
   /**
    * Returns the classes or pass props into the class name render function.
@@ -235,7 +228,6 @@ function Option<
     as,
     {
       ...props,
-      ref,
       onClick,
       onMouseEnter: onEnter,
       onMouseLeave: onLeave,
