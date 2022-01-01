@@ -101,6 +101,7 @@ export type SyncOptions = {
   changeCurrentTimeLength: number;
   changeCurrentTimeLargeLength: number;
   animeTitleLanguage: AnimeTitleLanguageType;
+  isChangelogNotificationVisible: boolean;
 };
 
 export const DEFAULT_SYNC_OPTIONS: SyncOptions = {
@@ -112,6 +113,7 @@ export const DEFAULT_SYNC_OPTIONS: SyncOptions = {
   changeCurrentTimeLength: 0.1,
   changeCurrentTimeLargeLength: 0.25,
   animeTitleLanguage: 'english',
+  isChangelogNotificationVisible: false,
 };
 
 export type CacheEntry<T> = {

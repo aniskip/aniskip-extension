@@ -32,11 +32,12 @@ const initialSettingsState: SettingsState = {
   changeCurrentTimeLargeLength:
     DEFAULT_SYNC_OPTIONS.changeCurrentTimeLargeLength,
   animeTitleLanguage: DEFAULT_SYNC_OPTIONS.animeTitleLanguage,
+  isChangelogNotificationVisible:
+    DEFAULT_SYNC_OPTIONS.isChangelogNotificationVisible,
   isUserEditingKeybind: Object.assign(
     {},
     ...KEYBIND_TYPES.map((type) => ({ [type]: false }))
   ),
-  isSettingsLoaded: false,
 };
 
 /**
@@ -51,11 +52,6 @@ export const selectSkipTimeIndicatorColours: Selector<
   StateSlice<SettingsState, 'settings'>,
   SkipTimeIndicatorColours
 > = (state) => state.settings.skipTimeIndicatorColours;
-
-export const selectIsLoaded: Selector<
-  StateSlice<SettingsState, 'settings'>,
-  boolean
-> = (state) => state.settings.isSettingsLoaded;
 
 export const selectKeybinds: Selector<
   StateSlice<SettingsState, 'settings'>,
@@ -86,6 +82,11 @@ export const selectAnimeTitleLanguage: Selector<
   StateSlice<SettingsState, 'settings'>,
   AnimeTitleLanguageType
 > = (state) => state.settings.animeTitleLanguage;
+
+export const selectIsChangelogNotificationVisible: Selector<
+  StateSlice<SettingsState, 'settings'>,
+  boolean
+> = (state) => state.settings.isChangelogNotificationVisible;
 
 /**
  * Slice definition.
@@ -144,8 +145,11 @@ const settingsStateSlice = createSlice({
       state.isUserEditingKeybind[action.payload.type] =
         action.payload.isUserEditingKeybind;
     },
-    isSettingsLoadedUpdated: (state, action: PayloadAction<boolean>) => {
-      state.isSettingsLoaded = action.payload;
+    changelogNotificationUpdated: (state, action: PayloadAction<boolean>) => {
+      state.isChangelogNotificationVisible = action.payload;
+    },
+    changelogNotificationDismissed: (state) => {
+      state.isChangelogNotificationVisible = false;
     },
   },
 });
@@ -162,6 +166,7 @@ export const {
   changeCurrentTimeLargeLengthUpdated,
   animeTitleLanguageUpdated,
   isUserEditingKeybindUpdated,
-  isSettingsLoadedUpdated,
+  changelogNotificationUpdated,
+  changelogNotificationDismissed,
 } = settingsStateSlice.actions;
 export default settingsStateSlice.reducer;

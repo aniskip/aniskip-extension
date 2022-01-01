@@ -1,13 +1,14 @@
 import React from 'react';
-import { Navbar, SettingsPage } from './components';
+import { ChangelogNotification, Navbar, SettingsPage } from './components';
 
 export function App(): JSX.Element {
   return (
-    <>
+    <div className="font-sans">
       <Navbar />
-      <div className="font-sans mx-auto max-w-screen-md sm:px-8 sm:py-10">
+      <div className="mx-auto max-w-screen-md sm:px-8 sm:py-10">
         <SettingsPage />
       </div>
-    </>
+      <ChangelogNotification />
+    </div>
   );
 }

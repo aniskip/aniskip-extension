@@ -157,6 +157,14 @@ const resetCache = async (): Promise<void> => {
 };
 
 /**
+ * Shows the changelog notification on update.
+ */
+const showChangelogNotification = async (): Promise<void> =>
+  browser.storage.local.set({
+    isChangelogNotificationVisible: true,
+  } as Partial<SyncOptions>);
+
+/**
  * Set default user settings on installation.
  */
 browser.runtime.onInstalled.addListener((details) => {
@@ -170,6 +178,7 @@ browser.runtime.onInstalled.addListener((details) => {
     case 'update': {
       Promise.all([
         addDefaultSyncOptions(),
+        showChangelogNotification(),
         (async (): Promise<void> => {
           await addDefaultLocalOptions();
           return resetCache();

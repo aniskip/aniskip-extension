@@ -20,10 +20,8 @@ import {
   AnimeTitleLanguageType,
 } from '../../../scripts/background';
 import {
-  selectIsLoaded,
   selectSkipTimeIndicatorColours,
   selectSkipOptions,
-  isSettingsLoadedUpdated,
   skipTimeIndicatorColourUpdated,
   skipTimeIndicatorColoursUpdated,
   skipOptionUpdated,
@@ -50,6 +48,7 @@ export function SettingsPage(): JSX.Element {
   const [filteredSkipTypes, setFilteredSkipTypes] = useState<
     Exclude<SkipType, 'preview'>[]
   >([]);
+  const [isSettingsLoaded, setIsSettingsLoaded] = useState<boolean>(false);
   const skipOptions = useSelector(selectSkipOptions);
   const skipTimeIndicatorColours = useSelector(selectSkipTimeIndicatorColours);
   const keybinds = useSelector(selectKeybinds);
@@ -60,7 +59,6 @@ export function SettingsPage(): JSX.Element {
   );
   const animeTitleLanguage = useSelector(selectAnimeTitleLanguage);
   const isUserEditingKeybind = useSelector(selectIsUserEditingKeybind);
-  const isSettingsLoaded = useSelector(selectIsLoaded);
   const keybindInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
@@ -346,7 +344,7 @@ export function SettingsPage(): JSX.Element {
         )
       );
       dispatch(animeTitleLanguageUpdated(syncOptions.animeTitleLanguage));
-      dispatch(isSettingsLoadedUpdated(true));
+      setIsSettingsLoaded(true);
     })();
   }, []);
 
@@ -508,7 +506,7 @@ export function SettingsPage(): JSX.Element {
         </div>
       </div>
       <DefaultButton
-        className="sm:w-auto w-full bg-primary border border-gray-300 text-white font-medium mt-4"
+        className="sm:w-auto w-full border border-primary text-primary hover:border-amber-600 hover:text-amber-600 font-medium mt-4"
         onClick={onClickClearCache}
       >
         Clear cache
