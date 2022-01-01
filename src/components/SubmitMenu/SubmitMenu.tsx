@@ -219,6 +219,7 @@ export function SubmitMenu(): JSX.Element {
           break;
         }
         default:
+        // no default
       }
 
       if (updatedTime === timeSeconds) {
@@ -320,6 +321,7 @@ export function SubmitMenu(): JSX.Element {
         setEndTime(secondsToTimeString(currentTime));
         break;
       default:
+      // no default
     }
   };
 
@@ -338,6 +340,7 @@ export function SubmitMenu(): JSX.Element {
         setEndTime(secondsToTimeString(trimmedDuration));
         break;
       default:
+      // no default
     }
   };
 

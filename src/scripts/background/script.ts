@@ -1,5 +1,6 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 import {
   LocalOptions,
   Message,
@@ -29,13 +30,21 @@ const messageHandler = (
     case 'fetch': {
       return (async (): Promise<any> => {
         try {
-          const { url, options } = message.payload;
-          const response = await fetch(url, options);
-          const body = await response.text();
+          const { url, method, data, params } = message.payload;
 
-          return { body, status: response.status, ok: response.ok };
-        } catch (err) {
-          return { error: err };
+          const response = await axios({ url, method, data, params });
+
+          return {
+            data: response.data,
+            status: response.status,
+            ok: true,
+          };
+        } catch (err: any) {
+          return {
+            data: err.response.data,
+            status: err.response.status,
+            ok: false,
+          };
         }
       })();
     }
@@ -169,5 +178,6 @@ browser.runtime.onInstalled.addListener((details) => {
       break;
     }
     default:
+    // no default
   }
 });

@@ -33,10 +33,10 @@ export class AniskipHttpClient extends BaseHttpClient {
     episodeLength: number
   ): Promise<GetResponseFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
-    const params = { 'types[]': types, episodeLength };
-    const response = await this.request(route, 'GET', params);
+    const params = { types, episodeLength: episodeLength.toFixed(3) };
+    const response = await this.request(route, 'GET', undefined, params);
 
-    return response.json<GetResponseFromSkipTimes>();
+    return response.data;
   }
 
   /**
@@ -48,7 +48,7 @@ export class AniskipHttpClient extends BaseHttpClient {
     const route = `/relation-rules/${animeId}`;
     const response = await this.request(route, 'GET');
 
-    return response.json<GetResponseFromRules>();
+    return response.data;
   }
 
   /**
@@ -74,40 +74,44 @@ export class AniskipHttpClient extends BaseHttpClient {
     submitterId: string
   ): Promise<PostResponseFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
-    const body = JSON.stringify({
+    const data = {
       skipType,
       providerName,
       startTime,
       endTime,
       episodeLength,
       submitterId,
-    });
+    };
 
-    const response = await this.request(route, 'POST', {}, body);
-    const json = response.json<PostResponseFromSkipTimes>();
+    const response = await this.request<typeof data, PostResponseFromSkipTimes>(
+      route,
+      'POST',
+      data
+    );
+    const json = response.data;
 
-    if (json.error) {
-      switch (response.status) {
-        case 429:
-          throw new AniskipHttpClientError(
-            json.error,
-            'skip-times/rate-limited'
-          );
-        case 400:
-          throw new AniskipHttpClientError(
-            json.error,
-            'skip-times/parameter-error'
-          );
-        case 500:
-        default:
-          throw new AniskipHttpClientError(
-            'Internal Server Error',
-            'skip-times/internal-server-error'
-          );
-      }
+    if (response.ok) {
+      return json;
     }
 
-    return json;
+    switch (response.status) {
+      case 429:
+        throw new AniskipHttpClientError(
+          json.message,
+          'skip-times/rate-limited'
+        );
+      case 400:
+        throw new AniskipHttpClientError(
+          json.message,
+          'skip-times/parameter-error'
+        );
+      case 500:
+      default:
+        throw new AniskipHttpClientError(
+          'Internal Server Error',
+          'skip-times/internal-server-error'
+        );
+    }
   }
 
   /**
@@ -121,15 +125,17 @@ export class AniskipHttpClient extends BaseHttpClient {
     type: VoteType
   ): Promise<PostResponseFromSkipTimesVote> {
     const route = `/skip-times/vote/${skipId}`;
-    const body = JSON.stringify({
+    const data = {
       voteType: type,
-    });
-    const response = await this.request(route, 'POST', {}, body);
-    const { json, status } = response;
-    if (status === 429) {
+    };
+
+    const response = await this.request(route, 'POST', data);
+
+    if (response.status === 429) {
       throw new AniskipHttpClientError('Rate limited', 'vote/rate-limited');
     }
-    return json<PostResponseFromSkipTimesVote>();
+
+    return response.data;
   }
 
   /**
