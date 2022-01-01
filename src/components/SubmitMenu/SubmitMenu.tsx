@@ -198,12 +198,12 @@ export function SubmitMenu(): JSX.Element {
     (event: React.KeyboardEvent<HTMLInputElement>): void => {
       const timeString = event.currentTarget.value;
       const timeSeconds = timeStringToSeconds(timeString);
-      let modifier = changeCurrentTimeLargeLength;
+      let modifier = changeCurrentTimeLength;
       let updatedTime = timeSeconds;
 
       switch (serialiseKeybind(event)) {
         case keybinds['decrease-current-time-large']: {
-          modifier = changeCurrentTimeLength;
+          modifier = changeCurrentTimeLargeLength;
         }
         /* falls through */
         case keybinds['decrease-current-time']: {
@@ -211,7 +211,7 @@ export function SubmitMenu(): JSX.Element {
           break;
         }
         case keybinds['increase-current-time-large']: {
-          modifier = changeCurrentTimeLength;
+          modifier = changeCurrentTimeLargeLength;
         }
         /* falls through */
         case keybinds['increase-current-time']: {
