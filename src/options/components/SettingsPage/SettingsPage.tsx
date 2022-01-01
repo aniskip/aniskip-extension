@@ -506,7 +506,7 @@ export function SettingsPage(): JSX.Element {
         </div>
       </div>
       <DefaultButton
-        className="sm:w-auto w-full border border-primary text-primary hover:border-amber-600 hover:text-amber-600 font-medium mt-4"
+        className="sm:w-auto w-full border-2 border-primary text-primary hover:border-amber-600 hover:text-amber-600 font-medium mt-4"
         onClick={onClickClearCache}
       >
         Clear cache
