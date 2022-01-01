@@ -32,18 +32,6 @@ export function ChangelogNotification(): JSX.Element {
   };
 
   /**
-   * Opens the changelog in a new tab.
-   */
-  const onClickLink = (): void => {
-    window.open(
-      `https://github.com/lexesjan/typescript-aniskip-extension/releases/tag/v${version}`,
-      '_blank'
-    );
-
-    onDismiss();
-  };
-
-  /**
    * Initialise changelog notification visibility.
    */
   useEffect(() => {
@@ -72,9 +60,16 @@ export function ChangelogNotification(): JSX.Element {
       <div className="flex sticky bottom-0 border-t border-gray-300 w-full bg-white">
         <div className="flex items-center justify-center w-full">
           <span className="pl-4 py-2 text-sm font-medium text-gray-500">
-            The extension has updated! View the changelog here{' '}
-            <LinkButton className="text-blue-500" onClick={onClickLink}>
-              v{version}
+            You are now using the latest version of Aniskip! View the changelog
+            here{' '}
+            <LinkButton className="text-blue-500" onClick={onDismiss}>
+              <a
+                href={`https://github.com/lexesjan/typescript-aniskip-extension/releases/tag/v${version}`}
+                rel="noreferrer"
+                target="_blank"
+              >
+                v{version}
+              </a>
             </LinkButton>
             .
           </span>
