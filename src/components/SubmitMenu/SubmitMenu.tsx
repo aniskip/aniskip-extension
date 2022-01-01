@@ -7,6 +7,7 @@ import {
   SkipType,
   SKIP_TYPE_NAMES,
   SKIP_TYPES,
+  AniskipHttpClient,
 } from '../../api';
 import { DefaultButton } from '../DefaultButton';
 import { Dropdown, DropdownOptionsProps } from '../Dropdown';
@@ -21,24 +22,27 @@ import {
   secondsToTimeString,
   serialiseKeybind,
   timeStringToSeconds,
+  useDispatch,
   usePlayerRef,
+  useSelector,
 } from '../../utils';
-import { useAniskipHttpClient, useDispatch, useSelector } from '../../hooks';
 import {
-  changeSubmitMenuVisibility,
+  submitMenuVisibilityUpdated,
   selectChangeCurrentTimeLargeLength,
   selectChangeCurrentTimeLength,
   selectIsSubmitMenuVisible,
   selectKeybinds,
   selectSkipTimeLength,
-  setChangeCurrentTimeLargeLength,
-  setChangeCurrentTimeLength,
-  setKeybinds,
-  setSkipTimeLength,
+  changeCurrentTimeLargeLengthUpdated,
+  changeCurrentTimeLengthUpdated,
+  keybindsUpdated,
+  skipTimeLengthUpdated,
 } from '../../data';
 
 export function SubmitMenu(): JSX.Element {
-  const { aniskipHttpClient } = useAniskipHttpClient();
+  const aniskipHttpClientRef = useRef<AniskipHttpClient>(
+    new AniskipHttpClient()
+  );
   const [skipType, setSkipType] = useState<SkipType>('op');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -142,7 +146,7 @@ export function SubmitMenu(): JSX.Element {
     const endTimeSeconds = timeStringToSeconds(endTime);
 
     try {
-      const { skipId } = await aniskipHttpClient.createSkipTimes(
+      const { skipId } = await aniskipHttpClientRef.current.createSkipTimes(
         malId,
         episodeNumber,
         skipType,
@@ -166,7 +170,7 @@ export function SubmitMenu(): JSX.Element {
       player?.addSkipTime(skipTime);
 
       setServerError('');
-      dispatch(changeSubmitMenuVisibility(false));
+      dispatch(submitMenuVisibilityUpdated(false));
     } catch (error: any) {
       switch (error.code as AniskipHttpClientErrorCode) {
         case 'skip-times/parameter-error':
@@ -235,8 +239,9 @@ export function SubmitMenu(): JSX.Element {
    * @param seekOffset Number to add to current time.
    */
   const onClickSeekTime = (seekOffset: number) => async (): Promise<void> => {
-    let setTimeFunction = (_newValue: string): void => {};
+    let setTimeFunction: React.Dispatch<React.SetStateAction<string>>;
     let currentTime = '';
+
     switch (currentInputFocus) {
       case 'start-time':
         setTimeFunction = setStartTime;
@@ -279,7 +284,7 @@ export function SubmitMenu(): JSX.Element {
    * Closes the submit menu.
    */
   const onClickCloseButton = (): void => {
-    dispatch(changeSubmitMenuVisibility(false));
+    dispatch(submitMenuVisibilityUpdated(false));
   };
 
   /**
@@ -447,11 +452,13 @@ export function SubmitMenu(): JSX.Element {
         DEFAULT_SYNC_OPTIONS
       )) as SyncOptions;
 
-      dispatch(setKeybinds(syncOptions.keybinds));
-      dispatch(setSkipTimeLength(syncOptions.skipTimeLength));
-      dispatch(setChangeCurrentTimeLength(syncOptions.changeCurrentTimeLength));
+      dispatch(keybindsUpdated(syncOptions.keybinds));
+      dispatch(skipTimeLengthUpdated(syncOptions.skipTimeLength));
       dispatch(
-        setChangeCurrentTimeLargeLength(
+        changeCurrentTimeLengthUpdated(syncOptions.changeCurrentTimeLength)
+      );
+      dispatch(
+        changeCurrentTimeLargeLengthUpdated(
           syncOptions.changeCurrentTimeLargeLength
         )
       );

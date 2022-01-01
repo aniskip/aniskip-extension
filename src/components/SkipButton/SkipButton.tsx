@@ -1,7 +1,10 @@
 import React from 'react';
-import { useCheckIsFullscreen, useCheckIsMobile } from '../../hooks';
 import { SkipButtonProps } from './SkipButton.types';
-import { getDomainName } from '../../utils';
+import {
+  getDomainName,
+  useCheckIsFullscreen,
+  useCheckIsMobile,
+} from '../../utils';
 import { DefaultButton } from '../DefaultButton';
 import { SKIP_TYPE_NAMES } from '../../api';
 

@@ -1,13 +1,12 @@
 import React from 'react';
 import { FaListUl } from 'react-icons/fa';
+import { VoteMenuButtonProps } from './VoteMenuButton.types';
 import {
-  changeSubmitMenuVisibility,
-  changeVoteMenuVisibility,
+  submitMenuVisibilityUpdated,
+  voteMenuVisibilityUpdated,
   selectIsVoteMenuVisible,
 } from '../../data';
-import { useDispatch, useSelector } from '../../hooks';
-import { getDomainName } from '../../utils';
-import { VoteMenuButtonProps } from './VoteMenuButton.types';
+import { getDomainName, useDispatch, useSelector } from '../../utils';
 
 export function VoteMenuButton({ variant }: VoteMenuButtonProps): JSX.Element {
   const domainName = getDomainName(window.location.hostname);
@@ -18,17 +17,19 @@ export function VoteMenuButton({ variant }: VoteMenuButtonProps): JSX.Element {
    * Toggles the vote menu.
    */
   const onClick = (): void => {
-    dispatch(changeVoteMenuVisibility(!active));
-    dispatch(changeSubmitMenuVisibility(false));
+    dispatch(voteMenuVisibilityUpdated(!active));
+    dispatch(submitMenuVisibilityUpdated(false));
   };
 
   /**
    * Toggles the vote menu if the key pressed is Enter.
+   *
+   * @param event Event to be handled.
    */
   const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     if (event.key === 'Enter') {
-      dispatch(changeVoteMenuVisibility(!active));
-      dispatch(changeSubmitMenuVisibility(false));
+      dispatch(voteMenuVisibilityUpdated(!active));
+      dispatch(submitMenuVisibilityUpdated(false));
     }
   };
 

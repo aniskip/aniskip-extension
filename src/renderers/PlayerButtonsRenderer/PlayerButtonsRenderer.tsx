@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { BaseRenderer } from '../base-renderer';
 import { PlayerButtons } from '../../components';
 import { Store } from '../../data';
+import { VariantProvider } from '../../utils';
 
 export class PlayerButtonsRenderer extends BaseRenderer {
   variant: string;
@@ -20,7 +21,9 @@ export class PlayerButtonsRenderer extends BaseRenderer {
   render(): void {
     ReactDOM.render(
       <Provider store={this.store}>
-        <PlayerButtons variant={this.variant} />
+        <VariantProvider value={this.variant}>
+          <PlayerButtons />
+        </VariantProvider>
       </Provider>,
       this.shadowRoot.getElementById(this.reactRootId)
     );

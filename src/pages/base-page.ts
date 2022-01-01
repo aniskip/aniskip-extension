@@ -15,17 +15,17 @@ import {
 import { LocalOptions } from '../scripts/background';
 import { OverlayRenderer } from '../renderers';
 import {
-  configuredStore,
-  openOverlay,
-  selectEpisodeNumber,
-  selectMalId,
-  setEpisodeNumber,
-  setMalId,
   Store,
+  configureStore,
+  malIdUpdated,
+  overlayOpened,
+  selectMalId,
 } from '../data';
 
 export abstract class BasePage implements Page {
   providerName: string;
+
+  episodeNumber: number;
 
   store: Store;
 
@@ -34,7 +34,8 @@ export abstract class BasePage implements Page {
   constructor() {
     const domainName = getDomainName(window.location.hostname);
     this.providerName = capitalizeFirstLetter(domainName);
-    this.store = configuredStore;
+    this.episodeNumber = 0;
+    this.store = configureStore('aniskip-page');
     this.overlayRenderer = new OverlayRenderer(
       'aniskip-overay',
       this.store,
@@ -74,7 +75,7 @@ export abstract class BasePage implements Page {
     }
 
     let rawEpisodeNumber = this.getRawEpisodeNumber();
-    this.store.dispatch(setEpisodeNumber(rawEpisodeNumber));
+    this.episodeNumber = rawEpisodeNumber;
 
     rules.forEach((rule) => {
       const { start, end: endOrUndefined } = rule.from;
@@ -89,14 +90,14 @@ export abstract class BasePage implements Page {
       }
 
       if (rawEpisodeNumber >= start && rawEpisodeNumber <= end) {
-        this.store.dispatch(setMalId(toMalId));
-        this.store.dispatch(setEpisodeNumber(rawEpisodeNumber - (start - 1)));
+        this.store.dispatch(malIdUpdated(toMalId));
+        this.episodeNumber = rawEpisodeNumber - (start - 1);
       }
     });
   }
 
   getEpisodeNumber(): number {
-    return selectEpisodeNumber(this.store.getState());
+    return this.episodeNumber;
   }
 
   getTitle(): string {
@@ -122,10 +123,9 @@ export abstract class BasePage implements Page {
       return 0;
     }
 
-    this.store.dispatch(
-      setMalId(await BasePage.searchManualTitleToMalIdMapping(title))
-    );
-    malId = selectMalId(this.store.getState());
+    malId = this.store.dispatch(
+      malIdUpdated(await BasePage.searchManualTitleToMalIdMapping(title))
+    ).payload;
 
     if (malId > 0) {
       return malId;
@@ -133,27 +133,32 @@ export abstract class BasePage implements Page {
 
     // Search cache.
     const identifier = this.getIdentifier();
+
     if (!identifier) {
       return 0;
     }
 
-    this.store.dispatch(setMalId(await BasePage.getCachedMalId(identifier)));
-    malId = selectMalId(this.store.getState());
+    malId = this.store.dispatch(
+      malIdUpdated(await BasePage.getCachedMalId(identifier))
+    ).payload;
 
     if (malId > 0) {
       return malId;
     }
 
+    // Query MALSync for MAL id.
     try {
-      const providerName = this.getProviderName();
       const malsyncHttpClient = new MalsyncHttpClient();
-      this.store.dispatch(
-        setMalId(await malsyncHttpClient.getMalId(providerName, identifier))
-      );
+      const providerName = this.getProviderName();
+
+      malId = this.store.dispatch(
+        malIdUpdated(await malsyncHttpClient.getMalId(providerName, identifier))
+      ).payload;
     } catch {
       // MALSync was not able to find the id.
-      this.store.dispatch(setMalId(await BasePage.findClosestMalId(title)));
-      malId = selectMalId(this.store.getState());
+      malId = this.store.dispatch(
+        malIdUpdated(await BasePage.findClosestMalId(title))
+      ).payload;
 
       // Titles found were not similar enough.
       if (malId === 0) {
@@ -198,16 +203,19 @@ export abstract class BasePage implements Page {
     let bestSimilarity = 0;
     searchResults.forEach(({ title: titleVariants, idMal, synonyms }) => {
       const titles = [...synonyms];
+
       Object.values(titleVariants).forEach((titleVariant) => {
         if (titleVariant) {
           titles.push(titleVariant);
         }
       });
+
       titles.forEach((titleVariant) => {
         const similarity = stringSimilarity.compareTwoStrings(
           titleVariant.toLocaleLowerCase(),
           title.toLocaleLowerCase()
         );
+
         if (similarity >= bestSimilarity) {
           bestSimilarity = similarity;
           closest = idMal;
@@ -275,7 +283,7 @@ export abstract class BasePage implements Page {
   }
 
   openOverlay(): void {
-    this.store.dispatch(openOverlay());
+    this.store.dispatch(overlayOpened());
     this.overlayRenderer.render();
   }
 

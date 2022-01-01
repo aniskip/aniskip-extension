@@ -3,7 +3,7 @@ import { flushSync } from 'react-dom';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { browser } from 'webextension-polyfill-ts';
 import { ColorResult } from 'react-color';
-import { debounce, DebouncedFunc } from 'lodash';
+import { debounce } from 'lodash';
 import { sprintf } from 'sprintf-js';
 import { SkipType, SKIP_TYPES, SKIP_TYPE_NAMES } from '../../../api';
 import { DefaultButton, Dropdown, Input, Keyboard } from '../../../components';
@@ -23,28 +23,27 @@ import {
   selectIsLoaded,
   selectSkipTimeIndicatorColours,
   selectSkipOptions,
-  setIsSettingsLoaded,
-  setSkipTimeIndicatorColour,
-  setSkipTimeIndicatorColours,
-  setSkipOption,
-  setSkipOptions,
-  setKeybinds,
+  isSettingsLoadedUpdated,
+  skipTimeIndicatorColourUpdated,
+  skipTimeIndicatorColoursUpdated,
+  skipOptionUpdated,
+  skipOptionsUpdated,
+  keybindsUpdated,
   selectKeybinds,
-  setKeybind,
+  keybindUpdated,
   selectIsUserEditingKeybind,
-  setIsUserEditingKeybind,
+  isUserEditingKeybindUpdated,
   selectSkipTimeLength,
   selectChangeCurrentTimeLength,
   selectChangeCurrentTimeLargeLength,
-  setSkipTimeLength,
-  setChangeCurrentTimeLength,
-  setChangeCurrentTimeLargeLength,
-  setAnimeTitleLanguage,
+  skipTimeLengthUpdated,
+  changeCurrentTimeLengthUpdated,
+  changeCurrentTimeLargeLengthUpdated,
+  animeTitleLanguageUpdated,
   selectAnimeTitleLanguage,
 } from '../../../data';
 import { ColourPicker } from '../ColourPicker';
-import { useDispatch, useSelector } from '../../../hooks';
-import { serialiseKeybind } from '../../../utils';
+import { serialiseKeybind, useDispatch, useSelector } from '../../../utils';
 import { Setting } from '../Setting';
 
 export function SettingsPage(): JSX.Element {
@@ -62,7 +61,7 @@ export function SettingsPage(): JSX.Element {
   const animeTitleLanguage = useSelector(selectAnimeTitleLanguage);
   const isUserEditingKeybind = useSelector(selectIsUserEditingKeybind);
   const isSettingsLoaded = useSelector(selectIsLoaded);
-  const keybindInputRef = useRef<HTMLInputElement | null>(null);
+  const keybindInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
   const skipOptionDropdownOptions = [
@@ -115,7 +114,7 @@ export function SettingsPage(): JSX.Element {
   const onChangeSkipOption =
     (skipType: SkipType) =>
     (skipOption: SkipOptionType): void => {
-      dispatch(setSkipOption({ type: skipType, option: skipOption }));
+      dispatch(skipOptionUpdated({ type: skipType, option: skipOption }));
     };
 
   /**
@@ -127,7 +126,7 @@ export function SettingsPage(): JSX.Element {
     (skipType: Exclude<SkipType, 'preview'>) =>
     (colour: ColorResult): void => {
       dispatch(
-        setSkipTimeIndicatorColour({ type: skipType, colour: colour.hex })
+        skipTimeIndicatorColourUpdated({ type: skipType, colour: colour.hex })
       );
     };
 
@@ -138,12 +137,12 @@ export function SettingsPage(): JSX.Element {
    */
   const onChangeCompleteKeybind = (
     keybindType: KeybindType
-  ): DebouncedFunc<React.KeyboardEventHandler<HTMLInputElement>> =>
+  ): ReturnType<typeof debounce> =>
     debounce(
       (event: React.KeyboardEvent<HTMLInputElement>): void => {
         if (event.key === 'Escape') {
           dispatch(
-            setKeybind({
+            keybindUpdated({
               type: keybindType,
               keybind: '',
             })
@@ -153,7 +152,7 @@ export function SettingsPage(): JSX.Element {
         }
 
         dispatch(
-          setKeybind({
+          keybindUpdated({
             type: keybindType,
             keybind: serialiseKeybind(event),
           })
@@ -171,7 +170,7 @@ export function SettingsPage(): JSX.Element {
   const onClickEditKeybind = (keybindType: KeybindType) => (): void => {
     flushSync(() => {
       dispatch(
-        setIsUserEditingKeybind({
+        isUserEditingKeybindUpdated({
           type: keybindType,
           isUserEditingKeybind: true,
         })
@@ -188,7 +187,7 @@ export function SettingsPage(): JSX.Element {
    */
   const onBlurKeybindEditor = (keybindType: KeybindType) => (): void => {
     dispatch(
-      setIsUserEditingKeybind({
+      isUserEditingKeybindUpdated({
         type: keybindType,
         isUserEditingKeybind: false,
       })
@@ -240,7 +239,7 @@ export function SettingsPage(): JSX.Element {
   const onChangeAnimeTitleLanguage = (
     languageType: AnimeTitleLanguageType
   ): void => {
-    dispatch(setAnimeTitleLanguage(languageType));
+    dispatch(animeTitleLanguageUpdated(languageType));
   };
 
   /**
@@ -272,15 +271,24 @@ export function SettingsPage(): JSX.Element {
     );
   };
 
+  /**
+   * Renders a keybind setting.
+   *
+   * @param keybind Keybind to render
+   * @param type Type of keybind to render
+   */
   const renderKeybindSetting = (
     keybind: string,
     type: KeybindType
   ): JSX.Element => (
     <button
       key={type}
-      className="block w-full text-left"
+      className={`block w-full text-left ${
+        isUserEditingKeybind[type as KeybindType]
+          ? 'pointer-events-none'
+          : 'pointer-events-auto'
+      }`}
       type="button"
-      disabled={isUserEditingKeybind[type as KeybindType]}
       onClick={onClickEditKeybind(type as KeybindType)}
     >
       <Setting
@@ -323,20 +331,22 @@ export function SettingsPage(): JSX.Element {
         DEFAULT_SYNC_OPTIONS
       )) as SyncOptions;
 
-      dispatch(setSkipOptions(syncOptions.skipOptions));
+      dispatch(skipOptionsUpdated(syncOptions.skipOptions));
       dispatch(
-        setSkipTimeIndicatorColours(syncOptions.skipTimeIndicatorColours)
+        skipTimeIndicatorColoursUpdated(syncOptions.skipTimeIndicatorColours)
       );
-      dispatch(setKeybinds(syncOptions.keybinds));
-      dispatch(setSkipTimeLength(syncOptions.skipTimeLength));
-      dispatch(setChangeCurrentTimeLength(syncOptions.changeCurrentTimeLength));
+      dispatch(keybindsUpdated(syncOptions.keybinds));
+      dispatch(skipTimeLengthUpdated(syncOptions.skipTimeLength));
       dispatch(
-        setChangeCurrentTimeLargeLength(
+        changeCurrentTimeLengthUpdated(syncOptions.changeCurrentTimeLength)
+      );
+      dispatch(
+        changeCurrentTimeLargeLengthUpdated(
           syncOptions.changeCurrentTimeLargeLength
         )
       );
-      dispatch(setAnimeTitleLanguage(syncOptions.animeTitleLanguage));
-      dispatch(setIsSettingsLoaded(true));
+      dispatch(animeTitleLanguageUpdated(syncOptions.animeTitleLanguage));
+      dispatch(isSettingsLoadedUpdated(true));
     })();
   }, []);
 
@@ -368,8 +378,8 @@ export function SettingsPage(): JSX.Element {
 
   return (
     <div className="sm:border sm:rounded-md border-gray-300 px-8 py-8 sm:bg-white">
-      <h2 className="text-xl text-gray-900 font-semibold mb-3">Skip options</h2>
-      <div className="space-y-3 mb-12">
+      <h2 className="text-xl text-gray-900 font-semibold">Skip options</h2>
+      <div className="space-y-3 mt-1">
         {filteredSkipTypes.map((skipType) => (
           <div className="space-y-1" key={skipType}>
             <span className="text-xs text-gray-700 uppercase font-semibold">
@@ -406,7 +416,7 @@ export function SettingsPage(): JSX.Element {
                   type="number"
                   value={skipTimeLength}
                   spellCheck="false"
-                  onChange={onChangeNumericInput(setSkipTimeLength)}
+                  onChange={onChangeNumericInput(skipTimeLengthUpdated)}
                 />
                 <span className="pl-1">s</span>
               </div>
@@ -422,7 +432,9 @@ export function SettingsPage(): JSX.Element {
                   type="number"
                   value={changeCurrentTimeLength}
                   spellCheck="false"
-                  onChange={onChangeNumericInput(setChangeCurrentTimeLength)}
+                  onChange={onChangeNumericInput(
+                    changeCurrentTimeLengthUpdated
+                  )}
                 />
                 <span className="pl-1">s</span>
               </div>
@@ -439,7 +451,7 @@ export function SettingsPage(): JSX.Element {
                   value={changeCurrentTimeLargeLength}
                   spellCheck="false"
                   onChange={onChangeNumericInput(
-                    setChangeCurrentTimeLargeLength
+                    changeCurrentTimeLargeLengthUpdated
                   )}
                 />
                 <span className="pl-1">s</span>
@@ -448,43 +460,43 @@ export function SettingsPage(): JSX.Element {
           </div>
         </div>
       </div>
-      <h2 className="text-xl text-gray-900 font-semibold mb-3">
+      <h2 className="text-xl text-gray-900 font-semibold mt-8">
         Anime search overlay options
       </h2>
-      <span className="text-xs text-gray-700 uppercase font-semibold block mb-3">
+      <span className="text-xs text-gray-700 uppercase font-semibold block mt-3">
         Title language
       </span>
       <Dropdown
-        className="text-sm grow mb-2"
+        className="text-sm grow mt-2"
         value={animeTitleLanguage}
         onChange={onChangeAnimeTitleLanguage}
         options={animeTitleLanguageDropdownOptions}
       />
-      <div className="text-sm text-gray-500 mb-12">
+      <div className="text-sm text-gray-500 mt-2">
         Language used to display titles when searching for anime.
       </div>
-      <h2 className="text-xl text-gray-900 font-semibold mb-1">Keybinds</h2>
-      <span className="text-xs text-gray-700 uppercase font-semibold">
+      <h2 className="text-xl text-gray-900 font-semibold mt-8">Keybinds</h2>
+      <span className="text-xs text-gray-700 uppercase font-semibold mt-1">
         Anime search overlay
       </span>
-      <div className="space-y-3 mb-3 divide-y">
+      <div className="space-y-3 divide-y">
         {ANIME_SEARCH_OVERLAY_KEYBIND_TYPES.map(
           (type): JSX.Element => renderKeybindSetting(keybinds[type], type)
         )}
       </div>
-      <hr className="mb-1" />
+      <hr className="mt-3" />
       <span className="text-xs text-gray-700 uppercase font-semibold">
         Submit menu
       </span>
-      <div className="space-y-3 mb-12 divide-y">
+      <div className="space-y-3 divide-y">
         {SUBMIT_MENU_KEYBIND_TYPES.map(
           (type): JSX.Element => renderKeybindSetting(keybinds[type], type)
         )}
       </div>
-      <h2 className="text-xl text-gray-900 font-semibold mb-3">
+      <h2 className="text-xl text-gray-900 font-semibold mt-8">
         Miscellaneous options
       </h2>
-      <div className="space-y-2">
+      <div className="space-y-2 mt-1">
         <div className="flex items-center justify-between">
           <div className="text-xs text-gray-700 uppercase font-semibold">
             Cache

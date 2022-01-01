@@ -5,15 +5,20 @@ import {
   HiArrowRight,
   HiArrowUp,
 } from 'react-icons/hi';
-import { KeybindProps } from './Keyboard.types';
+import { DEFAULT_KEYBOARD_TAG, KeyboardProps } from './Keyboard.types';
 
-export function Keyboard<T extends React.ElementType = 'span'>({
-  as,
+export function Keyboard<
+  TTag extends React.ElementType = typeof DEFAULT_KEYBOARD_TAG
+>({
+  as = DEFAULT_KEYBOARD_TAG as TTag,
   className = '',
   children,
   ...props
-}: KeybindProps<T>): JSX.Element {
-  const renderChildren = (): JSX.Element | string => {
+}: KeyboardProps<TTag>): JSX.Element {
+  /**
+   * Renders keybind text.
+   */
+  const renderChildren = (): React.ReactNode => {
     if (typeof children !== 'string') {
       return children;
     }
@@ -35,7 +40,7 @@ export function Keyboard<T extends React.ElementType = 'span'>({
   };
 
   return React.createElement(
-    as ?? 'span',
+    as,
     {
       className: `font-semibold uppercase text-[0.625em] border border-gray-200 p-2 rounded-md min-w-[2em] text-center ${className}`,
       ...props,

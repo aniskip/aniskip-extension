@@ -1,3 +1,3 @@
-export type SubmitMenuButtonProps = {
+export type SubmitMenuProps = {
   variant: string;
 };

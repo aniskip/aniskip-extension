@@ -14,21 +14,19 @@ import { Player, Metadata } from './base-player.types';
 import { AniskipHttpClient, SkipTime, SkipType } from '../api';
 import { isInInterval } from '../utils';
 import {
-  addSkipTime,
-  configuredStore,
-  readyPlayer,
-  removePreviewSkipTimes,
-  removeSkipTimes,
-  reset,
-  selectIsPlayerReady,
+  skipTimeAdded,
+  previewSkipTimesRemoved,
+  skipTimesRemoved,
+  stateReset,
   selectSkipTimes,
   Store,
+  configureStore,
 } from '../data';
 
 export class BasePlayer implements Player {
   metadata: Metadata;
 
-  scheduledSkipTime: ReturnType<typeof setTimeout> | null;
+  scheduledSkipTime: ReturnType<typeof setTimeout> | undefined;
 
   videoElement: HTMLVideoElement | null;
 
@@ -37,6 +35,8 @@ export class BasePlayer implements Player {
   store: Store;
 
   lastControlsOpacity: number;
+
+  isReady: boolean;
 
   playerButtonsRenderer: PlayerButtonsRenderer;
 
@@ -49,9 +49,10 @@ export class BasePlayer implements Player {
   constructor(metadata: Metadata) {
     this.metadata = metadata;
     this.videoElement = null;
-    this.scheduledSkipTime = null;
-    this.store = configuredStore;
+    this.scheduledSkipTime = undefined;
+    this.store = configureStore('aniskip-player');
     this.lastControlsOpacity = 0;
+    this.isReady = false;
     this.skipOptions = DEFAULT_SKIP_OPTIONS;
 
     (async (): Promise<void> => {
@@ -94,7 +95,7 @@ export class BasePlayer implements Player {
       return;
     }
 
-    this.store.dispatch(addSkipTime(skipTime));
+    this.store.dispatch(skipTimeAdded(skipTime));
     this.skipButtonRenderer.render();
     this.skipTimeIndicatorsRenderer.render();
 
@@ -124,16 +125,16 @@ export class BasePlayer implements Player {
    * Cancels the current scheduled skip time.
    */
   clearScheduledSkipTime(): void {
-    if (this.scheduledSkipTime !== null) {
+    if (this.scheduledSkipTime) {
       clearInterval(this.scheduledSkipTime);
 
-      this.scheduledSkipTime = null;
+      this.scheduledSkipTime = undefined;
     }
   }
 
   clearSkipTimes(): void {
     this.clearScheduledSkipTime();
-    this.store.dispatch(removeSkipTimes());
+    this.store.dispatch(skipTimesRemoved());
   }
 
   /**
@@ -153,8 +154,8 @@ export class BasePlayer implements Player {
   /**
    * Returns the next skip time to be scheduled.
    */
-  getNextSkipTime(): SkipTime | null {
-    let nextSkipTime: SkipTime | null = null;
+  getNextSkipTime(): SkipTime | undefined {
+    let nextSkipTime: SkipTime | undefined;
     let earliestStartTime = Infinity;
 
     const currentTime = this.getCurrentTime();
@@ -195,7 +196,7 @@ export class BasePlayer implements Player {
   }
 
   getIsReady(): boolean {
-    return selectIsPlayerReady(this.store.getState());
+    return this.isReady;
   }
 
   static getMetadata(): Metadata {
@@ -252,12 +253,8 @@ export class BasePlayer implements Player {
       return;
     }
 
-    const { skipOptions } = await browser.storage.sync.get({
-      skipOptions: DEFAULT_SKIP_OPTIONS,
-    });
-
     const skipTimeTypes: SkipType[] = [];
-    Object.entries(skipOptions).forEach(([skipType, value]) => {
+    Object.entries(this.skipOptions).forEach(([skipType, value]) => {
       if (value !== 'disabled') {
         skipTimeTypes.push(skipType as SkipType);
       }
@@ -366,7 +363,7 @@ export class BasePlayer implements Player {
 
   onReady(): void {
     if (this.videoElement && this.getVideoControlsContainer()) {
-      this.store.dispatch(readyPlayer());
+      this.isReady = true;
 
       this.videoElement.addEventListener('timeupdate', () => {
         this.scheduleSkipTimes();
@@ -380,7 +377,7 @@ export class BasePlayer implements Player {
 
   reset(): void {
     this.clearScheduledSkipTime();
-    this.store.dispatch(reset());
+    this.store.dispatch(stateReset());
   }
 
   /**
@@ -401,7 +398,7 @@ export class BasePlayer implements Player {
     }
 
     const nextSkipTime = this.getNextSkipTime();
-    if (nextSkipTime === null) {
+    if (!nextSkipTime) {
       return;
     }
 
@@ -420,7 +417,7 @@ export class BasePlayer implements Player {
       this.setCurrentTime(endTime + offset);
 
       if (skipType === 'preview') {
-        this.store.dispatch(removePreviewSkipTimes());
+        this.store.dispatch(previewSkipTimesRemoved());
       }
     }, timeUntilSkipTime * 1000);
   }

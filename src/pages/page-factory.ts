@@ -26,7 +26,6 @@ export class PageFactory {
   /**
    * Obtains the page object from the domain.
    *
-   * @param pathname Provider's url path.
    * @param url Provider's host.
    */
   static getPage(url: string): Page {

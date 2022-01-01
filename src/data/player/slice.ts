@@ -7,7 +7,6 @@ import { PlayerState } from './types';
  * Initial state.
  */
 const initialPlayerState: PlayerState = {
-  isReady: false,
   skipTimes: [],
   isSubmitMenuVisible: false,
   isVoteMenuVisible: false,
@@ -16,11 +15,6 @@ const initialPlayerState: PlayerState = {
 /**
  * Selectors.
  */
-export const selectIsPlayerReady: Selector<
-  StateSlice<PlayerState, 'player'>,
-  boolean
-> = (state) => state.player.isReady;
-
 export const selectSkipTimes: Selector<
   StateSlice<PlayerState, 'player'>,
   SkipTime[]
@@ -43,19 +37,16 @@ const playerStateSlice = createSlice({
   name: 'player',
   initialState: initialPlayerState,
   reducers: {
-    addSkipTime: (state, action: PayloadAction<SkipTime>) => {
+    skipTimeAdded: (state, action: PayloadAction<SkipTime>) => {
       state.skipTimes.push(action.payload);
     },
-    changeVoteMenuVisibility: (state, action: PayloadAction<boolean>) => {
+    voteMenuVisibilityUpdated: (state, action: PayloadAction<boolean>) => {
       state.isVoteMenuVisible = action.payload;
     },
-    changeSubmitMenuVisibility: (state, action: PayloadAction<boolean>) => {
+    submitMenuVisibilityUpdated: (state, action: PayloadAction<boolean>) => {
       state.isSubmitMenuVisible = action.payload;
     },
-    readyPlayer: (state) => {
-      state.isReady = true;
-    },
-    removeSkipTime: (state, action: PayloadAction<string>) => {
+    skipTimeRemoved: (state, action: PayloadAction<string>) => {
       for (let i = 0; i < state.skipTimes.length; i += 1) {
         const skipTime = state.skipTimes[i];
 
@@ -65,28 +56,27 @@ const playerStateSlice = createSlice({
         }
       }
     },
-    removeSkipTimes: (state) => {
+    skipTimesRemoved: (state) => {
       state.skipTimes = [];
     },
-    removePreviewSkipTimes: (state) => {
+    previewSkipTimesRemoved: (state) => {
       state.skipTimes.forEach((skipTime, index) => {
         if (skipTime.skipType === 'preview') {
           state.skipTimes.splice(index, 1);
         }
       });
     },
-    reset: () => initialPlayerState,
+    stateReset: () => initialPlayerState,
   },
 });
 
 export const {
-  addSkipTime,
-  changeSubmitMenuVisibility,
-  changeVoteMenuVisibility,
-  readyPlayer,
-  removePreviewSkipTimes,
-  removeSkipTime,
-  removeSkipTimes,
-  reset,
+  skipTimeAdded,
+  submitMenuVisibilityUpdated,
+  voteMenuVisibilityUpdated,
+  previewSkipTimesRemoved,
+  skipTimeRemoved,
+  skipTimesRemoved,
+  stateReset,
 } = playerStateSlice.actions;
 export default playerStateSlice.reducer;

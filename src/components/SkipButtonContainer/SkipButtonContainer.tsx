@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import { SkipButton } from '../SkipButton';
-import { isInInterval, usePlayerRef } from '../../utils';
-import { SkipButtonContainerProps } from './SkipButtonContainer.types';
-import { useSelector } from '../../hooks';
+import {
+  isInInterval,
+  usePlayerRef,
+  useSelector,
+  useVariantRef,
+} from '../../utils';
 import { selectSkipTimes } from '../../data';
 import { DEFAULT_SKIP_OPTIONS, SkipOptions } from '../../scripts/background';
 import { SkipTime } from '../../api';
 
-export function SkipButtonContainer({
-  variant,
-}: SkipButtonContainerProps): JSX.Element | null {
+export function SkipButtonContainer(): JSX.Element | null {
   const [skipOptions, setSkipOptions] =
     useState<SkipOptions>(DEFAULT_SKIP_OPTIONS);
   const skipTimes = useSelector(selectSkipTimes);
+  const variant = useVariantRef();
   const player = usePlayerRef();
 
   const videoDuration = player?.getDuration() ?? 0;
@@ -49,8 +51,8 @@ export function SkipButtonContainer({
   /**
    * Returns the skip time closest to the current time.
    */
-  const getClosestSkipTime = (): SkipTime | null => {
-    let closestSkipTime: SkipTime | null = null;
+  const getClosestSkipTime = (): SkipTime | undefined => {
+    let closestSkipTime: SkipTime | undefined;
     let minimumDistance = Infinity;
 
     skipTimes.forEach((skipTime) => {

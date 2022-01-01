@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import { selectSkipTimes } from '../../data';
-import { useSelector } from '../../hooks';
 import {
   DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
   SkipTimeIndicatorColours,
 } from '../../scripts/background';
-import { usePlayerRef } from '../../utils';
+import { usePlayerRef, useSelector, useVariantRef } from '../../utils';
 import { SkipTimeIndicator } from '../SkipTimeIndicator';
-import { SkipTimeIndicatorContainerProps } from './SkipTimeIndicatorContainer.types';
 
-export function SkipTimeIndicatorContainer({
-  variant,
-}: SkipTimeIndicatorContainerProps): JSX.Element {
+export function SkipTimeIndicatorContainer(): JSX.Element {
   const [skipTimeIndicatorColours, setSkipTimeIndicatorColours] =
     useState<SkipTimeIndicatorColours>(DEFAULT_SKIP_TIME_INDICATOR_COLOURS);
   const skipTimes = useSelector(selectSkipTimes);
+  const variant = useVariantRef();
   const player = usePlayerRef();
   const videoDuration = player?.getDuration() ?? 0;
 

@@ -1,20 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaChevronDown, FaChevronUp, FaPlay, FaTimes } from 'react-icons/fa';
 import { browser } from 'webextension-polyfill-ts';
-import { useAniskipHttpClient, useDispatch, useSelector } from '../../hooks';
-import { SkipTime, SKIP_TYPE_NAMES, VoteType } from '../../api';
-import { secondsToTimeString, usePlayerRef } from '../../utils';
+import {
+  AniskipHttpClient,
+  SkipTime,
+  SKIP_TYPE_NAMES,
+  VoteType,
+} from '../../api';
+import {
+  secondsToTimeString,
+  usePlayerRef,
+  useDispatch,
+  useSelector,
+} from '../../utils';
 import { LinkButton } from '../LinkButton';
 import {
-  changeSubmitMenuVisibility,
-  changeVoteMenuVisibility,
-  removeSkipTime,
+  submitMenuVisibilityUpdated,
+  voteMenuVisibilityUpdated,
+  skipTimeRemoved,
   selectIsVoteMenuVisible,
   selectSkipTimes,
 } from '../../data';
 
 export function VoteMenu(): JSX.Element {
-  const { aniskipHttpClient } = useAniskipHttpClient();
+  const aniskipHttpClientRef = useRef<AniskipHttpClient>(
+    new AniskipHttpClient()
+  );
   const [skipTimesVoted, setSkipTimesVoted] = useState<
     Record<string, VoteType>
   >({});
@@ -44,6 +55,7 @@ export function VoteMenu(): JSX.Element {
       const currentSkipTimesVoted = (
         await browser.storage.local.get({ skipTimesVoted: {} })
       ).skipTimesVoted;
+
       setSkipTimesVoted(currentSkipTimesVoted);
     })();
   }, [skipTimes]);
@@ -57,15 +69,15 @@ export function VoteMenu(): JSX.Element {
    * Closes the vote menu.
    */
   const onClickCloseButton = (): void => {
-    dispatch(changeVoteMenuVisibility(false));
+    dispatch(voteMenuVisibilityUpdated(false));
   };
 
   /**
    * Closes the vote menu and opens the submit menu.
    */
   const onClickSubmitLink = (): void => {
-    dispatch(changeVoteMenuVisibility(false));
-    dispatch(changeSubmitMenuVisibility(true));
+    dispatch(voteMenuVisibilityUpdated(false));
+    dispatch(submitMenuVisibilityUpdated(true));
   };
 
   /**
@@ -94,7 +106,7 @@ export function VoteMenu(): JSX.Element {
         skipTimesVoted: updatedSkipTimesVoted,
       });
 
-      await aniskipHttpClient.upvote(skipId);
+      await aniskipHttpClientRef.current.upvote(skipId);
     };
 
   /**
@@ -118,14 +130,14 @@ export function VoteMenu(): JSX.Element {
         [skipId]: 'downvote',
       };
 
-      dispatch(removeSkipTime(skipId));
+      dispatch(skipTimeRemoved(skipId));
 
       setSkipTimesVoted(updatedSkipTimesVoted);
       browser.storage.local.set({
         skipTimesVoted: updatedSkipTimesVoted,
       });
 
-      await aniskipHttpClient.downvote(skipId);
+      await aniskipHttpClientRef.current.downvote(skipId);
     };
 
   return (

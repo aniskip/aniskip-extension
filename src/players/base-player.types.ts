@@ -10,9 +10,7 @@ export type Metadata = {
   playerUrls: string[];
 };
 
-export interface Player {
-  metadata: Metadata;
-
+export type Player = {
   /**
    * Adds a skip time into the player.
    *
@@ -95,4 +93,4 @@ export interface Player {
    * @param videoElement Video element of the player.
    */
   setVideoElement(videoElement: HTMLVideoElement): void;
-}
+};
