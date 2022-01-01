@@ -160,7 +160,7 @@ const resetCache = async (): Promise<void> => {
  * Shows the changelog notification on update.
  */
 const showChangelogNotification = async (): Promise<void> =>
-  browser.storage.local.set({
+  browser.storage.sync.set({
     isChangelogNotificationVisible: true,
   } as Partial<SyncOptions>);
 
