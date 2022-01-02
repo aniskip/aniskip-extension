@@ -4,7 +4,7 @@
   "videoControlsContainerSelectorString": "vjs-control-bar",
   "injectMenusButtonsReferenceNodeSelectorString": "vjs-fullscreen-control",
   "seekBarContainerSelectorString": "vjs-progress-holder vjs-slider",
-  "player_urls": [
+  "playerUrls": [
     "*://4anime.to/*",
     "*://mixdrop.co/e/*",
     "*://mp4.sh/*",

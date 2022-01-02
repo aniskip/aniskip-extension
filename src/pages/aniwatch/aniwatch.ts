@@ -1,11 +1,17 @@
 import { BasePage } from '../base-page';
+import { Metadata } from '../base-page.types';
+import metadata from './metadata.json';
 
 export class Aniwatch extends BasePage {
+  static getMetadata(): Metadata {
+    return metadata;
+  }
+
   getIdentifier(): string {
-    return this.pathname.split('/')[2];
+    return window.location.pathname.split('/')[2];
   }
 
   getRawEpisodeNumber(): number {
-    return parseInt(this.pathname.split('/')[3], 10);
+    return parseFloat(window.location.pathname.split('/')[3]);
   }
 }

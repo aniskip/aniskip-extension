@@ -2,31 +2,18 @@ import { browser } from 'webextension-polyfill-ts';
 import { Message } from '../background';
 import { PageFactory } from '../../pages/page-factory';
 
-/**
- * Returns the MAL id, episode number and provider name.
- */
-const getEpisodeInformation = async (): Promise<{
-  malId: number;
-  episodeNumber: number;
-  providerName: string;
-}> => {
-  const { pathname, hostname } = window.location;
-  const page = PageFactory.getPage(pathname, hostname);
+const page = PageFactory.getPage(window.location.href);
 
-  await page.applyRules();
-  const malId = await page.getMalId();
-  const providerName = page.getProviderName();
-  const episodeNumber = page.getEpisodeNumber();
-
-  return {
-    malId,
-    episodeNumber,
-    providerName,
-  };
-};
+// Inject search overlay once when the document body loads.
+new MutationObserver((_mutations, observer) => {
+  if (document.body) {
+    page.injectOverlay();
+    observer.disconnect();
+  }
+}).observe(document, { subtree: true, childList: true });
 
 /**
- * Handles messages between the player and the background script.
+ * Handles messages from the player script.
  *
  * @param message Message containing the type of action and the payload.
  */
@@ -34,15 +21,31 @@ const messageHandler = (message: Message): any => {
   switch (message.type) {
     case 'get-episode-information': {
       (async (): Promise<void> => {
-        const episodeInformation = await getEpisodeInformation();
+        await page.applyRules();
+        const malId = await page.getMalId();
+        const providerName = page.getProviderName();
+        const episodeNumber = page.getEpisodeNumber();
+
+        if (malId === 0) {
+          browser.runtime.sendMessage({
+            payload: { error: 'MAL id not found' },
+            uuid: message.uuid,
+          } as Message);
+
+          page.openOverlay();
+
+          return;
+        }
+
         browser.runtime.sendMessage({
-          payload: episodeInformation,
+          payload: { malId, providerName, episodeNumber },
           uuid: message.uuid,
         } as Message);
       })();
       break;
     }
     default:
+    // no default
   }
 };
 

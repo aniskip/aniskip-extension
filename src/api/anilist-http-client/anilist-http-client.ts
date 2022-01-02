@@ -1,7 +1,10 @@
 import { BaseHttpClient } from '../base-http-client';
 import {
   Media,
+  MediaCoverImage,
+  MediaFormat,
   MediaTitle,
+  PostResponseFromMedia,
   PostResponseFromPage,
 } from './anilist-http-client.types';
 
@@ -31,18 +34,16 @@ export class AnilistHttpClient extends BaseHttpClient {
   }
 
   /**
-   * Searches Anilist.
+   * Searches Anilist for title synonyms.
    *
-   * @param type Specify what to search.
-   * @param q Query to search.
-   * @param limit search result limit.
+   * @param title Title to search for.
    */
-  async search(
+  async searchTitleSynonyms(
     title: string
   ): Promise<
     PostResponseFromPage<
       Pick<
-        Media<undefined, Pick<MediaTitle, 'english' | 'romaji' | 'native'>>,
+        Media<Pick<MediaTitle, 'english' | 'romaji' | 'native'>>,
         'idMal' | 'title' | 'synonyms'
       >
     >
@@ -63,14 +64,113 @@ export class AnilistHttpClient extends BaseHttpClient {
         }
       }
     `;
+
     const variables = {
       title,
     };
+
     return this.query<
       PostResponseFromPage<
-        Pick<
-          Media<undefined, Pick<MediaTitle, 'english' | 'romaji' | 'native'>>,
-          'idMal' | 'title' | 'synonyms'
+        Media<Pick<MediaTitle, 'english' | 'romaji' | 'native'>>
+      >
+    >(query, variables);
+  }
+
+  /**
+   * Searches Anilist title cover images.
+   *
+   * @param title Title to search for.
+   */
+  async searchTitleCoverImages(
+    title: string
+  ): Promise<
+    PostResponseFromPage<
+      Media<
+        Omit<MediaTitle, 'userPreferred'>,
+        Pick<MediaCoverImage, 'medium'>,
+        MediaFormat
+      >
+    >
+  > {
+    const query = `
+      query ($title: String) {
+        Page {
+          media (search: $title, type: ANIME) {
+            idMal
+            format
+            seasonYear
+            title {
+              romaji
+              english
+              native
+            }
+            coverImage {
+              medium
+            }
+          }
+        }
+      }
+    `;
+
+    const variables = {
+      title,
+    };
+
+    return this.query<
+      PostResponseFromPage<
+        Media<
+          Omit<MediaTitle, 'userPreferred'>,
+          Pick<MediaCoverImage, 'medium'>,
+          MediaFormat
+        >
+      >
+    >(query, variables);
+  }
+
+  /**
+   * Searches Anilist for the cover image.
+   *
+   * @param malId MAL id of the cover image to search for.
+   */
+  async searchCoverImage(
+    malId: number
+  ): Promise<
+    PostResponseFromMedia<
+      Media<
+        Omit<MediaTitle, 'userPreferred'>,
+        Pick<MediaCoverImage, 'medium'>,
+        MediaFormat
+      >
+    >
+  > {
+    const query = `
+      query ($malId: Int) {
+        Media (idMal: $malId, type: ANIME) {
+          idMal
+          title {
+            romaji
+            english
+            native
+          }
+          coverImage {
+            medium
+          }
+          format
+          seasonYear
+        }
+      }
+    `;
+
+    const variables = {
+      malId,
+    };
+
+    return this.query<
+      PostResponseFromMedia<
+        Media<
+          Omit<MediaTitle, 'userPreferred'>,
+          Pick<MediaCoverImage, 'medium'>,
+          MediaFormat
         >
       >
     >(query, variables);

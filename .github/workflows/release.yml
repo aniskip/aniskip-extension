@@ -25,12 +25,10 @@ jobs:
         run: yarn install
 
       - name: Build and zip
-        run: |
-          yarn build:chrome
-          yarn zip:chrome
+        run: yarn build:prod:chrome
 
       - name: Publish
-        run: yarn webstore upload --source ./web-ext-artifacts/*.zip --auto-publish
+        run: yarn chrome-webstore-upload upload --source ./web-ext-artifacts/*.zip --auto-publish
         env:
           EXTENSION_ID: ${{ env.CHROME_EXTENSION_ID }}
           CLIENT_ID: ${{ env.CHROME_CLIENT_ID }}
@@ -63,9 +61,7 @@ jobs:
         run: yarn install
 
       - name: Build and zip
-        run: |
-          yarn build:firefox
-          yarn zip:firefox
+        run: yarn build:prod:firefox
 
       - name: Publish
         # yarn 2 does not work with web-ext-submit

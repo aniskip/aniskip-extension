@@ -1,13 +1,15 @@
 import React from 'react';
-import { PlayerButtonsProps } from './PlayerButtons.types';
 import { SubmitMenuButton } from '../SubmitMenuButton';
 import { VoteMenuButton } from '../VoteMenuButton';
-import { getDomainName } from '../../utils';
-import { useCheckIsFullscreen } from '../../hooks';
+import {
+  getDomainName,
+  useCheckIsFullscreen,
+  useVariantRef,
+} from '../../utils';
 
-export const PlayerButtons = ({ variant }: PlayerButtonsProps): JSX.Element => {
+export function PlayerButtons(): JSX.Element {
   const { isFullscreen } = useCheckIsFullscreen();
-
+  const variant = useVariantRef();
   const domainName = getDomainName(window.location.hostname);
 
   return (
@@ -20,4 +22,4 @@ export const PlayerButtons = ({ variant }: PlayerButtonsProps): JSX.Element => {
       <VoteMenuButton variant={variant} />
     </div>
   );
-};
+}

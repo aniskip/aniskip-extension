@@ -1,14 +1,17 @@
+export type Metadata = {
+  pageUrls: string[];
+};
+
 export type Page = {
-  hostname: string;
-
-  pathname: string;
-
-  document: Document;
-
   /**
    * Fetches and applies the episode number redirection rules.
    */
   applyRules(): Promise<void>;
+
+  /**
+   * Stores the manually selected title to MAL id mapping.
+   */
+  storeManualTitleToMalIdMapping(malId: number): Promise<void>;
 
   /**
    * Returns the title.
@@ -34,4 +37,14 @@ export type Page = {
    * Returns the MAL identification id from the url.
    */
   getMalId(): Promise<number>;
+
+  /**
+   * Injects the anime search overlay for manual anime detection.
+   */
+  injectOverlay(): void;
+
+  /**
+   * Opens the anime search overlay for manual anime detection.
+   */
+  openOverlay(): void;
 };

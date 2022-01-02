@@ -1,40 +1,64 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { browser } from 'webextension-polyfill-ts';
 import { selectSkipTimes } from '../../data';
-import { useSelector } from '../../hooks';
-import { usePlayerRef } from '../../utils';
+import {
+  DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+  SkipTimeIndicatorColours,
+} from '../../scripts/background';
+import { usePlayerRef, useSelector, useVariantRef } from '../../utils';
 import { SkipTimeIndicator } from '../SkipTimeIndicator';
-import { SkipTimeIndicatorContainerProps } from './SkipTimeIndicatorContainer.types';
 
-export const SkipTimeIndicatorContainer = ({
-  variant,
-}: SkipTimeIndicatorContainerProps): JSX.Element => {
+export function SkipTimeIndicatorContainer(): JSX.Element {
+  const [skipTimeIndicatorColours, setSkipTimeIndicatorColours] =
+    useState<SkipTimeIndicatorColours>(DEFAULT_SKIP_TIME_INDICATOR_COLOURS);
   const skipTimes = useSelector(selectSkipTimes);
+  const variant = useVariantRef();
   const player = usePlayerRef();
   const videoDuration = player?.getDuration() ?? 0;
+
+  /**
+   * Get skip time indicator colours.
+   */
+  useEffect(() => {
+    (async (): Promise<void> => {
+      const syncedSkipTimeIndicatorColours = (
+        await browser.storage.sync.get({
+          skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
+        })
+      ).skipTimeIndicatorColours as SkipTimeIndicatorColours;
+
+      setSkipTimeIndicatorColours(syncedSkipTimeIndicatorColours);
+    })();
+  }, []);
 
   return (
     <>
       {skipTimes.map((skipTime) => {
-        const isPreview = skipTime.skip_type === 'preview';
+        const isPreview = skipTime.skipType === 'preview';
         if (isPreview) {
           return null;
         }
 
-        const { start_time: startTime, end_time: endTime } = skipTime.interval;
-        const { episode_length: episodeLength } = skipTime;
-        const offset = videoDuration - skipTime.episode_length;
+        const { startTime, endTime } = skipTime.interval;
+        const { episodeLength } = skipTime;
+        const offset = videoDuration - skipTime.episodeLength;
 
         return (
           <SkipTimeIndicator
-            className="bg-blue-700"
+            style={{
+              backgroundColor:
+                skipTimeIndicatorColours[
+                  skipTime.skipType as keyof SkipTimeIndicatorColours
+                ],
+            }}
             startTime={startTime + offset}
             endTime={endTime + offset}
             episodeLength={episodeLength + offset}
-            key={`skip-time-indicator-${skipTime.skip_id}`}
+            key={`skip-time-indicator-${skipTime.skipId}`}
             variant={variant}
           />
         );
       })}
     </>
   );
-};
+}

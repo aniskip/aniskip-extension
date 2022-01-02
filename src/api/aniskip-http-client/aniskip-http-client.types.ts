@@ -1,19 +1,37 @@
-export type SkipType = 'op' | 'ed' | 'preview';
+export const SKIP_TYPE_NAMES: Record<SkipType, string> = {
+  op: 'Opening',
+  ed: 'Ending',
+  preview: 'Preview',
+  'mixed-op': 'Mixed opening',
+  'mixed-ed': 'Mixed ending',
+  recap: 'Recap',
+} as const;
+
+export const SKIP_TYPES = [
+  'op',
+  'ed',
+  'preview',
+  'mixed-op',
+  'mixed-ed',
+  'recap',
+] as const;
+
+export type SkipType = typeof SKIP_TYPES[number];
 
 export type SkipTime = {
   interval: {
-    start_time: number;
-    end_time: number;
+    startTime: number;
+    endTime: number;
   };
-  skip_type: SkipType;
-  skip_id: string;
-  episode_length: number;
+  skipType: SkipType;
+  skipId: string;
+  episodeLength: number;
 };
 
 export type GetResponseFromSkipTimes = {
   found: boolean;
   results: SkipTime[];
-};
+} & ResponseInformation;
 
 export type Range = {
   start: number;
@@ -28,21 +46,22 @@ export type Rule = {
 export type GetResponseFromRules = {
   found: boolean;
   rules: Rule[];
-};
+} & ResponseInformation;
 
-export type SuccessMessage = {
-  message: 'success';
+export type ResponseInformation = {
+  statusCode: number;
+  message: string;
 };
 
 export type ServerError = {
   error?: string;
 };
 
-export type PostResponseFromSkipTimesVote = SuccessMessage & ServerError;
+export type PostResponseFromSkipTimesVote = ResponseInformation & ServerError;
 
 export type PostResponseFromSkipTimes = {
-  skip_id: string;
-} & SuccessMessage &
+  skipId: string;
+} & ResponseInformation &
   ServerError;
 
 export type VoteType = 'upvote' | 'downvote';

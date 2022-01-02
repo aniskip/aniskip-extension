@@ -1,5 +1,5 @@
 {
-  "page_urls": [
+  "pageUrls": [
     "*://*.9anime.to/*",
     "*://9anime.to/*",
     "*://9anime.pw/*",
@@ -10,6 +10,7 @@
     "*://9anime.live/*",
     "*://9anime.one/*",
     "*://9anime.love/*",
-    "*://9anime.app/*"
+    "*://9anime.app/*",
+    "*://9anime.id/*"
   ]
 }

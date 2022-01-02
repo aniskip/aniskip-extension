@@ -1,9 +1,14 @@
 import { BasePlayer } from '../base-player';
+import { Metadata } from '../base-player.types';
 import metadata from './metadata.json';
 
 export class Doodstream extends BasePlayer {
-  constructor(document: Document) {
-    super(document, metadata);
+  constructor() {
+    super(metadata);
+  }
+
+  static getMetadata(): Metadata {
+    return metadata;
   }
 
   getVideoControlsContainer(): HTMLElement | null {
