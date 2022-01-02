@@ -57,9 +57,9 @@ export function SkipButtonContainer(): JSX.Element | null {
 
     skipTimes.forEach((skipTime) => {
       const { skipType } = skipTime;
-      const isManualSkip = skipOptions[skipType] === 'manual-skip';
+      const isAutoSkip = skipOptions[skipType] === 'auto-skip';
 
-      if (skipType === 'preview' || isManualSkip) {
+      if (skipType === 'preview' || isAutoSkip) {
         return;
       }
 
