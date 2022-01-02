@@ -365,11 +365,14 @@ export class BasePlayer implements Player {
     if (this.videoElement && this.getVideoControlsContainer()) {
       this.isReady = true;
 
-      this.videoElement.addEventListener('timeupdate', () => {
+      const listener = (): void => {
         this.scheduleSkipTimes();
         this.skipButtonRenderer.render();
         this.skipTimeIndicatorsRenderer.render();
-      });
+      };
+
+      this.videoElement.addEventListener('timeupdate', listener);
+      this.videoElement.addEventListener('playing', listener);
 
       this.initialiseSkipTimes();
     }
