@@ -1,6 +1,6 @@
 {
   "extends": ["config:base", ":preserveSemverRanges"],
   "lockFileMaintenance": {
-    "extends": ["group:recommended", "group:monorepos"]
+    "enabled": true
   }
 }
