@@ -1,14 +1,16 @@
 import React from 'react';
 import { MenuContainerProps } from './MenuContainer.types';
-import { useCheckIsFullscreen, useCheckIsMobile } from '../../hooks';
-import { getDomainName } from '../../utils';
+import {
+  getDomainName,
+  useCheckIsFullscreen,
+  useCheckIsMobile,
+  useVariantRef,
+} from '../../utils';
 
-export const MenuContainer = ({
-  variant,
-  children,
-}: MenuContainerProps): JSX.Element => {
+export function MenuContainer({ children }: MenuContainerProps): JSX.Element {
   const { isFullscreen } = useCheckIsFullscreen();
   const { isMobile } = useCheckIsMobile();
+  const variant = useVariantRef();
   const domainName = getDomainName(window.location.hostname);
 
   return (
@@ -26,4 +28,4 @@ export const MenuContainer = ({
       {children}
     </div>
   );
-};
+}

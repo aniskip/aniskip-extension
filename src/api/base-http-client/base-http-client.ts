@@ -12,7 +12,7 @@ export abstract class BaseHttpClient implements HttpClient {
   async request(
     route: string,
     method: string,
-    params: Record<string, string | string[]> = {},
+    params: Record<string, string | string[] | number> = {},
     body: string = ''
   ): Promise<Response> {
     const url = new URL(`${this.baseUrl}${route}`);
@@ -21,6 +21,12 @@ export abstract class BaseHttpClient implements HttpClient {
         param.forEach((value) => {
           url.searchParams.append(key, value);
         });
+        return;
+      }
+
+      if (typeof param === 'number') {
+        url.searchParams.append(key, param.toFixed(3));
+
         return;
       }
 

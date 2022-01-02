@@ -13,8 +13,8 @@ export class AniskipHttpClient extends BaseHttpClient {
   constructor() {
     super(
       process.env.NODE_ENV === 'development'
-        ? 'http://localhost:5000/v1'
-        : 'https://api.aniskip.com/v1'
+        ? 'http://localhost:5000/v2'
+        : 'https://api.aniskip.com/v2'
     );
   }
 
@@ -23,15 +23,17 @@ export class AniskipHttpClient extends BaseHttpClient {
    *
    * @param animeId MAL id to get the skip times of.
    * @param episodeNumber Episode number of the anime to get the skip times of.
-   * @param type Type of skip times to get, either 'op' or 'ed'.
+   * @param type Type of skip times to get.
+   * @param episodeLength Length of the episode for filtering.
    */
   async getSkipTimes(
     animeId: number,
     episodeNumber: number,
-    types: SkipType[]
+    types: SkipType[],
+    episodeLength: number
   ): Promise<GetResponseFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
-    const params = { types };
+    const params = { 'types[]': types, episodeLength };
     const response = await this.request(route, 'GET', params);
 
     return response.json<GetResponseFromSkipTimes>();
@@ -43,7 +45,7 @@ export class AniskipHttpClient extends BaseHttpClient {
    * @param animeId MAL id to get the episode number rules of.
    */
   async getRules(animeId: number): Promise<GetResponseFromRules> {
-    const route = `/rules/${animeId}`;
+    const route = `/relation-rules/${animeId}`;
     const response = await this.request(route, 'GET');
 
     return response.json<GetResponseFromRules>();
@@ -73,12 +75,12 @@ export class AniskipHttpClient extends BaseHttpClient {
   ): Promise<PostResponseFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
     const body = JSON.stringify({
-      skip_type: skipType,
-      provider_name: providerName,
-      start_time: startTime,
-      end_time: endTime,
-      episode_length: episodeLength,
-      submitter_id: submitterId,
+      skipType,
+      providerName,
+      startTime,
+      endTime,
+      episodeLength,
+      submitterId,
     });
 
     const response = await this.request(route, 'POST', {}, body);
@@ -120,7 +122,7 @@ export class AniskipHttpClient extends BaseHttpClient {
   ): Promise<PostResponseFromSkipTimesVote> {
     const route = `/skip-times/vote/${skipId}`;
     const body = JSON.stringify({
-      vote_type: type,
+      voteType: type,
     });
     const response = await this.request(route, 'POST', {}, body);
     const { json, status } = response;

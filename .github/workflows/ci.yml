@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  continuous-integration:
+  continuous-integration-chrome:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,4 +27,16 @@ jobs:
       # run tests
       - run: yarn install
       - run: yarn lint
-      - run: yarn build
+      - run: yarn build:prod:chrome
+
+  continuous-integration-firefox:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      # run tests
+      - run: yarn install
+      - run: yarn lint
+      - run: yarn build:prod:firefox

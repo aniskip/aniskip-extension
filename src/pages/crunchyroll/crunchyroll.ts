@@ -1,6 +1,12 @@
 import { BasePage } from '../base-page';
+import { Metadata } from '../base-page.types';
+import metadata from './metadata.json';
 
 export class Crunchyroll extends BasePage {
+  static getMetadata(): Metadata {
+    return metadata;
+  }
+
   getIdentifier(): string {
     const title = this.getTitle();
     const encoded = encodeURIComponent(title.toLocaleLowerCase());
@@ -9,21 +15,22 @@ export class Crunchyroll extends BasePage {
   }
 
   getRawEpisodeNumber(): number {
-    const matches = this.pathname.match(/episode-([0-9]+)/);
-    if (matches) {
-      const episodeNumber = parseInt(matches[1], 10);
-      return episodeNumber;
-    }
+    const episodeNumberElement = document.querySelector(
+      '#showmedia_about_media > h4:not(#showmedia_about_episode_num)'
+    );
 
-    return 1;
+    const episodeNumberString = (
+      episodeNumberElement?.textContent ?? ''
+    ).trim();
+
+    return parseFloat(episodeNumberString.split('Episode ')[1]) || 1;
   }
 
   getTitle(): string {
-    const metadata = JSON.parse(
-      this.document.querySelector('[type="application/ld+json"]')?.innerHTML ??
-        '{}'
+    const pageMetadata = JSON.parse(
+      document.querySelector('[type="application/ld+json"]')?.innerHTML ?? '{}'
     );
 
-    return metadata.partOfSeason.name ?? '';
+    return pageMetadata.partOfSeason.name ?? '';
   }
 }

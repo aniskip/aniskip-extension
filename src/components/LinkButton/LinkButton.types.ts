@@ -1,5 +1,1 @@
-export type LinkButtonProps = {
-  className?: string;
-  children?: React.ReactNode;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-};
+export type LinkButtonProps = React.ComponentProps<'button'>;

@@ -2,13 +2,14 @@ import React from 'react';
 import { SkipTimeIndicatorProps } from './SkipTimeIndicator.types';
 import { getDomainName } from '../../utils';
 
-export const SkipTimeIndicator = ({
+export function SkipTimeIndicator({
   startTime,
   endTime,
   episodeLength,
-  className,
   variant,
-}: SkipTimeIndicatorProps): JSX.Element => {
+  className = '',
+  style,
+}: SkipTimeIndicatorProps): JSX.Element {
   /**
    * Calculates the percentage the skip time indicator has to be translated on the x axis.
    */
@@ -27,7 +28,8 @@ export const SkipTimeIndicator = ({
       style={{
         left: `${calculateTranslation() * 100}%`,
         width: `${calculateWidth() * 100}%`,
+        ...style,
       }}
     />
   );
-};
+}

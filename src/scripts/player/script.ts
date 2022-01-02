@@ -1,6 +1,8 @@
+import { browser } from 'webextension-polyfill-ts';
 import { PlayerFactory } from '../../players/player-factory';
+import { Message } from '../background';
 
-const player = PlayerFactory.getPlayer(window.location.hostname);
+const player = PlayerFactory.getPlayer(window.location.href);
 
 // Notify content script when video controls are found.
 new MutationObserver((_mutations, observer) => {
@@ -28,3 +30,26 @@ new MutationObserver(() => {
     };
   }
 }).observe(document, { subtree: true, childList: true });
+
+/**
+ * Handles messages from the content script.
+ *
+ * @param message Message containing the type of action and the payload.
+ */
+const messageHandler = (message: Message): any => {
+  switch (message.type) {
+    case 'initialise-skip-times': {
+      if (!player.getIsReady()) {
+        return;
+      }
+
+      player.clearSkipTimes();
+      player.initialiseSkipTimes();
+      break;
+    }
+    default:
+    // no default
+  }
+};
+
+browser.runtime.onMessage.addListener(messageHandler);

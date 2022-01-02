@@ -7,14 +7,10 @@ export type Metadata = {
   injectMenusButtonsReferenceNodeSelectorString: string;
   seekBarContainerSelectorString: string;
   seekBarContainerSelectorStringMobile?: string;
-  player_urls: string[];
+  playerUrls: string[];
 };
 
 export type Player = {
-  document: Document;
-
-  metadata: Metadata;
-
   /**
    * Adds a skip time into the player.
    *
@@ -22,6 +18,11 @@ export type Player = {
    * @param manual True if the user has to click skip opening / ending button, false if auto skip.
    */
   addSkipTime(skipTime: SkipTime, manual?: boolean): void;
+
+  /**
+   * Clears the stored skip times.
+   */
+  clearSkipTimes(): void;
 
   /**
    * Returns the video element duration.
@@ -32,6 +33,11 @@ export type Player = {
    * Returns the video element current time.
    */
   getCurrentTime(): number;
+
+  /**
+   * Returns the root video container element.
+   */
+  getVideoContainer(): HTMLElement | null;
 
   /**
    * Returns the video controls container element.
@@ -47,6 +53,16 @@ export type Player = {
    * Initialises the player by injecting the extension buttons.
    */
   initialise(): void;
+
+  /**
+   * Initialises the skip times.
+   */
+  initialiseSkipTimes(): Promise<void>;
+
+  /**
+   * Checks if the player controls are visible to the user.
+   */
+  isControlsVisible(): boolean;
 
   /**
    * Plays the player.

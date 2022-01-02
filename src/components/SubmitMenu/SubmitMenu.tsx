@@ -1,25 +1,48 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { browser } from 'webextension-polyfill-ts';
 import { FaBackward, FaForward, FaPlay, FaTimes } from 'react-icons/fa';
-import { AniskipHttpClientErrorCode, SkipTime, SkipType } from '../../api';
+import {
+  AniskipHttpClientErrorCode,
+  SkipTime,
+  SkipType,
+  SKIP_TYPE_NAMES,
+  SKIP_TYPES,
+  AniskipHttpClient,
+} from '../../api';
 import { DefaultButton } from '../DefaultButton';
-import { Dropdown } from '../Dropdown';
+import { Dropdown, DropdownOptionsProps } from '../Dropdown';
 import { Input } from '../Input';
-import { Message } from '../../scripts/background';
+import {
+  DEFAULT_SYNC_OPTIONS,
+  Message,
+  SyncOptions,
+} from '../../scripts/background';
 import {
   formatTimeString,
   secondsToTimeString,
+  serialiseKeybind,
   timeStringToSeconds,
+  useDispatch,
   usePlayerRef,
+  useSelector,
 } from '../../utils';
-import { useAniskipHttpClient, useDispatch, useSelector } from '../../hooks';
 import {
-  changeSubmitMenuVisibility,
+  submitMenuVisibilityUpdated,
+  selectChangeCurrentTimeLargeLength,
+  selectChangeCurrentTimeLength,
   selectIsSubmitMenuVisible,
+  selectKeybinds,
+  selectSkipTimeLength,
+  changeCurrentTimeLargeLengthUpdated,
+  changeCurrentTimeLengthUpdated,
+  keybindsUpdated,
+  skipTimeLengthUpdated,
 } from '../../data';
 
-export const SubmitMenu = (): JSX.Element => {
-  const { aniskipHttpClient } = useAniskipHttpClient();
+export function SubmitMenu(): JSX.Element {
+  const aniskipHttpClientRef = useRef<AniskipHttpClient>(
+    new AniskipHttpClient()
+  );
   const [skipType, setSkipType] = useState<SkipType>('op');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -34,28 +57,25 @@ export const SubmitMenu = (): JSX.Element => {
   );
   const inputPatternTestRegexRef = useRef(/^[0-9:.]*$/);
   const visible = useSelector(selectIsSubmitMenuVisible);
+  const keybinds = useSelector(selectKeybinds);
+  const skipTimeLength = useSelector(selectSkipTimeLength);
+  const changeCurrentTimeLength = useSelector(selectChangeCurrentTimeLength);
+  const changeCurrentTimeLargeLength = useSelector(
+    selectChangeCurrentTimeLargeLength
+  );
   const player = usePlayerRef();
   const dispatch = useDispatch();
 
-  /**
-   * Initialise the start time to the current time and the end time to the
-   * current time + 90 seconds.
-   */
-  useEffect(() => {
-    if (visible) {
-      const duration = player?.getDuration() ?? 0;
+  const skipTypeDropdownOptions = SKIP_TYPES.filter(
+    (type) => type !== 'preview'
+  ).map((type) => ({
+    id: type,
+    label: SKIP_TYPE_NAMES[type],
+  }));
 
-      const currentTime = player?.getCurrentTime() ?? 0;
-
-      setStartTime(secondsToTimeString(currentTime));
-      let newEndTime = currentTime + 90;
-      if (newEndTime > duration) {
-        newEndTime = Math.floor(duration);
-      }
-      setEndTime(secondsToTimeString(newEndTime));
-      setSkipType(currentTime < duration / 2 ? 'op' : 'ed');
-    }
-  }, [visible]);
+  const skipTypeDropdownOptionsProps: DropdownOptionsProps = {
+    className: 'max-h-[5.5em]',
+  };
 
   /**
    * Correct user input errors such as negative time or time greater than video
@@ -126,7 +146,7 @@ export const SubmitMenu = (): JSX.Element => {
     const endTimeSeconds = timeStringToSeconds(endTime);
 
     try {
-      const { skip_id: skipId } = await aniskipHttpClient.createSkipTimes(
+      const { skipId } = await aniskipHttpClientRef.current.createSkipTimes(
         malId,
         episodeNumber,
         skipType,
@@ -139,20 +159,20 @@ export const SubmitMenu = (): JSX.Element => {
 
       const skipTime: SkipTime = {
         interval: {
-          start_time: startTimeSeconds,
-          end_time: endTimeSeconds,
+          startTime: startTimeSeconds,
+          endTime: endTimeSeconds,
         },
-        skip_type: skipType,
-        skip_id: skipId,
-        episode_length: duration,
+        skipType,
+        skipId,
+        episodeLength: duration,
       };
 
       player?.addSkipTime(skipTime);
 
       setServerError('');
-      dispatch(changeSubmitMenuVisibility(false));
-    } catch (err) {
-      switch (err.code as AniskipHttpClientErrorCode) {
+      dispatch(submitMenuVisibilityUpdated(false));
+    } catch (error: any) {
+      switch (error.code as AniskipHttpClientErrorCode) {
         case 'skip-times/parameter-error':
           setServerError('Input errors, please double check your skip times');
           break;
@@ -178,23 +198,23 @@ export const SubmitMenu = (): JSX.Element => {
     (event: React.KeyboardEvent<HTMLInputElement>): void => {
       const timeString = event.currentTarget.value;
       const timeSeconds = timeStringToSeconds(timeString);
-      let modifier = 0.25;
+      let modifier = changeCurrentTimeLargeLength;
       let updatedTime = timeSeconds;
 
-      switch (event.key) {
-        case 'J': {
-          modifier = 0.1;
+      switch (serialiseKeybind(event)) {
+        case keybinds['decrease-current-time-large']: {
+          modifier = changeCurrentTimeLength;
         }
         /* falls through */
-        case 'j': {
+        case keybinds['decrease-current-time']: {
           updatedTime -= modifier;
           break;
         }
-        case 'L': {
-          modifier = 0.1;
+        case keybinds['increase-current-time-large']: {
+          modifier = changeCurrentTimeLength;
         }
         /* falls through */
-        case 'l': {
+        case keybinds['increase-current-time']: {
           updatedTime += modifier;
           break;
         }
@@ -219,8 +239,9 @@ export const SubmitMenu = (): JSX.Element => {
    * @param seekOffset Number to add to current time.
    */
   const onClickSeekTime = (seekOffset: number) => async (): Promise<void> => {
-    let setTimeFunction = (_newValue: string): void => {};
+    let setTimeFunction: React.Dispatch<React.SetStateAction<string>>;
     let currentTime = '';
+
     switch (currentInputFocus) {
       case 'start-time':
         setTimeFunction = setStartTime;
@@ -246,13 +267,14 @@ export const SubmitMenu = (): JSX.Element => {
    * Formats time input on blur.
    *
    * @param setTime Set time useState function.
+   * @param currentTime Current start or end time.
    */
   const onBlur =
     (
       setTime: React.Dispatch<React.SetStateAction<string>>,
       currentTime: string
     ) =>
-    async (): Promise<void> => {
+    (): void => {
       const formatted = formatTimeString(currentTime);
       const seconds = errorCorrectTime(timeStringToSeconds(formatted));
       setTime(secondsToTimeString(seconds));
@@ -262,7 +284,7 @@ export const SubmitMenu = (): JSX.Element => {
    * Closes the submit menu.
    */
   const onClickCloseButton = (): void => {
-    dispatch(changeSubmitMenuVisibility(false));
+    dispatch(submitMenuVisibilityUpdated(false));
   };
 
   /**
@@ -273,12 +295,12 @@ export const SubmitMenu = (): JSX.Element => {
 
     const skipTime: SkipTime = {
       interval: {
-        start_time: timeStringToSeconds(startTime),
-        end_time: timeStringToSeconds(endTime),
+        startTime: timeStringToSeconds(startTime),
+        endTime: timeStringToSeconds(endTime),
       },
-      skip_type: 'preview',
-      skip_id: '',
-      episode_length: episodeLength,
+      skipType: 'preview',
+      skipId: '',
+      episodeLength,
     };
 
     player?.addSkipTime(skipTime);
@@ -349,9 +371,103 @@ export const SubmitMenu = (): JSX.Element => {
     }
   };
 
+  /**
+   * Handles the mouse wheel scroll in input boxes.
+   *
+   * @param setTime Set time useState function.
+   * @param currentTime Current start or end time.
+   */
+  const onWheel =
+    (
+      setTime: React.Dispatch<React.SetStateAction<string>>,
+      currentTime: string
+    ) =>
+    (event: React.WheelEvent<HTMLInputElement>): void => {
+      const timeSeconds = timeStringToSeconds(currentTime);
+      const seekOffset = event.deltaY > 0 ? -0.01 : 0.01;
+      const updatedTime = errorCorrectTime(timeSeconds + seekOffset);
+
+      setTime(secondsToTimeString(updatedTime));
+
+      player?.setCurrentTime(updatedTime);
+    };
+
+  /**
+   * Prevents page scrolling.
+   *
+   * @param event Mouse wheel event.
+   */
+  const preventDefault = useCallback(
+    (event: WheelEvent): void => event.preventDefault(),
+    []
+  );
+
+  /**
+   * Handles the disabling of page scroll when the mouse enters the input
+   * element.
+   */
+  const onPointerEnter = (): void => {
+    window.addEventListener('wheel', preventDefault, {
+      passive: false,
+    });
+  };
+
+  /**
+   * Handles the enabling of page scroll when the mouse exists the input
+   * element.
+   */
+  const onPointerLeave = (): void => {
+    window.removeEventListener('wheel', preventDefault, false);
+  };
+
+  /**
+   * Initialise the start time to the current time and the end time to the
+   * current time + 90 (by default) seconds.
+   */
+  useEffect(() => {
+    if (!visible) {
+      return;
+    }
+
+    // Initialise the start and end time.
+    const duration = player?.getDuration() ?? 0;
+
+    const currentTime = player?.getCurrentTime() ?? 0;
+
+    setStartTime(secondsToTimeString(currentTime));
+    let newEndTime = currentTime + skipTimeLength;
+    if (newEndTime > duration) {
+      newEndTime = Math.floor(duration);
+    }
+    setEndTime(secondsToTimeString(newEndTime));
+    setSkipType(currentTime < duration / 2 ? 'op' : 'ed');
+  }, [visible]);
+
+  /**
+   * Initialise settings.
+   */
+  useEffect(() => {
+    (async (): Promise<void> => {
+      const syncOptions = (await browser.storage.sync.get(
+        DEFAULT_SYNC_OPTIONS
+      )) as SyncOptions;
+
+      dispatch(keybindsUpdated(syncOptions.keybinds));
+      dispatch(skipTimeLengthUpdated(syncOptions.skipTimeLength));
+      dispatch(
+        changeCurrentTimeLengthUpdated(syncOptions.changeCurrentTimeLength)
+      );
+      dispatch(
+        changeCurrentTimeLargeLengthUpdated(
+          syncOptions.changeCurrentTimeLargeLength
+        )
+      );
+    })();
+  }, []);
+
   return (
     <div
-      className={`text-sm md:text-base font-sans w-[26em] px-5 pt-2 pb-4 bg-trueGray-800 bg-opacity-80 border border-gray-300 select-none rounded-md transition-opacity text-white opacity-0 pointer-events-none ${
+      className={`text-sm md:text-base font-sans w-[26em] px-5 pt-2 pb-4 bg-neutral-800 bg-opacity-80 border border-gray-300 select-none rounded-md transition-opacity text-white opacity-0 pointer-events-none ${
         visible ? 'sm:opacity-100 sm:pointer-events-auto' : ''
       }`}
       role="menu"
@@ -389,6 +505,9 @@ export const SubmitMenu = (): JSX.Element => {
               onKeyDown={onKeyDown(setStartTime)}
               onFocus={(): void => setCurrentInputFocus('start-time')}
               onBlur={onBlur(setStartTime, startTime)}
+              onWheel={onWheel(setStartTime, startTime)}
+              onPointerEnter={onPointerEnter}
+              onPointerLeave={onPointerLeave}
             />
           </div>
           <div className="flex-1">
@@ -409,6 +528,9 @@ export const SubmitMenu = (): JSX.Element => {
               onKeyDown={onKeyDown(setEndTime)}
               onFocus={(): void => setCurrentInputFocus('end-time')}
               onBlur={onBlur(setEndTime, endTime)}
+              onWheel={onWheel(setEndTime, endTime)}
+              onPointerEnter={onPointerEnter}
+              onPointerLeave={onPointerLeave}
             />
           </div>
         </div>
@@ -426,9 +548,9 @@ export const SubmitMenu = (): JSX.Element => {
             </DefaultButton>
             <div className="flex justify-between bg-primary bg-opacity-80 border border-gray-300 rounded">
               <DefaultButton
-                title="Seek -0.25s"
+                title={`Seek -${changeCurrentTimeLargeLength}s`}
                 className="group px-3"
-                onClick={onClickSeekTime(-0.25)}
+                onClick={onClickSeekTime(-changeCurrentTimeLargeLength)}
               >
                 <FaBackward
                   className="transition-transform duration-150 transform group-hover:scale-125 group-active:scale-100"
@@ -442,9 +564,9 @@ export const SubmitMenu = (): JSX.Element => {
                 Now
               </DefaultButton>
               <DefaultButton
-                title="Seek +0.25s"
+                title={`Seek +${changeCurrentTimeLargeLength}s`}
                 className="group px-3"
-                onClick={onClickSeekTime(0.25)}
+                onClick={onClickSeekTime(changeCurrentTimeLargeLength)}
               >
                 <FaForward
                   className="transition-transform duration-150 transform group-hover:scale-125 group-active:scale-100"
@@ -467,10 +589,8 @@ export const SubmitMenu = (): JSX.Element => {
               className="flex-1 text-sm"
               value={skipType}
               onChange={setSkipType}
-              options={[
-                { value: 'op', label: 'Opening' },
-                { value: 'ed', label: 'Ending' },
-              ]}
+              options={skipTypeDropdownOptions}
+              dropdownOptionsProps={skipTypeDropdownOptionsProps}
             />
             <div className="flex-1">
               <DefaultButton
@@ -489,4 +609,4 @@ export const SubmitMenu = (): JSX.Element => {
       </form>
     </div>
   );
-};
+}

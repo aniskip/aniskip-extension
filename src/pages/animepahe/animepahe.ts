@@ -1,25 +1,32 @@
 import { getDomainName } from '../../utils';
 import { BasePage } from '../base-page';
+import { Metadata } from '../base-page.types';
+import metadata from './metadata.json';
 
 export class Animepahe extends BasePage {
-  constructor(hostname: string, pathname: string, document: Document) {
-    super(hostname, pathname, document);
-    const domainName = getDomainName(hostname);
+  constructor() {
+    super();
+
+    const domainName = getDomainName(window.location.hostname);
     this.providerName = domainName;
   }
 
+  static getMetadata(): Metadata {
+    return metadata;
+  }
+
   getTitle(): string {
-    const titleElement = this.document.getElementsByTagName('title')[0];
+    const titleElement = document.getElementsByTagName('title')[0];
     if (!titleElement) {
       return '';
     }
 
-    return titleElement.innerHTML.split('. Ep')[0];
+    return titleElement.innerText.split(' Ep')[0];
   }
 
   getIdentifier(): string {
     const [identifierScript] = Array.from(
-      this.document.getElementsByTagName('script')
+      document.getElementsByTagName('script')
     ).filter((script) => script.innerHTML.includes('getUrls'));
 
     if (!identifierScript) {
@@ -36,14 +43,15 @@ export class Animepahe extends BasePage {
   }
 
   getRawEpisodeNumber(): number {
-    const episodeMenuButton = this.document.getElementById('episodeMenu');
+    const episodeMenuButton = document.getElementById('episodeMenu');
 
     if (!episodeMenuButton) {
       return 0;
     }
 
-    const episodeString = episodeMenuButton.innerHTML.split('Episode ')[1];
+    const episodeNumberString =
+      episodeMenuButton.innerText.split('Episode ')[1];
 
-    return parseInt(episodeString, 10);
+    return parseFloat(episodeNumberString);
   }
 }
