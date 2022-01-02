@@ -180,7 +180,7 @@ export class BasePlayer implements Player {
 
       if (
         isAutoSkip &&
-        currentTime < startTime + offset &&
+        currentTime <= startTime + offset &&
         startTime + offset < earliestStartTime
       ) {
         earliestStartTime = startTime;
