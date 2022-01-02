@@ -1,6 +1,9 @@
 {
-  "extends": ["config:base", ":preserveSemverRanges"],
-  "lockFileMaintenance": {
-    "extends": ["group:recommended", "group:monorepos"]
-  }
+  "extends": ["config:base"],
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["*"],
+      "rangeStrategy": "bump"
+    }
+  ]
 }
