@@ -106,6 +106,7 @@ export class BasePlayer implements Player {
     }
 
     const isAutoSkip = this.skipOptions[skipTime.skipType] === 'auto-skip';
+
     if (!isAutoSkip) {
       return;
     }
@@ -115,9 +116,8 @@ export class BasePlayer implements Player {
     const currentTime = this.getCurrentTime();
 
     // Skip time loaded late.
-    if (isInInterval(startTime, endTime, currentTime, offset)) {
+    if (isInInterval(startTime, startTime + 0.25, currentTime)) {
       this.setCurrentTime(endTime + offset);
-      this.play();
     }
   }
 
@@ -180,7 +180,7 @@ export class BasePlayer implements Player {
 
       if (
         isAutoSkip &&
-        currentTime < startTime + offset &&
+        currentTime <= startTime + offset &&
         startTime + offset < earliestStartTime
       ) {
         earliestStartTime = startTime;
@@ -365,11 +365,14 @@ export class BasePlayer implements Player {
     if (this.videoElement && this.getVideoControlsContainer()) {
       this.isReady = true;
 
-      this.videoElement.addEventListener('timeupdate', () => {
+      const listener = (): void => {
         this.scheduleSkipTimes();
         this.skipButtonRenderer.render();
         this.skipTimeIndicatorsRenderer.render();
-      });
+      };
+
+      this.videoElement.addEventListener('timeupdate', listener);
+      this.videoElement.addEventListener('playing', listener);
 
       this.initialiseSkipTimes();
     }

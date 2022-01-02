@@ -56,18 +56,19 @@ export function SkipButtonContainer(): JSX.Element | null {
     let minimumDistance = Infinity;
 
     skipTimes.forEach((skipTime) => {
-      if (skipTime.skipType === 'preview') {
+      const { skipType } = skipTime;
+      const isAutoSkip = skipOptions[skipType] === 'auto-skip';
+
+      if (skipType === 'preview' || isAutoSkip) {
         return;
       }
 
-      const { skipType, interval } = skipTime;
+      const { interval } = skipTime;
       const offset = videoDuration - skipTime.episodeLength;
-      const isManualSkip = skipOptions[skipType] === 'manual-skip';
-
       const distance = Math.abs(interval.endTime - currentTime);
 
       if (
-        (isManualSkip && distance < minimumDistance) ||
+        distance < minimumDistance ||
         isInInterval(interval.startTime, interval.endTime, currentTime, offset)
       ) {
         closestSkipTime = skipTime;
