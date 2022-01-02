@@ -177,8 +177,10 @@ browser.runtime.onInstalled.addListener((details) => {
     }
     case 'update': {
       Promise.all([
-        addDefaultSyncOptions(),
-        showChangelogNotification(),
+        (async (): Promise<void> => {
+          await addDefaultSyncOptions();
+          return showChangelogNotification();
+        })(),
         (async (): Promise<void> => {
           await addDefaultLocalOptions();
           return resetCache();
