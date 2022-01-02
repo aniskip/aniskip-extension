@@ -1,8 +1,7 @@
-export type Response = {
-  body: string;
-  json: <T>() => T;
-  ok: boolean;
+export type Response<D = any> = {
+  data: D;
   status: number;
+  ok: boolean;
 };
 
 export type HttpClient = {
@@ -13,13 +12,13 @@ export type HttpClient = {
    *
    * @param route API route to request.
    * @param method Method to request with.
+   * @param data The body of the request.
    * @param params Url search parameters to add.
-   * @param body The body of the request.
    */
-  request(
+  request<T>(
     route: string,
     method: string,
-    params: Record<string, string>,
-    body: string
+    data: T,
+    params: Record<string, string>
   ): Promise<Response>;
 };

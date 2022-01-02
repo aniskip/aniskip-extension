@@ -8,6 +8,7 @@ export * from './MenuContainer';
 export * from './Menus';
 export * from './Overlay';
 export * from './PlayerButtons';
+export * from './Searchbox';
 export * from './SkipButton';
 export * from './SkipButtonContainer';
 export * from './SkipTimeIndicator';

@@ -9,45 +9,19 @@ export abstract class BaseHttpClient implements HttpClient {
     this.baseUrl = baseUrl;
   }
 
-  async request(
+  async request<T = any, D = any>(
     route: string,
     method: string,
-    params: Record<string, string | string[] | number> = {},
-    body: string = ''
-  ): Promise<Response> {
-    const url = new URL(`${this.baseUrl}${route}`);
-    Object.entries(params).forEach(([key, param]) => {
-      if (Array.isArray(param)) {
-        param.forEach((value) => {
-          url.searchParams.append(key, value);
-        });
-        return;
-      }
-
-      if (typeof param === 'number') {
-        url.searchParams.append(key, param.toFixed(3));
-
-        return;
-      }
-
-      url.searchParams.append(key, param);
-    });
-    const options: RequestInit = {
-      method,
-    };
-
-    if (method === 'POST' && body) {
-      options.headers = {
-        'Content-Type': 'application/json',
-      };
-      options.body = body;
-    }
+    data?: T,
+    params?: Record<string, string | string[] | number>
+  ): Promise<Response<D>> {
+    const url = `${this.baseUrl}${route}`;
 
     const response = await browser.runtime.sendMessage({
       type: 'fetch',
-      payload: { url: url.toString(), options },
+      payload: { url: url.toString(), method, data, params },
     } as Message);
 
-    return { ...response, json: <T>(): T => JSON.parse(response.body) as T };
+    return response;
   }
 }

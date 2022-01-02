@@ -17,6 +17,7 @@ switch (process.env.BROWSER) {
     startUrl.unshift('addons.mozilla.org/en-US/firefox/addon/ublock-origin/');
     break;
   default:
+  // no default
 }
 
 module.exports = {

@@ -198,12 +198,12 @@ export function SubmitMenu(): JSX.Element {
     (event: React.KeyboardEvent<HTMLInputElement>): void => {
       const timeString = event.currentTarget.value;
       const timeSeconds = timeStringToSeconds(timeString);
-      let modifier = changeCurrentTimeLargeLength;
+      let modifier = changeCurrentTimeLength;
       let updatedTime = timeSeconds;
 
       switch (serialiseKeybind(event)) {
         case keybinds['decrease-current-time-large']: {
-          modifier = changeCurrentTimeLength;
+          modifier = changeCurrentTimeLargeLength;
         }
         /* falls through */
         case keybinds['decrease-current-time']: {
@@ -211,7 +211,7 @@ export function SubmitMenu(): JSX.Element {
           break;
         }
         case keybinds['increase-current-time-large']: {
-          modifier = changeCurrentTimeLength;
+          modifier = changeCurrentTimeLargeLength;
         }
         /* falls through */
         case keybinds['increase-current-time']: {
@@ -219,6 +219,7 @@ export function SubmitMenu(): JSX.Element {
           break;
         }
         default:
+        // no default
       }
 
       if (updatedTime === timeSeconds) {
@@ -320,6 +321,7 @@ export function SubmitMenu(): JSX.Element {
         setEndTime(secondsToTimeString(currentTime));
         break;
       default:
+      // no default
     }
   };
 
@@ -338,6 +340,7 @@ export function SubmitMenu(): JSX.Element {
         setEndTime(secondsToTimeString(trimmedDuration));
         break;
       default:
+      // no default
     }
   };
 
@@ -541,12 +544,12 @@ export function SubmitMenu(): JSX.Element {
           <div className="font-bold text-xs uppercase mb-1">Time controls</div>
           <div className="flex space-x-2">
             <DefaultButton
-              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 font-medium"
+              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 font-medium hover:bg-amber-600"
               onClick={onClickPreviewButton}
             >
               Preview
             </DefaultButton>
-            <div className="flex justify-between bg-primary bg-opacity-80 border border-gray-300 rounded">
+            <div className="flex justify-between bg-primary bg-opacity-80 border border-gray-300 rounded hover:bg-amber-600">
               <DefaultButton
                 title={`Seek -${changeCurrentTimeLargeLength}s`}
                 className="group px-3"
@@ -575,7 +578,7 @@ export function SubmitMenu(): JSX.Element {
               </DefaultButton>
             </div>
             <DefaultButton
-              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 font-medium"
+              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 font-medium hover:bg-amber-600"
               onClick={onClickEndButton}
             >
               End
@@ -592,13 +595,15 @@ export function SubmitMenu(): JSX.Element {
               options={skipTypeDropdownOptions}
               dropdownOptionsProps={skipTypeDropdownOptionsProps}
             />
-            <div className="flex-1">
+            <div className="flex-1 group">
               <DefaultButton
-                className="w-full h-full shadow-sm bg-primary bg-opacity-80 border border-gray-300"
+                className="w-full h-full shadow-sm border-2 boder-opacity-100 border-primary group-hover:border-amber-600"
                 submit
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Submitting...' : 'Submit'}
+                <span className="text-opacity-100 font-medium text-primary group-hover:text-amber-600">
+                  {isSubmitting ? 'Submitting...' : 'Submit'}
+                </span>
               </DefaultButton>
             </div>
           </div>

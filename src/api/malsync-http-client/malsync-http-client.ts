@@ -22,16 +22,17 @@ export class MalsyncHttpClient extends BaseHttpClient {
 
     switch (response.status) {
       case 400:
-        throw new MalsyncHttpClientError(response.body, 'page/not-found');
+        throw new MalsyncHttpClientError(response.data, 'page/not-found');
       case 429:
         throw new MalsyncHttpClientError(
           'Too many requests, please try again later',
           'page/rate-limited'
         );
       default:
+      // no default
     }
 
-    return response.json<GetResponseFromPage>();
+    return response.data;
   }
 
   /**

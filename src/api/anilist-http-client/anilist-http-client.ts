@@ -24,13 +24,14 @@ export class AnilistHttpClient extends BaseHttpClient {
     variables: Record<string, string | number>
   ): Promise<T> {
     const route = '/';
-    const body = JSON.stringify({
+    const data = {
       query,
       variables,
-    });
-    const response = await this.request(route, 'POST', undefined, body);
+    };
 
-    return response.json<T>();
+    const response = await this.request(route, 'POST', data);
+
+    return response.data;
   }
 
   /**

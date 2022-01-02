@@ -61,11 +61,15 @@ export function SkipButtonContainer(): JSX.Element | null {
       }
 
       const { skipType, interval } = skipTime;
+      const offset = videoDuration - skipTime.episodeLength;
       const isManualSkip = skipOptions[skipType] === 'manual-skip';
 
-      const distance = Math.abs(currentTime - interval.startTime);
+      const distance = Math.abs(interval.endTime - currentTime);
 
-      if (isManualSkip && distance < minimumDistance) {
+      if (
+        (isManualSkip && distance < minimumDistance) ||
+        isInInterval(interval.startTime, interval.endTime, currentTime, offset)
+      ) {
         closestSkipTime = skipTime;
         minimumDistance = distance;
       }
