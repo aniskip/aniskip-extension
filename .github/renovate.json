@@ -1,7 +1,12 @@
 {
-  "extends": ["config:base", ":preserveSemverRanges"],
+  "extends": ["config:base"],
   "lockFileMaintenance": {
     "enabled": true
   },
-  "rangeStrategy": "bump"
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["*"],
+      "rangeStrategy": "bump"
+    }
+  ]
 }
