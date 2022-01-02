@@ -1,0 +1,10 @@
+{
+  "extends": ["config:base"],
+  "lockFileMaintenance": { "enabled": true },
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["*"],
+      "rangeStrategy": "bump"
+    }
+  ]
+}
