@@ -106,6 +106,7 @@ export class BasePlayer implements Player {
     }
 
     const isAutoSkip = this.skipOptions[skipTime.skipType] === 'auto-skip';
+
     if (!isAutoSkip) {
       return;
     }
@@ -115,9 +116,8 @@ export class BasePlayer implements Player {
     const currentTime = this.getCurrentTime();
 
     // Skip time loaded late.
-    if (isInInterval(startTime, endTime, currentTime, offset)) {
+    if (isInInterval(startTime, startTime + 0.25, currentTime)) {
       this.setCurrentTime(endTime + offset);
-      this.play();
     }
   }
 
