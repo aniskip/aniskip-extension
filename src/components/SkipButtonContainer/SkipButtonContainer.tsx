@@ -67,8 +67,14 @@ export function SkipButtonContainer(): JSX.Element | null {
       const distance = Math.abs(interval.endTime - currentTime);
 
       if (
-        (isManualSkip && distance < minimumDistance) ||
-        isInInterval(interval.startTime, interval.endTime, currentTime, offset)
+        isManualSkip &&
+        (distance < minimumDistance ||
+          isInInterval(
+            interval.startTime,
+            interval.endTime,
+            currentTime,
+            offset
+          ))
       ) {
         closestSkipTime = skipTime;
         minimumDistance = distance;
