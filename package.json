@@ -44,7 +44,7 @@
     "@types/remote-redux-devtools": "^0.5.5",
     "@types/sprintf-js": "^1.1.2",
     "@types/string-similarity": "^4.0.0",
-    "@types/tailwindcss": "^3.0.0",
+    "@types/tailwindcss": "^3.0.1",
     "@types/uuid": "^8.3.3",
     "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^5.8.1",
