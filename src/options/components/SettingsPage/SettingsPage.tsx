@@ -252,7 +252,7 @@ export function SettingsPage(): JSX.Element {
   const renderKeybind = (keybind: string, type?: KeybindType): JSX.Element => {
     if (!keybind) {
       return (
-        <div className="px-4 py-2 border-transparent rounded text-sm bg-primary border border-gray-300 text-white font-medium focus:outline-none sm:w-auto w-full">
+        <div className="px-4 py-2 border-transparent rounded text-sm bg-primary border border-gray-300 text-white font-medium focus:outline-none">
           Add keybind
         </div>
       );
