@@ -94,3 +94,9 @@ export type Player = {
    */
   setVideoElement(videoElement: HTMLVideoElement): void;
 };
+
+/**
+ * Frame rate constant. We are unable to retrieve the frame rate of the video
+ * dynamically at the moment.
+ */
+export const FRAME_RATE = 1 / 24;

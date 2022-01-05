@@ -26,6 +26,7 @@ import {
   useDispatch,
   usePlayerRef,
   useSelector,
+  useWindowEvent,
 } from '../../utils';
 import {
   submitMenuVisibilityUpdated,
@@ -449,7 +450,7 @@ export function SubmitMenu(): JSX.Element {
     setSkipType(currentTime < duration / 2 ? 'op' : 'ed');
 
     // Initialise preview skip time.
-    const episodeLength = player?.getDuration() || 0;
+    const episodeLength = player?.getDuration() ?? 0;
 
     const previewSkipTime: PreviewSkipTime = {
       interval: {
@@ -511,6 +512,26 @@ export function SubmitMenu(): JSX.Element {
       })
     );
   }, [endTime]);
+
+  useWindowEvent('keyup', (event: KeyboardEvent) => {
+    const setTime =
+      currentInputFocus === 'start-time' ? setStartTime : setEndTime;
+
+    const currentTime = player?.getCurrentTime() ?? 0;
+    const currentTimeString = secondsToTimeString(currentTime);
+
+    switch (serialiseKeybind(event)) {
+      case keybinds['seek-forward-one-frame']:
+      case keybinds['seek-backward-one-frame']: {
+        // No need to add or remove one frame as it is already updated due to
+        // order of event listener registration.
+        setTime(currentTimeString);
+        break;
+      }
+      default:
+      // no default
+    }
+  });
 
   return (
     <div

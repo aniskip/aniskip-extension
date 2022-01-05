@@ -8,5 +8,5 @@ export * from './shadow-dom';
 export * from './string';
 export * from './time';
 export * from './types';
-export * from './window';
 export * from './variant';
+export * from './window';

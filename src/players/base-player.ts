@@ -13,7 +13,7 @@ import {
   SkipOptions,
   SyncOptions,
 } from '../scripts/background';
-import { Player, Metadata } from './base-player.types';
+import { Player, Metadata, FRAME_RATE } from './base-player.types';
 import { AniskipHttpClient, PreviewSkipTime, SkipTime, SkipType } from '../api';
 import {
   isInInterval,
@@ -68,8 +68,6 @@ export class BasePlayer implements Player {
     this.skipOptions = DEFAULT_SKIP_OPTIONS;
 
     this.keydownEventHandler = (event: KeyboardEvent): void => {
-      const FRAME_RATE = 1 / 24;
-
       switch (serialiseKeybind(event)) {
         case this.keybinds['seek-backward-one-frame']: {
           this.setCurrentTime(
@@ -317,6 +315,7 @@ export class BasePlayer implements Player {
    * Injects keybinds which control the player time.
    */
   injectPlayerControlKeybinds(): void {
+    window.removeEventListener('keydown', this.keydownEventHandler);
     window.addEventListener('keydown', this.keydownEventHandler);
   }
 
@@ -419,8 +418,6 @@ export class BasePlayer implements Player {
   }
 
   reset(): void {
-    window.removeEventListener('keydown', this.keydownEventHandler);
-
     this.clearScheduledSkipTime();
     this.store.dispatch(stateReset());
   }
