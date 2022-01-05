@@ -302,7 +302,12 @@ export function SubmitMenu(): JSX.Element {
   ): Promise<void> => {
     event.currentTarget.blur();
 
-    player?.setCurrentTime(timeStringToSeconds(startTime) - 2);
+    if (currentInputFocus === 'start-time') {
+      player?.setCurrentTime(timeStringToSeconds(startTime) - 2);
+    } else {
+      player?.setCurrentTime(timeStringToSeconds(endTime));
+    }
+
     player?.play();
   };
 
