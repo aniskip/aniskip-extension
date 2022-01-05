@@ -539,7 +539,7 @@ export function SubmitMenu(): JSX.Element {
 
   return (
     <div
-      className={`text-sm md:text-base font-sans w-[26em] px-5 pt-2 pb-4 bg-neutral-800 bg-opacity-80 border border-gray-300 select-none rounded-md transition-opacity text-white opacity-0 pointer-events-none ${
+      className={`text-sm md:text-base font-sans w-[26em] px-5 pt-2 pb-4 bg-neutral-800 bg-opacity-80 border border-gray-300 select-none rounded-md transition-opacity text-white opacity-0 pointer-events-none backdrop-blur-md ${
         visible ? 'sm:opacity-100 sm:pointer-events-auto' : ''
       }`}
       role="menu"
