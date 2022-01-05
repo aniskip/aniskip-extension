@@ -18,6 +18,7 @@ import {
   SkipOptionType,
   SyncOptions,
   AnimeTitleLanguageType,
+  PLAYER_CONTROLS_KEYBIND_TYPES,
 } from '../../../scripts/background';
 import {
   selectSkipTimeIndicatorColours,
@@ -482,12 +483,21 @@ export function SettingsPage(): JSX.Element {
           (type): JSX.Element => renderKeybindSetting(keybinds[type], type)
         )}
       </div>
-      <hr className="mt-3" />
+      <hr className="my-3" />
       <span className="text-xs text-gray-700 uppercase font-semibold">
         Submit menu
       </span>
       <div className="space-y-3 divide-y">
         {SUBMIT_MENU_KEYBIND_TYPES.map(
+          (type): JSX.Element => renderKeybindSetting(keybinds[type], type)
+        )}
+      </div>
+      <hr className="my-3" />
+      <span className="text-xs text-gray-700 uppercase font-semibold">
+        Player controls
+      </span>
+      <div className="space-y-3 divide-y">
+        {PLAYER_CONTROLS_KEYBIND_TYPES.map(
           (type): JSX.Element => renderKeybindSetting(keybinds[type], type)
         )}
       </div>

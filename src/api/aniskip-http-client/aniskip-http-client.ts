@@ -6,7 +6,7 @@ import {
   SkipType,
   VoteType,
 } from './aniskip-http-client.types';
-import { BaseHttpClient } from '../base-http-client';
+import { BaseHttpClient, Response } from '../base-http-client';
 import { AniskipHttpClientError } from './error';
 
 export class AniskipHttpClient extends BaseHttpClient {
@@ -48,7 +48,11 @@ export class AniskipHttpClient extends BaseHttpClient {
     const route = `/relation-rules/${animeId}`;
     const response = await this.request(route, 'GET');
 
-    return response.data;
+    if (response.ok) {
+      return response.data;
+    }
+
+    throw this.getError(response);
   }
 
   /**
@@ -94,24 +98,7 @@ export class AniskipHttpClient extends BaseHttpClient {
       return json;
     }
 
-    switch (response.status) {
-      case 429:
-        throw new AniskipHttpClientError(
-          json.message,
-          'skip-times/rate-limited'
-        );
-      case 400:
-        throw new AniskipHttpClientError(
-          json.message,
-          'skip-times/parameter-error'
-        );
-      case 500:
-      default:
-        throw new AniskipHttpClientError(
-          'Internal Server Error',
-          'skip-times/internal-server-error'
-        );
-    }
+    throw this.getError(response);
   }
 
   /**
@@ -154,5 +141,31 @@ export class AniskipHttpClient extends BaseHttpClient {
    */
   async downvote(skipId: string): Promise<PostResponseFromSkipTimesVote> {
     return this.vote(skipId, 'downvote');
+  }
+
+  /**
+   * Returns an appropriate error when the response is not ok.
+   *
+   * @param response Response of the HTTP request.
+   */
+  getError(response: Response): AniskipHttpClientError {
+    switch (response.status) {
+      case 429:
+        return new AniskipHttpClientError(
+          response.data.message,
+          'skip-times/rate-limited'
+        );
+      case 400:
+        return new AniskipHttpClientError(
+          response.data.message,
+          'skip-times/parameter-error'
+        );
+      case 500:
+      default:
+        return new AniskipHttpClientError(
+          'Internal Server Error',
+          'skip-times/internal-server-error'
+        );
+    }
   }
 }

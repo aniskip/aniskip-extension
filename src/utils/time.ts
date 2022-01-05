@@ -31,3 +31,14 @@ export const getNextWeekDate = (): Date => {
 
   return nextWeek;
 };
+
+/**
+ * Returns the number rounded to the closest multiple.
+ *
+ * @param number Number to round.
+ * @param multiple Multiple to round to.
+ */
+export const roundToClosestMultiple = (
+  number: number,
+  multiple: number
+): number => multiple * Math.round(number / multiple);

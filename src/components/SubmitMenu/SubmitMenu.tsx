@@ -239,30 +239,34 @@ export function SubmitMenu(): JSX.Element {
    *
    * @param seekOffset Number to add to current time.
    */
-  const onClickSeekTime = (seekOffset: number) => async (): Promise<void> => {
-    let setTimeFunction: React.Dispatch<React.SetStateAction<string>>;
-    let currentTime = '';
+  const onClickSeekTime =
+    (seekOffset: number) =>
+    async (event: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+      event.currentTarget.blur();
 
-    switch (currentInputFocus) {
-      case 'start-time':
-        setTimeFunction = setStartTime;
-        currentTime = startTime;
-        break;
-      case 'end-time':
-        setTimeFunction = setEndTime;
-        currentTime = endTime;
-        break;
-      default:
-        return;
-    }
+      let setTimeFunction: React.Dispatch<React.SetStateAction<string>>;
+      let currentTime = '';
 
-    const updatedTime = errorCorrectTime(
-      timeStringToSeconds(currentTime) + seekOffset
-    );
+      switch (currentInputFocus) {
+        case 'start-time':
+          setTimeFunction = setStartTime;
+          currentTime = startTime;
+          break;
+        case 'end-time':
+          setTimeFunction = setEndTime;
+          currentTime = endTime;
+          break;
+        default:
+          return;
+      }
 
-    setTimeFunction(secondsToTimeString(updatedTime));
-    player?.setCurrentTime(updatedTime);
-  };
+      const updatedTime = errorCorrectTime(
+        timeStringToSeconds(currentTime) + seekOffset
+      );
+
+      setTimeFunction(secondsToTimeString(updatedTime));
+      player?.setCurrentTime(updatedTime);
+    };
 
   /**
    * Formats time input on blur.
@@ -291,7 +295,11 @@ export function SubmitMenu(): JSX.Element {
   /**
    * Adds a preview skip time.
    */
-  const onClickPreviewButton = async (): Promise<void> => {
+  const onClickPreviewButton = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
+    event.currentTarget.blur();
+
     const episodeLength = player?.getDuration() ?? 0;
 
     const skipTime: SkipTime = {
@@ -310,7 +318,11 @@ export function SubmitMenu(): JSX.Element {
   /**
    * Sets the focused input to the current player time.
    */
-  const onClickNowButton = async (): Promise<void> => {
+  const onClickNowButton = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
+    event.currentTarget.blur();
+
     const currentTime = player?.getCurrentTime() ?? 0;
 
     switch (currentInputFocus) {
@@ -328,7 +340,11 @@ export function SubmitMenu(): JSX.Element {
   /**
    * Sets the focused input to the video duration.
    */
-  const onClickEndButton = async (): Promise<void> => {
+  const onClickEndButton = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
+    event.currentTarget.blur();
+
     const duration = player?.getDuration() ?? 0;
     const trimmedDuration = Math.floor(duration);
 

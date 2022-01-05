@@ -6,13 +6,20 @@ import {
   SkipTimeIndicatorsRenderer,
 } from '../renderers';
 import {
+  DEFAULT_KEYBINDS,
   DEFAULT_SKIP_OPTIONS,
+  Keybinds,
   Message,
   SkipOptions,
+  SyncOptions,
 } from '../scripts/background';
 import { Player, Metadata } from './base-player.types';
 import { AniskipHttpClient, SkipTime, SkipType } from '../api';
-import { isInInterval } from '../utils';
+import {
+  isInInterval,
+  roundToClosestMultiple,
+  serialiseKeybind,
+} from '../utils';
 import {
   skipTimeAdded,
   previewSkipTimesRemoved,
@@ -34,6 +41,10 @@ export class BasePlayer implements Player {
 
   store: Store;
 
+  keybinds: Keybinds;
+
+  keydownEventHandler: (event: KeyboardEvent) => void;
+
   lastControlsOpacity: number;
 
   isReady: boolean;
@@ -51,15 +62,47 @@ export class BasePlayer implements Player {
     this.videoElement = null;
     this.scheduledSkipTime = undefined;
     this.store = configureStore('aniskip-player');
+    this.keybinds = DEFAULT_KEYBINDS;
     this.lastControlsOpacity = 0;
     this.isReady = false;
     this.skipOptions = DEFAULT_SKIP_OPTIONS;
 
+    this.keydownEventHandler = (event: KeyboardEvent): void => {
+      const FRAME_RATE = 1 / 24;
+
+      switch (serialiseKeybind(event)) {
+        case this.keybinds['seek-backward-one-frame']: {
+          this.setCurrentTime(
+            roundToClosestMultiple(
+              this.getCurrentTime() - FRAME_RATE,
+              FRAME_RATE
+            )
+          );
+          break;
+        }
+        case this.keybinds['seek-forward-one-frame']: {
+          this.setCurrentTime(
+            roundToClosestMultiple(
+              this.getCurrentTime() + FRAME_RATE,
+              FRAME_RATE
+            )
+          );
+          break;
+        }
+        default:
+        // no default
+      }
+    };
+
     (async (): Promise<void> => {
-      const { skipOptions } = await browser.storage.sync.get({
+      const { skipOptions, keybinds } = (await browser.storage.sync.get({
         skipOptions: DEFAULT_SKIP_OPTIONS,
-      });
+        keybinds: DEFAULT_KEYBINDS,
+      })) as SyncOptions;
+
       this.skipOptions = skipOptions;
+      this.keybinds = keybinds;
+      this.injectPlayerControlKeybinds();
     })();
 
     this.skipButtonRenderer = new SkipButtonsRenderer(
@@ -234,6 +277,7 @@ export class BasePlayer implements Player {
 
   initialise(): void {
     this.reset();
+    this.injectPlayerControlKeybinds();
     this.injectSubmitMenu();
     this.injectSubmitMenuButton();
     this.injectSkipTimeIndicator();
@@ -278,6 +322,13 @@ export class BasePlayer implements Player {
         this.addSkipTime(skipTime)
       );
     }
+  }
+
+  /**
+   * Injects keybinds which control the player time.
+   */
+  injectPlayerControlKeybinds(): void {
+    window.addEventListener('keydown', this.keydownEventHandler);
   }
 
   /**
@@ -379,6 +430,8 @@ export class BasePlayer implements Player {
   }
 
   reset(): void {
+    window.removeEventListener('keydown', this.keydownEventHandler);
+
     this.clearScheduledSkipTime();
     this.store.dispatch(stateReset());
   }
@@ -432,6 +485,18 @@ export class BasePlayer implements Player {
    */
   setCurrentTime(time: number): void {
     if (!this.videoElement) {
+      return;
+    }
+
+    if (time < 0) {
+      this.videoElement.currentTime = 0;
+
+      return;
+    }
+
+    if (time > this.videoElement.duration) {
+      this.videoElement.currentTime = this.videoElement.duration;
+
       return;
     }
 
