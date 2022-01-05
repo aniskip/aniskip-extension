@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction, Selector } from '@reduxjs/toolkit';
 import { PreviewSkipTime, SkipTime } from '../../api';
 import { StateSlice } from '../../utils/types';
-import { PlayerState, PreviewSkipTimeUpdatedPayload } from './types';
+import {
+  KeyboardEventListenerType,
+  PlayerState,
+  PreviewSkipTimeUpdatedPayload,
+} from './types';
 
 /**
  * Initial state.
@@ -11,6 +15,7 @@ const initialPlayerState: PlayerState = {
   skipTimes: [],
   isSubmitMenuVisible: false,
   isVoteMenuVisible: false,
+  playerControlsListenerType: 'keydown',
 };
 
 /**
@@ -35,6 +40,11 @@ export const selectIsSubmitMenuVisible: Selector<
   StateSlice<PlayerState, 'player'>,
   boolean
 > = (state) => state.player.isSubmitMenuVisible;
+
+export const selectPlayerControlsListenerType: Selector<
+  StateSlice<PlayerState, 'player'>,
+  KeyboardEventListenerType
+> = (state) => state.player.playerControlsListenerType;
 
 /**
  * Slice definition.
@@ -82,6 +92,12 @@ const playerStateSlice = createSlice({
     skipTimesRemoved: (state) => {
       state.skipTimes = [];
     },
+    playerControlsListenerTypeUpdated: (
+      state,
+      action: PayloadAction<KeyboardEventListenerType>
+    ) => {
+      state.playerControlsListenerType = action.payload;
+    },
     stateReset: () => initialPlayerState,
   },
 });
@@ -95,6 +111,7 @@ export const {
   voteMenuVisibilityUpdated,
   skipTimeRemoved,
   skipTimesRemoved,
+  playerControlsListenerTypeUpdated,
   stateReset,
 } = playerStateSlice.actions;
 export default playerStateSlice.reducer;

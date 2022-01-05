@@ -1,5 +1,5 @@
-import { browser } from 'webextension-polyfill-ts';
-import { Message } from '../../scripts/background';
+import { playerControlsListenerTypeUpdated } from '../../data';
+import { getDomainName } from '../../utils';
 import { BasePlayer } from '../base-player';
 import { Metadata } from '../base-player.types';
 import metadata from './metadata.json';
@@ -7,22 +7,6 @@ import metadata from './metadata.json';
 export class Plyr extends BasePlayer {
   constructor() {
     super(metadata);
-
-    (async (): Promise<void> => {
-      const { providerName } = await browser.runtime.sendMessage({
-        type: 'get-episode-information',
-      } as Message);
-
-      // AniMixPlay player already has frame scrubbing.
-      if (providerName !== 'AniMixPlay') {
-        return;
-      }
-
-      window.removeEventListener('keydown', this.keydownEventHandler);
-
-      this.keydownEventHandler = (): void => {};
-      this.injectPlayerControlKeybinds();
-    })();
   }
 
   static getMetadata(): Metadata {
@@ -43,5 +27,23 @@ export class Plyr extends BasePlayer {
     return super.getContainerHelper(
       metadata.injectMenusButtonsReferenceNodeSelectorString
     );
+  }
+
+  initialise(): void {
+    super.initialise();
+
+    // AniMixPlay player already has frame scrubbing.
+    const domainName = getDomainName(window.location.hostname);
+
+    if (domainName !== 'vvid') {
+      return;
+    }
+
+    window.removeEventListener('keydown', this.keydownEventHandler);
+
+    this.keydownEventHandler = (): void => {};
+    this.injectPlayerControlKeybinds();
+
+    this.store.dispatch(playerControlsListenerTypeUpdated('keyup'));
   }
 }

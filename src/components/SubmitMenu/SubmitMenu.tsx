@@ -42,6 +42,7 @@ import {
   previewSkipTimeAdded,
   previewSkipTimeRemoved,
   previewSkipTimeIntervalUpdated,
+  selectPlayerControlsListenerType,
 } from '../../data';
 
 export function SubmitMenu(): JSX.Element {
@@ -67,6 +68,9 @@ export function SubmitMenu(): JSX.Element {
   const changeCurrentTimeLength = useSelector(selectChangeCurrentTimeLength);
   const changeCurrentTimeLargeLength = useSelector(
     selectChangeCurrentTimeLargeLength
+  );
+  const playerControlsEventListenerType = useSelector(
+    selectPlayerControlsListenerType
   );
   const player = usePlayerRef();
   const dispatch = useDispatch();
@@ -513,7 +517,7 @@ export function SubmitMenu(): JSX.Element {
     );
   }, [endTime]);
 
-  useWindowEvent('keyup', (event: KeyboardEvent) => {
+  useWindowEvent(playerControlsEventListenerType, (event: KeyboardEvent) => {
     const setTime =
       currentInputFocus === 'start-time' ? setStartTime : setEndTime;
 
