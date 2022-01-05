@@ -206,6 +206,9 @@ export function SettingsPage(): JSX.Element {
       case 'increase-current-time-large':
       case 'decrease-current-time-large':
         return sprintf(KEYBIND_INFO[keybindType], changeCurrentTimeLargeLength);
+      case 'skip-backward':
+      case 'skip-forward':
+        return sprintf(KEYBIND_INFO[keybindType], skipTimeLength);
       default:
       // no default
     }
@@ -407,7 +410,7 @@ export function SettingsPage(): JSX.Element {
           <div className="space-y-3 divide-y">
             <Setting
               name="Skip time length"
-              description="Time in seconds used when calculating the end time when the skip menu is opened."
+              description="Time in seconds used when calculating the end time when the skip menu is opened. It is also used when using the skip forward or backward keybind."
             >
               <div className="flex items-end">
                 <Input

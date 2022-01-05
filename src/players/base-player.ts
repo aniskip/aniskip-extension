@@ -495,7 +495,7 @@ export class BasePlayer implements Player {
     }
 
     if (time > this.videoElement.duration) {
-      this.videoElement.currentTime = this.videoElement.duration;
+      this.videoElement.currentTime = Math.floor(this.videoElement.duration);
 
       return;
     }
