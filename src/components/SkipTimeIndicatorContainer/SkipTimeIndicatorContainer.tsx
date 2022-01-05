@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { browser } from 'webextension-polyfill-ts';
-import { selectSkipTimes } from '../../data';
+import { selectPreviewSkipTime, selectSkipTimes } from '../../data';
 import {
   DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
   SkipTimeIndicatorColours,
@@ -11,6 +11,7 @@ import { SkipTimeIndicator } from '../SkipTimeIndicator';
 export function SkipTimeIndicatorContainer(): JSX.Element {
   const [skipTimeIndicatorColours, setSkipTimeIndicatorColours] =
     useState<SkipTimeIndicatorColours>(DEFAULT_SKIP_TIME_INDICATOR_COLOURS);
+  const previewSkipTime = useSelector(selectPreviewSkipTime);
   const skipTimes = useSelector(selectSkipTimes);
   const variant = useVariantRef();
   const player = usePlayerRef();
@@ -34,11 +35,6 @@ export function SkipTimeIndicatorContainer(): JSX.Element {
   return (
     <>
       {skipTimes.map((skipTime) => {
-        const isPreview = skipTime.skipType === 'preview';
-        if (isPreview) {
-          return null;
-        }
-
         const { startTime, endTime } = skipTime.interval;
         const { episodeLength } = skipTime;
         const offset = videoDuration - skipTime.episodeLength;
@@ -46,10 +42,7 @@ export function SkipTimeIndicatorContainer(): JSX.Element {
         return (
           <SkipTimeIndicator
             style={{
-              backgroundColor:
-                skipTimeIndicatorColours[
-                  skipTime.skipType as keyof SkipTimeIndicatorColours
-                ],
+              backgroundColor: skipTimeIndicatorColours[skipTime.skipType],
             }}
             startTime={startTime + offset}
             endTime={endTime + offset}
@@ -59,6 +52,18 @@ export function SkipTimeIndicatorContainer(): JSX.Element {
           />
         );
       })}
+      {previewSkipTime && (
+        <SkipTimeIndicator
+          style={{
+            backgroundColor: skipTimeIndicatorColours.preview,
+          }}
+          startTime={previewSkipTime.interval.startTime}
+          endTime={previewSkipTime.interval.endTime}
+          episodeLength={previewSkipTime.episodeLength}
+          key="skip-time-indicator-preview"
+          variant={variant}
+        />
+      )}
     </>
   );
 }

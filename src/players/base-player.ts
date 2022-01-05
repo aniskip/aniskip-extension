@@ -14,7 +14,7 @@ import {
   SyncOptions,
 } from '../scripts/background';
 import { Player, Metadata } from './base-player.types';
-import { AniskipHttpClient, SkipTime, SkipType } from '../api';
+import { AniskipHttpClient, PreviewSkipTime, SkipTime, SkipType } from '../api';
 import {
   isInInterval,
   roundToClosestMultiple,
@@ -22,12 +22,12 @@ import {
 } from '../utils';
 import {
   skipTimeAdded,
-  previewSkipTimesRemoved,
   skipTimesRemoved,
   stateReset,
   selectSkipTimes,
   Store,
   configureStore,
+  selectPreviewSkipTime,
 } from '../data';
 
 export class BasePlayer implements Player {
@@ -142,12 +142,6 @@ export class BasePlayer implements Player {
     this.skipButtonRenderer.render();
     this.skipTimeIndicatorsRenderer.render();
 
-    if (skipTime.skipType === 'preview') {
-      this.setCurrentTime(skipTime.interval.startTime - 2);
-      this.play();
-      return;
-    }
-
     const isAutoSkip = this.skipOptions[skipTime.skipType] === 'auto-skip';
 
     if (!isAutoSkip) {
@@ -197,25 +191,20 @@ export class BasePlayer implements Player {
   /**
    * Returns the next skip time to be scheduled.
    */
-  getNextSkipTime(): SkipTime | undefined {
+  getNextSkipTime(): SkipTime | PreviewSkipTime | undefined {
+    const previewSkipTime = selectPreviewSkipTime(this.store.getState());
+    const currentTime = this.getCurrentTime();
+
+    if (previewSkipTime && currentTime < previewSkipTime.interval.startTime) {
+      return previewSkipTime;
+    }
+
     let nextSkipTime: SkipTime | undefined;
     let earliestStartTime = Infinity;
 
-    const currentTime = this.getCurrentTime();
     const skipTimes = selectSkipTimes(this.store.getState());
 
-    for (let i = 0; i < skipTimes.length; i += 1) {
-      const skipTime = skipTimes[i];
-      if (skipTime.skipType === 'preview') {
-        return skipTime;
-      }
-    }
-
     skipTimes.forEach((skipTime) => {
-      if (skipTime.skipType === 'preview') {
-        return;
-      }
-
       const { skipType, interval, episodeLength } = skipTime;
       const { startTime } = interval;
       const offset = this.getDuration() - episodeLength;
@@ -458,7 +447,7 @@ export class BasePlayer implements Player {
       return;
     }
 
-    const { interval, episodeLength, skipType } = nextSkipTime;
+    const { interval, episodeLength } = nextSkipTime;
     const { startTime, endTime } = interval;
     const offset = this.getDuration() - episodeLength;
 
@@ -471,10 +460,6 @@ export class BasePlayer implements Player {
 
     this.scheduledSkipTime = setTimeout(() => {
       this.setCurrentTime(endTime + offset);
-
-      if (skipType === 'preview') {
-        this.store.dispatch(previewSkipTimesRemoved());
-      }
     }, timeUntilSkipTime * 1000);
   }
 

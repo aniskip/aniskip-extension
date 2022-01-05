@@ -29,7 +29,7 @@ export function VoteMenu(): JSX.Element {
   const [skipTimesVoted, setSkipTimesVoted] = useState<
     Record<string, VoteType>
   >({});
-  const [filteredSkipTimes, setFilteredSkipTimes] = useState<SkipTime[]>([]);
+  const [sortedSkipTimes, setSortedSkipTimes] = useState<SkipTime[]>([]);
   const [playerDuration, setPlayerDuration] = useState(0);
   const visible = useSelector(selectIsVoteMenuVisible);
   const skipTimes = useSelector(selectSkipTimes);
@@ -40,13 +40,9 @@ export function VoteMenu(): JSX.Element {
    * Initialise filtered skip times and voted skip times.
    */
   useEffect(() => {
-    const sortedSkipTimes = [...skipTimes].sort(
-      (a, b) => a.interval.startTime - b.interval.endTime
+    setSortedSkipTimes(
+      [...skipTimes].sort((a, b) => a.interval.startTime - b.interval.endTime)
     );
-    const sortedAndFilteredSkipTimes = [
-      ...sortedSkipTimes.filter(({ skipType }) => skipType !== 'preview'),
-    ];
-    setFilteredSkipTimes(sortedAndFilteredSkipTimes);
 
     const duration = player?.getDuration() ?? 0;
     setPlayerDuration(duration);
@@ -160,7 +156,7 @@ export function VoteMenu(): JSX.Element {
         </button>
       </div>
       <div className="divide-y divide-gray-300">
-        {filteredSkipTimes.length === 0 && (
+        {sortedSkipTimes.length === 0 && (
           <div className="text-xs space-y-1 mt-4">
             <div className="text-gray-200 uppercase font-semibold">
               No skip times found
@@ -173,8 +169,8 @@ export function VoteMenu(): JSX.Element {
             </LinkButton>
           </div>
         )}
-        {filteredSkipTimes.length > 0 &&
-          filteredSkipTimes.map((skipTime) => {
+        {sortedSkipTimes.length > 0 &&
+          sortedSkipTimes.map((skipTime) => {
             const { skipId, interval, skipType, episodeLength } = skipTime;
             const offset = playerDuration - episodeLength;
             const isUpvoted = skipTimesVoted[skipId] === 'upvote';

@@ -8,6 +8,7 @@ import {
   SKIP_TYPE_NAMES,
   SKIP_TYPES,
   AniskipHttpClient,
+  PreviewSkipTime,
 } from '../../api';
 import { DefaultButton } from '../DefaultButton';
 import { Dropdown, DropdownOptionsProps } from '../Dropdown';
@@ -37,6 +38,9 @@ import {
   changeCurrentTimeLengthUpdated,
   keybindsUpdated,
   skipTimeLengthUpdated,
+  previewSkipTimeAdded,
+  previewSkipTimeRemoved,
+  previewSkipTimeIntervalUpdated,
 } from '../../data';
 
 export function SubmitMenu(): JSX.Element {
@@ -66,9 +70,7 @@ export function SubmitMenu(): JSX.Element {
   const player = usePlayerRef();
   const dispatch = useDispatch();
 
-  const skipTypeDropdownOptions = SKIP_TYPES.filter(
-    (type) => type !== 'preview'
-  ).map((type) => ({
+  const skipTypeDropdownOptions = SKIP_TYPES.map((type) => ({
     id: type,
     label: SKIP_TYPE_NAMES[type],
   }));
@@ -300,19 +302,8 @@ export function SubmitMenu(): JSX.Element {
   ): Promise<void> => {
     event.currentTarget.blur();
 
-    const episodeLength = player?.getDuration() ?? 0;
-
-    const skipTime: SkipTime = {
-      interval: {
-        startTime: timeStringToSeconds(startTime),
-        endTime: timeStringToSeconds(endTime),
-      },
-      skipType: 'preview',
-      skipId: '',
-      episodeLength,
-    };
-
-    player?.addSkipTime(skipTime);
+    player?.setCurrentTime(timeStringToSeconds(startTime) - 2);
+    player?.play();
   };
 
   /**
@@ -361,34 +352,23 @@ export function SubmitMenu(): JSX.Element {
   };
 
   /**
-   * Handles on change event for the input start time.
+   * Handles on change event for the input time.
    *
+   * @param setTime React time setter function.
    * @param event Event.
    */
-  const onChangeStartTime = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    const timeString = event.currentTarget.value;
-    const testRegex = inputPatternTestRegexRef.current;
-    if (testRegex.test(timeString)) {
-      setStartTime(timeString);
-    }
-  };
+  const onChangeTime =
+    (setTime: React.Dispatch<React.SetStateAction<string>>) =>
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      const timeString = event.currentTarget.value;
+      const testRegex = inputPatternTestRegexRef.current;
 
-  /**
-   * Handles on change event for the input end time.
-   *
-   * @param event Event.
-   */
-  const onChangeEndTime = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    const timeString = event.currentTarget.value;
-    const testRegex = inputPatternTestRegexRef.current;
-    if (testRegex.test(timeString)) {
-      setEndTime(timeString);
-    }
-  };
+      if (!testRegex.test(timeString)) {
+        return;
+      }
+
+      setTime(timeString);
+    };
 
   /**
    * Handles the mouse wheel scroll in input boxes.
@@ -445,6 +425,8 @@ export function SubmitMenu(): JSX.Element {
    */
   useEffect(() => {
     if (!visible) {
+      dispatch(previewSkipTimeRemoved());
+
       return;
     }
 
@@ -460,6 +442,19 @@ export function SubmitMenu(): JSX.Element {
     }
     setEndTime(secondsToTimeString(newEndTime));
     setSkipType(currentTime < duration / 2 ? 'op' : 'ed');
+
+    // Initialise preview skip time.
+    const episodeLength = player?.getDuration() || 0;
+
+    const previewSkipTime: PreviewSkipTime = {
+      interval: {
+        startTime: currentTime,
+        endTime: newEndTime,
+      },
+      episodeLength,
+    };
+
+    dispatch(previewSkipTimeAdded(previewSkipTime));
   }, [visible]);
 
   /**
@@ -483,6 +478,34 @@ export function SubmitMenu(): JSX.Element {
       );
     })();
   }, []);
+
+  /**
+   * Sync start time with skip indicator.
+   */
+  useEffect(() => {
+    const timeSeconds = timeStringToSeconds(startTime);
+
+    dispatch(
+      previewSkipTimeIntervalUpdated({
+        intervalType: 'startTime',
+        time: timeSeconds,
+      })
+    );
+  }, [startTime]);
+
+  /**
+   * Sync end time with skip indicator.
+   */
+  useEffect(() => {
+    const timeSeconds = timeStringToSeconds(endTime);
+
+    dispatch(
+      previewSkipTimeIntervalUpdated({
+        intervalType: 'endTime',
+        time: timeSeconds,
+      })
+    );
+  }, [endTime]);
 
   return (
     <div
@@ -520,7 +543,7 @@ export function SubmitMenu(): JSX.Element {
               required
               title="Hours : Minutes : Seconds"
               placeholder="Start time"
-              onChange={onChangeStartTime}
+              onChange={onChangeTime(setStartTime)}
               onKeyDown={onKeyDown(setStartTime)}
               onFocus={(): void => setCurrentInputFocus('start-time')}
               onBlur={onBlur(setStartTime, startTime)}
@@ -543,7 +566,7 @@ export function SubmitMenu(): JSX.Element {
               required
               title="Hours : Minutes : Seconds"
               placeholder="End time"
-              onChange={onChangeEndTime}
+              onChange={onChangeTime(setEndTime)}
               onKeyDown={onKeyDown(setEndTime)}
               onFocus={(): void => setCurrentInputFocus('end-time')}
               onBlur={onBlur(setEndTime, endTime)}

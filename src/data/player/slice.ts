@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction, Selector } from '@reduxjs/toolkit';
-import { SkipTime } from '../../api';
+import { PreviewSkipTime, SkipTime } from '../../api';
 import { StateSlice } from '../../utils/types';
-import { PlayerState } from './types';
+import { PlayerState, PreviewSkipTimeUpdatedPayload } from './types';
 
 /**
  * Initial state.
  */
 const initialPlayerState: PlayerState = {
+  previewSkipTime: undefined,
   skipTimes: [],
   isSubmitMenuVisible: false,
   isVoteMenuVisible: false,
@@ -15,6 +16,11 @@ const initialPlayerState: PlayerState = {
 /**
  * Selectors.
  */
+export const selectPreviewSkipTime: Selector<
+  StateSlice<PlayerState, 'player'>,
+  PreviewSkipTime | undefined
+> = (state) => state.player.previewSkipTime;
+
 export const selectSkipTimes: Selector<
   StateSlice<PlayerState, 'player'>,
   SkipTime[]
@@ -37,6 +43,23 @@ const playerStateSlice = createSlice({
   name: 'player',
   initialState: initialPlayerState,
   reducers: {
+    previewSkipTimeAdded: (state, action: PayloadAction<PreviewSkipTime>) => {
+      state.previewSkipTime = action.payload;
+    },
+    previewSkipTimeRemoved: (state) => {
+      state.previewSkipTime = undefined;
+    },
+    previewSkipTimeIntervalUpdated: (
+      state,
+      action: PayloadAction<PreviewSkipTimeUpdatedPayload>
+    ) => {
+      if (!state.previewSkipTime) {
+        return;
+      }
+
+      state.previewSkipTime.interval[action.payload.intervalType] =
+        action.payload.time;
+    },
     skipTimeAdded: (state, action: PayloadAction<SkipTime>) => {
       state.skipTimes.push(action.payload);
     },
@@ -59,22 +82,17 @@ const playerStateSlice = createSlice({
     skipTimesRemoved: (state) => {
       state.skipTimes = [];
     },
-    previewSkipTimesRemoved: (state) => {
-      state.skipTimes.forEach((skipTime, index) => {
-        if (skipTime.skipType === 'preview') {
-          state.skipTimes.splice(index, 1);
-        }
-      });
-    },
     stateReset: () => initialPlayerState,
   },
 });
 
 export const {
+  previewSkipTimeAdded,
+  previewSkipTimeRemoved,
+  previewSkipTimeIntervalUpdated,
   skipTimeAdded,
   submitMenuVisibilityUpdated,
   voteMenuVisibilityUpdated,
-  previewSkipTimesRemoved,
   skipTimeRemoved,
   skipTimesRemoved,
   stateReset,

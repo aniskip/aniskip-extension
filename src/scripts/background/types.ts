@@ -1,4 +1,3 @@
-import { SetOptional } from 'type-fest';
 import { v4 as uuidv4 } from 'uuid';
 import { MediaTitle } from '../../api/anilist-http-client/anilist-http-client.types';
 import {
@@ -10,12 +9,9 @@ import { DEFAULT_COLOUR_PICKER_COLOURS } from '../../options/components/ColourPi
 
 export type SkipOptionType = 'disabled' | 'auto-skip' | 'manual-skip';
 
-export type SkipOptions = SetOptional<
-  {
-    [T in SkipType]: SkipOptionType;
-  },
-  'preview'
->;
+export type SkipOptions = {
+  [T in SkipType]: SkipOptionType;
+};
 
 export const DEFAULT_SKIP_OPTIONS: SkipOptions = {
   op: 'manual-skip',
@@ -25,12 +21,9 @@ export const DEFAULT_SKIP_OPTIONS: SkipOptions = {
   recap: 'manual-skip',
 } as const;
 
-export type SkipTimeIndicatorColours = Omit<
-  {
-    [T in SkipType]: string;
-  },
-  'preview'
->;
+export type SkipTimeIndicatorColours = {
+  [T in SkipType | 'preview']: string;
+};
 
 export const DEFAULT_SKIP_TIME_INDICATOR_COLOURS: SkipTimeIndicatorColours = {
   op: DEFAULT_COLOUR_PICKER_COLOURS[5],
@@ -38,6 +31,7 @@ export const DEFAULT_SKIP_TIME_INDICATOR_COLOURS: SkipTimeIndicatorColours = {
   'mixed-op': DEFAULT_COLOUR_PICKER_COLOURS[3],
   'mixed-ed': DEFAULT_COLOUR_PICKER_COLOURS[2],
   recap: DEFAULT_COLOUR_PICKER_COLOURS[8],
+  preview: DEFAULT_COLOUR_PICKER_COLOURS[1],
 } as const;
 
 export const KEYBIND_TYPES = [
