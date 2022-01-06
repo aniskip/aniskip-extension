@@ -222,7 +222,7 @@ export function SettingsPage(): JSX.Element {
   const onChangeNumericInput =
     (action: ActionCreatorWithPayload<number, string>) =>
     (event: React.ChangeEvent<HTMLInputElement>): void => {
-      let number = parseFloat(event.target.value) ?? 0;
+      let number = parseFloat(event.target.value) || 0;
 
       if (number < 0) {
         number = 0;
