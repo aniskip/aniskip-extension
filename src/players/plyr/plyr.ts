@@ -39,9 +39,9 @@ export class Plyr extends BasePlayer {
       return;
     }
 
-    window.removeEventListener('keydown', this.keydownEventHandler);
+    window.removeEventListener('keydown', this.keyboardEventHandler);
 
-    this.keydownEventHandler = (): void => {};
+    this.keyboardEventHandler = (): void => {};
     this.injectPlayerControlKeybinds();
 
     this.store.dispatch(playerControlsListenerTypeUpdated('keyup'));

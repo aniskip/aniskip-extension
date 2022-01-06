@@ -8,6 +8,7 @@ import {
 import {
   DEFAULT_KEYBINDS,
   DEFAULT_SKIP_OPTIONS,
+  DEFAULT_SYNC_OPTIONS,
   Keybinds,
   Message,
   SkipOptions,
@@ -41,9 +42,11 @@ export class BasePlayer implements Player {
 
   store: Store;
 
+  skipTimeLength: number;
+
   keybinds: Keybinds;
 
-  keydownEventHandler: (event: KeyboardEvent) => void;
+  keyboardEventHandler: (event: KeyboardEvent) => void;
 
   lastControlsOpacity: number;
 
@@ -66,8 +69,9 @@ export class BasePlayer implements Player {
     this.lastControlsOpacity = 0;
     this.isReady = false;
     this.skipOptions = DEFAULT_SKIP_OPTIONS;
+    this.skipTimeLength = DEFAULT_SYNC_OPTIONS.skipTimeLength;
 
-    this.keydownEventHandler = (event: KeyboardEvent): void => {
+    this.keyboardEventHandler = (event: KeyboardEvent): void => {
       switch (serialiseKeybind(event)) {
         case this.keybinds['seek-backward-one-frame']: {
           this.setCurrentTime(
@@ -87,19 +91,30 @@ export class BasePlayer implements Player {
           );
           break;
         }
+        case this.keybinds['skip-forward']: {
+          this.setCurrentTime(this.getCurrentTime() + this.skipTimeLength);
+          break;
+        }
+        case this.keybinds['skip-backward']: {
+          this.setCurrentTime(this.getCurrentTime() - this.skipTimeLength);
+          break;
+        }
         default:
         // no default
       }
     };
 
     (async (): Promise<void> => {
-      const { skipOptions, keybinds } = (await browser.storage.sync.get({
-        skipOptions: DEFAULT_SKIP_OPTIONS,
-        keybinds: DEFAULT_KEYBINDS,
-      })) as SyncOptions;
+      const { skipOptions, keybinds, skipTimeLength } =
+        (await browser.storage.sync.get({
+          skipOptions: DEFAULT_SKIP_OPTIONS,
+          keybinds: DEFAULT_KEYBINDS,
+          skipTimeLength: DEFAULT_SYNC_OPTIONS.skipTimeLength,
+        })) as SyncOptions;
 
       this.skipOptions = skipOptions;
       this.keybinds = keybinds;
+      this.skipTimeLength = skipTimeLength;
       this.injectPlayerControlKeybinds();
     })();
 
@@ -315,8 +330,8 @@ export class BasePlayer implements Player {
    * Injects keybinds which control the player time.
    */
   injectPlayerControlKeybinds(): void {
-    window.removeEventListener('keydown', this.keydownEventHandler);
-    window.addEventListener('keydown', this.keydownEventHandler);
+    window.removeEventListener('keydown', this.keyboardEventHandler);
+    window.addEventListener('keydown', this.keyboardEventHandler);
   }
 
   /**
