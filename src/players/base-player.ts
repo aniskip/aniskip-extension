@@ -208,7 +208,7 @@ export class BasePlayer implements Player {
     const previewSkipTime = selectPreviewSkipTime(this.store.getState());
     const currentTime = this.getCurrentTime();
 
-    if (previewSkipTime && currentTime < previewSkipTime.interval.startTime) {
+    if (previewSkipTime && currentTime <= previewSkipTime.interval.startTime) {
       return previewSkipTime;
     }
 
