@@ -1,7 +1,7 @@
 const path = require('path');
 const packageJson = require('./package.json');
 
-const startUrl = ['crunchyroll.com'];
+const startUrl = ['github.com/Karmesinrot/Anifiltrs'];
 
 switch (process.env.BROWSER) {
   case 'chromium':
