@@ -20,6 +20,7 @@ import {
 } from '../../scripts/background';
 import {
   formatTimeString,
+  roundToClosestMultiple,
   secondsToTimeString,
   serialiseKeybind,
   timeStringToSeconds,
@@ -395,7 +396,9 @@ export function SubmitMenu(): JSX.Element {
     (event: React.WheelEvent<HTMLInputElement>): void => {
       const timeSeconds = timeStringToSeconds(currentTime);
       const seekOffset = event.deltaY > 0 ? -FRAME_RATE : FRAME_RATE;
-      const updatedTime = errorCorrectTime(timeSeconds + seekOffset);
+      const updatedTime = errorCorrectTime(
+        roundToClosestMultiple(timeSeconds + seekOffset, FRAME_RATE)
+      );
 
       setTime(secondsToTimeString(updatedTime));
 
