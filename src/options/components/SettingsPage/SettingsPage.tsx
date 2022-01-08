@@ -18,6 +18,8 @@ import {
   SkipOptionType,
   SyncOptions,
   AnimeTitleLanguageType,
+  PLAYER_CONTROLS_KEYBIND_TYPES,
+  SkipTimeIndicatorColours,
 } from '../../../scripts/background';
 import {
   selectSkipTimeIndicatorColours,
@@ -45,9 +47,6 @@ import { serialiseKeybind, useDispatch, useSelector } from '../../../utils';
 import { Setting } from '../Setting';
 
 export function SettingsPage(): JSX.Element {
-  const [filteredSkipTypes, setFilteredSkipTypes] = useState<
-    Exclude<SkipType, 'preview'>[]
-  >([]);
   const [isSettingsLoaded, setIsSettingsLoaded] = useState<boolean>(false);
   const skipOptions = useSelector(selectSkipOptions);
   const skipTimeIndicatorColours = useSelector(selectSkipTimeIndicatorColours);
@@ -121,7 +120,7 @@ export function SettingsPage(): JSX.Element {
    * @param skipType Skip type to change the option of.
    */
   const onChangeCompleteSkipTimeIndicatorColour =
-    (skipType: Exclude<SkipType, 'preview'>) =>
+    (skipType: keyof SkipTimeIndicatorColours) =>
     (colour: ColorResult): void => {
       dispatch(
         skipTimeIndicatorColourUpdated({ type: skipType, colour: colour.hex })
@@ -205,6 +204,9 @@ export function SettingsPage(): JSX.Element {
       case 'increase-current-time-large':
       case 'decrease-current-time-large':
         return sprintf(KEYBIND_INFO[keybindType], changeCurrentTimeLargeLength);
+      case 'skip-backward':
+      case 'skip-forward':
+        return sprintf(KEYBIND_INFO[keybindType], skipTimeLength);
       default:
       // no default
     }
@@ -250,7 +252,7 @@ export function SettingsPage(): JSX.Element {
   const renderKeybind = (keybind: string, type?: KeybindType): JSX.Element => {
     if (!keybind) {
       return (
-        <div className="px-4 py-2 border-transparent rounded text-sm bg-primary border border-gray-300 text-white font-medium focus:outline-none sm:w-auto w-full">
+        <div className="px-4 py-2 border-transparent rounded text-sm bg-primary border border-gray-300 text-white font-medium focus:outline-none">
           Add keybind
         </div>
       );
@@ -317,13 +319,6 @@ export function SettingsPage(): JSX.Element {
    * Initialise filtered skip types, store skip options and keybinds.
    */
   useEffect(() => {
-    setFilteredSkipTypes(
-      SKIP_TYPES.filter((skipType) => skipType !== 'preview') as Exclude<
-        SkipType,
-        'preview'
-      >[]
-    );
-
     (async (): Promise<void> => {
       const syncOptions = (await browser.storage.sync.get(
         DEFAULT_SYNC_OPTIONS
@@ -378,7 +373,7 @@ export function SettingsPage(): JSX.Element {
     <div className="sm:border sm:rounded-md border-gray-300 px-8 py-8 sm:bg-white">
       <h2 className="text-xl text-gray-900 font-semibold">Skip options</h2>
       <div className="space-y-3 mt-1">
-        {filteredSkipTypes.map((skipType) => (
+        {SKIP_TYPES.map((skipType) => (
           <div className="space-y-1" key={skipType}>
             <span className="text-xs text-gray-700 uppercase font-semibold">
               {SKIP_TYPE_NAMES[skipType]}
@@ -399,63 +394,73 @@ export function SettingsPage(): JSX.Element {
             </div>
           </div>
         ))}
-        <div className="space-y-1">
-          <span className="text-xs text-gray-700 uppercase font-semibold">
-            Skip menu behavior
-          </span>
-          <div className="space-y-3 divide-y">
-            <Setting
-              name="Skip time length"
-              description="Time in seconds used when calculating the end time when the skip menu is opened."
-            >
-              <div className="flex items-end">
-                <Input
-                  className="text-xs select-none uppercase focus:ring-1 w-24 focus:ring-primary focus:border-primary"
-                  type="number"
-                  value={skipTimeLength}
-                  spellCheck="false"
-                  onChange={onChangeNumericInput(skipTimeLengthUpdated)}
-                />
-                <span className="pl-1">s</span>
-              </div>
-            </Setting>
-            <Setting
-              className="pt-3"
-              name="Change current time"
-              description="Time in seconds used when increasing or decreasing the start or end time used for fine-tuning."
-            >
-              <div className="flex items-end">
-                <Input
-                  className="text-xs select-none uppercase focus:ring-1 w-24 focus:ring-primary focus:border-primary"
-                  type="number"
-                  value={changeCurrentTimeLength}
-                  spellCheck="false"
-                  onChange={onChangeNumericInput(
-                    changeCurrentTimeLengthUpdated
-                  )}
-                />
-                <span className="pl-1">s</span>
-              </div>
-            </Setting>
-            <Setting
-              className="pt-3"
-              name="Change current time (large)"
-              description="Time in seconds used when increasing or decreasing the start or end time used for fine-tuning."
-            >
-              <div className="flex items-end">
-                <Input
-                  className="text-xs select-none uppercase focus:ring-1 w-24 focus:ring-primary focus:border-primary"
-                  type="number"
-                  value={changeCurrentTimeLargeLength}
-                  spellCheck="false"
-                  onChange={onChangeNumericInput(
-                    changeCurrentTimeLargeLengthUpdated
-                  )}
-                />
-                <span className="pl-1">s</span>
-              </div>
-            </Setting>
-          </div>
+      </div>
+      <hr className="mt-6" />
+      <Setting
+        className="mt-3"
+        name="Preview skip indicator colour"
+        description="Appears when you are creating a skip time."
+      >
+        <ColourPicker
+          colour={skipTimeIndicatorColours.preview}
+          onChangeComplete={onChangeCompleteSkipTimeIndicatorColour('preview')}
+        />
+      </Setting>
+      <hr className="mt-3" />
+      <div className="space-y-1 mt-3">
+        <span className="text-xs text-gray-700 uppercase font-semibold">
+          Skip menu behavior
+        </span>
+        <div className="space-y-3 divide-y">
+          <Setting
+            name="Skip time length"
+            description="Time in seconds used when calculating the end time when the skip menu is opened. It is also used when using the skip forward or backward keybind."
+          >
+            <div className="flex items-end">
+              <Input
+                className="text-xs select-none uppercase focus:ring-1 w-24 focus:ring-primary focus:border-primary"
+                type="number"
+                value={skipTimeLength}
+                spellCheck="false"
+                onChange={onChangeNumericInput(skipTimeLengthUpdated)}
+              />
+              <span className="pl-1">s</span>
+            </div>
+          </Setting>
+          <Setting
+            className="pt-3"
+            name="Change current time"
+            description="Time in seconds used when increasing or decreasing the start or end time used for fine-tuning."
+          >
+            <div className="flex items-end">
+              <Input
+                className="text-xs select-none uppercase focus:ring-1 w-24 focus:ring-primary focus:border-primary"
+                type="number"
+                value={changeCurrentTimeLength}
+                spellCheck="false"
+                onChange={onChangeNumericInput(changeCurrentTimeLengthUpdated)}
+              />
+              <span className="pl-1">s</span>
+            </div>
+          </Setting>
+          <Setting
+            className="pt-3"
+            name="Change current time (large)"
+            description="Time in seconds used when increasing or decreasing the start or end time used for fine-tuning."
+          >
+            <div className="flex items-end">
+              <Input
+                className="text-xs select-none uppercase focus:ring-1 w-24 focus:ring-primary focus:border-primary"
+                type="number"
+                value={changeCurrentTimeLargeLength}
+                spellCheck="false"
+                onChange={onChangeNumericInput(
+                  changeCurrentTimeLargeLengthUpdated
+                )}
+              />
+              <span className="pl-1">s</span>
+            </div>
+          </Setting>
         </div>
       </div>
       <h2 className="text-xl text-gray-900 font-semibold mt-8">
@@ -482,12 +487,21 @@ export function SettingsPage(): JSX.Element {
           (type): JSX.Element => renderKeybindSetting(keybinds[type], type)
         )}
       </div>
-      <hr className="mt-3" />
+      <hr className="my-3" />
       <span className="text-xs text-gray-700 uppercase font-semibold">
         Submit menu
       </span>
       <div className="space-y-3 divide-y">
         {SUBMIT_MENU_KEYBIND_TYPES.map(
+          (type): JSX.Element => renderKeybindSetting(keybinds[type], type)
+        )}
+      </div>
+      <hr className="my-3" />
+      <span className="text-xs text-gray-700 uppercase font-semibold">
+        Player controls
+      </span>
+      <div className="space-y-3 divide-y">
+        {PLAYER_CONTROLS_KEYBIND_TYPES.map(
           (type): JSX.Element => renderKeybindSetting(keybinds[type], type)
         )}
       </div>

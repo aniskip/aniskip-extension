@@ -6,21 +6,29 @@ import {
   SkipTimeIndicatorsRenderer,
 } from '../renderers';
 import {
+  DEFAULT_KEYBINDS,
   DEFAULT_SKIP_OPTIONS,
+  DEFAULT_SYNC_OPTIONS,
+  Keybinds,
   Message,
   SkipOptions,
+  SyncOptions,
 } from '../scripts/background';
-import { Player, Metadata } from './base-player.types';
-import { AniskipHttpClient, SkipTime, SkipType } from '../api';
-import { isInInterval } from '../utils';
+import { Player, Metadata, FRAME_RATE } from './base-player.types';
+import { AniskipHttpClient, PreviewSkipTime, SkipTime, SkipType } from '../api';
+import {
+  isInInterval,
+  roundToClosestMultiple,
+  serialiseKeybind,
+} from '../utils';
 import {
   skipTimeAdded,
-  previewSkipTimesRemoved,
   skipTimesRemoved,
   stateReset,
   selectSkipTimes,
   Store,
   configureStore,
+  selectPreviewSkipTime,
 } from '../data';
 
 export class BasePlayer implements Player {
@@ -33,6 +41,12 @@ export class BasePlayer implements Player {
   skipOptions: SkipOptions;
 
   store: Store;
+
+  skipTimeLength: number;
+
+  keybinds: Keybinds;
+
+  keyboardEventHandler: (event: KeyboardEvent) => void;
 
   lastControlsOpacity: number;
 
@@ -51,15 +65,57 @@ export class BasePlayer implements Player {
     this.videoElement = null;
     this.scheduledSkipTime = undefined;
     this.store = configureStore('aniskip-player');
+    this.keybinds = DEFAULT_KEYBINDS;
     this.lastControlsOpacity = 0;
     this.isReady = false;
     this.skipOptions = DEFAULT_SKIP_OPTIONS;
+    this.skipTimeLength = DEFAULT_SYNC_OPTIONS.skipTimeLength;
+
+    this.keyboardEventHandler = (event: KeyboardEvent): void => {
+      switch (serialiseKeybind(event)) {
+        case this.keybinds['seek-backward-one-frame']: {
+          this.setCurrentTime(
+            roundToClosestMultiple(
+              this.getCurrentTime() - FRAME_RATE,
+              FRAME_RATE
+            )
+          );
+          break;
+        }
+        case this.keybinds['seek-forward-one-frame']: {
+          this.setCurrentTime(
+            roundToClosestMultiple(
+              this.getCurrentTime() + FRAME_RATE,
+              FRAME_RATE
+            )
+          );
+          break;
+        }
+        case this.keybinds['skip-forward']: {
+          this.setCurrentTime(this.getCurrentTime() + this.skipTimeLength);
+          break;
+        }
+        case this.keybinds['skip-backward']: {
+          this.setCurrentTime(this.getCurrentTime() - this.skipTimeLength);
+          break;
+        }
+        default:
+        // no default
+      }
+    };
 
     (async (): Promise<void> => {
-      const { skipOptions } = await browser.storage.sync.get({
-        skipOptions: DEFAULT_SKIP_OPTIONS,
-      });
+      const { skipOptions, keybinds, skipTimeLength } =
+        (await browser.storage.sync.get({
+          skipOptions: DEFAULT_SKIP_OPTIONS,
+          keybinds: DEFAULT_KEYBINDS,
+          skipTimeLength: DEFAULT_SYNC_OPTIONS.skipTimeLength,
+        })) as SyncOptions;
+
       this.skipOptions = skipOptions;
+      this.keybinds = keybinds;
+      this.skipTimeLength = skipTimeLength;
+      this.injectPlayerControlKeybinds();
     })();
 
     this.skipButtonRenderer = new SkipButtonsRenderer(
@@ -98,12 +154,6 @@ export class BasePlayer implements Player {
     this.store.dispatch(skipTimeAdded(skipTime));
     this.skipButtonRenderer.render();
     this.skipTimeIndicatorsRenderer.render();
-
-    if (skipTime.skipType === 'preview') {
-      this.setCurrentTime(skipTime.interval.startTime - 2);
-      this.play();
-      return;
-    }
 
     const isAutoSkip = this.skipOptions[skipTime.skipType] === 'auto-skip';
 
@@ -154,25 +204,20 @@ export class BasePlayer implements Player {
   /**
    * Returns the next skip time to be scheduled.
    */
-  getNextSkipTime(): SkipTime | undefined {
+  getNextSkipTime(): SkipTime | PreviewSkipTime | undefined {
+    const previewSkipTime = selectPreviewSkipTime(this.store.getState());
+    const currentTime = this.getCurrentTime();
+
+    if (previewSkipTime && currentTime <= previewSkipTime.interval.startTime) {
+      return previewSkipTime;
+    }
+
     let nextSkipTime: SkipTime | undefined;
     let earliestStartTime = Infinity;
 
-    const currentTime = this.getCurrentTime();
     const skipTimes = selectSkipTimes(this.store.getState());
 
-    for (let i = 0; i < skipTimes.length; i += 1) {
-      const skipTime = skipTimes[i];
-      if (skipTime.skipType === 'preview') {
-        return skipTime;
-      }
-    }
-
     skipTimes.forEach((skipTime) => {
-      if (skipTime.skipType === 'preview') {
-        return;
-      }
-
       const { skipType, interval, episodeLength } = skipTime;
       const { startTime } = interval;
       const offset = this.getDuration() - episodeLength;
@@ -234,6 +279,7 @@ export class BasePlayer implements Player {
 
   initialise(): void {
     this.reset();
+    this.injectPlayerControlKeybinds();
     this.injectSubmitMenu();
     this.injectSubmitMenuButton();
     this.injectSkipTimeIndicator();
@@ -278,6 +324,14 @@ export class BasePlayer implements Player {
         this.addSkipTime(skipTime)
       );
     }
+  }
+
+  /**
+   * Injects keybinds which control the player time.
+   */
+  injectPlayerControlKeybinds(): void {
+    window.removeEventListener('keydown', this.keyboardEventHandler);
+    window.addEventListener('keydown', this.keyboardEventHandler);
   }
 
   /**
@@ -405,7 +459,7 @@ export class BasePlayer implements Player {
       return;
     }
 
-    const { interval, episodeLength, skipType } = nextSkipTime;
+    const { interval, episodeLength } = nextSkipTime;
     const { startTime, endTime } = interval;
     const offset = this.getDuration() - episodeLength;
 
@@ -418,10 +472,6 @@ export class BasePlayer implements Player {
 
     this.scheduledSkipTime = setTimeout(() => {
       this.setCurrentTime(endTime + offset);
-
-      if (skipType === 'preview') {
-        this.store.dispatch(previewSkipTimesRemoved());
-      }
     }, timeUntilSkipTime * 1000);
   }
 
@@ -432,6 +482,18 @@ export class BasePlayer implements Player {
    */
   setCurrentTime(time: number): void {
     if (!this.videoElement) {
+      return;
+    }
+
+    if (time < 0) {
+      this.videoElement.currentTime = 0;
+
+      return;
+    }
+
+    if (time > this.videoElement.duration) {
+      this.videoElement.currentTime = Math.floor(this.videoElement.duration);
+
       return;
     }
 

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction, Selector } from '@reduxjs/toolkit';
 import {
-  SetIsUserEditingKeybind,
-  SetKeybind,
-  SetSkipOption,
-  SetSkipTimeIndicatorColour,
+  IsUserEditingKeybindUpdatedPayload,
+  KeybindUpdatedPayload,
+  SkipOptionUpdatedPayload,
+  SkipTimeIndicatorColourUpdatedPayload,
   SettingsState,
 } from './types';
 import {
@@ -95,7 +95,10 @@ const settingsStateSlice = createSlice({
   name: 'settings',
   initialState: initialSettingsState,
   reducers: {
-    skipOptionUpdated: (state, action: PayloadAction<SetSkipOption>) => {
+    skipOptionUpdated: (
+      state,
+      action: PayloadAction<SkipOptionUpdatedPayload>
+    ) => {
       state.skipOptions[action.payload.type] = action.payload.option;
     },
     skipOptionsUpdated: (state, action: PayloadAction<SkipOptions>) => {
@@ -103,7 +106,7 @@ const settingsStateSlice = createSlice({
     },
     skipTimeIndicatorColourUpdated: (
       state,
-      action: PayloadAction<SetSkipTimeIndicatorColour>
+      action: PayloadAction<SkipTimeIndicatorColourUpdatedPayload>
     ) => {
       state.skipTimeIndicatorColours[action.payload.type] =
         action.payload.colour;
@@ -114,7 +117,7 @@ const settingsStateSlice = createSlice({
     ) => {
       state.skipTimeIndicatorColours = action.payload;
     },
-    keybindUpdated: (state, action: PayloadAction<SetKeybind>) => {
+    keybindUpdated: (state, action: PayloadAction<KeybindUpdatedPayload>) => {
       state.keybinds[action.payload.type] = action.payload.keybind;
     },
     keybindsUpdated: (state, action: PayloadAction<Keybinds>) => {
@@ -140,7 +143,7 @@ const settingsStateSlice = createSlice({
     },
     isUserEditingKeybindUpdated: (
       state,
-      action: PayloadAction<SetIsUserEditingKeybind>
+      action: PayloadAction<IsUserEditingKeybindUpdatedPayload>
     ) => {
       state.isUserEditingKeybind[action.payload.type] =
         action.payload.isUserEditingKeybind;

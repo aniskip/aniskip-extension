@@ -56,10 +56,17 @@ export abstract class BasePage implements Page {
       return;
     }
 
+    let rawEpisodeNumber = this.getRawEpisodeNumber();
+    this.episodeNumber = rawEpisodeNumber;
+
     let rules = await BasePage.getCachedRules(malId);
 
     if (!rules) {
-      ({ rules } = await aniskipHttpClient.getRules(malId));
+      try {
+        ({ rules } = await aniskipHttpClient.getRules(malId));
+      } catch (error: any) {
+        return;
+      }
 
       // Cache rules and expire it next week.
       const { rulesCache } = (await browser.storage.local.get({
@@ -73,9 +80,6 @@ export abstract class BasePage implements Page {
 
       browser.storage.local.set({ rulesCache });
     }
-
-    let rawEpisodeNumber = this.getRawEpisodeNumber();
-    this.episodeNumber = rawEpisodeNumber;
 
     rules.forEach((rule) => {
       const { start, end: endOrUndefined } = rule.from;

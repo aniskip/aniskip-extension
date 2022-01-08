@@ -1,4 +1,3 @@
-import { SetOptional } from 'type-fest';
 import { v4 as uuidv4 } from 'uuid';
 import { MediaTitle } from '../../api/anilist-http-client/anilist-http-client.types';
 import {
@@ -10,12 +9,9 @@ import { DEFAULT_COLOUR_PICKER_COLOURS } from '../../options/components/ColourPi
 
 export type SkipOptionType = 'disabled' | 'auto-skip' | 'manual-skip';
 
-export type SkipOptions = SetOptional<
-  {
-    [T in SkipType]: SkipOptionType;
-  },
-  'preview'
->;
+export type SkipOptions = {
+  [T in SkipType]: SkipOptionType;
+};
 
 export const DEFAULT_SKIP_OPTIONS: SkipOptions = {
   op: 'manual-skip',
@@ -25,12 +21,9 @@ export const DEFAULT_SKIP_OPTIONS: SkipOptions = {
   recap: 'manual-skip',
 } as const;
 
-export type SkipTimeIndicatorColours = Omit<
-  {
-    [T in SkipType]: string;
-  },
-  'preview'
->;
+export type SkipTimeIndicatorColours = {
+  [T in SkipType | 'preview']: string;
+};
 
 export const DEFAULT_SKIP_TIME_INDICATOR_COLOURS: SkipTimeIndicatorColours = {
   op: DEFAULT_COLOUR_PICKER_COLOURS[5],
@@ -38,6 +31,7 @@ export const DEFAULT_SKIP_TIME_INDICATOR_COLOURS: SkipTimeIndicatorColours = {
   'mixed-op': DEFAULT_COLOUR_PICKER_COLOURS[3],
   'mixed-ed': DEFAULT_COLOUR_PICKER_COLOURS[2],
   recap: DEFAULT_COLOUR_PICKER_COLOURS[8],
+  preview: DEFAULT_COLOUR_PICKER_COLOURS[1],
 } as const;
 
 export const KEYBIND_TYPES = [
@@ -46,6 +40,10 @@ export const KEYBIND_TYPES = [
   'increase-current-time-large',
   'decrease-current-time',
   'decrease-current-time-large',
+  'skip-forward',
+  'skip-backward',
+  'seek-forward-one-frame',
+  'seek-backward-one-frame',
 ] as const;
 
 export type KeybindType = typeof KEYBIND_TYPES[number];
@@ -61,6 +59,13 @@ export const SUBMIT_MENU_KEYBIND_TYPES = [
   'decrease-current-time-large',
 ] as const;
 
+export const PLAYER_CONTROLS_KEYBIND_TYPES = [
+  'skip-forward',
+  'skip-backward',
+  'seek-forward-one-frame',
+  'seek-backward-one-frame',
+] as const;
+
 export type Keybinds = {
   [T in KeybindType]: string;
 };
@@ -71,6 +76,10 @@ export const DEFAULT_KEYBINDS: Keybinds = {
   'increase-current-time-large': 'Shift+L',
   'decrease-current-time': 'j',
   'decrease-current-time-large': 'Shift+J',
+  'skip-forward': 'Ctrl+Shift+ArrowRight',
+  'skip-backward': 'Ctrl+Shift+ArrowLeft',
+  'seek-forward-one-frame': '.',
+  'seek-backward-one-frame': ',',
 } as const;
 
 export const KEYBIND_NAMES: Record<KeybindType, string> = {
@@ -79,6 +88,10 @@ export const KEYBIND_NAMES: Record<KeybindType, string> = {
   'increase-current-time-large': 'Increase current time (large)',
   'decrease-current-time': 'Decrease current time',
   'decrease-current-time-large': 'Decrease current time (large)',
+  'seek-forward-one-frame': 'Seek forward one frame',
+  'seek-backward-one-frame': 'Seek backward one frame',
+  'skip-forward': 'Seek forward',
+  'skip-backward': 'Seek backward',
 } as const;
 
 export const KEYBIND_INFO: Record<KeybindType, string> = {
@@ -88,6 +101,10 @@ export const KEYBIND_INFO: Record<KeybindType, string> = {
   'increase-current-time-large': 'Increases the start time or end time by %ss.',
   'decrease-current-time': 'Decreases the start time or end time by %ss.',
   'decrease-current-time-large': 'Decreases the start time or end time by %ss.',
+  'seek-forward-one-frame': 'Increases the current time forward by one frame.',
+  'seek-backward-one-frame': 'Decreases the current time forward by one frame.',
+  'skip-forward': 'Increases the current time forward by %ss.',
+  'skip-backward': 'Decreases the current time forward by %ss.',
 } as const;
 
 export type AnimeTitleLanguageType = Exclude<keyof MediaTitle, 'userPreferred'>;

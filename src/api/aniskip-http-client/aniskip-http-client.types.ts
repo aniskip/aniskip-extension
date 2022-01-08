@@ -1,7 +1,6 @@
 export const SKIP_TYPE_NAMES: Record<SkipType, string> = {
   op: 'Opening',
   ed: 'Ending',
-  preview: 'Preview',
   'mixed-op': 'Mixed opening',
   'mixed-ed': 'Mixed ending',
   recap: 'Recap',
@@ -10,7 +9,6 @@ export const SKIP_TYPE_NAMES: Record<SkipType, string> = {
 export const SKIP_TYPES = [
   'op',
   'ed',
-  'preview',
   'mixed-op',
   'mixed-ed',
   'recap',
@@ -26,6 +24,11 @@ export type SkipTime = {
   skipType: SkipType;
   skipId: string;
   episodeLength: number;
+};
+
+export type PreviewSkipTime = {
+  interval: SkipTime['interval'];
+  episodeLength: SkipTime['episodeLength'];
 };
 
 export type GetResponseFromSkipTimes = {

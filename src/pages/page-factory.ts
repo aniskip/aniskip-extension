@@ -9,6 +9,7 @@ import { Gogoanime } from './gogoanime';
 import { NekoSama } from './nekosama';
 import { Nineanime } from './nineanime';
 import { Twistmoe } from './twistmoe';
+import { Zoro } from './zoro';
 
 export class PageFactory {
   static pages = [
@@ -21,6 +22,7 @@ export class PageFactory {
     NekoSama,
     Nineanime,
     Twistmoe,
+    Zoro,
   ];
 
   /**

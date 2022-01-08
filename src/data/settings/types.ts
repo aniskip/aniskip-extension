@@ -10,22 +10,22 @@ export type SettingsState = {
   isUserEditingKeybind: Record<KeybindType, boolean>;
 } & Omit<SyncOptions, 'userId'>;
 
-export type SetSkipOption = {
+export type SkipOptionUpdatedPayload = {
   type: keyof SkipOptions;
   option: SkipOptionType;
 };
 
-export type SetSkipTimeIndicatorColour = {
+export type SkipTimeIndicatorColourUpdatedPayload = {
   type: keyof SkipTimeIndicatorColours;
   colour: string;
 };
 
-export type SetKeybind = {
+export type KeybindUpdatedPayload = {
   type: KeybindType;
   keybind: string;
 };
 
-export type SetIsUserEditingKeybind = {
+export type IsUserEditingKeybindUpdatedPayload = {
   type: KeybindType;
   isUserEditingKeybind: boolean;
 };

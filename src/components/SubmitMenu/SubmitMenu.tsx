@@ -8,6 +8,7 @@ import {
   SKIP_TYPE_NAMES,
   SKIP_TYPES,
   AniskipHttpClient,
+  PreviewSkipTime,
 } from '../../api';
 import { DefaultButton } from '../DefaultButton';
 import { Dropdown, DropdownOptionsProps } from '../Dropdown';
@@ -25,6 +26,7 @@ import {
   useDispatch,
   usePlayerRef,
   useSelector,
+  useWindowEvent,
 } from '../../utils';
 import {
   submitMenuVisibilityUpdated,
@@ -37,6 +39,10 @@ import {
   changeCurrentTimeLengthUpdated,
   keybindsUpdated,
   skipTimeLengthUpdated,
+  previewSkipTimeAdded,
+  previewSkipTimeRemoved,
+  previewSkipTimeIntervalUpdated,
+  selectPlayerControlsListenerType,
 } from '../../data';
 
 export function SubmitMenu(): JSX.Element {
@@ -63,12 +69,13 @@ export function SubmitMenu(): JSX.Element {
   const changeCurrentTimeLargeLength = useSelector(
     selectChangeCurrentTimeLargeLength
   );
+  const playerControlsEventListenerType = useSelector(
+    selectPlayerControlsListenerType
+  );
   const player = usePlayerRef();
   const dispatch = useDispatch();
 
-  const skipTypeDropdownOptions = SKIP_TYPES.filter(
-    (type) => type !== 'preview'
-  ).map((type) => ({
+  const skipTypeDropdownOptions = SKIP_TYPES.map((type) => ({
     id: type,
     label: SKIP_TYPE_NAMES[type],
   }));
@@ -239,30 +246,34 @@ export function SubmitMenu(): JSX.Element {
    *
    * @param seekOffset Number to add to current time.
    */
-  const onClickSeekTime = (seekOffset: number) => async (): Promise<void> => {
-    let setTimeFunction: React.Dispatch<React.SetStateAction<string>>;
-    let currentTime = '';
+  const onClickSeekTime =
+    (seekOffset: number) =>
+    async (event: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+      event.currentTarget.blur();
 
-    switch (currentInputFocus) {
-      case 'start-time':
-        setTimeFunction = setStartTime;
-        currentTime = startTime;
-        break;
-      case 'end-time':
-        setTimeFunction = setEndTime;
-        currentTime = endTime;
-        break;
-      default:
-        return;
-    }
+      let setTimeFunction: React.Dispatch<React.SetStateAction<string>>;
+      let currentTime = '';
 
-    const updatedTime = errorCorrectTime(
-      timeStringToSeconds(currentTime) + seekOffset
-    );
+      switch (currentInputFocus) {
+        case 'start-time':
+          setTimeFunction = setStartTime;
+          currentTime = startTime;
+          break;
+        case 'end-time':
+          setTimeFunction = setEndTime;
+          currentTime = endTime;
+          break;
+        default:
+          return;
+      }
 
-    setTimeFunction(secondsToTimeString(updatedTime));
-    player?.setCurrentTime(updatedTime);
-  };
+      const updatedTime = errorCorrectTime(
+        timeStringToSeconds(currentTime) + seekOffset
+      );
+
+      setTimeFunction(secondsToTimeString(updatedTime));
+      player?.setCurrentTime(updatedTime);
+    };
 
   /**
    * Formats time input on blur.
@@ -291,26 +302,28 @@ export function SubmitMenu(): JSX.Element {
   /**
    * Adds a preview skip time.
    */
-  const onClickPreviewButton = async (): Promise<void> => {
-    const episodeLength = player?.getDuration() ?? 0;
+  const onClickPreviewButton = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
+    event.currentTarget.blur();
 
-    const skipTime: SkipTime = {
-      interval: {
-        startTime: timeStringToSeconds(startTime),
-        endTime: timeStringToSeconds(endTime),
-      },
-      skipType: 'preview',
-      skipId: '',
-      episodeLength,
-    };
+    if (currentInputFocus === 'start-time') {
+      player?.setCurrentTime(timeStringToSeconds(startTime) - 2);
+    } else {
+      player?.setCurrentTime(timeStringToSeconds(endTime));
+    }
 
-    player?.addSkipTime(skipTime);
+    player?.play();
   };
 
   /**
    * Sets the focused input to the current player time.
    */
-  const onClickNowButton = async (): Promise<void> => {
+  const onClickNowButton = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
+    event.currentTarget.blur();
+
     const currentTime = player?.getCurrentTime() ?? 0;
 
     switch (currentInputFocus) {
@@ -328,7 +341,11 @@ export function SubmitMenu(): JSX.Element {
   /**
    * Sets the focused input to the video duration.
    */
-  const onClickEndButton = async (): Promise<void> => {
+  const onClickEndButton = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
+    event.currentTarget.blur();
+
     const duration = player?.getDuration() ?? 0;
     const trimmedDuration = Math.floor(duration);
 
@@ -345,34 +362,23 @@ export function SubmitMenu(): JSX.Element {
   };
 
   /**
-   * Handles on change event for the input start time.
+   * Handles on change event for the input time.
    *
+   * @param setTime React time setter function.
    * @param event Event.
    */
-  const onChangeStartTime = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    const timeString = event.currentTarget.value;
-    const testRegex = inputPatternTestRegexRef.current;
-    if (testRegex.test(timeString)) {
-      setStartTime(timeString);
-    }
-  };
+  const onChangeTime =
+    (setTime: React.Dispatch<React.SetStateAction<string>>) =>
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      const timeString = event.currentTarget.value;
+      const testRegex = inputPatternTestRegexRef.current;
 
-  /**
-   * Handles on change event for the input end time.
-   *
-   * @param event Event.
-   */
-  const onChangeEndTime = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    const timeString = event.currentTarget.value;
-    const testRegex = inputPatternTestRegexRef.current;
-    if (testRegex.test(timeString)) {
-      setEndTime(timeString);
-    }
-  };
+      if (!testRegex.test(timeString)) {
+        return;
+      }
+
+      setTime(timeString);
+    };
 
   /**
    * Handles the mouse wheel scroll in input boxes.
@@ -429,6 +435,8 @@ export function SubmitMenu(): JSX.Element {
    */
   useEffect(() => {
     if (!visible) {
+      dispatch(previewSkipTimeRemoved());
+
       return;
     }
 
@@ -444,6 +452,19 @@ export function SubmitMenu(): JSX.Element {
     }
     setEndTime(secondsToTimeString(newEndTime));
     setSkipType(currentTime < duration / 2 ? 'op' : 'ed');
+
+    // Initialise preview skip time.
+    const episodeLength = player?.getDuration() ?? 0;
+
+    const previewSkipTime: PreviewSkipTime = {
+      interval: {
+        startTime: currentTime,
+        endTime: newEndTime,
+      },
+      episodeLength,
+    };
+
+    dispatch(previewSkipTimeAdded(previewSkipTime));
   }, [visible]);
 
   /**
@@ -468,9 +489,57 @@ export function SubmitMenu(): JSX.Element {
     })();
   }, []);
 
+  /**
+   * Sync start time with skip indicator.
+   */
+  useEffect(() => {
+    const timeSeconds = timeStringToSeconds(startTime);
+
+    dispatch(
+      previewSkipTimeIntervalUpdated({
+        intervalType: 'startTime',
+        time: timeSeconds,
+      })
+    );
+  }, [startTime]);
+
+  /**
+   * Sync end time with skip indicator.
+   */
+  useEffect(() => {
+    const timeSeconds = timeStringToSeconds(endTime);
+
+    dispatch(
+      previewSkipTimeIntervalUpdated({
+        intervalType: 'endTime',
+        time: timeSeconds,
+      })
+    );
+  }, [endTime]);
+
+  useWindowEvent(playerControlsEventListenerType, (event: KeyboardEvent) => {
+    const setTime =
+      currentInputFocus === 'start-time' ? setStartTime : setEndTime;
+
+    const currentTime = player?.getCurrentTime() ?? 0;
+    const currentTimeString = secondsToTimeString(currentTime);
+
+    switch (serialiseKeybind(event)) {
+      case keybinds['seek-forward-one-frame']:
+      case keybinds['seek-backward-one-frame']: {
+        // No need to add or remove one frame as it is already updated due to
+        // order of event listener registration.
+        setTime(currentTimeString);
+        break;
+      }
+      default:
+      // no default
+    }
+  });
+
   return (
     <div
-      className={`text-sm md:text-base font-sans w-[26em] px-5 pt-2 pb-4 bg-neutral-800 bg-opacity-80 border border-gray-300 select-none rounded-md transition-opacity text-white opacity-0 pointer-events-none ${
+      className={`text-sm md:text-base font-sans w-[26em] px-5 pt-2 pb-4 bg-neutral-800 bg-opacity-80 border border-gray-300 select-none rounded-md transition-opacity text-white opacity-0 pointer-events-none backdrop-blur-md ${
         visible ? 'sm:opacity-100 sm:pointer-events-auto' : ''
       }`}
       role="menu"
@@ -504,7 +573,7 @@ export function SubmitMenu(): JSX.Element {
               required
               title="Hours : Minutes : Seconds"
               placeholder="Start time"
-              onChange={onChangeStartTime}
+              onChange={onChangeTime(setStartTime)}
               onKeyDown={onKeyDown(setStartTime)}
               onFocus={(): void => setCurrentInputFocus('start-time')}
               onBlur={onBlur(setStartTime, startTime)}
@@ -527,7 +596,7 @@ export function SubmitMenu(): JSX.Element {
               required
               title="Hours : Minutes : Seconds"
               placeholder="End time"
-              onChange={onChangeEndTime}
+              onChange={onChangeTime(setEndTime)}
               onKeyDown={onKeyDown(setEndTime)}
               onFocus={(): void => setCurrentInputFocus('end-time')}
               onBlur={onBlur(setEndTime, endTime)}

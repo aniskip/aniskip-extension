@@ -12,10 +12,12 @@
     "*://fembed-hd.com/*",
     "*://gogo-play.net/*",
     "*://gogo-play.tv/*",
+    "*://gogoplay.io/*",
     "*://gogoplay1.com/*",
     "*://kimanime.ru/AnimeIframe/*",
     "*://mcloud.to/*",
     "*://mcloud2.to/*",
+    "*://rapid-cloud.ru/*",
     "*://sbembed.com/*",
     "*://sbplay.org/*",
     "*://sbplay2.com/*",
@@ -24,6 +26,8 @@
     "*://streamsb.net/*",
     "*://videovard.sx/*",
     "*://vidstream.pro/*",
-    "*://vidstreamz.online/*"
+    "*://vidstreamingcdn.com/*",
+    "*://vidstreamz.online/*",
+    "*://watchsb.com/*"
   ]
 }
