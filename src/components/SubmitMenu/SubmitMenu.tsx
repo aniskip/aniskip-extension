@@ -20,6 +20,7 @@ import {
 } from '../../scripts/background';
 import {
   formatTimeString,
+  roundToClosestMultiple,
   secondsToTimeString,
   serialiseKeybind,
   timeStringToSeconds,
@@ -44,6 +45,7 @@ import {
   previewSkipTimeIntervalUpdated,
   selectPlayerControlsListenerType,
 } from '../../data';
+import { FRAME_RATE } from '../../players/base-player.types';
 
 export function SubmitMenu(): JSX.Element {
   const aniskipHttpClientRef = useRef<AniskipHttpClient>(
@@ -393,8 +395,10 @@ export function SubmitMenu(): JSX.Element {
     ) =>
     (event: React.WheelEvent<HTMLInputElement>): void => {
       const timeSeconds = timeStringToSeconds(currentTime);
-      const seekOffset = event.deltaY > 0 ? -0.01 : 0.01;
-      const updatedTime = errorCorrectTime(timeSeconds + seekOffset);
+      const seekOffset = event.deltaY > 0 ? -FRAME_RATE : FRAME_RATE;
+      const updatedTime = errorCorrectTime(
+        roundToClosestMultiple(timeSeconds + seekOffset, FRAME_RATE)
+      );
 
       setTime(secondsToTimeString(updatedTime));
 
