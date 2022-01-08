@@ -1,12 +1,19 @@
 {
   "extends": ["config:base"],
   "labels": ["automated update"],
-  "automerge": true,
-  "platformAutomerge": true,
   "packageRules": [
     {
       "matchPackagePatterns": ["*"],
       "rangeStrategy": "bump"
+    },
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true
     }
-  ]
+  ],
+  "platformAutomerge": true
 }
