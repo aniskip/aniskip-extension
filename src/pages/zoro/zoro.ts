@@ -1,3 +1,4 @@
+import { decodeHTML } from 'entities';
 import { malIdUpdated, selectMalId } from '../../data';
 import { BasePage } from '../base-page';
 import { Metadata } from '../base-page.types';
@@ -14,7 +15,7 @@ export class Zoro extends BasePage {
   }
 
   getTitle(): string {
-    return this.getSyncData().name;
+    return decodeHTML(this.getSyncData().name);
   }
 
   getIdentifier(): string {
