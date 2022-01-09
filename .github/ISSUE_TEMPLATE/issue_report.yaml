@@ -65,6 +65,12 @@ body:
       label: Screenshots
       description: If applicable, add screenshots to help explain your problem.
       placeholder: Add screenshots!
+  - type: markdown
+    attributes:
+      value: |
+        **We always welcome contribution! Don't be shy, we're learning as well** 
+
+        ![thanks](https://i.imgur.com/ysKm0L8.jpeg)
   - type: checkboxes
     id: terms
     attributes:
