@@ -485,7 +485,7 @@ export function SettingsPage(): JSX.Element {
           </Setting>
           <Setting
             className="pt-3"
-            name="Preview button emulates an auto skip time"
+            name="Emulate an auto skip with the preview button"
             description="Clicking the preview button will try to emulate a user auto skipping to the end time. If disabled, the current time is simply set to the start / end time."
           >
             <Toggle
