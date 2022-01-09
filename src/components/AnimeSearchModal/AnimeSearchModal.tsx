@@ -180,7 +180,7 @@ export function AnimeSearchModal({
             type="button"
             onClick={onClose}
           >
-            Esc
+            Escape
           </Keyboard>
         </div>
         <hr />

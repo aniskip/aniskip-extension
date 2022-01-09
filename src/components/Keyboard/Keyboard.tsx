@@ -1,11 +1,9 @@
 import React from 'react';
 import {
-  HiArrowDown,
-  HiArrowLeft,
-  HiArrowRight,
-  HiArrowUp,
-} from 'react-icons/hi';
-import { DEFAULT_KEYBOARD_TAG, KeyboardProps } from './Keyboard.types';
+  DEFAULT_KEYBOARD_TAG,
+  KeyboardProps,
+  KEYBOARD_DISPLAY,
+} from './Keyboard.types';
 
 export function Keyboard<
   TTag extends React.ElementType = typeof DEFAULT_KEYBOARD_TAG
@@ -23,20 +21,7 @@ export function Keyboard<
       return children;
     }
 
-    switch (children) {
-      case 'ArrowLeft':
-        return <HiArrowLeft />;
-      case 'ArrowRight':
-        return <HiArrowRight />;
-      case 'ArrowUp':
-        return <HiArrowUp />;
-      case 'ArrowDown':
-        return <HiArrowDown />;
-      default:
-      // no default
-    }
-
-    return children;
+    return KEYBOARD_DISPLAY[children] ?? children;
   };
 
   return React.createElement(
