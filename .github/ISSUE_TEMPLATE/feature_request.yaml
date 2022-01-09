@@ -48,10 +48,11 @@ body:
         - Step 3
           ...
 
-        _Or_ you have a concept art  
+        _Or_ you have a concept art
+        
         ![concept art](https://i.imgur.com/PoJrh8r.png)
 
-        _Or_ you know an example or have the technical expertise  
+        _Or_ you know an example or have the technical expertise
         - [link to somewhere](https://github.com/THIS-IS-NOT-A-BACKUP/.github/blob/main/profile/README.md)
       placeholder: Describe additional context!
       render: markdown
