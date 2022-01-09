@@ -13,7 +13,6 @@ body:
         - In my case, I am _tired of manually skipping stuff because the skipping rules are global_.
       placeholder: Describe the problem!
       value: "My whole screen is filled with padoru!"
-      render: markdown
     validations:
       required: true
   - type: textarea
@@ -25,7 +24,6 @@ body:
         In my case, I want _Anime specific skipping rules_.  
       placeholder: Describe your solution!
       value: "Burn the witch!"
-      render: markdown
     validations:
       required: true
   - type: textarea
@@ -36,7 +34,6 @@ body:
         You say you tried _rehydrating and sleeping to quench your thirst, but it proves ineffective_.
         In my case, I say I tried _manually skipping, but it was not user-friendly, I'd rather watch [Nero vtubing](https://www.youtube.com/watch?v=JyxME9uC_Sc)_.
       placeholder: Describe your alterative solutions!
-      render: markdown
   - type: textarea
     id: additional-context
     attributes:
@@ -49,16 +46,23 @@ body:
           ...
 
         _Or_ you have a concept art
-        
+
         ![concept art](https://i.imgur.com/PoJrh8r.png)
 
-        _Or_ you know an example or have the technical expertise
+        _Or_ you know an example or have the technical expertise  
         - [link to somewhere](https://github.com/THIS-IS-NOT-A-BACKUP/.github/blob/main/profile/README.md)
       placeholder: Describe additional context!
-      render: markdown
   - type: markdown
     attributes:
       value: |
         **We always welcome contribution! Don't be shy, we're learning as well** 
 
         ![thanks](https://i.imgur.com/ysKm0L8.jpeg)
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree that you filled in the correct information..
+      options:
+        - label: I agree to fill in the correct information
+          required: true
