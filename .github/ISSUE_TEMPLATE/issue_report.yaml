@@ -8,9 +8,9 @@ body:
     attributes:
       label: Describe the bug
       description: |
-        **Setting**: So you're in a bar, and the bartender asks you what do you want.  
-        - You say you want to _eat something because you're hungry from pressing left click 50 times_.
-        - In my case, I am _tired of manually skipping stuff because the skipping rules are global_.
+        **Setting**: You're in a barbershop, and the barber asks you what's the deal?  
+        - You say _my hair is too long_, **even though** _it shouldn't be this long_.  
+        - I say _the automatic anime title detection failed, it always links me to Bunny Girl Senpai (love it tho)_, **even though** _it should be detecting my current anime_.
       placeholder: Describe the bug!
       value: "My whole screen is filled with padoru!"
     validations:
