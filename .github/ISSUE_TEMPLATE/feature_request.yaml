@@ -1,0 +1,68 @@
+name: Feature request
+description: Suggest an idea for this project
+labels: ["enhancement"]
+
+body:
+  - type: textarea
+    id: describe-problem
+    attributes:
+      label: Is your feature request related to a problem?
+      description: |
+        **Setting**: So you're in a bar, and the bartender asks you what do you want.  
+        - You say you want to _eat something because you're hungry from pressing left click 50 times_.
+        - In my case, I am _tired of manually skipping stuff because the skipping rules are global_.
+      placeholder: Describe the problem!
+      value: "My whole screen is filled with padoru!"
+    validations:
+      required: true
+  - type: textarea
+    id: describe-solution
+    attributes:
+      label: Describe the solution you'd like
+      description: |
+        You say you want _skimmed milk-dipped triple chocolate cookies from LIDL_.  
+        In my case, I want _Anime specific skipping rules_.  
+      placeholder: Describe your solution!
+      value: "Burn the witch!"
+    validations:
+      required: true
+  - type: textarea
+    id: describe-alternative-solutions
+    attributes:
+      label: Describe alternatives you've considered
+      description: |
+        You say you tried _rehydrating and sleeping to quench your thirst, but it proves ineffective_.
+        In my case, I say I tried _manually skipping, but it was not user-friendly, I'd rather watch [Nero vtubing](https://www.youtube.com/watch?v=JyxME9uC_Sc)_.
+      placeholder: Describe your alterative solutions!
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: |
+        If you could think of how (conceptually)
+        - Step 1
+        - Step 2
+        - Step 3
+          ...
+
+        _Or_ you have concept art
+
+        ![concept art](https://i.imgur.com/PoJrh8r.png)
+
+        _Or_ you know an example or have the technical expertise  
+        - [link to somewhere](https://github.com/THIS-IS-NOT-A-BACKUP/.github/blob/main/profile/README.md)
+      placeholder: Describe additional context!
+  - type: markdown
+    attributes:
+      value: |
+        **We always welcome contributions! Don't be shy, we're learning as well** 
+
+        ![thanks](https://i.imgur.com/ysKm0L8.jpeg)
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree that you filled in the correct information...
+      options:
+        - label: I agree to fill in the correct information
+          required: true

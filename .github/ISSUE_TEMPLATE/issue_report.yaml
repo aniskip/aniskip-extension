@@ -1,0 +1,81 @@
+name: Issue report
+description: Report about an issue with this project
+labels: ["bug"]
+
+body:
+  - type: textarea
+    id: describe-bug
+    attributes:
+      label: Describe the bug
+      description: |
+        **Setting**: You're in a barbershop, and the barber asks you what's the deal?  
+        - You say _my hair is too long_, **even though** _it shouldn't be this long_.  
+        - I say _the automatic anime title detection failed, it always links me to Bunny Girl Senpai (love it tho)_, **even though** _it should be detecting my current anime_.
+      placeholder: Describe the bug!
+      value: "My whole screen is filled with padoru!"
+    validations:
+      required: true
+  - type: textarea
+    id: describe-repro
+    attributes:
+      label: To Reproduce
+      description: |
+        How did we get here?
+          
+        **IMPORTANT: If unsure**, say _I think..._, otherwise we would take ages trying to reproduce something that isn't there. 
+      placeholder: Describe the steps!
+      value: |
+        Steps to reproduce the behavior:
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+  - type: textarea
+    id: device-info
+    attributes:
+      label: Device Information
+      description: |
+        1. Include extension version (extension settings \-> details)
+
+           ![extension version](https://i.imgur.com/diMO0Z9.png)
+        1. Browser type (_Chrome/Firefox/Brave/Netscape/etc_) and browser version (usually under `Help`->`About`, search for it!)  
+           _Opera [Windows 10 64-bit], 82.0.4227.43_  
+
+           ![browser version](https://i.imgur.com/byd3xqJ.png)
+        1. Operating system, and version
+           _Windows 10 Education, Build 19044.1415_
+
+           ![OS version](https://i.imgur.com/4aQLbUI.png)
+      placeholder: Describe device information!
+      value: |
+        1. Extension version:
+        2. Browser:
+           1. Type:
+           2. Version:
+        3. Operating system:
+           1. Type:
+           2. Version:
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.
+      placeholder: Add screenshots!
+  - type: markdown
+    attributes:
+      value: |
+        **We always welcome contributions! Don't be shy, we're learning as well** 
+
+        ![thanks](https://i.imgur.com/ysKm0L8.jpeg)
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree that you filled in the correct information...
+      options:
+        - label: I agree to fill in the correct information
+          required: true
