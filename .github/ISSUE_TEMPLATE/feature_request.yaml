@@ -20,7 +20,7 @@ body:
     attributes:
       label: Describe the solution you'd like
       description: |
-        You say you want _skimmed milk dipped triple chocolate cookies from LIDL_.  
+        You say you want _skimmed milk-dipped triple chocolate cookies from LIDL_.  
         In my case, I want _Anime specific skipping rules_.  
       placeholder: Describe your solution!
       value: "Burn the witch!"
@@ -55,14 +55,14 @@ body:
   - type: markdown
     attributes:
       value: |
-        **We always welcome contribution! Don't be shy, we're learning as well** 
+        **We always welcome contributions! Don't be shy, we're learning as well** 
 
         ![thanks](https://i.imgur.com/ysKm0L8.jpeg)
   - type: checkboxes
     id: terms
     attributes:
       label: Code of Conduct
-      description: By submitting this issue, you agree that you filled in the correct information..
+      description: By submitting this issue, you agree that you filled in the correct information...
       options:
         - label: I agree to fill in the correct information
           required: true
