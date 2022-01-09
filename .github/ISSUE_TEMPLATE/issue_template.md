@@ -1,9 +1,9 @@
 ---
 name: Issue report
 about: Report about an issue with this project
-title: ''
 labels: bug
-assignees: ''
+---
+
 ---
 
 **Describe the bug**   
