@@ -41,10 +41,13 @@ import {
   changeCurrentTimeLargeLengthUpdated,
   animeTitleLanguageUpdated,
   selectAnimeTitleLanguage,
+  isPreviewButtonEmulatingAutoSkipUpdated,
+  selectIsPreviewButtonEmulatingAutoSkip,
 } from '../../../data';
 import { ColourPicker } from '../ColourPicker';
 import { serialiseKeybind, useDispatch, useSelector } from '../../../utils';
 import { Setting } from '../Setting';
+import { Toggle } from '../../../components/Toggle';
 
 export function SettingsPage(): JSX.Element {
   const [isSettingsLoaded, setIsSettingsLoaded] = useState<boolean>(false);
@@ -58,6 +61,9 @@ export function SettingsPage(): JSX.Element {
   );
   const animeTitleLanguage = useSelector(selectAnimeTitleLanguage);
   const isUserEditingKeybind = useSelector(selectIsUserEditingKeybind);
+  const isPreviewButtonEmulatingAutoSkip = useSelector(
+    selectIsPreviewButtonEmulatingAutoSkip
+  );
   const keybindInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
@@ -243,6 +249,15 @@ export function SettingsPage(): JSX.Element {
   };
 
   /**
+   * Handles changes to the skip preview behavour.
+   *
+   * @param value New value to update to.
+   */
+  const onChangePreviewButtonBehaviour = (value: boolean): void => {
+    dispatch(isPreviewButtonEmulatingAutoSkipUpdated(value));
+  };
+
+  /**
    * Renders a keybind. If no keybind is present, render an add keybind
    * button.
    *
@@ -339,6 +354,11 @@ export function SettingsPage(): JSX.Element {
         )
       );
       dispatch(animeTitleLanguageUpdated(syncOptions.animeTitleLanguage));
+      dispatch(
+        isPreviewButtonEmulatingAutoSkipUpdated(
+          syncOptions.isPreviewButtonEmulatingAutoSkip
+        )
+      );
       setIsSettingsLoaded(true);
     })();
   }, []);
@@ -356,6 +376,7 @@ export function SettingsPage(): JSX.Element {
         changeCurrentTimeLength,
         changeCurrentTimeLargeLength,
         animeTitleLanguage,
+        isPreviewButtonEmulatingAutoSkip,
       });
     }
   }, [
@@ -367,6 +388,7 @@ export function SettingsPage(): JSX.Element {
     changeCurrentTimeLargeLength,
     animeTitleLanguage,
     isSettingsLoaded,
+    isPreviewButtonEmulatingAutoSkip,
   ]);
 
   return (
@@ -460,6 +482,20 @@ export function SettingsPage(): JSX.Element {
               />
               <span className="pl-1">s</span>
             </div>
+          </Setting>
+          <Setting
+            className="pt-3"
+            name="Preview button emulates an auto skip time"
+            description="Clicking the preview button will try to emulate a user auto skipping to the end time. If disabled, the current time is simply set to the start / end time."
+          >
+            <Toggle
+              checked={isPreviewButtonEmulatingAutoSkip}
+              onChange={onChangePreviewButtonBehaviour}
+            >
+              <span className="sr-only">
+                Enable skip time emulation on preview button click
+              </span>
+            </Toggle>
           </Setting>
         </div>
       </div>
