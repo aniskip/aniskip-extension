@@ -68,14 +68,14 @@ body:
   - type: markdown
     attributes:
       value: |
-        **We always welcome contribution! Don't be shy, we're learning as well** 
+        **We always welcome contributions! Don't be shy, we're learning as well** 
 
         ![thanks](https://i.imgur.com/ysKm0L8.jpeg)
   - type: checkboxes
     id: terms
     attributes:
       label: Code of Conduct
-      description: By submitting this issue, you agree that you filled in the correct information..
+      description: By submitting this issue, you agree that you filled in the correct information...
       options:
         - label: I agree to fill in the correct information
           required: true
