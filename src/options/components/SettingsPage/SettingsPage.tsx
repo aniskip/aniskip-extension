@@ -6,48 +6,53 @@ import { ColorResult } from 'react-color';
 import { debounce } from 'lodash';
 import { sprintf } from 'sprintf-js';
 import { SkipType, SKIP_TYPES, SKIP_TYPE_NAMES } from '../../../api';
-import { DefaultButton, Dropdown, Input, Keyboard } from '../../../components';
+import {
+  DefaultButton,
+  Dropdown,
+  Input,
+  Keyboard,
+  Toggle,
+} from '../../../components';
 import {
   ANIME_SEARCH_OVERLAY_KEYBIND_TYPES,
+  AnimeTitleLanguageType,
   DEFAULT_SYNC_OPTIONS,
   KEYBIND_INFO,
   KEYBIND_NAMES,
   KeybindType,
   LocalOptions,
+  PLAYER_CONTROLS_KEYBIND_TYPES,
   SUBMIT_MENU_KEYBIND_TYPES,
   SkipOptionType,
-  SyncOptions,
-  AnimeTitleLanguageType,
-  PLAYER_CONTROLS_KEYBIND_TYPES,
   SkipTimeIndicatorColours,
+  SyncOptions,
 } from '../../../scripts/background';
 import {
-  selectSkipTimeIndicatorColours,
+  animeTitleLanguageUpdated,
+  changeCurrentTimeLargeLengthUpdated,
+  changeCurrentTimeLengthUpdated,
+  isPreviewButtonEmulatingAutoSkipUpdated,
+  isUserEditingKeybindUpdated,
+  keybindUpdated,
+  keybindsUpdated,
+  selectAnimeTitleLanguage,
+  selectChangeCurrentTimeLargeLength,
+  selectChangeCurrentTimeLength,
+  selectIsPreviewButtonEmulatingAutoSkip,
+  selectIsUserEditingKeybind,
+  selectKeybinds,
   selectSkipOptions,
-  skipTimeIndicatorColourUpdated,
-  skipTimeIndicatorColoursUpdated,
+  selectSkipTimeIndicatorColours,
+  selectSkipTimeLength,
   skipOptionUpdated,
   skipOptionsUpdated,
-  keybindsUpdated,
-  selectKeybinds,
-  keybindUpdated,
-  selectIsUserEditingKeybind,
-  isUserEditingKeybindUpdated,
-  selectSkipTimeLength,
-  selectChangeCurrentTimeLength,
-  selectChangeCurrentTimeLargeLength,
+  skipTimeIndicatorColourUpdated,
+  skipTimeIndicatorColoursUpdated,
   skipTimeLengthUpdated,
-  changeCurrentTimeLengthUpdated,
-  changeCurrentTimeLargeLengthUpdated,
-  animeTitleLanguageUpdated,
-  selectAnimeTitleLanguage,
-  isPreviewButtonEmulatingAutoSkipUpdated,
-  selectIsPreviewButtonEmulatingAutoSkip,
 } from '../../../data';
 import { ColourPicker } from '../ColourPicker';
 import { serialiseKeybind, useDispatch, useSelector } from '../../../utils';
 import { Setting } from '../Setting';
-import { Toggle } from '../../../components/Toggle';
 
 export function SettingsPage(): JSX.Element {
   const [isSettingsLoaded, setIsSettingsLoaded] = useState<boolean>(false);

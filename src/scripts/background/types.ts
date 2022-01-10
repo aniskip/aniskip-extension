@@ -5,7 +5,7 @@ import {
   SkipType,
   VoteType,
 } from '../../api/aniskip-http-client/aniskip-http-client.types';
-import { DEFAULT_COLOUR_PICKER_COLOURS } from '../../options/components/ColourPicker/ColourPicker.types';
+import { DEFAULT_COLOUR_PICKER_COLOURS } from '../../options/components/ColourPicker';
 
 export type SkipOptionType = 'disabled' | 'auto-skip' | 'manual-skip';
 
