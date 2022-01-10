@@ -1,5 +1,5 @@
 import { AppConfig } from '.';
-import { WindowProxy } from '../../utils/proxy-window';
+import { WindowProxy } from '../../utils';
 import { BaseHttpClient, Config, Response } from '../base-http-client';
 import {
   GetResponseFromIndexV2,
