@@ -25,11 +25,11 @@ import {
 import {
   skipTimeAdded,
   skipTimesRemoved,
-  stateReset,
   selectSkipTimes,
   Store,
   configureStore,
   selectPreviewSkipTime,
+  playerStateReset,
 } from '../data';
 
 export class BasePlayer implements Player {
@@ -454,7 +454,7 @@ export class BasePlayer implements Player {
 
   reset(): void {
     this.clearScheduledSkipTime();
-    this.store.dispatch(stateReset());
+    this.store.dispatch(playerStateReset());
   }
 
   /**

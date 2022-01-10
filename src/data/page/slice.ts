@@ -47,6 +47,7 @@ const pageStateSlice = createSlice({
     isInitialOverlayOpenUpdated: (state, action: PayloadAction<boolean>) => {
       state.isInitialOverlayOpen = action.payload;
     },
+    pageStateReset: () => initialPageState,
   },
 });
 
@@ -55,5 +56,6 @@ export const {
   overlayClosed,
   malIdUpdated,
   isInitialOverlayOpenUpdated,
+  pageStateReset,
 } = pageStateSlice.actions;
 export default pageStateSlice.reducer;

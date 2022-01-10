@@ -1,4 +1,5 @@
 import { CrunchyrollBetaHttpClient } from '../../api';
+import { pageStateReset } from '../../data';
 import { BasePage } from '../base-page';
 import { Metadata } from '../base-page.types';
 import metadata from './metadata.json';
@@ -37,6 +38,8 @@ export class CrunchyrollBeta extends BasePage {
 
       this.rawEpisodeNumber = episodeMetadata.episode_number;
       this.title = episodeMetadata.season_title;
+
+      this.store.dispatch(pageStateReset());
     }).observe(document, { subtree: true, childList: true });
   }
 

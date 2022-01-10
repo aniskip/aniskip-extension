@@ -98,7 +98,7 @@ const playerStateSlice = createSlice({
     ) => {
       state.playerControlsListenerType = action.payload;
     },
-    stateReset: () => initialPlayerState,
+    playerStateReset: () => initialPlayerState,
   },
 });
 
@@ -112,6 +112,6 @@ export const {
   skipTimeRemoved,
   skipTimesRemoved,
   playerControlsListenerTypeUpdated,
-  stateReset,
+  playerStateReset,
 } = playerStateSlice.actions;
 export default playerStateSlice.reducer;
