@@ -1,5 +1,4 @@
 import globToRegExp from 'glob-to-regexp';
-import { Doodstream } from './doodstream';
 import { FourAnime, Videojs } from './videojs';
 import { Jw } from './jw';
 import { Plyr } from './plyr';
@@ -8,15 +7,7 @@ import { Crunchyroll } from './crunchyroll';
 import { Player } from './base-player.types';
 
 export class PlayerFactory {
-  static players = [
-    Crunchyroll,
-    Doodstream,
-    FourAnime,
-    Jw,
-    Plyr,
-    Twistmoe,
-    Videojs,
-  ];
+  static players = [Crunchyroll, FourAnime, Jw, Plyr, Twistmoe, Videojs];
 
   /**
    * Obtains the player object from the domain.

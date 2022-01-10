@@ -13,19 +13,19 @@ export class Jw extends BasePlayer {
 
   getVideoContainer(): HTMLElement | null {
     return document.querySelector<HTMLElement>(
-      `[aria-label="${metadata.videoContainerSelectorString}"]`
+      `[aria-label="${this.metadata.selectorStrings.default.videoContainerSelectorString}"]`
     );
   }
 
   getVideoControlsContainer(): HTMLElement | null {
     return super.getContainerHelper(
-      metadata.videoControlsContainerSelectorString
+      this.metadata.selectorStrings.default.videoControlsContainerSelectorString
     );
   }
 
   getSeekBarContainer(): HTMLElement | null {
     const slider = document.querySelector<HTMLElement>(
-      `[aria-label^="${metadata.seekBarContainerSelectorString}"]`
+      `[aria-label^="${this.metadata.selectorStrings.default.seekBarContainerSelectorString}"]`
     );
     const firstChild = slider?.firstChild;
     if (firstChild) {
@@ -36,7 +36,7 @@ export class Jw extends BasePlayer {
 
   getSettingsButtonElement(): HTMLElement | null {
     return document.querySelector<HTMLElement>(
-      `[aria-label="${metadata.injectMenusButtonsReferenceNodeSelectorString}"][tabindex="0"]`
+      `[aria-label="${this.metadata.selectorStrings.default.injectMenusButtonsReferenceNodeSelectorString}"][tabindex="0"]`
     );
   }
 }

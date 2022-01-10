@@ -15,11 +15,15 @@ export class Crunchyroll extends BasePlayer {
   getSeekBarContainer(): HTMLElement | null {
     if (isMobileCheck()) {
       return super.getContainerHelper(
-        metadata.seekBarContainerSelectorStringMobile
+        this.metadata.selectorStrings.default
+          .seekBarContainerSelectorStringMobile!
       );
     }
 
-    return super.getContainerHelper(metadata.seekBarContainerSelectorString, 1);
+    return super.getContainerHelper(
+      this.metadata.selectorStrings.default.seekBarContainerSelectorString,
+      1
+    );
   }
 
   initialise(): void {
