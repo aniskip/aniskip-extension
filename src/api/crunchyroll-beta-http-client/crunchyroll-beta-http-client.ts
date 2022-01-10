@@ -1,10 +1,10 @@
-import { AppConfig } from '.';
-import { WindowProxy } from '../../utils';
+import { WindowProxy } from '../../utils/proxy-window';
 import { BaseHttpClient, Config, Response } from '../base-http-client';
 import {
   GetResponseFromIndexV2,
   GetResponseFromObjects,
   PostResponseFromAuthV1,
+  AppConfig,
 } from './crunchyroll-beta-http-client.types';
 
 export class CrunchyrollBetaHttpClient extends BaseHttpClient {
