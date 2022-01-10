@@ -44,6 +44,8 @@ import {
   previewSkipTimeRemoved,
   previewSkipTimeIntervalUpdated,
   selectPlayerControlsListenerType,
+  selectIsPreviewButtonEmulatingAutoSkip,
+  isPreviewButtonEmulatingAutoSkipUpdated,
 } from '../../data';
 import { FRAME_RATE } from '../../players/base-player.types';
 
@@ -73,6 +75,9 @@ export function SubmitMenu(): JSX.Element {
   );
   const playerControlsEventListenerType = useSelector(
     selectPlayerControlsListenerType
+  );
+  const isPreviewButtonEmulatingAutoSkip = useSelector(
+    selectIsPreviewButtonEmulatingAutoSkip
   );
   const player = usePlayerRef();
   const dispatch = useDispatch();
@@ -309,8 +314,16 @@ export function SubmitMenu(): JSX.Element {
   ): Promise<void> => {
     event.currentTarget.blur();
 
-    if (currentInputFocus === 'start-time') {
+    if (isPreviewButtonEmulatingAutoSkip) {
       player?.setCurrentTime(timeStringToSeconds(startTime) - 2);
+      player?.play();
+
+      return;
+    }
+
+    if (currentInputFocus === 'start-time') {
+      // Ensure that it does not auto skip.
+      player?.setCurrentTime(timeStringToSeconds(startTime) + 0.001);
     } else {
       player?.setCurrentTime(timeStringToSeconds(endTime));
     }
@@ -488,6 +501,11 @@ export function SubmitMenu(): JSX.Element {
       dispatch(
         changeCurrentTimeLargeLengthUpdated(
           syncOptions.changeCurrentTimeLargeLength
+        )
+      );
+      dispatch(
+        isPreviewButtonEmulatingAutoSkipUpdated(
+          syncOptions.isPreviewButtonEmulatingAutoSkip
         )
       );
     })();

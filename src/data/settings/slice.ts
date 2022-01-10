@@ -34,6 +34,8 @@ const initialSettingsState: SettingsState = {
   animeTitleLanguage: DEFAULT_SYNC_OPTIONS.animeTitleLanguage,
   isChangelogNotificationVisible:
     DEFAULT_SYNC_OPTIONS.isChangelogNotificationVisible,
+  isPreviewButtonEmulatingAutoSkip:
+    DEFAULT_SYNC_OPTIONS.isPreviewButtonEmulatingAutoSkip,
   isUserEditingKeybind: Object.assign(
     {},
     ...KEYBIND_TYPES.map((type) => ({ [type]: false }))
@@ -87,6 +89,11 @@ export const selectIsChangelogNotificationVisible: Selector<
   StateSlice<SettingsState, 'settings'>,
   boolean
 > = (state) => state.settings.isChangelogNotificationVisible;
+
+export const selectIsPreviewButtonEmulatingAutoSkip: Selector<
+  StateSlice<SettingsState, 'settings'>,
+  boolean
+> = (state) => state.settings.isPreviewButtonEmulatingAutoSkip;
 
 /**
  * Slice definition.
@@ -154,6 +161,12 @@ const settingsStateSlice = createSlice({
     changelogNotificationDismissed: (state) => {
       state.isChangelogNotificationVisible = false;
     },
+    isPreviewButtonEmulatingAutoSkipUpdated: (
+      state,
+      action: PayloadAction<boolean>
+    ) => {
+      state.isPreviewButtonEmulatingAutoSkip = action.payload;
+    },
   },
 });
 
@@ -171,5 +184,6 @@ export const {
   isUserEditingKeybindUpdated,
   changelogNotificationUpdated,
   changelogNotificationDismissed,
+  isPreviewButtonEmulatingAutoSkipUpdated,
 } = settingsStateSlice.actions;
 export default settingsStateSlice.reducer;
