@@ -2,9 +2,7 @@ import globToRegExp from 'glob-to-regexp';
 import { Page } from './base-page.types';
 import { AniMixPlay } from './animixplay';
 import { Animepahe } from './animepahe';
-import { Aniwatch } from './aniwatch';
 import { Crunchyroll } from './crunchyroll';
-import { FourAnime } from './fouranime';
 import { Gogoanime } from './gogoanime';
 import { NekoSama } from './nekosama';
 import { Nineanime } from './nineanime';
@@ -15,9 +13,7 @@ export class PageFactory {
   static pages = [
     AniMixPlay,
     Animepahe,
-    Aniwatch,
     Crunchyroll,
-    FourAnime,
     Gogoanime,
     NekoSama,
     Nineanime,
