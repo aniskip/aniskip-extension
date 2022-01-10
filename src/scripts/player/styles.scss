@@ -151,6 +151,10 @@ form {
     &--mixdrop {
       bottom: 5em;
     }
+
+    &--videovard {
+      z-index: 9999999999;
+    }
   }
 }
 
@@ -239,6 +243,10 @@ form {
     &--mobile {
       bottom: 5em;
     }
+  }
+
+  &--videovard {
+    z-index: 9999999999;
   }
 }
 

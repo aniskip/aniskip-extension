@@ -15,19 +15,20 @@ export class Plyr extends BasePlayer {
 
   getVideoContainer(): HTMLElement | null {
     return super.getContainerHelper(
-      this.metadata.selectorStrings.default.videoContainerSelectorString
+      this.metadata.selectorStrings.default!.videoContainerSelectorString
     );
   }
 
   getVideoControlsContainer(): HTMLElement | null {
     return super.getContainerHelper(
-      this.metadata.selectorStrings.default.videoControlsContainerSelectorString
+      this.metadata.selectorStrings.default!
+        .videoControlsContainerSelectorString
     );
   }
 
   getSettingsButtonElement(): HTMLElement | null {
     return super.getContainerHelper(
-      this.metadata.selectorStrings.default
+      this.metadata.selectorStrings.default!
         .injectMenusButtonsReferenceNodeSelectorString
     );
   }

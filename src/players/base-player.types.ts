@@ -11,7 +11,7 @@ export type SelectorStrings = {
 export type Metadata = {
   variant: string;
   playerUrls: string[];
-  selectorStrings: Record<string, SelectorStrings>;
+  selectorStrings: Partial<Record<string, SelectorStrings>>;
 };
 
 export type Player = {

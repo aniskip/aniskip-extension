@@ -258,8 +258,8 @@ export class BasePlayer implements Player {
     const { selectorStrings } = this.metadata;
 
     return document.getElementById(
-      selectorStrings[domainName].videoContainerSelectorString ??
-        selectorStrings.default.videoContainerSelectorString
+      selectorStrings[domainName]?.videoContainerSelectorString ??
+        selectorStrings.default!.videoContainerSelectorString
     );
   }
 
@@ -268,8 +268,8 @@ export class BasePlayer implements Player {
     const { selectorStrings } = this.metadata;
 
     return document.getElementById(
-      selectorStrings[domainName].videoControlsContainerSelectorString ??
-        selectorStrings.default.videoControlsContainerSelectorString
+      selectorStrings[domainName]?.videoControlsContainerSelectorString ??
+        selectorStrings.default!.videoControlsContainerSelectorString
     );
   }
 
@@ -281,8 +281,8 @@ export class BasePlayer implements Player {
     const { selectorStrings } = this.metadata;
 
     return this.getContainerHelper(
-      selectorStrings[domainName].seekBarContainerSelectorString ??
-        selectorStrings.default.seekBarContainerSelectorString
+      selectorStrings[domainName]?.seekBarContainerSelectorString ??
+        selectorStrings.default!.seekBarContainerSelectorString
     );
   }
 
@@ -292,8 +292,8 @@ export class BasePlayer implements Player {
 
     return document.getElementById(
       selectorStrings[domainName]
-        .injectMenusButtonsReferenceNodeSelectorString ??
-        selectorStrings.default.injectMenusButtonsReferenceNodeSelectorString
+        ?.injectMenusButtonsReferenceNodeSelectorString ??
+        selectorStrings.default!.injectMenusButtonsReferenceNodeSelectorString
     );
   }
 

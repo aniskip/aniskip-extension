@@ -20,23 +20,22 @@ export class Videojs extends BasePlayer {
 
   getVideoControlsContainer(): HTMLElement | null {
     const domainName = getDomainName(window.location.hostname);
+    const { selectorStrings } = this.metadata;
 
     return super.getContainerHelper(
-      this.metadata.selectorStrings[domainName]
-        .videoControlsContainerSelectorString ??
-        this.metadata.selectorStrings.default
-          .videoControlsContainerSelectorString
+      selectorStrings[domainName]?.videoControlsContainerSelectorString ??
+        selectorStrings.default!.videoControlsContainerSelectorString
     );
   }
 
   getSettingsButtonElement(): HTMLElement | null {
     const domainName = getDomainName(window.location.hostname);
+    const { selectorStrings } = this.metadata;
 
     return super.getContainerHelper(
-      this.metadata.selectorStrings[domainName]
-        .injectMenusButtonsReferenceNodeSelectorString ??
-        this.metadata.selectorStrings.default
-          .injectMenusButtonsReferenceNodeSelectorString
+      selectorStrings[domainName]
+        ?.injectMenusButtonsReferenceNodeSelectorString ??
+        selectorStrings.default!.injectMenusButtonsReferenceNodeSelectorString
     );
   }
 }

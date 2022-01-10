@@ -13,13 +13,14 @@ export class Twistmoe extends BasePlayer {
 
   getVideoContainer(): HTMLElement | null {
     return super.getContainerHelper(
-      this.metadata.selectorStrings.default.videoContainerSelectorString
+      this.metadata.selectorStrings.default!.videoContainerSelectorString
     );
   }
 
   getVideoControlsContainer(): HTMLElement | null {
     return super.getContainerHelper(
-      this.metadata.selectorStrings.default.videoControlsContainerSelectorString
+      this.metadata.selectorStrings.default!
+        .videoControlsContainerSelectorString
     );
   }
 
