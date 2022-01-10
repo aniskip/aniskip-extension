@@ -30,9 +30,7 @@ const messageHandler = (
     case 'fetch': {
       return (async (): Promise<any> => {
         try {
-          const { url, method, data, params } = message.payload;
-
-          const response = await axios({ url, method, data, params });
+          const response = await axios(message.payload);
 
           return {
             data: response.data,

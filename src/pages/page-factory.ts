@@ -3,6 +3,7 @@ import { Page } from './base-page.types';
 import { AniMixPlay } from './animixplay';
 import { Animepahe } from './animepahe';
 import { Crunchyroll } from './crunchyroll';
+import { CrunchyrollBeta } from './crunchyroll-beta';
 import { Gogoanime } from './gogoanime';
 import { NekoSama } from './nekosama';
 import { Nineanime } from './nineanime';
@@ -14,6 +15,7 @@ export class PageFactory {
     AniMixPlay,
     Animepahe,
     Crunchyroll,
+    CrunchyrollBeta,
     Gogoanime,
     NekoSama,
     Nineanime,

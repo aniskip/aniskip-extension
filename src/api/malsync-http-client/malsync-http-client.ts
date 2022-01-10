@@ -18,7 +18,7 @@ export class MalsyncHttpClient extends BaseHttpClient {
     identifier: string
   ): Promise<GetResponseFromPage> {
     const route = `/page/${providerName}/${identifier}`;
-    const response = await this.request(route, 'GET');
+    const response = await this.request({ route, method: 'GET' });
 
     switch (response.status) {
       case 400:

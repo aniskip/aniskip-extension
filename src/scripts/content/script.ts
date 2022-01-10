@@ -4,13 +4,17 @@ import { PageFactory } from '../../pages/page-factory';
 
 const page = PageFactory.getPage(window.location.href);
 
+/**
+ * Injects the overlay.
+ */
+const injectOverlayListener = (): void => {
+  page.injectOverlay();
+
+  document.removeEventListener('DOMContentLoaded', injectOverlayListener);
+};
+
 // Inject search overlay once when the document body loads.
-new MutationObserver((_mutations, observer) => {
-  if (document.body) {
-    page.injectOverlay();
-    observer.disconnect();
-  }
-}).observe(document, { subtree: true, childList: true });
+document.addEventListener('DOMContentLoaded', injectOverlayListener);
 
 /**
  * Handles messages from the player script.
