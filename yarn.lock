@@ -2339,16 +2339,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redux-devtools/app@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@redux-devtools/app@npm:2.0.0"
+"@redux-devtools/app@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@redux-devtools/app@npm:2.0.1"
   dependencies:
     "@babel/runtime": ^7.16.7
     "@redux-devtools/chart-monitor": ^2.0.0
     "@redux-devtools/core": ^3.10.0
     "@redux-devtools/inspector-monitor": ^2.0.0
-    "@redux-devtools/inspector-monitor-test-tab": ^0.8.0
-    "@redux-devtools/inspector-monitor-trace-tab": ^0.3.0
+    "@redux-devtools/inspector-monitor-test-tab": ^0.8.1
+    "@redux-devtools/inspector-monitor-trace-tab": ^0.3.1
     "@redux-devtools/log-monitor": ^3.0.0
     "@redux-devtools/rtk-query-monitor": ^2.0.0
     "@redux-devtools/slider-monitor": ^3.0.0
@@ -2373,7 +2373,7 @@ __metadata:
     "@types/styled-components": ^5.1.19
     react: ^16.3.0 || ^17.0.0
     styled-components: ^5.3.3
-  checksum: 5e1c72d4bdbe363db2f593a1459260c4ef0a483e7728f1737a7cf1113448cdb13bcb2522b5b131c9c633744fc9f299c934982b5785284d46852d75f8ce80c82e
+  checksum: 354bf6e73f6f057bcb12d3703696d5c078c18d9fff1047665ce45082fafe212e578e1dc134c814790a3f2d4160e307e92dc1cd4f8be5d792d36c6863661971c7
   languageName: node
   linkType: hard
 
@@ -2397,11 +2397,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redux-devtools/cli@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@redux-devtools/cli@npm:1.0.1"
+"@redux-devtools/cli@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@redux-devtools/cli@npm:1.0.2"
   dependencies:
-    "@redux-devtools/app": ^2.0.0
+    "@redux-devtools/app": ^2.0.1
     "@types/react": ^17.0.38
     apollo-server-express: ^3.6.1
     body-parser: ^1.19.1
@@ -2427,7 +2427,7 @@ __metadata:
     uuid: ^8.3.2
   bin:
     redux-devtools: bin/redux-devtools.js
-  checksum: 165a6496b80ad171f4e9ecf1e74f88cbc189edaa55dd9c546a07c35ba5a83162a0abd920506386e82ffaaace44d235a48810fd9497a8ba0c3814b883843e0eff
+  checksum: 69f429334c22b9738fc488501a9d349691823a4af6786dff339d76472f296d55daa88db338a369cd76d56988d945a050080303ee45abe84299dbea592e2ff26b
   languageName: node
   linkType: hard
 
@@ -2448,9 +2448,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redux-devtools/inspector-monitor-test-tab@npm:^0.8.0":
-  version: 0.8.0
-  resolution: "@redux-devtools/inspector-monitor-test-tab@npm:0.8.0"
+"@redux-devtools/inspector-monitor-test-tab@npm:^0.8.1":
+  version: 0.8.1
+  resolution: "@redux-devtools/inspector-monitor-test-tab@npm:0.8.1"
   dependencies:
     "@babel/runtime": ^7.16.7
     "@redux-devtools/ui": ^1.1.0
@@ -2463,19 +2463,19 @@ __metadata:
     react-icons: ^4.3.1
     simple-diff: ^1.6.0
   peerDependencies:
-    "@redux-devtools/inspector-monitor": ^1.0.0
+    "@redux-devtools/inspector-monitor": ^2.0.0
     "@types/react": ^16.3.0 || ^17.0.0
     "@types/styled-components": ^5.1.19
     react: ^16.3.0 || ^17.0.0
     redux: ^3.4.0 || ^4.0.0
     styled-components: ^5.3.3
-  checksum: f957c1eb1813ac97862b51dad4503d630e5cf6dd5e0b1f6d44f5927a3c8f5bbc9002ecf55eb7e9b879eb43b2a351c903b967cac99a416beaa1fe169abdebbdd4
+  checksum: 4aa9668dbc9a9a601c898eddd3678bdb3a4be594d0b8e68616516e5c2bbc160ac3762fdb3af59d915d14f4cf1438e7882ec4c52d7e8b87d093c74dff042c46c8
   languageName: node
   linkType: hard
 
-"@redux-devtools/inspector-monitor-trace-tab@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@redux-devtools/inspector-monitor-trace-tab@npm:0.3.0"
+"@redux-devtools/inspector-monitor-trace-tab@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "@redux-devtools/inspector-monitor-trace-tab@npm:0.3.1"
   dependencies:
     "@babel/code-frame": ^7.16.7
     "@babel/runtime": ^7.16.7
@@ -2485,11 +2485,11 @@ __metadata:
     redux-devtools-themes: ^1.0.0
     source-map: ^0.5.7
   peerDependencies:
-    "@redux-devtools/inspector-monitor": ^1.0.0
+    "@redux-devtools/inspector-monitor": ^2.0.0
     "@types/react": ^16.3.0 || ^17.0.0
     react: ^16.3.0 || ^17.0.0
     redux: ^3.4.0 || ^4.0.0
-  checksum: 846b0d0a9c36e449f6b5080bd7cda21311d36eb7af0c6019bdcc7c86a097910e90b39bbbecf895d4843711ff7876758a2cfaf17a76dd7d02d77226a83c95676b
+  checksum: c162e295987bdc59f7784cb17f83929c7b69e0acc004987884e4a1714ad390db9f90a040bf9c733c84b488027ffab68ac88b0478585fa5bd24f27d03c748f1c5
   languageName: node
   linkType: hard
 
@@ -15236,7 +15236,7 @@ resolve@^2.0.0-next.3:
     "@babel/runtime": ^7.16.7
     "@headlessui/react": ^1.4.2
     "@mantiquillal/web-ext-plugin": ^1.5.1
-    "@redux-devtools/cli": ^1.0.1
+    "@redux-devtools/cli": ^1.0.2
     "@reduxjs/toolkit": ^1.7.1
     "@types/chrome": ^0.0.176
     "@types/glob-to-regexp": ^0.4.1
