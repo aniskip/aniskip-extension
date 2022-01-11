@@ -34,7 +34,7 @@ export class WindowProxy {
      */
     const addProxyScript = (): HTMLScriptElement => {
       const script = document.createElement('script');
-      script.textContent = `
+      const scriptContent = document.createTextNode(`
         const { currentScript } = document;
 
         /**
@@ -61,8 +61,9 @@ export class WindowProxy {
 
           window.addEventListener('load', listener);
         })();
-      `;
+      `);
 
+      script.appendChild(scriptContent);
       document.head.appendChild(script);
 
       return script;
