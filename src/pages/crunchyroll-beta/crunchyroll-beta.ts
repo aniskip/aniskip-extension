@@ -32,11 +32,15 @@ export class CrunchyrollBeta extends BasePage {
 
       const identifier = this.getIdentifier();
 
+      if (!identifier) {
+        return;
+      }
+
       const response =
         await this.crunchyrollBetaHttpClient.getEpisodeInformation(identifier);
 
       // Not in an episode page.
-      if (response.items[0].type !== 'episode') {
+      if (response.items.length === 0 || response.items[0].type !== 'episode') {
         return;
       }
 
