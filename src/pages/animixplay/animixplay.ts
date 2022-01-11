@@ -38,7 +38,7 @@ export class AniMixPlay extends BasePage {
     return 1;
   }
 
-  getMalId(): Promise<number> {
+  async getMalId(): Promise<number> {
     let malId = selectMalId(this.store.getState());
 
     // Redirection rules applied.
@@ -46,6 +46,22 @@ export class AniMixPlay extends BasePage {
       return Promise.resolve(malId);
     }
 
+    // Search manually detected anime titles.
+    const title = this.getTitle();
+
+    if (!title) {
+      return 0;
+    }
+
+    malId = this.store.dispatch(
+      malIdUpdated(await BasePage.searchManualTitleToMalIdMapping(title))
+    ).payload;
+
+    if (malId > 0) {
+      return malId;
+    }
+
+    // Use identifier for MAL id.
     malId = this.store.dispatch(
       malIdUpdated(parseInt(this.getIdentifier(), 10))
     ).payload;
