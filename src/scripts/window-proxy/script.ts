@@ -18,9 +18,20 @@
       return;
     }
 
-    currentScript.dataset.value = JSON.stringify(
-      window[property as keyof Window]
-    );
+    // Allow nested property access.
+    const properties = property.split('.') as (keyof Window)[];
+
+    let currentValue = window;
+
+    for (
+      let i = 0;
+      currentValue[properties[i]] && i < properties.length;
+      i += 1
+    ) {
+      currentValue = currentValue[properties[i]];
+    }
+
+    currentScript.dataset.value = JSON.stringify(currentValue);
   };
 
   if (document.readyState === 'complete') {
