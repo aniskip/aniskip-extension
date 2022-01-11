@@ -37,17 +37,30 @@ export class WindowProxy {
       script.textContent = `
         const { currentScript } = document;
 
-        if (document.readyState === 'complete') {
-          currentScript.setAttribute('${property}', JSON.stringify(window.${property}));
-        } else {
+        /**
+         * Retrieves the property and sets it as the data attribute.
+         */
+        const setAttribute = () =>
+          currentScript.setAttribute('data', JSON.stringify(window.${property}));
+
+        /**
+         * Main function.
+         */
+        (() => {
+          if (document.readyState === 'complete') {
+            setAttribute();
+
+            return;
+          }
+
           const listener = () => {
-            currentScript.setAttribute('${property}', JSON.stringify(window.${property}));
+            setAttribute();
 
             window.removeEventListener('load', listener);
           };
 
           window.addEventListener('load', listener);
-        }
+        })();
       `;
 
       document.head.appendChild(script);
@@ -56,30 +69,30 @@ export class WindowProxy {
     };
 
     return new Promise((resolve, reject) => {
-      if (document.readyState === 'complete') {
+      /**
+       * Retrieves the data from the script tag.
+       */
+      const getData = (): void => {
         const script = addProxyScript();
 
         try {
-          const value = script.getAttribute(property) ?? '';
+          const value = script.getAttribute('data') ?? '';
           script.remove();
 
           resolve(JSON.parse(value));
         } catch (error: any) {
           reject(error);
         }
+      };
+
+      if (document.readyState === 'complete') {
+        getData();
+
+        return;
       }
 
       window.addEventListener('load', () => {
-        const script = addProxyScript();
-
-        try {
-          const value = script.getAttribute(property) ?? '';
-          script.remove();
-
-          resolve(JSON.parse(value));
-        } catch (error: any) {
-          reject(error);
-        }
+        getData();
       });
     });
   }
