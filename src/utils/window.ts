@@ -44,7 +44,7 @@ export class WindowProxy {
          * Retrieves the property and sets it as the data attribute.
          */
         const setAttribute = () =>
-          currentScript.setAttribute('${id}', JSON.stringify(window.${property}));
+          currentScript.setAttribute('data-${id}', JSON.stringify(window.${property}));
 
         /**
          * Main function.
@@ -80,7 +80,7 @@ export class WindowProxy {
         const script = addProxyScript();
 
         try {
-          const value = script.getAttribute(id) ?? '';
+          const value = script.getAttribute(`data-${id}`) ?? '';
           script.remove();
 
           resolve(JSON.parse(value));
