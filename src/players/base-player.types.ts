@@ -3,6 +3,7 @@ import { SkipTime } from '../api';
 export type SelectorStrings = {
   videoContainerSelectorString: string;
   videoControlsContainerSelectorString: string;
+  videoControlsContainerSelectorStringMobile?: string;
   injectMenusButtonsReferenceNodeSelectorString: string;
   seekBarContainerSelectorString: string;
   seekBarContainerSelectorStringMobile?: string;
