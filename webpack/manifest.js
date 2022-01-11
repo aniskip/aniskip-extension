@@ -22,6 +22,7 @@ const manifest = {
     '*://api.aniskip.com/*',
     '*://api.malsync.moe/*',
     '*://graphql.anilist.co/*',
+    '*://beta-api.crunchyroll.com/*',
   ],
   icons: {
     16: 'icon_16.png',
