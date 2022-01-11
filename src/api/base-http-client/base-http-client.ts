@@ -6,7 +6,7 @@ import { Message } from '../../scripts/background';
 export abstract class BaseHttpClient implements HttpClient {
   baseUrl: string;
 
-  constructor(baseUrl: string = '') {
+  constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
   }
 

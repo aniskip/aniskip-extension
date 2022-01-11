@@ -19,7 +19,7 @@ export class CrunchyrollBetaHttpClient extends BaseHttpClient {
   isAuthenticated: boolean;
 
   constructor() {
-    super();
+    super('');
 
     this.signature = '';
     this.keyPairId = '';
