@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Adds an event listener to the window.
@@ -30,8 +29,6 @@ export class WindowProxy {
    * @param property Property to retrieve from proxy window.
    */
   getProperty<T = any>(property: string): Promise<T> {
-    const id = uuidv4();
-
     /**
      * Adds the proxy window script to the page.
      */
@@ -43,8 +40,11 @@ export class WindowProxy {
         /**
          * Retrieves the property and sets it as the data attribute.
          */
-        const setAttribute = () =>
-          currentScript.setAttribute('data-${id}', JSON.stringify(window.${property}));
+        const setAttribute = () => {
+          const { property } = currentScript.dataset;
+
+          currentScript.dataset.value = JSON.stringify(window[property]);
+        }
 
         /**
          * Main function.
@@ -66,7 +66,9 @@ export class WindowProxy {
         })();
       `);
 
+      script.dataset.property = property;
       script.appendChild(scriptContent);
+
       document.head.appendChild(script);
 
       return script;
@@ -80,8 +82,14 @@ export class WindowProxy {
         const script = addProxyScript();
 
         try {
-          const value = script.getAttribute(`data-${id}`) ?? '';
-          script.remove();
+          const { value } = script.dataset;
+          // script.remove();
+
+          if (!value) {
+            reject(new Error('The value is empty'));
+
+            return;
+          }
 
           resolve(JSON.parse(value));
         } catch (error: any) {

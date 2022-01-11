@@ -1,7 +1,7 @@
 import { WindowProxy } from '../../utils/window';
 import { BaseHttpClient, Config, Response } from '../base-http-client';
 import {
-  CxApiParams,
+  AppConfig,
   GetResponseFromIndexV2,
   GetResponseFromObjects,
   PostResponseFromAuthV1,
@@ -38,9 +38,11 @@ export class CrunchyrollBetaHttpClient extends BaseHttpClient {
 
     const windowProxy = new WindowProxy();
 
-    const cxApiParams = await windowProxy.getProperty<CxApiParams>(
-      '__APP_CONFIG__.cxApiParams'
+    const appConfig = await windowProxy.getProperty<AppConfig>(
+      '__APP_CONFIG__'
     );
+
+    const { cxApiParams } = appConfig;
 
     this.baseUrl = cxApiParams.apiDomain;
 
