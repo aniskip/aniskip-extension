@@ -5,7 +5,7 @@ const webExtConfig = require('../web-ext.config');
 const commonConfig = require('./webpack.common.config');
 
 module.exports = merge(commonConfig, {
-  devtool: 'cheap-module-source-map',
+  devtool: 'inline-cheap-module-source-map',
   optimization: {
     minimize: false,
     moduleIds: 'named',
