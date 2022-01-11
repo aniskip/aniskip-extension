@@ -454,6 +454,7 @@ export class BasePlayer implements Player {
 
   reset(): void {
     this.clearScheduledSkipTime();
+    this.isReady = false;
     this.store.dispatch(playerStateReset());
   }
 
