@@ -16,6 +16,7 @@ const manifest = {
   background: {
     scripts: ['background-script.js'],
   },
+  web_accessible_resources: ['window-proxy-script.js'],
   permissions: [
     'storage',
     '*://api.aniskip.com/*',

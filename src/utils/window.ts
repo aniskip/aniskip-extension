@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { browser } from 'webextension-polyfill-ts';
 
 /**
  * Adds an event listener to the window.
@@ -29,83 +30,31 @@ export class WindowProxy {
    * @param property Property to retrieve from proxy window.
    */
   getProperty<T = any>(property: string): Promise<T> {
-    /**
-     * Adds the proxy window script to the page.
-     */
-    const addProxyScript = (): HTMLScriptElement => {
+    return new Promise((resolve, reject) => {
       const script = document.createElement('script');
-      const scriptContent = document.createTextNode(`
-        const { currentScript } = document;
 
-        /**
-         * Retrieves the property and sets it as the data attribute.
-         */
-        const setAttribute = () => {
-          const { property } = currentScript.dataset;
+      script.src = browser.runtime.getURL('window-proxy-script.js');
+      script.dataset.property = property;
 
-          currentScript.dataset.value = JSON.stringify(window[property]);
+      (document.head || document.documentElement).appendChild(script);
+
+      new MutationObserver((_mutations, observer) => {
+        const { value } = script.dataset;
+
+        if (!value) {
+          return;
         }
 
-        /**
-         * Main function.
-         */
-        (() => {
-          if (document.readyState === 'complete') {
-            setAttribute();
-
-            return;
-          }
-
-          const listener = () => {
-            setAttribute();
-
-            window.removeEventListener('load', listener);
-          };
-
-          window.addEventListener('load', listener);
-        })();
-      `);
-
-      script.dataset.property = property;
-      script.appendChild(scriptContent);
-
-      document.head.appendChild(script);
-
-      return script;
-    };
-
-    return new Promise((resolve, reject) => {
-      /**
-       * Retrieves the data from the script tag.
-       */
-      const getData = (): void => {
-        const script = addProxyScript();
+        observer.disconnect();
 
         try {
-          const { value } = script.dataset;
-          // script.remove();
-
-          if (!value) {
-            reject(new Error('The value is empty'));
-
-            return;
-          }
-
           resolve(JSON.parse(value));
         } catch (error: any) {
           reject(error);
         }
-      };
 
-      if (document.readyState === 'complete') {
-        getData();
-
-        return;
-      }
-
-      window.addEventListener('load', () => {
-        getData();
-      });
+        script.remove();
+      }).observe(script, { attributes: true });
     });
   }
 }
