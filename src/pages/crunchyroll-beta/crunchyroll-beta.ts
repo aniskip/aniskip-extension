@@ -35,6 +35,11 @@ export class CrunchyrollBeta extends BasePage {
       const response =
         await this.crunchyrollBetaHttpClient.getEpisodeInformation(identifier);
 
+      // Not in an episode page.
+      if (response.items[0].type !== 'episode') {
+        return;
+      }
+
       const episodeMetadata = response.items[0].episode_metadata;
 
       this.rawEpisodeNumber = episodeMetadata.episode_number;
