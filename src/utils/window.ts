@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Adds an event listener to the window.
@@ -29,6 +30,8 @@ export class WindowProxy {
    * @param property Property to retrieve from proxy window.
    */
   getProperty<T = any>(property: string): Promise<T> {
+    const id = uuidv4();
+
     /**
      * Adds the proxy window script to the page.
      */
@@ -41,7 +44,7 @@ export class WindowProxy {
          * Retrieves the property and sets it as the data attribute.
          */
         const setAttribute = () =>
-          currentScript.setAttribute('data', JSON.stringify(window.${property}));
+          currentScript.setAttribute('${id}', JSON.stringify(window.${property}));
 
         /**
          * Main function.
@@ -77,7 +80,7 @@ export class WindowProxy {
         const script = addProxyScript();
 
         try {
-          const value = script.getAttribute('data') ?? '';
+          const value = script.getAttribute(id) ?? '';
           script.remove();
 
           resolve(JSON.parse(value));
