@@ -22,7 +22,7 @@ export class CrunchyrollBeta extends BasePage {
     this.crunchyrollBetaHttpClient = new CrunchyrollBetaHttpClient();
     this.previousPath = '';
 
-    // SPA detection series and episode.
+    // SPA detection for series and episodes.
     new MutationObserver(async () => {
       if (this.previousPath === window.location.pathname) {
         return;
