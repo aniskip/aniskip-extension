@@ -16,9 +16,11 @@ export class AniMixPlay extends BasePage {
 
   getTitle(): string {
     const titleSpan = document.getElementsByClassName('animetitle')[0];
+
     if (titleSpan) {
-      return titleSpan.innerHTML;
+      return titleSpan.textContent ?? '';
     }
+
     return this.getIdentifier();
   }
 
