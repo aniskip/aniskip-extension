@@ -2339,19 +2339,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redux-devtools/app@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "@redux-devtools/app@npm:2.0.1"
+"@redux-devtools/app@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@redux-devtools/app@npm:2.0.2"
   dependencies:
     "@babel/runtime": ^7.16.7
-    "@redux-devtools/chart-monitor": ^2.0.0
-    "@redux-devtools/core": ^3.10.0
-    "@redux-devtools/inspector-monitor": ^2.0.0
-    "@redux-devtools/inspector-monitor-test-tab": ^0.8.1
-    "@redux-devtools/inspector-monitor-trace-tab": ^0.3.1
-    "@redux-devtools/log-monitor": ^3.0.0
-    "@redux-devtools/rtk-query-monitor": ^2.0.0
-    "@redux-devtools/slider-monitor": ^3.0.0
+    "@redux-devtools/chart-monitor": ^2.0.1
+    "@redux-devtools/core": ^3.10.1
+    "@redux-devtools/inspector-monitor": ^2.0.1
+    "@redux-devtools/inspector-monitor-test-tab": ^0.8.2
+    "@redux-devtools/inspector-monitor-trace-tab": ^0.3.2
+    "@redux-devtools/log-monitor": ^3.0.1
+    "@redux-devtools/rtk-query-monitor": ^2.0.1
+    "@redux-devtools/slider-monitor": ^3.0.1
     "@redux-devtools/ui": ^1.1.0
     "@reduxjs/toolkit": ^1.7.1
     "@types/prop-types": ^15.7.4
@@ -2373,13 +2373,13 @@ __metadata:
     "@types/styled-components": ^5.1.19
     react: ^16.3.0 || ^17.0.0
     styled-components: ^5.3.3
-  checksum: 354bf6e73f6f057bcb12d3703696d5c078c18d9fff1047665ce45082fafe212e578e1dc134c814790a3f2d4160e307e92dc1cd4f8be5d792d36c6863661971c7
+  checksum: 5674c4c7c389c7112b2d0553033e125dc909bcff68e34e0ffdace0d5e1cd1e3844796ec1e719c57cb0ed5e9977133cf860ccdb6a8db408c54f441c557e643544
   languageName: node
   linkType: hard
 
-"@redux-devtools/chart-monitor@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@redux-devtools/chart-monitor@npm:2.0.0"
+"@redux-devtools/chart-monitor@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@redux-devtools/chart-monitor@npm:2.0.1"
   dependencies:
     "@babel/runtime": ^7.16.7
     "@types/prop-types": ^15.7.4
@@ -2393,15 +2393,15 @@ __metadata:
     "@types/react": ^16.3.0 || ^17.0.0
     react: ^16.3.0 || ^17.0.0
     redux: ^3.4.0 || ^4.0.0
-  checksum: 7c12d65c0bb1479760ffee30ec9d003f5c4b931928b50c6ab962e39b7f873df89f7bbe3c144e5c2851771d06b8c68b336409399c8925cb4a0e7a8e8915ff621e
+  checksum: b4a2b23f617e5663428ac670002eacc70077507c2dc4c27a81a555b89cbe28e49c5135b70e4765e6ac0add38cca7bc50562ae5e04e72c1bb9c815290a20531fc
   languageName: node
   linkType: hard
 
-"@redux-devtools/cli@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@redux-devtools/cli@npm:1.0.2"
+"@redux-devtools/cli@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@redux-devtools/cli@npm:1.0.3"
   dependencies:
-    "@redux-devtools/app": ^2.0.1
+    "@redux-devtools/app": ^2.0.2
     "@types/react": ^17.0.38
     apollo-server-express: ^3.6.1
     body-parser: ^1.19.1
@@ -2427,16 +2427,16 @@ __metadata:
     uuid: ^8.3.2
   bin:
     redux-devtools: bin/redux-devtools.js
-  checksum: 69f429334c22b9738fc488501a9d349691823a4af6786dff339d76472f296d55daa88db338a369cd76d56988d945a050080303ee45abe84299dbea592e2ff26b
+  checksum: 2bb4cff0d384aa0b44105f3e0667ca63e39b4a9a702cef6b5963146e6f89987704785afce75036fded46fcb872443b2cdf83d1398ce0da3a73e1161c6cfa1987
   languageName: node
   linkType: hard
 
-"@redux-devtools/core@npm:^3.10.0":
-  version: 3.10.0
-  resolution: "@redux-devtools/core@npm:3.10.0"
+"@redux-devtools/core@npm:^3.10.1":
+  version: 3.10.1
+  resolution: "@redux-devtools/core@npm:3.10.1"
   dependencies:
     "@babel/runtime": ^7.16.7
-    "@redux-devtools/instrument": ^2.0.0
+    "@redux-devtools/instrument": ^2.0.1
     "@types/prop-types": ^15.7.4
     lodash: ^4.17.21
     prop-types: ^15.8.0
@@ -2444,13 +2444,13 @@ __metadata:
     react: ^0.14.9 || ^15.3.0 || ^16.0.0 || ^17.0.0
     react-redux: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
     redux: ^3.5.2 || ^4.0.0
-  checksum: cb26cb55159dc4e4371829732dc6f0293397f1b823f3b93c29ddff344db2db1160b362417c9c86346fe5afdb17604da39406907b6fe42c92b13ede1b5521bd67
+  checksum: 587eb4ab6b4cad1bed7f568d1d6d0b1e0519e7532b8dea11b4bfb8bfcc371c6ac668ba76b9f4156098eadd4b5250da413d78a26df89b8ef2d0e5b05d279890a7
   languageName: node
   linkType: hard
 
-"@redux-devtools/inspector-monitor-test-tab@npm:^0.8.1":
-  version: 0.8.1
-  resolution: "@redux-devtools/inspector-monitor-test-tab@npm:0.8.1"
+"@redux-devtools/inspector-monitor-test-tab@npm:^0.8.2":
+  version: 0.8.2
+  resolution: "@redux-devtools/inspector-monitor-test-tab@npm:0.8.2"
   dependencies:
     "@babel/runtime": ^7.16.7
     "@redux-devtools/ui": ^1.1.0
@@ -2469,13 +2469,13 @@ __metadata:
     react: ^16.3.0 || ^17.0.0
     redux: ^3.4.0 || ^4.0.0
     styled-components: ^5.3.3
-  checksum: 4aa9668dbc9a9a601c898eddd3678bdb3a4be594d0b8e68616516e5c2bbc160ac3762fdb3af59d915d14f4cf1438e7882ec4c52d7e8b87d093c74dff042c46c8
+  checksum: 0f359af86318c7018f2000d1a2935af84cf36a464d51c77ab8073d52a0a5652948ab3a034516f13efc6cce2eb409ad7efeae62563b59118898a1178a13694527
   languageName: node
   linkType: hard
 
-"@redux-devtools/inspector-monitor-trace-tab@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "@redux-devtools/inspector-monitor-trace-tab@npm:0.3.1"
+"@redux-devtools/inspector-monitor-trace-tab@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "@redux-devtools/inspector-monitor-trace-tab@npm:0.3.2"
   dependencies:
     "@babel/code-frame": ^7.16.7
     "@babel/runtime": ^7.16.7
@@ -2489,13 +2489,13 @@ __metadata:
     "@types/react": ^16.3.0 || ^17.0.0
     react: ^16.3.0 || ^17.0.0
     redux: ^3.4.0 || ^4.0.0
-  checksum: c162e295987bdc59f7784cb17f83929c7b69e0acc004987884e4a1714ad390db9f90a040bf9c733c84b488027ffab68ac88b0478585fa5bd24f27d03c748f1c5
+  checksum: 3ca588a39892ff36b8d1578c3622b61c5cb2241ed6cd4060c4255655bce942b187cdda0bb31835052d70a839b64ac7fd7f0116a5f8613fdce3fb3ffc0ed8a295
   languageName: node
   linkType: hard
 
-"@redux-devtools/inspector-monitor@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@redux-devtools/inspector-monitor@npm:2.0.0"
+"@redux-devtools/inspector-monitor@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@redux-devtools/inspector-monitor@npm:2.0.1"
   dependencies:
     "@babel/runtime": ^7.16.7
     "@types/dragula": ^3.7.1
@@ -2519,25 +2519,25 @@ __metadata:
     "@types/react": ^16.3.0 || ^17.0.0
     react: ^16.3.0 || ^17.0.0
     redux: ^3.4.0 || ^4.0.0
-  checksum: dcee3dbc493c42341bc05c1e9b2a1f977f92d32d7618641c18b1970ef680fe2073ade5a064c1d9c20ed42db98c3d85bb8f8f90ff423f35afa9a6bc49ea99aa94
+  checksum: 63a4b03f0b20b1d68841eef70a27042dfb80fd99de311ce976554a270747261718a0e2e41e498f7d03c9e851cbe833f230dcec6828e5b19e9b4373186786e74c
   languageName: node
   linkType: hard
 
-"@redux-devtools/instrument@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@redux-devtools/instrument@npm:2.0.0"
+"@redux-devtools/instrument@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@redux-devtools/instrument@npm:2.0.1"
   dependencies:
     "@babel/runtime": ^7.16.7
     lodash: ^4.17.21
   peerDependencies:
     redux: ^3.4.0 || ^4.0.0
-  checksum: bb0b23ad59f8c8fbb456616521ac30d1c186770680a381572d58d2bc5edc5afed206301e7a1beb3ef2662247991384b535e83ba9364ead50e0011fc413216c1d
+  checksum: 169374a2529375e98a32bd6f49c8e839ba004dbdcd5382ea05284043195412a5c7047c19f7b6e9b5632e4c2ce97ba6e5185d3f4576e5257d80e06a75abddd451
   languageName: node
   linkType: hard
 
-"@redux-devtools/log-monitor@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@redux-devtools/log-monitor@npm:3.0.0"
+"@redux-devtools/log-monitor@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@redux-devtools/log-monitor@npm:3.0.1"
   dependencies:
     "@babel/runtime": ^7.16.7
     "@types/lodash.debounce": ^4.0.6
@@ -2552,13 +2552,13 @@ __metadata:
     "@types/react": ^16.3.0 || ^17.0.0
     react: ^16.3.0 || ^17.0.0
     redux: ^3.4.0 || ^4.0.0
-  checksum: 41b5ce96f8db933fa2ab5494d3572eec2f1ddf55dac42a65ad52581b81b05146bdd44cb287755a20640c41b03b5e4602a3a32366c08c14d501ba461902c6458f
+  checksum: aa9e2560ded82497c9d6e4588b17aacd939370f4f30c54b91e3b0e75ee38fc4246973cbbc64e54276ae2c2a0dba7562d89bc58b6962eb029271a0e742fc3057d
   languageName: node
   linkType: hard
 
-"@redux-devtools/rtk-query-monitor@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@redux-devtools/rtk-query-monitor@npm:2.0.0"
+"@redux-devtools/rtk-query-monitor@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@redux-devtools/rtk-query-monitor@npm:2.0.1"
   dependencies:
     "@babel/runtime": ^7.16.7
     "@redux-devtools/ui": ^1.1.0
@@ -2581,13 +2581,13 @@ __metadata:
     react: ^16.3.0 || ^17.0.0
     redux: ^3.4.0 || ^4.0.0
     styled-components: ^5.3.3
-  checksum: 04079dbf5a1a810d443d87d6bf5b2e12e58b88320147ddc076455b41083961b800c00e3a8686175cfaa35a1db79ee6f828f74bebf2f12eaf6f589b96989ffbd4
+  checksum: fbad5dfd63ea3c7e9dba463d22fe766bb18532d5c9b9cef08a0ff85d224eb6c278e9fe556cdea8c8586dfe967acdba615ea38b2e880ec819aa2cc7f12950fd5f
   languageName: node
   linkType: hard
 
-"@redux-devtools/slider-monitor@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@redux-devtools/slider-monitor@npm:3.0.0"
+"@redux-devtools/slider-monitor@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@redux-devtools/slider-monitor@npm:3.0.1"
   dependencies:
     "@babel/runtime": ^7.16.7
     "@redux-devtools/ui": ^1.1.0
@@ -2602,7 +2602,7 @@ __metadata:
     react: ^16.3.0 || ^17.0.0
     redux: ^3.4.0 || ^4.0.0
     styled-components: ^5.3.3
-  checksum: 9b8d1ca594ccf782a6d887d6ff220104e959c97e962da59e7c68b3727bf9d672675f08191d9cb55e99c40d4aa16263e54f7bd98da7baec1e6f72e46889dc6c57
+  checksum: ec08210641b2280e9f699a5250af038a4653a21515213928857630412c5a209edd1454f4ece83a29586818376ca50f942cf60e542c7a9b6ff1ec2cbff294477f
   languageName: node
   linkType: hard
 
@@ -15236,7 +15236,7 @@ resolve@^2.0.0-next.3:
     "@babel/runtime": ^7.16.7
     "@headlessui/react": ^1.4.2
     "@mantiquillal/web-ext-plugin": ^1.5.1
-    "@redux-devtools/cli": ^1.0.2
+    "@redux-devtools/cli": ^1.0.3
     "@reduxjs/toolkit": ^1.7.1
     "@types/chrome": ^0.0.176
     "@types/glob-to-regexp": ^0.4.1
