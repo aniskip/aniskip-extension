@@ -20,7 +20,7 @@ form {
 .vote {
   $crunchyroll-button-size: 40px;
   $jw-button-size: 44px;
-  $doodstream-button-size: 60px;
+  $dood-button-size: 60px;
   $videojs-button-size: 40px;
   $fouranime-button-size: 30px;
 
@@ -40,9 +40,9 @@ form {
         height: $jw-button-size;
       }
 
-      &--doodstream {
-        width: $doodstream-button-size;
-        height: $doodstream-button-size;
+      &--dood {
+        width: $dood-button-size !important;
+        height: $dood-button-size !important;
       }
 
       &--videojs {
@@ -131,7 +131,7 @@ form {
       }
     }
 
-    &--doodstream {
+    &--dood {
       right: 3.9em;
       bottom: 9em;
     }
@@ -150,6 +150,10 @@ form {
     &--streamtape,
     &--mixdrop {
       bottom: 5em;
+    }
+
+    &--videovard {
+      z-index: 9999999999;
     }
   }
 }
@@ -199,7 +203,7 @@ form {
     }
   }
 
-  &--doodstream {
+  &--dood {
     right: 2.5em;
     bottom: 9em;
 
@@ -239,6 +243,10 @@ form {
     &--mobile {
       bottom: 5em;
     }
+  }
+
+  &--videovard {
+    z-index: 9999999999;
   }
 }
 

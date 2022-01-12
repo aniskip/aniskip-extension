@@ -15,27 +15,50 @@ export class Crunchyroll extends BasePlayer {
   getSeekBarContainer(): HTMLElement | null {
     if (isMobileCheck()) {
       return super.getContainerHelper(
-        metadata.seekBarContainerSelectorStringMobile
+        this.metadata.selectorStrings.default!
+          .seekBarContainerSelectorStringMobile!
       );
     }
 
-    return super.getContainerHelper(metadata.seekBarContainerSelectorString, 1);
+    return super.getContainerHelper(
+      this.metadata.selectorStrings.default!.seekBarContainerSelectorString,
+      1
+    );
+  }
+
+  getVideoControlsContainer(): HTMLElement | null {
+    if (isMobileCheck() && this.isReady) {
+      return document.getElementById(
+        this.metadata.selectorStrings.default!
+          .videoControlsContainerSelectorStringMobile!
+      );
+    }
+
+    return super.getVideoControlsContainer();
   }
 
   initialise(): void {
     super.initialise();
-    const controlsPackage = this.getVideoControlsContainer();
-    if (controlsPackage) {
-      new MutationObserver(async () => {
-        this.injectSubmitMenuButton();
-        this.injectSkipTimeIndicator();
-        this.injectSkipButtons();
-        this.skipButtonRenderer.render();
-      }).observe(controlsPackage, { childList: true });
+
+    const controlsPackage = super.getVideoControlsContainer();
+
+    if (!controlsPackage) {
+      return;
     }
+
+    new MutationObserver(async () => {
+      this.injectSubmitMenuButton();
+      this.injectSkipTimeIndicator();
+      this.injectSkipButtons();
+      this.skipButtonRenderer.render();
+    }).observe(controlsPackage, { childList: true });
   }
 
   isControlsVisible(): boolean {
+    if (isMobileCheck()) {
+      return super.isControlsVisible();
+    }
+
     return !!document.getElementById(this.playerButtonsRenderer.id);
   }
 }

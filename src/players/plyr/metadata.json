@@ -1,9 +1,5 @@
 {
   "variant": "plyr",
-  "videoContainerSelectorString": "plyr__video-wrapper",
-  "videoControlsContainerSelectorString": "plyr__controls",
-  "seekBarContainerSelectorString": "plyr__progress",
-  "injectMenusButtonsReferenceNodeSelectorString": "plyr__controls__item plyr__menu",
   "playerUrls": [
     "*://*.vvid.cc/*",
     "*://akane-shinjou.github.io/*",
@@ -17,5 +13,13 @@
     "*://storage.googleapis.com/*",
     "*://streamta.site/*",
     "*://streamtape.com/*"
-  ]
+  ],
+  "selectorStrings": {
+    "default": {
+      "videoContainerSelectorString": "plyr__video-wrapper",
+      "videoControlsContainerSelectorString": "plyr__controls",
+      "seekBarContainerSelectorString": "plyr__progress",
+      "injectMenusButtonsReferenceNodeSelectorString": "plyr__controls__item plyr__menu"
+    }
+  }
 }

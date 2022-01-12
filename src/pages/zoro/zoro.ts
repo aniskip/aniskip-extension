@@ -26,7 +26,7 @@ export class Zoro extends BasePage {
     return this.getSyncData().episode;
   }
 
-  getMalId(): Promise<number> {
+  async getMalId(): Promise<number> {
     let malId = selectMalId(this.store.getState());
 
     // Redirection rules applied.
@@ -34,6 +34,22 @@ export class Zoro extends BasePage {
       return Promise.resolve(malId);
     }
 
+    // Search manually detected anime titles.
+    const title = this.getTitle();
+
+    if (!title) {
+      return 0;
+    }
+
+    malId = this.store.dispatch(
+      malIdUpdated(await BasePage.searchManualTitleToMalIdMapping(title))
+    ).payload;
+
+    if (malId > 0) {
+      return malId;
+    }
+
+    // Use sync data for MAL id.
     malId = this.store.dispatch(
       malIdUpdated(parseInt(this.getSyncData().mal_id, 10) || 0)
     ).payload;

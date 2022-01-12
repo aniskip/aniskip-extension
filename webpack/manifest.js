@@ -16,11 +16,13 @@ const manifest = {
   background: {
     scripts: ['background-script.js'],
   },
+  web_accessible_resources: ['window-proxy-script.js'],
   permissions: [
     'storage',
     '*://api.aniskip.com/*',
     '*://api.malsync.moe/*',
     '*://graphql.anilist.co/*',
+    '*://beta-api.crunchyroll.com/*',
   ],
   icons: {
     16: 'icon_16.png',

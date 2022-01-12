@@ -34,7 +34,11 @@ export class AniskipHttpClient extends BaseHttpClient {
   ): Promise<GetResponseFromSkipTimes> {
     const route = `/skip-times/${animeId}/${episodeNumber}`;
     const params = { types, episodeLength: episodeLength.toFixed(3) };
-    const response = await this.request(route, 'GET', undefined, params);
+    const response = await this.request({
+      route,
+      method: 'GET',
+      params,
+    });
 
     return response.data;
   }
@@ -46,7 +50,7 @@ export class AniskipHttpClient extends BaseHttpClient {
    */
   async getRules(animeId: number): Promise<GetResponseFromRules> {
     const route = `/relation-rules/${animeId}`;
-    const response = await this.request(route, 'GET');
+    const response = await this.request({ route, method: 'GET' });
 
     if (response.ok) {
       return response.data;
@@ -88,9 +92,7 @@ export class AniskipHttpClient extends BaseHttpClient {
     };
 
     const response = await this.request<typeof data, PostResponseFromSkipTimes>(
-      route,
-      'POST',
-      data
+      { route, method: 'POST', data }
     );
     const json = response.data;
 
@@ -116,7 +118,7 @@ export class AniskipHttpClient extends BaseHttpClient {
       voteType: type,
     };
 
-    const response = await this.request(route, 'POST', data);
+    const response = await this.request({ route, method: 'POST', data });
 
     if (response.status === 429) {
       throw new AniskipHttpClientError('Rate limited', 'vote/rate-limited');

@@ -1,9 +1,5 @@
 {
   "variant": "jw",
-  "videoContainerSelectorString": "Video Player",
-  "videoControlsContainerSelectorString": "jw-controlbar jw-reset",
-  "injectMenusButtonsReferenceNodeSelectorString": "Settings",
-  "seekBarContainerSelectorString": "Seek",
   "playerUrls": [
     "*://*.pstream.net/e/*",
     "*://*.streamhd.cc/*",
@@ -30,5 +26,13 @@
     "*://vidstreamingcdn.com/*",
     "*://vidstreamz.online/*",
     "*://watchsb.com/*"
-  ]
+  ],
+  "selectorStrings": {
+    "default": {
+      "videoContainerSelectorString": "Video Player",
+      "videoControlsContainerSelectorString": "jw-controlbar jw-reset",
+      "injectMenusButtonsReferenceNodeSelectorString": "Settings",
+      "seekBarContainerSelectorString": "Seek"
+    }
+  }
 }

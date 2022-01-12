@@ -17,6 +17,7 @@ import {
 import { Player, Metadata, FRAME_RATE } from './base-player.types';
 import { AniskipHttpClient, PreviewSkipTime, SkipTime, SkipType } from '../api';
 import {
+  getDomainName,
   isInInterval,
   roundToClosestMultiple,
   serialiseKeybind,
@@ -24,11 +25,11 @@ import {
 import {
   skipTimeAdded,
   skipTimesRemoved,
-  stateReset,
   selectSkipTimes,
   Store,
   configureStore,
   selectPreviewSkipTime,
+  playerStateReset,
 } from '../data';
 
 export class BasePlayer implements Player {
@@ -253,12 +254,22 @@ export class BasePlayer implements Player {
   }
 
   getVideoContainer(): HTMLElement | null {
-    return document.getElementById(this.metadata.videoContainerSelectorString);
+    const domainName = getDomainName(window.location.hostname);
+    const { selectorStrings } = this.metadata;
+
+    return document.getElementById(
+      selectorStrings[domainName]?.videoContainerSelectorString ??
+        selectorStrings.default!.videoContainerSelectorString
+    );
   }
 
   getVideoControlsContainer(): HTMLElement | null {
+    const domainName = getDomainName(window.location.hostname);
+    const { selectorStrings } = this.metadata;
+
     return document.getElementById(
-      this.metadata.videoControlsContainerSelectorString
+      selectorStrings[domainName]?.videoControlsContainerSelectorString ??
+        selectorStrings.default!.videoControlsContainerSelectorString
     );
   }
 
@@ -266,14 +277,23 @@ export class BasePlayer implements Player {
    * Returns the seek bar container element.
    */
   getSeekBarContainer(): HTMLElement | null {
+    const domainName = getDomainName(window.location.hostname);
+    const { selectorStrings } = this.metadata;
+
     return this.getContainerHelper(
-      this.metadata.seekBarContainerSelectorString
+      selectorStrings[domainName]?.seekBarContainerSelectorString ??
+        selectorStrings.default!.seekBarContainerSelectorString
     );
   }
 
   getSettingsButtonElement(): HTMLElement | null {
+    const domainName = getDomainName(window.location.hostname);
+    const { selectorStrings } = this.metadata;
+
     return document.getElementById(
-      this.metadata.injectMenusButtonsReferenceNodeSelectorString
+      selectorStrings[domainName]
+        ?.injectMenusButtonsReferenceNodeSelectorString ??
+        selectorStrings.default!.injectMenusButtonsReferenceNodeSelectorString
     );
   }
 
@@ -434,7 +454,8 @@ export class BasePlayer implements Player {
 
   reset(): void {
     this.clearScheduledSkipTime();
-    this.store.dispatch(stateReset());
+    this.isReady = false;
+    this.store.dispatch(playerStateReset());
   }
 
   /**

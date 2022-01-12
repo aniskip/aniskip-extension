@@ -1,13 +1,18 @@
 import { SkipTime } from '../api';
 
-export type Metadata = {
-  variant: string;
+export type SelectorStrings = {
   videoContainerSelectorString: string;
   videoControlsContainerSelectorString: string;
+  videoControlsContainerSelectorStringMobile?: string;
   injectMenusButtonsReferenceNodeSelectorString: string;
   seekBarContainerSelectorString: string;
   seekBarContainerSelectorStringMobile?: string;
+};
+
+export type Metadata = {
+  variant: string;
   playerUrls: string[];
+  selectorStrings: Partial<Record<string, SelectorStrings>>;
 };
 
 export type Player = {

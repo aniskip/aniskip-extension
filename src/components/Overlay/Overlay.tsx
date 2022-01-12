@@ -9,8 +9,12 @@ import {
   keybindsUpdated,
 } from '../../data';
 import { AnimeSearchModal } from '../AnimeSearchModal';
-import { useDispatch, useSelector, useWindowEvent } from '../../utils';
-import { serialiseKeybind } from '../../utils/keybinds';
+import {
+  useDispatch,
+  useSelector,
+  useWindowEvent,
+  serialiseKeybind,
+} from '../../utils';
 import { DEFAULT_KEYBINDS, SyncOptions } from '../../scripts/background';
 
 export function Overlay(): JSX.Element {

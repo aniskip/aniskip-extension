@@ -1,13 +1,27 @@
 {
   "variant": "videojs",
-  "videoContainerSelectorString": "Video Player",
-  "videoControlsContainerSelectorString": "vjs-control-bar",
-  "injectMenusButtonsReferenceNodeSelectorString": "vjs-fullscreen-control",
-  "seekBarContainerSelectorString": "vjs-progress-holder vjs-slider",
   "playerUrls": [
     "*://4anime.to/*",
+    "*://dood.la/*",
+    "*://dood.to/*",
+    "*://dood.ws/*",
     "*://mixdrop.co/e/*",
     "*://mp4.sh/*",
-    "*://www.mp4upload.com/embed-*"
-  ]
+    "*://www.mp4upload.com/*",
+    "*://www6.mp4upload.com/*"
+  ],
+  "selectorStrings": {
+    "default": {
+      "videoContainerSelectorString": "Video Player",
+      "videoControlsContainerSelectorString": "vjs-control-bar",
+      "injectMenusButtonsReferenceNodeSelectorString": "vjs-fullscreen-control",
+      "seekBarContainerSelectorString": "vjs-progress-holder vjs-slider"
+    },
+    "dood": {
+      "videoContainerSelectorString": "video_player",
+      "videoControlsContainerSelectorString": "vjs-control-bar",
+      "injectMenusButtonsReferenceNodeSelectorString": "vjs-fullscreen-control vjs-control vjs-button",
+      "seekBarContainerSelectorString": "vjs-progress-holder vjs-slider vjs-slider-horizontal"
+    }
+  }
 }

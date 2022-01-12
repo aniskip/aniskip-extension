@@ -16,6 +16,7 @@ module.exports = {
     'background-script': './src/scripts/background/script.ts',
     'content-script': './src/scripts/content/script.ts',
     'player-script': './src/scripts/player/script.ts',
+    'window-proxy-script': './src/scripts/window-proxy/script.ts',
   },
   output: {
     path: path.join(__dirname, '..', 'dist'),

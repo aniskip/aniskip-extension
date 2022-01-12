@@ -27,13 +27,13 @@ export class Animepahe extends BasePage {
   getIdentifier(): string {
     const [identifierScript] = Array.from(
       document.getElementsByTagName('script')
-    ).filter((script) => script.innerHTML.includes('getUrls'));
+    ).filter((script) => script.textContent?.includes('getUrls'));
 
     if (!identifierScript) {
       return '';
     }
 
-    const matches = identifierScript.innerHTML.match(/getUrls\((\d+)/);
+    const matches = identifierScript.textContent?.match(/getUrls\((\d+)/);
 
     if (!matches) {
       return '';
