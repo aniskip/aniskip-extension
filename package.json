@@ -95,7 +95,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.16.7",
-    "@headlessui/react": "^1.4.2",
+    "@headlessui/react": "^1.4.3",
     "@reduxjs/toolkit": "^1.7.1",
     "axios": "^0.24.0",
     "entities": "^3.0.1",
