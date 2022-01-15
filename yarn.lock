@@ -14729,9 +14729,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.0.14":
-  version: 3.0.14
-  resolution: "tailwindcss@npm:3.0.14"
+"tailwindcss@npm:^3.0.15":
+  version: 3.0.15
+  resolution: "tailwindcss@npm:3.0.15"
   dependencies:
     arg: ^5.0.1
     chalk: ^4.1.2
@@ -14759,7 +14759,7 @@ resolve@^2.0.0-next.3:
   bin:
     tailwind: lib/cli.js
     tailwindcss: lib/cli.js
-  checksum: 3a5ebd282fd1071f8689c92ac125d81bb81b95fe45e5a4fec2d61406e330b628431a5f755ec15f11d4e674b58944ce0d2604a2eb891dbee1c57ee42e3ba880da
+  checksum: acbf45202d3046e87c3a55e80ca93f7344960fb4d0daa3d5f5a2b28e8afd7a26d023f9142632168d1a3076eff701499bed40cafa3823c371de596f42e98ba84d
   languageName: node
   linkType: hard
 
@@ -15304,7 +15304,7 @@ resolve@^2.0.0-next.3:
     sprintf-js: ^1.1.2
     string-similarity: ^4.0.4
     style-loader: ^3.3.1
-    tailwindcss: ^3.0.14
+    tailwindcss: ^3.0.15
     to-string-loader: ^1.2.0
     type-fest: ^2.9.0
     typescript: ^4.5.4
