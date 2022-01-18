@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaCloudUploadAlt } from 'react-icons/fa';
+import { FaPlayCircle } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import {
   submitMenuVisibilityUpdated,
@@ -43,7 +43,7 @@ export function SubmitMenuButton({ variant }: SubmitMenuProps): JSX.Element {
       onClick={onClick}
       onKeyDown={onKeyDown}
     >
-      <FaCloudUploadAlt className="text-white w-1/2 h-full" />
+      <FaPlayCircle className="text-white w-1/2 h-full" />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaListUl } from 'react-icons/fa';
+import { FaListAlt } from 'react-icons/fa';
 import { VoteMenuButtonProps } from './VoteMenuButton.types';
 import {
   submitMenuVisibilityUpdated,
@@ -47,7 +47,7 @@ export function VoteMenuButton({
       onClick={onClick}
       onKeyDown={onKeyDown}
     >
-      <FaListUl className="text-white w-1/2 h-1/2" />
+      <FaListAlt className="text-white w-1/2 h-full" />
     </div>
   );
 }
