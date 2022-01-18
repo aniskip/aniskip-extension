@@ -43,7 +43,7 @@ export function SubmitMenuButton({ variant }: SubmitMenuProps): JSX.Element {
       onClick={onClick}
       onKeyDown={onKeyDown}
     >
-      <FaPlayCircle className="text-slate-50 w-1/2 h-full" />
+      <FaPlayCircle className="text-slate-100 w-1/2 h-full" />
     </div>
   );
 }
