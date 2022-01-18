@@ -32,7 +32,7 @@ $dood-button-size: 60px;
 
     &--dood {
       right: 3.9em;
-      bottom: 9em;
+      bottom: 8em;
     }
   }
 }
@@ -52,14 +52,14 @@ $dood-button-size: 60px;
 
   &--dood {
     right: 2.5em;
-    bottom: 9em;
+    bottom: 8em;
 
     @media (min-width: common.$md) {
-      bottom: 13em;
+      bottom: 12em;
     }
 
     &--mobile {
-      bottom: 9em;
+      bottom: 8em;
     }
   }
 }

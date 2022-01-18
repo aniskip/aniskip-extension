@@ -24,20 +24,22 @@ $button-size: 44px;
     }
 
     &--jw {
-      bottom: 6em;
+      bottom: 5.5em;
 
       &--fullscreen {
         @media (min-width: common.$xl) {
           right: 4.5em;
-          bottom: 9em;
+          bottom: 8.5em;
         }
       }
     }
 
-    &--streamhd--fullscreen,
-    &--fcdn--fullscreen {
+    &--fcdn--fullscreen,
+    &--fembed-hd--fullscreen,
+    &--streamhd--fullscreen {
       @media (min-width: common.$xl) {
-        bottom: 6em;
+        right: 2.75em;
+        bottom: 5.5em;
       }
     }
 
