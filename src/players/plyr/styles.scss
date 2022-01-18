@@ -1,16 +1,14 @@
 @use '../common-styles' as common;
 
-$variant: plyr;
-
 .submit,
 .vote {
-  &-menu-button--#{$variant} {
+  &-menu-button--plyr {
     margin-right: -2px;
   }
 }
 
 .skip-indicators {
-  &--#{$variant} {
+  &--plyr {
     top: 50%;
     height: 5px;
     margin-top: -2.5px;

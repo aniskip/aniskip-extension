@@ -2,12 +2,11 @@
 
 $button-size: 40px;
 $dood-button-size: 60px;
-$variant: videojs;
 
 .submit,
 .vote {
   &-menu-button {
-    &--#{$variant} {
+    &--videojs {
       width: $button-size;
       height: $button-size;
     }

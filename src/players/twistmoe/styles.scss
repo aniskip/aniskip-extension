@@ -1,14 +1,12 @@
-$variant: twistmoe;
-
 .submit,
 .vote {
-  &-menu-button--#{$variant} {
+  &-menu-button--twistmoe {
     pointer-events: all;
     margin-top: 2px;
   }
 }
 
-.skip-indicators--#{$variant} {
+.skip-indicators--twistmoe {
   top: 50%;
   margin-top: -1px;
   height: 2px;
