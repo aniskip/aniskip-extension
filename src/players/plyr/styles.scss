@@ -2,8 +2,55 @@
 
 .submit,
 .vote {
-  &-menu-button--plyr {
-    margin-right: -2px;
+  &-menu-button {
+    &--plyr {
+      border-radius: 3px;
+    }
+
+    &--streamtape > * {
+      transition-property: transform;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 300ms;
+      transform: scale(1);
+    }
+
+    &--active {
+      // AniMixPlay player.
+      &--vvid {
+        background-color: #00b3ff;
+      }
+
+      // animepahe player.
+      &--kwik {
+        background-color: #00d1b2;
+      }
+
+      &--streamtape {
+        background-color: rgba(101, 87, 255, 0.5);
+
+        & > * {
+          transform: scale(1.25);
+        }
+      }
+    }
+  }
+}
+
+.player-buttons {
+  &--plyr {
+    margin-right: 1px;
+
+    & > *:not(:first-child) {
+      margin-left: 3px;
+    }
+  }
+
+  &--streamtape {
+    margin-right: -1px;
+
+    & > *:not(:first-child) {
+      margin-left: 2px;
+    }
   }
 }
 

@@ -7,6 +7,7 @@ export * from './LinkButton';
 export * from './MenuContainer';
 export * from './Menus';
 export * from './Overlay';
+export * from './PlayerButton';
 export * from './PlayerButtons';
 export * from './Searchbox';
 export * from './SkipButton';

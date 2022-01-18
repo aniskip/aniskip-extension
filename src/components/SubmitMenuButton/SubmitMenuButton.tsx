@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaPlayCircle } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
+import { PlayerButton } from '../PlayerButton';
 import {
   submitMenuVisibilityUpdated,
   voteMenuVisibilityUpdated,
@@ -10,40 +11,41 @@ import { getDomainName, useDispatch } from '../../utils';
 import { SubmitMenuProps } from './SubmitMenuButton.types';
 
 export function SubmitMenuButton({ variant }: SubmitMenuProps): JSX.Element {
+  const [isHovered, setIsHovered] = useState<boolean>(false);
   const domainName = getDomainName(window.location.hostname);
-  const active = useSelector(selectIsSubmitMenuVisible);
+  const isSubmitMenuVisible = useSelector(selectIsSubmitMenuVisible);
   const dispatch = useDispatch();
+
+  const isActive = isHovered || isSubmitMenuVisible;
 
   /**
    * Toggles the submit menu.
    */
   const onClick = (): void => {
-    dispatch(submitMenuVisibilityUpdated(!active));
+    dispatch(submitMenuVisibilityUpdated(!isSubmitMenuVisible));
     dispatch(voteMenuVisibilityUpdated(false));
   };
 
   /**
-   * Toggles the submit menu if the key pressed is Enter.
+   * Handles on mouse hover event.
+   *
+   * @param value New hover value.
    */
-  const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
-    if (event.key === 'Enter') {
-      dispatch(submitMenuVisibilityUpdated(!active));
-      dispatch(voteMenuVisibilityUpdated(false));
-    }
-  };
+  const onMouseEvent = (value: boolean) => () => setIsHovered(value);
 
   return (
-    <div
-      className={`font-sans w-8 h-8 cursor-pointer select-none outline-none flex items-center justify-center border-white border-b-2 border-opacity-0 transition-colors pt-[2px] ${
-        active ? 'border-opacity-100' : ''
-      } submit-menu-button--${variant} submit-menu-button--${domainName}`}
-      role="button"
+    <PlayerButton
+      className={`submit-menu-button--${variant} submit-menu-button--${domainName} ${
+        isActive
+          ? `submit-menu-button--active--${variant} submit-menu-button--active--${domainName}`
+          : ''
+      }`}
       title="Submit skip times"
-      tabIndex={0}
       onClick={onClick}
-      onKeyDown={onKeyDown}
+      onMouseEnter={onMouseEvent(true)}
+      onMouseLeave={onMouseEvent(false)}
     >
       <FaPlayCircle className="text-slate-100 w-1/2 h-full" />
-    </div>
+    </PlayerButton>
   );
 }
