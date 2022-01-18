@@ -38,10 +38,10 @@ export function PlayerButtons(): JSX.Element {
     >
       <Transition
         show={isVoteMenuButtonVisible}
-        enter="transition-all duration-300 pointer-events-none"
+        enter="transition-all duration-200 ease-in-out pointer-events-none"
         enterFrom="opacity-0 w-0"
         enterTo={`opacity-100 w-8 vote-menu-button--${variant} vote-menu-button--${domainName}`}
-        leave="transition-all duration-300 pointer-events-none"
+        leave="transition-all duration-200 ease-in-out pointer-events-none"
         leaveFrom={`opacity-100 w-8 vote-menu-button--${variant} vote-menu-button--${domainName}`}
         leaveTo="opacity-0 w-0"
       >
