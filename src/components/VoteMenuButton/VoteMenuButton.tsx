@@ -8,7 +8,10 @@ import {
 } from '../../data';
 import { getDomainName, useDispatch, useSelector } from '../../utils';
 
-export function VoteMenuButton({ variant }: VoteMenuButtonProps): JSX.Element {
+export function VoteMenuButton({
+  className = '',
+  variant,
+}: VoteMenuButtonProps): JSX.Element {
   const domainName = getDomainName(window.location.hostname);
   const active = useSelector(selectIsVoteMenuVisible);
   const dispatch = useDispatch();
@@ -37,7 +40,7 @@ export function VoteMenuButton({ variant }: VoteMenuButtonProps): JSX.Element {
     <div
       className={`font-sans w-8 h-8 cursor-pointer select-none outline-none flex items-center justify-center border-white border-b-2 border-opacity-0 transition-colors ${
         active && 'border-opacity-100'
-      } vote-menu-button--${variant} vote-menu-button--${domainName}`}
+      } vote-menu-button--${variant} vote-menu-button--${domainName} ${className}`}
       role="button"
       title="Vote skip times"
       tabIndex={0}
