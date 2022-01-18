@@ -1,5 +1,6 @@
 @use 'common-styles' as common;
 @use 'crunchyroll/styles' as *;
+@use 'plyr/styles' as *;
 @use 'twistmoe/styles' as *;
 
 // Override custom player styles.
@@ -23,10 +24,6 @@ form {
 
   &-menu {
     &-button {
-      &--plyr {
-        margin-right: -2px;
-      }
-
       &--jw {
         width: $jw-button-size;
         height: $jw-button-size;
@@ -61,12 +58,6 @@ form {
 // Skip button and indicator styles.
 .skip {
   &-indicators {
-    &--plyr {
-      top: 50%;
-      height: 5px;
-      margin-top: -2.5px;
-    }
-
     &--jw {
       top: 50%;
       margin-top: -2px;

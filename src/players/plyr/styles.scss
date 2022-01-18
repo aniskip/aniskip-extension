@@ -1,0 +1,14 @@
+$variant: plyr;
+
+.submit,
+.vote {
+  &-menu-button--#{$variant} {
+    margin-right: -2px;
+  }
+}
+
+.skip-indicators--#{$variant} {
+  top: 50%;
+  height: 5px;
+  margin-top: -2.5px;
+}
