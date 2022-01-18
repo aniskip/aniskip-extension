@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FaListAlt } from 'react-icons/fa';
 import { VoteMenuButtonProps } from './VoteMenuButton.types';
 import {
@@ -13,27 +13,17 @@ export function VoteMenuButton({
   className = '',
   variant,
 }: VoteMenuButtonProps): JSX.Element {
-  const [isHovered, setIsHovered] = useState<boolean>(false);
   const domainName = getDomainName(window.location.hostname);
-  const isVoteMenuVisible = useSelector(selectIsVoteMenuVisible);
+  const isActive = useSelector(selectIsVoteMenuVisible);
   const dispatch = useDispatch();
-
-  const isActive = isHovered || isVoteMenuVisible;
 
   /**
    * Toggles the vote menu.
    */
   const onClick = (): void => {
-    dispatch(voteMenuVisibilityUpdated(!isVoteMenuVisible));
+    dispatch(voteMenuVisibilityUpdated(!isActive));
     dispatch(submitMenuVisibilityUpdated(false));
   };
-
-  /**
-   * Handles on mouse hover event.
-   *
-   * @param value New hover value.
-   */
-  const onMouseEvent = (value: boolean) => () => setIsHovered(value);
 
   return (
     <PlayerButton
@@ -44,8 +34,6 @@ export function VoteMenuButton({
       }  ${className}`}
       title="Vote skip times"
       onClick={onClick}
-      onMouseEnter={onMouseEvent(true)}
-      onMouseLeave={onMouseEvent(false)}
     >
       <FaListAlt className="text-slate-100 w-1/2 h-full" />
     </PlayerButton>
