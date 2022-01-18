@@ -34,7 +34,7 @@ export function SubmitMenuButton({ variant }: SubmitMenuProps): JSX.Element {
 
   return (
     <div
-      className={`font-sans w-8 h-8 cursor-pointer select-none outline-none flex items-center justify-center border-white border-b-2 border-opacity-0 transition-colors ${
+      className={`font-sans w-8 h-8 cursor-pointer select-none outline-none flex items-center justify-center border-white border-b-2 border-opacity-0 transition-colors pt-[2px] ${
         active && 'border-opacity-100'
       } submit-menu-button--${variant} submit-menu-button--${domainName}`}
       role="button"
@@ -43,7 +43,7 @@ export function SubmitMenuButton({ variant }: SubmitMenuProps): JSX.Element {
       onClick={onClick}
       onKeyDown={onKeyDown}
     >
-      <FaCloudUploadAlt className="text-white w-1/2 h-1/2" />
+      <FaCloudUploadAlt className="text-white w-1/2 h-full" />
     </div>
   );
 }
