@@ -1,5 +1,6 @@
-@use 'common';
-@use 'crunchyroll/styles';
+@use 'common-styles' as common;
+@use 'crunchyroll/styles' as *;
+@use 'twistmoe/styles' as *;
 
 // Override custom player styles.
 :host {
@@ -47,11 +48,6 @@ form {
         margin-right: -5px;
       }
 
-      &--twistmoe {
-        pointer-events: all;
-        margin-top: 2px;
-      }
-
       @media (min-width: 901px) {
         &--4anime {
           width: $fouranime-button-size;
@@ -81,12 +77,6 @@ form {
       top: 50%;
       margin-top: -4px;
       height: 8px;
-    }
-
-    &--twistmoe {
-      top: 50%;
-      margin-top: -1px;
-      height: 2px;
     }
   }
 
