@@ -19,7 +19,6 @@ form {
 .submit,
 .vote {
   $jw-button-size: 44px;
-  $fouranime-button-size: 30px;
 
   &-menu {
     &-button {
@@ -32,13 +31,6 @@ form {
       &--vidstreamz {
         margin-left: -5px;
         margin-right: -5px;
-      }
-
-      @media (min-width: 901px) {
-        &--4anime {
-          width: $fouranime-button-size;
-          height: $fouranime-button-size;
-        }
       }
     }
   }
@@ -78,17 +70,6 @@ form {
       }
     }
 
-    &--4anime {
-      bottom: 6em;
-      @media (min-width: 901px) {
-        bottom: 4em;
-      }
-
-      &--mobile {
-        bottom: 5em;
-      }
-    }
-
     &--videovard {
       z-index: 9999999999;
     }
@@ -125,22 +106,6 @@ form {
   &--fcdn--fullscreen {
     @media (min-width: common.$xl) {
       bottom: 10em;
-    }
-  }
-
-  &--4anime {
-    bottom: 6em;
-
-    @media (min-width: common.$md) {
-      bottom: 10em;
-    }
-
-    @media (min-width: 901px) {
-      bottom: 8em;
-    }
-
-    &--mobile {
-      bottom: 5em;
     }
   }
 
