@@ -1,0 +1,32 @@
+@use '../common';
+
+$button-size: 40px;
+$variant: crunchyroll;
+
+.submit,
+.vote {
+  &-menu-button--#{$variant} {
+    width: $button-size;
+    height: $button-size;
+  }
+}
+
+.skip-button--#{$variant} {
+  bottom: 7em;
+
+  &--mobile {
+    bottom: 4em;
+  }
+}
+
+.menus--#{$variant} {
+  bottom: 7em;
+
+  @media (min-width: common.$md) {
+    bottom: 11em;
+  }
+
+  &--mobile {
+    bottom: 4em;
+  }
+}

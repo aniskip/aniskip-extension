@@ -1,8 +1,5 @@
-// Media queries.
-$sm: '640px';
-$md: '768px';
-$lg: '1024px';
-$xl: '1280px';
+@use 'common';
+@use 'crunchyroll/styles';
 
 // Override custom player styles.
 :host {
@@ -18,7 +15,6 @@ form {
 // Submit and vote menu styles.
 .submit,
 .vote {
-  $crunchyroll-button-size: 40px;
   $jw-button-size: 44px;
   $dood-button-size: 60px;
   $videojs-button-size: 40px;
@@ -28,11 +24,6 @@ form {
     &-button {
       &--plyr {
         margin-right: -2px;
-      }
-
-      &--crunchyroll {
-        width: $crunchyroll-button-size;
-        height: $crunchyroll-button-size;
       }
 
       &--jw {
@@ -105,19 +96,11 @@ form {
       bottom: 4em;
     }
 
-    &--crunchyroll {
-      bottom: 7em;
-
-      &--mobile {
-        bottom: 4em;
-      }
-    }
-
     &--jw {
       bottom: 6em;
 
       &--fullscreen {
-        @media (min-width: $xl) {
+        @media (min-width: common.$xl) {
           right: 4.5em;
           bottom: 9em;
         }
@@ -126,7 +109,7 @@ form {
 
     &--streamhd--fullscreen,
     &--fcdn--fullscreen {
-      @media (min-width: $xl) {
+      @media (min-width: common.$xl) {
         bottom: 6em;
       }
     }
@@ -165,27 +148,15 @@ form {
     bottom: 4em;
   }
 
-  &--crunchyroll {
-    bottom: 7em;
-
-    @media (min-width: $md) {
-      bottom: 11em;
-    }
-
-    &--mobile {
-      bottom: 4em;
-    }
-  }
-
   &--jw {
     bottom: 6em;
 
-    @media (min-width: $md) {
+    @media (min-width: common.$md) {
       bottom: 10em;
     }
 
     &--fullscreen {
-      @media (min-width: $xl) {
+      @media (min-width: common.$xl) {
         right: 3em;
         bottom: 13em;
       }
@@ -198,7 +169,7 @@ form {
 
   &--streamhd--fullscreen,
   &--fcdn--fullscreen {
-    @media (min-width: $xl) {
+    @media (min-width: common.$xl) {
       bottom: 10em;
     }
   }
@@ -207,7 +178,7 @@ form {
     right: 2.5em;
     bottom: 9em;
 
-    @media (min-width: $md) {
+    @media (min-width: common.$md) {
       bottom: 13em;
     }
 
@@ -219,7 +190,7 @@ form {
   &--4anime {
     bottom: 6em;
 
-    @media (min-width: $md) {
+    @media (min-width: common.$md) {
       bottom: 10em;
     }
 
@@ -236,7 +207,7 @@ form {
   &--mixdrop {
     bottom: 5em;
 
-    @media (min-width: $md) {
+    @media (min-width: common.$md) {
       bottom: 9em;
     }
 
@@ -247,20 +218,5 @@ form {
 
   &--videovard {
     z-index: 9999999999;
-  }
-}
-
-// Player buttons styles.
-.player {
-  &-buttons {
-    &--4anime {
-      position: absolute;
-      top: 2.5px;
-      right: 47.5px;
-      @media (min-width: 901px) {
-        top: 0px;
-        right: 125px;
-      }
-    }
   }
 }
