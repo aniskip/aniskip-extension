@@ -1,3 +1,5 @@
+@use '../common-styles' as common;
+
 $variant: plyr;
 
 .submit,
@@ -7,8 +9,26 @@ $variant: plyr;
   }
 }
 
-.skip-indicators--#{$variant} {
-  top: 50%;
-  height: 5px;
-  margin-top: -2.5px;
+.skip-indicators {
+  &--#{$variant} {
+    top: 50%;
+    height: 5px;
+    margin-top: -2.5px;
+  }
+
+  &--streamtape {
+    bottom: 5em;
+  }
+}
+
+.menus--streamtape {
+  bottom: 5em;
+
+  @media (min-width: common.$md) {
+    bottom: 9em;
+  }
+
+  &--mobile {
+    bottom: 5em;
+  }
 }
