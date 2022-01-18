@@ -47,7 +47,7 @@ export function VoteMenuButton({
       onClick={onClick}
       onKeyDown={onKeyDown}
     >
-      <FaListAlt className="text-white w-1/2 h-full" />
+      <FaListAlt className="text-slate-50 w-1/2 h-full" />
     </div>
   );
 }
