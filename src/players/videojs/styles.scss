@@ -45,10 +45,6 @@ $dood-button-size: 60px;
     @media (min-width: common.$md) {
       bottom: 9em;
     }
-
-    &--mobile {
-      bottom: 5em;
-    }
   }
 
   &--dood {
@@ -58,8 +54,14 @@ $dood-button-size: 60px;
     @media (min-width: common.$md) {
       bottom: 12em;
     }
+  }
 
-    &--mobile {
+  &--mobile {
+    &--mixdrop {
+      bottom: 5em;
+    }
+
+    &--dood {
       bottom: 8em;
     }
   }

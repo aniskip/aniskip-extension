@@ -19,14 +19,16 @@
   }
 }
 
-.menus--streamtape {
-  bottom: 5em;
+.menus {
+  &--streamtape {
+    bottom: 5em;
 
-  @media (min-width: common.$md) {
-    bottom: 9em;
+    @media (min-width: common.$md) {
+      bottom: 9em;
+    }
   }
 
-  &--mobile {
+  &--mobile--streamtape {
     bottom: 5em;
   }
 }

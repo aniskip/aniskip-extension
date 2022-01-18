@@ -21,7 +21,7 @@ export function MenuContainer({ children }: MenuContainerProps): JSX.Element {
           : ''
       } ${
         isMobile
-          ? `menus--mobile menus--${variant}--mobile menus--${domainName}--mobile`
+          ? `menus--mobile menus--mobile--${variant} menus--mobile--${domainName}`
           : ''
       }`}
     >

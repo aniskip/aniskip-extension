@@ -27,7 +27,7 @@ export function SkipButton({
           : ''
       } ${
         isMobile
-          ? `skip-button--mobile skip-button--${variant}--mobile skip-button--${domainName}--mobile`
+          ? `skip-button--mobile skip-button--mobile--${variant} skip-button--mobile--${domainName}`
           : ''
       }`}
     >

@@ -10,22 +10,26 @@ $button-size: 40px;
   }
 }
 
-.skip-button--crunchyroll {
-  bottom: 7em;
+.skip-button {
+  &--crunchyroll {
+    bottom: 7em;
+  }
 
-  &--mobile {
+  &--mobile--crunchyroll {
     bottom: 4em;
   }
 }
 
-.menus--crunchyroll {
-  bottom: 7em;
+.menus {
+  &--crunchyroll {
+    bottom: 7em;
 
-  @media (min-width: common.$md) {
-    bottom: 11em;
+    @media (min-width: common.$md) {
+      bottom: 11em;
+    }
   }
 
-  &--mobile {
+  &--mobile--crunchyroll {
     bottom: 4em;
   }
 }

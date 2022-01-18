@@ -56,6 +56,10 @@ $button-size: 44px;
     left: 1.25em;
     right: 0px;
     bottom: 4em;
+
+    &--jw {
+      bottom: 6em !important;
+    }
   }
 
   &--jw {
@@ -63,10 +67,6 @@ $button-size: 44px;
 
     @media (min-width: common.$md) {
       bottom: 10em;
-    }
-
-    &--mobile {
-      bottom: 6em;
     }
   }
 
