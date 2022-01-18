@@ -35,7 +35,7 @@ export function SubmitMenuButton({ variant }: SubmitMenuProps): JSX.Element {
   return (
     <div
       className={`font-sans w-8 h-8 cursor-pointer select-none outline-none flex items-center justify-center border-white border-b-2 border-opacity-0 transition-colors pt-[2px] ${
-        active && 'border-opacity-100'
+        active ? 'border-opacity-100' : ''
       } submit-menu-button--${variant} submit-menu-button--${domainName}`}
       role="button"
       title="Submit skip times"

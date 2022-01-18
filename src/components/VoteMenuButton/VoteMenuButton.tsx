@@ -39,7 +39,7 @@ export function VoteMenuButton({
   return (
     <div
       className={`font-sans w-8 h-8 cursor-pointer select-none outline-none flex items-center justify-center border-white border-b-2 border-opacity-0 transition-colors pt-[2px] ${
-        active && 'border-opacity-100'
+        active ? 'border-opacity-100' : ''
       } vote-menu-button--${variant} vote-menu-button--${domainName} ${className}`}
       role="button"
       title="Vote skip times"

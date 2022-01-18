@@ -23,7 +23,7 @@ export function SkipButton({
     <div
       className={`absolute right-11 bottom-16 z-10 pointer-events-none skip-button--${variant} skip-button--${domainName} ${
         isFullscreen
-          ? `skip-button--${variant}--fullscreen skip-button--${domainName}--fullscreen`
+          ? `skip-button--fullscreen--${variant} skip-button--fullscreen--${domainName}`
           : ''
       } ${
         isMobile

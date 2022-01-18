@@ -25,21 +25,23 @@ $button-size: 44px;
 
     &--jw {
       bottom: 5.5em;
+    }
 
-      &--fullscreen {
+    &--fullscreen {
+      &--jw {
         @media (min-width: common.$xl) {
           right: 4.5em;
           bottom: 8.5em;
         }
       }
-    }
 
-    &--fcdn--fullscreen,
-    &--fembed-hd--fullscreen,
-    &--streamhd--fullscreen {
-      @media (min-width: common.$xl) {
-        right: 2.75em;
-        bottom: 5.5em;
+      &--fcdn,
+      &--fembed-hd,
+      &--streamhd {
+        @media (min-width: common.$xl) {
+          right: 2.75em;
+          bottom: 5.5em;
+        }
       }
     }
 
@@ -63,22 +65,24 @@ $button-size: 44px;
       bottom: 10em;
     }
 
-    &--fullscreen {
+    &--mobile {
+      bottom: 6em;
+    }
+  }
+
+  &--fullscreen {
+    &--jw {
       @media (min-width: common.$xl) {
         right: 3em;
         bottom: 13em;
       }
     }
 
-    &--mobile {
-      bottom: 6em;
-    }
-  }
-
-  &--streamhd--fullscreen,
-  &--fcdn--fullscreen {
-    @media (min-width: common.$xl) {
-      bottom: 10em;
+    &--streamhd,
+    &--fcdn {
+      @media (min-width: common.$xl) {
+        bottom: 10em;
+      }
     }
   }
 
