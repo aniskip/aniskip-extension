@@ -2,6 +2,7 @@
 @use 'crunchyroll/styles' as *;
 @use 'plyr/styles' as *;
 @use 'twistmoe/styles' as *;
+@use 'videojs/styles' as *;
 
 // Override custom player styles.
 :host {
@@ -18,8 +19,6 @@ form {
 .submit,
 .vote {
   $jw-button-size: 44px;
-  $dood-button-size: 60px;
-  $videojs-button-size: 40px;
   $fouranime-button-size: 30px;
 
   &-menu {
@@ -27,16 +26,6 @@ form {
       &--jw {
         width: $jw-button-size;
         height: $jw-button-size;
-      }
-
-      &--dood {
-        width: $dood-button-size !important;
-        height: $dood-button-size !important;
-      }
-
-      &--videojs {
-        width: $videojs-button-size;
-        height: $videojs-button-size;
       }
 
       &--vidstream,
@@ -62,12 +51,6 @@ form {
       top: 50%;
       margin-top: -2px;
       height: 4px;
-    }
-
-    &--mp4upload {
-      top: 50%;
-      margin-top: -4px;
-      height: 8px;
     }
   }
 
@@ -95,11 +78,6 @@ form {
       }
     }
 
-    &--dood {
-      right: 3.9em;
-      bottom: 9em;
-    }
-
     &--4anime {
       bottom: 6em;
       @media (min-width: 901px) {
@@ -109,10 +87,6 @@ form {
       &--mobile {
         bottom: 5em;
       }
-    }
-
-    &--mixdrop {
-      bottom: 5em;
     }
 
     &--videovard {
@@ -154,19 +128,6 @@ form {
     }
   }
 
-  &--dood {
-    right: 2.5em;
-    bottom: 9em;
-
-    @media (min-width: common.$md) {
-      bottom: 13em;
-    }
-
-    &--mobile {
-      bottom: 9em;
-    }
-  }
-
   &--4anime {
     bottom: 6em;
 
@@ -176,18 +137,6 @@ form {
 
     @media (min-width: 901px) {
       bottom: 8em;
-    }
-
-    &--mobile {
-      bottom: 5em;
-    }
-  }
-
-  &--mixdrop {
-    bottom: 5em;
-
-    @media (min-width: common.$md) {
-      bottom: 9em;
     }
 
     &--mobile {
