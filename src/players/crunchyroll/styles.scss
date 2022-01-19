@@ -12,10 +12,10 @@ $button-size: 40px;
       &:hover {
         background-color: rgb(20, 21, 25, 0.7);
       }
-    }
 
-    &--active--crunchyroll {
-      background-color: rgb(20, 21, 25) !important;
+      &:active {
+        background-color: rgb(20, 21, 25);
+      }
     }
   }
 }
