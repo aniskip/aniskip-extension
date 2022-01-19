@@ -1,12 +1,65 @@
 @use '../common-styles' as common;
 
 $button-size: 44px;
+$button-height-offset: 14px;
+
+$vidstream-hover-button-colour: #e50914;
 
 .submit,
 .vote {
-  &-menu-button--jw {
-    width: $button-size;
-    height: $button-size;
+  &-menu-button {
+    &--jw {
+      width: $button-size;
+      height: $button-size;
+
+      @media (min-width: common.$xl) {
+        height: $button-size + $button-height-offset;
+      }
+    }
+
+    &--fcdn,
+    &--fembed-hd,
+    &--streamhd {
+      @media (min-width: common.$xl) {
+        height: $button-size;
+      }
+    }
+
+    &--vidstream,
+    &--vidstreamz {
+      &:hover > * {
+        color: $vidstream-hover-button-colour;
+        border-color: $vidstream-hover-button-colour;
+      }
+    }
+
+    &--active {
+      &--jw > * {
+        border-color: white;
+        margin-bottom: -4px;
+        border-bottom-width: 4px;
+
+        @media (min-width: common.$xl) {
+          margin-bottom: -2px;
+          border-bottom-width: 2px;
+        }
+      }
+
+      &--fcdn,
+      &--fembed-hd,
+      &--streamhd {
+        & > * {
+          @media (min-width: common.$xl) {
+            margin-bottom: -4px;
+            border-bottom-width: 4px;
+          }
+        }
+      }
+
+      &--videovard > * {
+        border-color: transparent;
+      }
+    }
   }
 }
 
