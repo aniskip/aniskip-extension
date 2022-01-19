@@ -4,9 +4,19 @@ $button-size: 40px;
 
 .submit,
 .vote {
-  &-menu-button--crunchyroll {
-    width: $button-size;
-    height: $button-size;
+  &-menu-button {
+    &--crunchyroll {
+      width: $button-size;
+      height: $button-size;
+
+      &:hover {
+        background-color: rgb(20, 21, 25, 0.7);
+      }
+    }
+
+    &--active--crunchyroll {
+      background-color: rgb(20, 21, 25) !important;
+    }
   }
 }
 
