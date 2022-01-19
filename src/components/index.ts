@@ -17,5 +17,6 @@ export * from './SkipTimeIndicatorContainer';
 export * from './SubmitMenu';
 export * from './SubmitMenuButton';
 export * from './Toggle';
+export * from './Tooltip';
 export * from './VoteMenu';
 export * from './VoteMenuButton';
