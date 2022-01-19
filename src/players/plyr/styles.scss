@@ -1,9 +1,8 @@
 @use '../common-styles' as common;
 
-$animixplay-player: vvid;
 $animepahe-player: kwik;
 
-$animixplay-player-buttons-background-colour: #00b3ff;
+$plyr-player-buttons-background-colour: #00b3ff;
 $animepahe-player-buttons-background-colour: #00d1b2;
 $streamtape-player-buttons-background-colour: rgba(101, 87, 255, 0.5);
 
@@ -14,8 +13,12 @@ $streamtape-player-buttons-background-colour: rgba(101, 87, 255, 0.5);
       border-radius: 3px;
     }
 
-    &--#{$animixplay-player}:hover {
-      background-color: $animixplay-player-buttons-background-colour;
+    &--plyr:hover {
+      background-color: $plyr-player-buttons-background-colour;
+    }
+
+    &--plyr.active {
+      background-color: $plyr-player-buttons-background-colour;
     }
 
     &--#{$animepahe-player}:hover {
@@ -33,10 +36,10 @@ $streamtape-player-buttons-background-colour: rgba(101, 87, 255, 0.5);
         transition-duration: 300ms;
         transform: scale(1);
       }
-    }
 
-    &--#{$animixplay-player}.active {
-      background-color: $animixplay-player-buttons-background-colour;
+      &:hover > * {
+        transform: scale(1.25);
+      }
     }
 
     &--#{$animepahe-player}.active {
