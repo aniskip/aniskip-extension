@@ -25,7 +25,8 @@ $streamtape-player-buttons-background-colour: rgba(101, 87, 255, 0.5);
       background-color: $animepahe-player-buttons-background-colour;
     }
 
-    &--streamtape {
+    &--streamtape,
+    &--stape {
       &:hover {
         background-color: $streamtape-player-buttons-background-colour;
       }
@@ -46,7 +47,8 @@ $streamtape-player-buttons-background-colour: rgba(101, 87, 255, 0.5);
       background-color: $animepahe-player-buttons-background-colour;
     }
 
-    &--streamtape.active {
+    &--streamtape.active,
+    &--stape.active {
       background-color: $streamtape-player-buttons-background-colour;
 
       & > * {
@@ -65,8 +67,10 @@ $streamtape-player-buttons-background-colour: rgba(101, 87, 255, 0.5);
     }
   }
 
-  &--streamtape {
+  &--streamtape,
+  &--stape {
     margin-right: -1px;
+    margin-left: 2px;
 
     & > *:not(:first-child) {
       margin-left: 2px;
@@ -81,7 +85,8 @@ $streamtape-player-buttons-background-colour: rgba(101, 87, 255, 0.5);
     margin-top: -2.5px;
   }
 
-  &--streamtape {
+  &--streamtape,
+  &--stape {
     bottom: 5em;
   }
 }
