@@ -28,9 +28,7 @@ export function VoteMenuButton({
   return (
     <PlayerButton
       className={`vote-menu-button--${variant} vote-menu-button--${domainName} ${
-        isActive
-          ? `vote-menu-button--active--${variant} vote-menu-button--active--${domainName}`
-          : ''
+        isActive ? 'active' : ''
       }  ${className}`}
       title="Vote skip times"
       onClick={onClick}

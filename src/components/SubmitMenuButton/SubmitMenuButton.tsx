@@ -26,9 +26,7 @@ export function SubmitMenuButton({ variant }: SubmitMenuProps): JSX.Element {
   return (
     <PlayerButton
       className={`submit-menu-button--${variant} submit-menu-button--${domainName} ${
-        isActive
-          ? `submit-menu-button--active--${variant} submit-menu-button--active--${domainName}`
-          : ''
+        isActive ? 'active' : ''
       }`}
       title="Submit skip times"
       onClick={onClick}

@@ -35,21 +35,19 @@ $streamtape-player-buttons-background-colour: rgba(101, 87, 255, 0.5);
       }
     }
 
-    &--active {
-      &--#{$animixplay-player} {
-        background-color: $animixplay-player-buttons-background-colour;
-      }
+    &--#{$animixplay-player}.active {
+      background-color: $animixplay-player-buttons-background-colour;
+    }
 
-      &--#{$animepahe-player} {
-        background-color: $animepahe-player-buttons-background-colour;
-      }
+    &--#{$animepahe-player}.active {
+      background-color: $animepahe-player-buttons-background-colour;
+    }
 
-      &--streamtape {
-        background-color: $streamtape-player-buttons-background-colour;
+    &--streamtape.active {
+      background-color: $streamtape-player-buttons-background-colour;
 
-        & > * {
-          transform: scale(1.25);
-        }
+      & > * {
+        transform: scale(1.25);
       }
     }
   }
@@ -81,20 +79,6 @@ $streamtape-player-buttons-background-colour: rgba(101, 87, 255, 0.5);
   }
 
   &--streamtape {
-    bottom: 5em;
-  }
-}
-
-.menus {
-  &--streamtape {
-    bottom: 5em;
-
-    @media (min-width: common.$md) {
-      bottom: 9em;
-    }
-  }
-
-  &--mobile--streamtape {
     bottom: 5em;
   }
 }

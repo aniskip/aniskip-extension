@@ -33,32 +33,30 @@ $vidstream-hover-button-colour: #e50914;
       }
     }
 
-    &--active {
-      &--jw > * {
-        border-color: white;
-        margin-bottom: -4px;
-        border-bottom-width: 4px;
+    &--jw > * {
+      border-color: white;
+      margin-bottom: -4px;
+      border-bottom-width: 4px;
 
+      @media (min-width: common.$xl) {
+        margin-bottom: -2px;
+        border-bottom-width: 2px;
+      }
+    }
+
+    &--fcdn.active,
+    &--fembed-hd.active,
+    &--streamhd.active {
+      & > * {
         @media (min-width: common.$xl) {
-          margin-bottom: -2px;
-          border-bottom-width: 2px;
+          margin-bottom: -4px;
+          border-bottom-width: 4px;
         }
       }
+    }
 
-      &--fcdn,
-      &--fembed-hd,
-      &--streamhd {
-        & > * {
-          @media (min-width: common.$xl) {
-            margin-bottom: -4px;
-            border-bottom-width: 4px;
-          }
-        }
-      }
-
-      &--videovard > * {
-        border-color: transparent;
-      }
+    &--videovard.active > * {
+      border-color: transparent;
     }
   }
 }
@@ -71,30 +69,14 @@ $vidstream-hover-button-colour: #e50914;
   }
 
   &-button {
-    &--mobile {
-      right: 1.25em;
-      bottom: 4em;
-    }
-
     &--jw {
       bottom: 5.5em;
     }
 
-    &--fullscreen {
-      &--jw {
-        @media (min-width: common.$xl) {
-          right: 4.5em;
-          bottom: 8.5em;
-        }
-      }
-
-      &--fcdn,
-      &--fembed-hd,
-      &--streamhd {
-        @media (min-width: common.$xl) {
-          right: 2.75em;
-          bottom: 5.5em;
-        }
+    &--jw#{&}--fullscreen:not(&--fcdn, &--fembed-hd, &--streamhd) {
+      @media (min-width: common.$xl) {
+        right: 4.5em;
+        bottom: 8.5em;
       }
     }
 
@@ -105,16 +87,6 @@ $vidstream-hover-button-colour: #e50914;
 }
 
 .menus {
-  &--mobile {
-    left: 1.25em;
-    right: 0px;
-    bottom: 4em;
-
-    &--jw {
-      bottom: 6em !important;
-    }
-  }
-
   &--jw {
     bottom: 6em;
 
@@ -123,19 +95,14 @@ $vidstream-hover-button-colour: #e50914;
     }
   }
 
-  &--fullscreen {
-    &--jw {
-      @media (min-width: common.$xl) {
-        right: 3em;
-        bottom: 13em;
-      }
-    }
+  &--jw#{&}--mobile {
+    bottom: 6em;
+  }
 
-    &--streamhd,
-    &--fcdn {
-      @media (min-width: common.$xl) {
-        bottom: 10em;
-      }
+  &--jw#{&}--fullscreen:not(&--fcdn, &--fembed-hd, &--streamhd) {
+    @media (min-width: common.$xl) {
+      right: 3em;
+      bottom: 13em;
     }
   }
 

@@ -17,6 +17,10 @@ $mp4upload-player-buttons-background-colour: #00b3ff;
       background-color: $mp4upload-player-buttons-background-colour;
     }
 
+    &--mp4upload.active {
+      background-color: $mp4upload-player-buttons-background-colour;
+    }
+
     &--mixdrop {
       margin-right: -5px;
     }
@@ -24,10 +28,6 @@ $mp4upload-player-buttons-background-colour: #00b3ff;
     &--dood {
       width: $dood-button-size;
       height: $dood-button-size;
-    }
-
-    &--active--mp4upload {
-      background-color: $mp4upload-player-buttons-background-colour;
     }
   }
 }
@@ -61,6 +61,10 @@ $mp4upload-player-buttons-background-colour: #00b3ff;
     }
   }
 
+  &--mixdrop#{&}--mobile {
+    bottom: 5em;
+  }
+
   &--dood {
     right: 2.5em;
     bottom: 8em;
@@ -70,13 +74,7 @@ $mp4upload-player-buttons-background-colour: #00b3ff;
     }
   }
 
-  &--mobile {
-    &--mixdrop {
-      bottom: 5em;
-    }
-
-    &--dood {
-      bottom: 8em;
-    }
+  &--dood#{&}--mobile {
+    bottom: 8em;
   }
 }
