@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Tooltip } from '../Tooltip';
 import { PlayerButtonProps } from './PlayerButton.types';
 
@@ -13,6 +13,8 @@ export function PlayerButton({
 }: PlayerButtonProps): JSX.Element {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isActivatedOnce, setIsActivatedOnce] = useState<boolean>(false);
+  const [isMouseMoved, setIsMouseMoved] = useState<boolean>(false);
+  const mouseMovedTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   /**
    * Handles on mouse enter event.
@@ -46,6 +48,22 @@ export function PlayerButton({
   };
 
   /**
+   * Resets mouse moved timer.
+   */
+  const onMouseMove = (): void => {
+    if (mouseMovedTimeoutRef.current) {
+      clearTimeout(mouseMovedTimeoutRef.current);
+    }
+
+    setIsMouseMoved(true);
+
+    mouseMovedTimeoutRef.current = setTimeout(
+      () => setIsMouseMoved(false),
+      500
+    );
+  };
+
+  /**
    * Handles on mouse click event.
    *
    * @param event Mouse event object.
@@ -60,10 +78,26 @@ export function PlayerButton({
     onClickProps(event);
   };
 
+  /**
+   * Remove mouse moved timeout on component unmount.
+   */
+  useEffect(
+    () => () => {
+      if (!mouseMovedTimeoutRef.current) {
+        return;
+      }
+
+      clearTimeout(mouseMovedTimeoutRef.current);
+    },
+    []
+  );
+
   return (
     <div className="flex flex-col relative items-center font-sans">
       {title && (
-        <Tooltip isVisible={isHovered && !isActivatedOnce}>{title}</Tooltip>
+        <Tooltip isVisible={isHovered && !isActivatedOnce && !isMouseMoved}>
+          {title}
+        </Tooltip>
       )}
       <button
         className={`w-8 h-8 cursor-pointer select-none outline-none flex items-center justify-center transition-colors ${className}`}
@@ -71,6 +105,7 @@ export function PlayerButton({
         onClick={onClick}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
+        onMouseMove={onMouseMove}
         {...props}
       >
         {children}
