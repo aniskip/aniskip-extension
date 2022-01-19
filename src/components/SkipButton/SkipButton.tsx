@@ -22,8 +22,8 @@ export function SkipButton({
   return (
     <div
       className={`absolute right-11 bottom-16 z-10 pointer-events-none skip-button--${variant} skip-button--${domainName} ${
-        isFullscreen ? 'skip-button--fullscreen' : ''
-      } ${isMobile ? 'right-5 bottom-16 skip-button--mobile' : ''}`}
+        isFullscreen ? 'fullscreen' : ''
+      } ${isMobile ? 'right-5 bottom-16 mobile' : ''}`}
     >
       <DefaultButton
         className={`transition-opacity font-sans whitespace-nowrap text-white bg-neutral-800 bg-opacity-80 py-3 border border-gray-300 font-bold uppercase hover:bg-opacity-100 backdrop-blur-md ${

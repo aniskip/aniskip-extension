@@ -61,7 +61,7 @@ $mp4upload-player-buttons-background-colour: #00b3ff;
     }
   }
 
-  &--mixdrop#{&}--mobile {
+  &--mixdrop.mobile {
     bottom: 5em;
   }
 
@@ -74,7 +74,7 @@ $mp4upload-player-buttons-background-colour: #00b3ff;
     }
   }
 
-  &--dood#{&}--mobile {
+  &--dood.mobile {
     bottom: 8em;
   }
 }

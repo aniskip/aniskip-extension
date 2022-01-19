@@ -31,27 +31,22 @@ $vidstream-hover-button-colour: #e50914;
         color: $vidstream-hover-button-colour;
         border-color: $vidstream-hover-button-colour;
       }
-    }
 
-    &--jw > * {
-      border-color: white;
-      margin-bottom: -4px;
-      border-bottom-width: 4px;
-
-      @media (min-width: common.$xl) {
-        margin-bottom: -2px;
-        border-bottom-width: 2px;
+      &.active:hover > * {
+        border-color: $vidstream-hover-button-colour;
       }
     }
 
-    &--fcdn.active,
-    &--fembed-hd.active,
-    &--streamhd.active {
-      & > * {
-        @media (min-width: common.$xl) {
-          margin-bottom: -4px;
-          border-bottom-width: 4px;
-        }
+    &--jw.active > * {
+      border-color: white;
+      margin-bottom: -4px;
+      border-bottom-width: 4px;
+    }
+
+    &--jw.active:not(&--fcdn, &--fembed-hd, &--streamhd) > * {
+      @media (min-width: common.$xl) {
+        margin-bottom: -2px;
+        border-bottom-width: 2px;
       }
     }
 
@@ -69,14 +64,22 @@ $vidstream-hover-button-colour: #e50914;
   }
 
   &-button {
-    &--jw {
+    &--jw:not(&--vidstream, &--vidstreamz, &--mcloud) {
       bottom: 5.5em;
     }
 
-    &--jw#{&}--fullscreen:not(&--fcdn, &--fembed-hd, &--streamhd) {
+    &--jw.fullscreen:not(&--fcdn, &--fembed-hd, &--streamhd) {
       @media (min-width: common.$xl) {
         right: 4.5em;
         bottom: 8.5em;
+      }
+    }
+
+    &--jw#{&}--vidstream.fullscreen,
+    &--jw#{&}--vidstreamz.fullscreen,
+    &--jw#{&}--mcloud.fullscreen {
+      @media (min-width: common.$xl) {
+        bottom: 6em;
       }
     }
 
@@ -87,7 +90,7 @@ $vidstream-hover-button-colour: #e50914;
 }
 
 .menus {
-  &--jw {
+  &--jw:not(&--vidstream, &--vidstreamz, &--mcloud) {
     bottom: 6em;
 
     @media (min-width: common.$md) {
@@ -95,14 +98,22 @@ $vidstream-hover-button-colour: #e50914;
     }
   }
 
-  &--jw#{&}--mobile {
+  &--jw.mobile {
     bottom: 6em;
   }
 
-  &--jw#{&}--fullscreen:not(&--fcdn, &--fembed-hd, &--streamhd) {
+  &--jw.fullscreen:not(&--fcdn, &--fembed-hd, &--streamhd) {
     @media (min-width: common.$xl) {
       right: 3em;
       bottom: 13em;
+    }
+  }
+
+  &--jw#{&}--vidstream.fullscreen,
+  &--jw#{&}--vidstreamz.fullscreen,
+  &--jw#{&}--mcloud.fullscreen {
+    @media (min-width: common.$xl) {
+      bottom: 10em;
     }
   }
 
