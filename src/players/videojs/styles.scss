@@ -3,6 +3,8 @@
 $button-size: 40px;
 $dood-button-size: 60px;
 
+$mp4upload-player-buttons-background-colour: #00b3ff;
+
 .submit,
 .vote {
   &-menu-button {
@@ -11,9 +13,21 @@ $dood-button-size: 60px;
       height: $button-size;
     }
 
+    &--mp4upload:hover {
+      background-color: $mp4upload-player-buttons-background-colour;
+    }
+
+    &--mixdrop {
+      margin-right: -5px;
+    }
+
     &--dood {
       width: $dood-button-size;
       height: $dood-button-size;
+    }
+
+    &--active--mp4upload {
+      background-color: $mp4upload-player-buttons-background-colour;
     }
   }
 }
