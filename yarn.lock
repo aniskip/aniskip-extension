@@ -5777,9 +5777,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"copy-webpack-plugin@npm:^10.2.0":
-  version: 10.2.0
-  resolution: "copy-webpack-plugin@npm:10.2.0"
+"copy-webpack-plugin@npm:^10.2.1":
+  version: 10.2.1
+  resolution: "copy-webpack-plugin@npm:10.2.1"
   dependencies:
     fast-glob: ^3.2.7
     glob-parent: ^6.0.1
@@ -5789,7 +5789,7 @@ __metadata:
     serialize-javascript: ^6.0.0
   peerDependencies:
     webpack: ^5.1.0
-  checksum: ae99dc42d0fbe4d7fc4a6a0902130c4420c7a2f27a995df55b4fcaa5c5aec371b4545609249f93e8db0f5b95daaed053e74f38d794ace1336f21886c29e2fddc
+  checksum: 59b4fc10aaa81658fa1b6164fc9985ef0e4b54ba2734c07e0da5fdbc6828a5954fe822e2c383beac1e247dd26e669b2c86fa0d7d5495dfb1cbf562196d005ec2
   languageName: node
   linkType: hard
 
@@ -15231,10 +15231,10 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^2.9.0":
-  version: 2.9.0
-  resolution: "type-fest@npm:2.9.0"
-  checksum: 497b9b367536fe69a9d4258fb5afda04755de34278d2d949fa04325e6cd586b31643dd94ab3085f22088f054f39f44f4bbabfcaf789a00f508b1aed8ec43cd73
+"type-fest@npm:^2.10.0":
+  version: 2.10.0
+  resolution: "type-fest@npm:2.10.0"
+  checksum: a14df0691efc38fe2d0c88ed28182a979c662b71b9e9776638cbaf0ba081f5afcd95ce23c3085f67367a5555b1984b6db828df57cf3b2ae2d61c01b10fa5bc40
   languageName: node
   linkType: hard
 
@@ -15298,7 +15298,7 @@ resolve@^2.0.0-next.3:
     chrome-webstore-upload-cli: ^2.0.1
     clean-webpack-plugin: ^4.0.0
     concurrently: ^7.0.0
-    copy-webpack-plugin: ^10.2.0
+    copy-webpack-plugin: ^10.2.1
     cross-env: ^7.0.3
     css-loader: ^6.5.1
     css-minimizer-webpack-plugin: ^3.4.1
@@ -15339,7 +15339,7 @@ resolve@^2.0.0-next.3:
     style-loader: ^3.3.1
     tailwindcss: ^3.0.15
     to-string-loader: ^1.2.0
-    type-fest: ^2.9.0
+    type-fest: ^2.10.0
     typescript: ^4.5.4
     uuid: ^8.3.2
     wait-on: ^6.0.0
