@@ -227,6 +227,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/helper-create-class-features-plugin@npm:^7.16.10":
+  version: 7.16.10
+  resolution: "@babel/helper-create-class-features-plugin@npm:7.16.10"
+  dependencies:
+    "@babel/helper-annotate-as-pure": ^7.16.7
+    "@babel/helper-environment-visitor": ^7.16.7
+    "@babel/helper-function-name": ^7.16.7
+    "@babel/helper-member-expression-to-functions": ^7.16.7
+    "@babel/helper-optimise-call-expression": ^7.16.7
+    "@babel/helper-replace-supers": ^7.16.7
+    "@babel/helper-split-export-declaration": ^7.16.7
+  peerDependencies:
+    "@babel/core": ^7.0.0
+  checksum: 2ab266aac7f94403311f63a17d32abb718ff040339bcae19880091de3fdb4e8d7196cb4e680f01a92924eb1a00a143364456e452c511c0b7b6e0b1a4b0e696da
+  languageName: node
+  linkType: hard
+
 "@babel/helper-create-class-features-plugin@npm:^7.16.7":
   version: 7.16.7
   resolution: "@babel/helper-create-class-features-plugin@npm:7.16.7"
@@ -872,15 +889,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-private-methods@npm:^7.16.7":
-  version: 7.16.7
-  resolution: "@babel/plugin-proposal-private-methods@npm:7.16.7"
+"@babel/plugin-proposal-private-methods@npm:^7.16.11":
+  version: 7.16.11
+  resolution: "@babel/plugin-proposal-private-methods@npm:7.16.11"
   dependencies:
-    "@babel/helper-create-class-features-plugin": ^7.16.7
+    "@babel/helper-create-class-features-plugin": ^7.16.10
     "@babel/helper-plugin-utils": ^7.16.7
   peerDependencies:
     "@babel/core": ^7.0.0-0
-  checksum: 1d3aef6f1818278d257ed6f1a90ec3b0cfe85e1b24cabf1bcd0d2a0033f8ae15f9cb36140ec2adc2a317f63fc78095ce0b5c154f73128e0f84480879a4b64269
+  checksum: b333e5aa91c265bb394a57b5f4ae1a34fc8ee73a8d75506b12df258d8b5342107cbd9261f95e606bd3264a5b023db77f1f95be30c2e526683916c57f793f7943
   languageName: node
   linkType: hard
 
@@ -1566,9 +1583,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-env@npm:^7.16.10":
-  version: 7.16.10
-  resolution: "@babel/preset-env@npm:7.16.10"
+"@babel/preset-env@npm:^7.16.11":
+  version: 7.16.11
+  resolution: "@babel/preset-env@npm:7.16.11"
   dependencies:
     "@babel/compat-data": ^7.16.8
     "@babel/helper-compilation-targets": ^7.16.7
@@ -1588,7 +1605,7 @@ __metadata:
     "@babel/plugin-proposal-object-rest-spread": ^7.16.7
     "@babel/plugin-proposal-optional-catch-binding": ^7.16.7
     "@babel/plugin-proposal-optional-chaining": ^7.16.7
-    "@babel/plugin-proposal-private-methods": ^7.16.7
+    "@babel/plugin-proposal-private-methods": ^7.16.11
     "@babel/plugin-proposal-private-property-in-object": ^7.16.7
     "@babel/plugin-proposal-unicode-property-regex": ^7.16.7
     "@babel/plugin-syntax-async-generators": ^7.8.4
@@ -1646,7 +1663,7 @@ __metadata:
     semver: ^6.3.0
   peerDependencies:
     "@babel/core": ^7.0.0-0
-  checksum: cd39d0c30a3b3d24f36ae4822e9368bc758c904039599ce26239932c0e0f537e8d3ec9b9e952ddb9f0a459d06254c138e71b89cee5be7709ef2a0890f503d915
+  checksum: c8029c272073df787309d983ae458dd094b57f87152b8ccad95c7c8b1e82b042c1077e169538aae5f98b7659de0632d10708d9c85acf21a5e9406d7dd3656d8c
   languageName: node
   linkType: hard
 
@@ -2366,20 +2383,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redux-devtools/app@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "@redux-devtools/app@npm:2.0.2"
+"@redux-devtools/app@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@redux-devtools/app@npm:2.0.3"
   dependencies:
     "@babel/runtime": ^7.16.7
     "@redux-devtools/chart-monitor": ^2.0.1
     "@redux-devtools/core": ^3.10.1
     "@redux-devtools/inspector-monitor": ^2.0.1
-    "@redux-devtools/inspector-monitor-test-tab": ^0.8.2
+    "@redux-devtools/inspector-monitor-test-tab": ^0.8.3
     "@redux-devtools/inspector-monitor-trace-tab": ^0.3.2
     "@redux-devtools/log-monitor": ^3.0.1
-    "@redux-devtools/rtk-query-monitor": ^2.0.1
-    "@redux-devtools/slider-monitor": ^3.0.1
-    "@redux-devtools/ui": ^1.1.0
+    "@redux-devtools/rtk-query-monitor": ^2.0.2
+    "@redux-devtools/slider-monitor": ^3.0.2
+    "@redux-devtools/ui": ^1.1.1
     "@reduxjs/toolkit": ^1.7.1
     "@types/prop-types": ^15.7.4
     d3-state-visualizer: ^1.5.0
@@ -2400,7 +2417,7 @@ __metadata:
     "@types/styled-components": ^5.1.19
     react: ^16.3.0 || ^17.0.0
     styled-components: ^5.3.3
-  checksum: 5674c4c7c389c7112b2d0553033e125dc909bcff68e34e0ffdace0d5e1cd1e3844796ec1e719c57cb0ed5e9977133cf860ccdb6a8db408c54f441c557e643544
+  checksum: 27642f490fdd1fef84b759aac5872532881c4ca3a96189edabd06daa6d3dd8eb7b05d5d33e27bad13f6d3a1214bf76c01afe4a29fad444bcb83fc92d98890fc4
   languageName: node
   linkType: hard
 
@@ -2424,11 +2441,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redux-devtools/cli@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "@redux-devtools/cli@npm:1.0.3"
+"@redux-devtools/cli@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "@redux-devtools/cli@npm:1.0.4"
   dependencies:
-    "@redux-devtools/app": ^2.0.2
+    "@redux-devtools/app": ^2.0.3
     "@types/react": ^17.0.38
     apollo-server-express: ^3.6.1
     body-parser: ^1.19.1
@@ -2454,7 +2471,7 @@ __metadata:
     uuid: ^8.3.2
   bin:
     redux-devtools: bin/redux-devtools.js
-  checksum: 2bb4cff0d384aa0b44105f3e0667ca63e39b4a9a702cef6b5963146e6f89987704785afce75036fded46fcb872443b2cdf83d1398ce0da3a73e1161c6cfa1987
+  checksum: b624259566be9226a90d7bef3ca7c3dfc040a401a65fb283fabb51fce47f8fd69ec6f1df07fe2a04b03c3234498a696594e21e18307b72b3ae7c0d0b8594c521
   languageName: node
   linkType: hard
 
@@ -2475,12 +2492,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redux-devtools/inspector-monitor-test-tab@npm:^0.8.2":
-  version: 0.8.2
-  resolution: "@redux-devtools/inspector-monitor-test-tab@npm:0.8.2"
+"@redux-devtools/inspector-monitor-test-tab@npm:^0.8.3":
+  version: 0.8.3
+  resolution: "@redux-devtools/inspector-monitor-test-tab@npm:0.8.3"
   dependencies:
     "@babel/runtime": ^7.16.7
-    "@redux-devtools/ui": ^1.1.0
+    "@redux-devtools/ui": ^1.1.1
     "@types/prop-types": ^15.7.4
     es6template: ^1.0.5
     javascript-stringify: ^2.1.0
@@ -2496,7 +2513,7 @@ __metadata:
     react: ^16.3.0 || ^17.0.0
     redux: ^3.4.0 || ^4.0.0
     styled-components: ^5.3.3
-  checksum: 0f359af86318c7018f2000d1a2935af84cf36a464d51c77ab8073d52a0a5652948ab3a034516f13efc6cce2eb409ad7efeae62563b59118898a1178a13694527
+  checksum: 1a1e3c0ad8fec882ed172a0762d945e075ae019afd6b89b5d225384518565221c7dcafe95ef52bcbda509b44690228ed7e00658bc288ac1ebc375068d6a06824
   languageName: node
   linkType: hard
 
@@ -2583,12 +2600,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redux-devtools/rtk-query-monitor@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "@redux-devtools/rtk-query-monitor@npm:2.0.1"
+"@redux-devtools/rtk-query-monitor@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@redux-devtools/rtk-query-monitor@npm:2.0.2"
   dependencies:
     "@babel/runtime": ^7.16.7
-    "@redux-devtools/ui": ^1.1.0
+    "@redux-devtools/ui": ^1.1.1
     "@types/prop-types": ^15.7.4
     "@types/redux-devtools-themes": ^1.0.0
     hex-rgba: ^1.0.2
@@ -2608,16 +2625,16 @@ __metadata:
     react: ^16.3.0 || ^17.0.0
     redux: ^3.4.0 || ^4.0.0
     styled-components: ^5.3.3
-  checksum: fbad5dfd63ea3c7e9dba463d22fe766bb18532d5c9b9cef08a0ff85d224eb6c278e9fe556cdea8c8586dfe967acdba615ea38b2e880ec819aa2cc7f12950fd5f
+  checksum: c9994025c6e623bfc182722ca8cd655f1ac57bbccad0fb5445f3b6147b16f685c8876ca80bc9eb3b08fd110c7d13657e9f577c33e7646b4fa33abfa77e574fe8
   languageName: node
   linkType: hard
 
-"@redux-devtools/slider-monitor@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "@redux-devtools/slider-monitor@npm:3.0.1"
+"@redux-devtools/slider-monitor@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@redux-devtools/slider-monitor@npm:3.0.2"
   dependencies:
     "@babel/runtime": ^7.16.7
-    "@redux-devtools/ui": ^1.1.0
+    "@redux-devtools/ui": ^1.1.1
     "@types/prop-types": ^15.7.4
     "@types/redux-devtools-themes": ^1.0.0
     prop-types: ^15.8.0
@@ -2629,13 +2646,13 @@ __metadata:
     react: ^16.3.0 || ^17.0.0
     redux: ^3.4.0 || ^4.0.0
     styled-components: ^5.3.3
-  checksum: ec08210641b2280e9f699a5250af038a4653a21515213928857630412c5a209edd1454f4ece83a29586818376ca50f942cf60e542c7a9b6ff1ec2cbff294477f
+  checksum: d5398a767a51b3665a81f8a86a7410b8ac49b1dcaa1011d468e90c1cb73aaa31066acac2d0146d1ec64a93ac6d6b53b17deb9aae0d9fd1568de838f3434895f4
   languageName: node
   linkType: hard
 
-"@redux-devtools/ui@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@redux-devtools/ui@npm:1.1.0"
+"@redux-devtools/ui@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@redux-devtools/ui@npm:1.1.1"
   dependencies:
     "@babel/runtime": ^7.16.7
     "@rjsf/core": ^3.2.1
@@ -2658,7 +2675,7 @@ __metadata:
     "@types/styled-components": ^5.1.19
     react: ^16.3.0 || ^17.0.0
     styled-components: ^5.3.3
-  checksum: 6369804b649a6462c0abd5f6927bb25f2786eb0fba72024b27b0c7e03ee49342ab6f8693b9a59a15755c2558dc8f98c49bdd056a67823a481d8f56c7e381ed8b
+  checksum: 2b257be77211f29a22ddbe8515ee4e60ec1d870b72e8c89b4543a48e6383d37695d3ef6cfbaab9243356959d7d3047782ca7ed6d51d01f7417051b443eba83cd
   languageName: node
   linkType: hard
 
@@ -15270,13 +15287,13 @@ resolve@^2.0.0-next.3:
   dependencies:
     "@babel/core": ^7.16.10
     "@babel/plugin-transform-runtime": ^7.16.10
-    "@babel/preset-env": ^7.16.10
+    "@babel/preset-env": ^7.16.11
     "@babel/preset-react": ^7.16.7
     "@babel/preset-typescript": ^7.16.7
     "@babel/runtime": ^7.16.7
     "@headlessui/react": ^1.4.3
     "@mantiquillal/web-ext-plugin": ^1.5.1
-    "@redux-devtools/cli": ^1.0.3
+    "@redux-devtools/cli": ^1.0.4
     "@reduxjs/toolkit": ^1.7.1
     "@types/chrome": ^0.0.176
     "@types/glob-to-regexp": ^0.4.1
