@@ -1,0 +1,123 @@
+@use '../common-styles' as common;
+
+$button-size: 44px;
+$button-height-offset: 14px;
+
+$vidstream-hover-button-colour: #e50914;
+
+.submit,
+.vote {
+  &-menu-button {
+    &--jw {
+      width: $button-size;
+      height: $button-size;
+
+      @media (min-width: common.$xl) {
+        height: $button-size + $button-height-offset;
+      }
+    }
+
+    &--fcdn,
+    &--fembed-hd,
+    &--streamhd {
+      @media (min-width: common.$xl) {
+        height: $button-size;
+      }
+    }
+
+    &--vidstream,
+    &--vidstreamz {
+      &:hover > * {
+        color: $vidstream-hover-button-colour;
+        border-color: $vidstream-hover-button-colour;
+      }
+
+      &.active:hover > * {
+        border-color: $vidstream-hover-button-colour;
+      }
+    }
+
+    &--jw.active > * {
+      border-color: white;
+      margin-bottom: -4px;
+      border-bottom-width: 4px;
+    }
+
+    &--jw.active:not(&--fcdn, &--fembed-hd, &--streamhd) > * {
+      @media (min-width: common.$xl) {
+        margin-bottom: -2px;
+        border-bottom-width: 2px;
+      }
+    }
+
+    &--videovard.active > * {
+      border-color: transparent;
+    }
+  }
+}
+
+.skip {
+  &-indicators--jw {
+    top: 50%;
+    margin-top: -2px;
+    height: 4px;
+  }
+
+  &-button {
+    &--jw:not(&--vidstream, &--vidstreamz, &--mcloud) {
+      bottom: 5.5em;
+    }
+
+    &--jw.fullscreen:not(&--fcdn, &--fembed-hd, &--streamhd) {
+      @media (min-width: common.$xl) {
+        right: 4.5em;
+        bottom: 8.5em;
+      }
+    }
+
+    &--jw#{&}--vidstream.fullscreen,
+    &--jw#{&}--vidstreamz.fullscreen,
+    &--jw#{&}--mcloud.fullscreen {
+      @media (min-width: common.$xl) {
+        bottom: 6em;
+      }
+    }
+
+    &--videovard {
+      z-index: 9999999999;
+    }
+  }
+}
+
+.menus {
+  &--jw:not(&--vidstream, &--vidstreamz, &--mcloud) {
+    bottom: 6em;
+
+    @media (min-width: common.$md) {
+      bottom: 10em;
+    }
+  }
+
+  &--jw.mobile {
+    bottom: 6em;
+  }
+
+  &--jw.fullscreen:not(&--fcdn, &--fembed-hd, &--streamhd) {
+    @media (min-width: common.$xl) {
+      right: 3em;
+      bottom: 13em;
+    }
+  }
+
+  &--jw#{&}--vidstream.fullscreen,
+  &--jw#{&}--vidstreamz.fullscreen,
+  &--jw#{&}--mcloud.fullscreen {
+    @media (min-width: common.$xl) {
+      bottom: 10em;
+    }
+  }
+
+  &--videovard {
+    z-index: 9999999999;
+  }
+}

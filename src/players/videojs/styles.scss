@@ -1,0 +1,80 @@
+@use '../common-styles' as common;
+
+$button-size: 40px;
+$dood-button-size: 60px;
+
+$mp4upload-player-buttons-background-colour: #00b3ff;
+
+.submit,
+.vote {
+  &-menu-button {
+    &--videojs {
+      width: $button-size;
+      height: $button-size;
+    }
+
+    &--mp4upload:hover {
+      background-color: $mp4upload-player-buttons-background-colour;
+    }
+
+    &--mp4upload.active {
+      background-color: $mp4upload-player-buttons-background-colour;
+    }
+
+    &--mixdrop {
+      margin-right: -5px;
+    }
+
+    &--dood {
+      width: $dood-button-size;
+      height: $dood-button-size;
+    }
+  }
+}
+
+.skip {
+  &-indicators--mp4upload {
+    top: 50%;
+    margin-top: -4px;
+    height: 8px;
+  }
+
+  &-button {
+    &--mixdrop {
+      bottom: 5em;
+    }
+
+    &--dood {
+      right: 3.9em;
+      bottom: 8em;
+      cursor: pointer;
+    }
+  }
+}
+
+.menus {
+  &--mixdrop {
+    bottom: 5em;
+
+    @media (min-width: common.$md) {
+      bottom: 9em;
+    }
+  }
+
+  &--mixdrop.mobile {
+    bottom: 5em;
+  }
+
+  &--dood {
+    right: 2.5em;
+    bottom: 8em;
+
+    @media (min-width: common.$md) {
+      bottom: 12em;
+    }
+  }
+
+  &--dood.mobile {
+    bottom: 8em;
+  }
+}

@@ -1,6 +1,7 @@
 import React from 'react';
-import { FaCloudUploadAlt } from 'react-icons/fa';
+import { FaPlayCircle } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
+import { PlayerButton } from '../PlayerButton';
 import {
   submitMenuVisibilityUpdated,
   voteMenuVisibilityUpdated,
@@ -11,39 +12,26 @@ import { SubmitMenuProps } from './SubmitMenuButton.types';
 
 export function SubmitMenuButton({ variant }: SubmitMenuProps): JSX.Element {
   const domainName = getDomainName(window.location.hostname);
-  const active = useSelector(selectIsSubmitMenuVisible);
+  const isActive = useSelector(selectIsSubmitMenuVisible);
   const dispatch = useDispatch();
 
   /**
    * Toggles the submit menu.
    */
   const onClick = (): void => {
-    dispatch(submitMenuVisibilityUpdated(!active));
+    dispatch(submitMenuVisibilityUpdated(!isActive));
     dispatch(voteMenuVisibilityUpdated(false));
   };
 
-  /**
-   * Toggles the submit menu if the key pressed is Enter.
-   */
-  const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
-    if (event.key === 'Enter') {
-      dispatch(submitMenuVisibilityUpdated(!active));
-      dispatch(voteMenuVisibilityUpdated(false));
-    }
-  };
-
   return (
-    <div
-      className={`font-sans w-8 h-8 cursor-pointer select-none outline-none flex items-center justify-center border-white border-b-2 border-opacity-0 transition-colors ${
-        active && 'border-opacity-100'
-      } submit-menu-button--${variant} submit-menu-button--${domainName}`}
-      role="button"
+    <PlayerButton
+      className={`submit-menu-button--${variant} submit-menu-button--${domainName} ${
+        isActive ? 'active' : ''
+      }`}
       title="Submit skip times"
-      tabIndex={0}
       onClick={onClick}
-      onKeyDown={onKeyDown}
     >
-      <FaCloudUploadAlt className="text-white w-1/2 h-1/2" />
-    </div>
+      <FaPlayCircle className="text-slate-100 w-1/2 h-full" />
+    </PlayerButton>
   );
 }

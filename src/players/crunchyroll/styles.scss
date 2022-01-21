@@ -1,0 +1,45 @@
+@use '../common-styles' as common;
+
+$button-size: 40px;
+
+.submit,
+.vote {
+  &-menu-button {
+    &--crunchyroll {
+      width: $button-size;
+      height: $button-size;
+
+      &:hover {
+        background-color: rgb(20, 21, 25, 0.7);
+      }
+
+      &:active {
+        background-color: rgb(20, 21, 25);
+      }
+    }
+  }
+}
+
+.skip-button {
+  &--crunchyroll {
+    bottom: 7em;
+  }
+
+  &--crunchyroll.mobile {
+    bottom: 4em;
+  }
+}
+
+.menus {
+  &--crunchyroll {
+    bottom: 7em;
+
+    @media (min-width: common.$md) {
+      bottom: 11em;
+    }
+  }
+
+  &--crunchyroll.mobile {
+    bottom: 4em;
+  }
+}

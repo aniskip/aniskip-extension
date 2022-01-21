@@ -50,7 +50,7 @@ export abstract class BaseRenderer implements Renderer {
 
     const playerScriptStyle = document.createElement('style');
     // eslint-disable-next-line import/no-webpack-loader-syntax, global-require
-    playerScriptStyle.textContent = require('!to-string-loader!css-loader?{"esModule":false,"sourceMap":false}!sass-loader!../scripts/player/styles.scss');
+    playerScriptStyle.textContent = require(`!to-string-loader!css-loader?{"esModule":false,"sourceMap":false}!sass-loader!../players/styles.scss`);
     shadowRoot.appendChild(playerScriptStyle);
 
     const reactRoot = document.createElement('div');

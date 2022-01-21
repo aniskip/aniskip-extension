@@ -16,14 +16,8 @@ export function MenuContainer({ children }: MenuContainerProps): JSX.Element {
   return (
     <div
       className={`absolute text-base z-10 left-5 bottom-16 md:left-auto md:right-5 md:bottom-32 pointer-events-none menus--${variant} menus--${domainName} ${
-        isFullscreen
-          ? `menus--${variant}--fullscreen menus--${domainName}--fullscreen`
-          : ''
-      } ${
-        isMobile
-          ? `menus--mobile menus--${variant}--mobile menus--${domainName}--mobile`
-          : ''
-      }`}
+        isFullscreen ? 'fullscreen' : ''
+      } ${isMobile ? 'md:left-5 md:right-auto bottom-16 mobile' : ''}`}
     >
       {children}
     </div>

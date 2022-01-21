@@ -1,0 +1,92 @@
+@use '../common-styles' as common;
+
+$animepahe-player: kwik;
+
+$plyr-player-buttons-background-colour: #00b3ff;
+$animepahe-player-buttons-background-colour: #00d1b2;
+$streamtape-player-buttons-background-colour: rgba(101, 87, 255, 0.5);
+
+.submit,
+.vote {
+  &-menu-button {
+    &--plyr {
+      border-radius: 3px;
+    }
+
+    &--plyr:hover {
+      background-color: $plyr-player-buttons-background-colour;
+    }
+
+    &--plyr.active {
+      background-color: $plyr-player-buttons-background-colour;
+    }
+
+    &--#{$animepahe-player}:hover {
+      background-color: $animepahe-player-buttons-background-colour;
+    }
+
+    &--streamtape,
+    &--stape {
+      &:hover {
+        background-color: $streamtape-player-buttons-background-colour;
+      }
+
+      & > * {
+        transition-property: transform;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 300ms;
+        transform: scale(1);
+      }
+
+      &:hover > * {
+        transform: scale(1.25);
+      }
+    }
+
+    &--#{$animepahe-player}.active {
+      background-color: $animepahe-player-buttons-background-colour;
+    }
+
+    &--streamtape.active,
+    &--stape.active {
+      background-color: $streamtape-player-buttons-background-colour;
+
+      & > * {
+        transform: scale(1.25);
+      }
+    }
+  }
+}
+
+.player-buttons {
+  &--plyr {
+    margin-right: 1px;
+
+    & > *:not(:first-child) {
+      margin-left: 3px;
+    }
+  }
+
+  &--streamtape,
+  &--stape {
+    margin-right: -1px;
+    margin-left: 2px;
+
+    & > *:not(:first-child) {
+      margin-left: 2px;
+    }
+  }
+}
+
+.skip-indicators {
+  &--plyr {
+    top: 50%;
+    height: 5px;
+    margin-top: -2.5px;
+  }
+
+  &--streamtape,
+  &--stape {
+    bottom: 5em;
+  }
+}

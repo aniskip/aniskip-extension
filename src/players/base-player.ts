@@ -189,6 +189,44 @@ export class BasePlayer implements Player {
   }
 
   /**
+   * Ensures that there are one of each skip subtypes.
+   *
+   * @example
+   * // returns ['op', 'ed']
+   * filterDuplicateSkipType('op', ['op', 'mixed-op', 'ed']);
+   *
+   * @example
+   * // returns ['mixed-op', 'ed']
+   * filterDuplicateSkipType('mixed-op', ['op', 'mixed-op', 'ed']);
+   *
+   * @param skipType Skip type to keep.
+   * @param skipTimes Skip times to filter.
+   */
+  filterDuplicateSkipType(
+    skipType: Exclude<SkipType, 'recap'>,
+    skipTimes: SkipTime[]
+  ): SkipTime[] {
+    const skipSubtype = skipType.slice(-2);
+
+    const duplicates = skipTimes.filter(
+      (element) => element.skipType.slice(-2) === skipSubtype
+    );
+
+    if (duplicates.length < 2) {
+      return skipTimes;
+    }
+
+    const duplicateToRemove = duplicates.reduce(
+      (previousValue, currentElement) =>
+        currentElement.skipType !== skipType ? currentElement : previousValue
+    );
+
+    return skipTimes.filter(
+      (element) => element.skipType !== duplicateToRemove.skipType
+    );
+  }
+
+  /**
    * Returns the container element with the given query string.
    *
    * @param selectorString Selector string to retrieve the node.
@@ -339,11 +377,17 @@ export class BasePlayer implements Player {
       episodeLength
     );
 
-    if (getSkipTimesResponse.found) {
-      getSkipTimesResponse.results.forEach((skipTime) =>
-        this.addSkipTime(skipTime)
-      );
+    if (!getSkipTimesResponse.found) {
+      return;
     }
+
+    // Remove duplicate 'op' and 'ed' skip subtypes.
+    const filteredSkipTypes = this.filterDuplicateSkipType(
+      'mixed-op',
+      this.filterDuplicateSkipType('mixed-ed', getSkipTimesResponse.results)
+    );
+
+    filteredSkipTypes.forEach((skipTime) => this.addSkipTime(skipTime));
   }
 
   /**
