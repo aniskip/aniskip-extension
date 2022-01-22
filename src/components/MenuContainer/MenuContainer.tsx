@@ -1,15 +1,14 @@
 import React from 'react';
+import { isMobile } from 'react-device-detect';
 import { MenuContainerProps } from './MenuContainer.types';
 import {
   getDomainName,
   useCheckIsFullscreen,
-  useCheckIsMobile,
   useVariantRef,
 } from '../../utils';
 
 export function MenuContainer({ children }: MenuContainerProps): JSX.Element {
   const { isFullscreen } = useCheckIsFullscreen();
-  const { isMobile } = useCheckIsMobile();
   const variant = useVariantRef();
   const domainName = getDomainName(window.location.hostname);
 

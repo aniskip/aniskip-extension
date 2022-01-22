@@ -1,10 +1,7 @@
 import React from 'react';
+import { isMobile } from 'react-device-detect';
 import { SkipButtonProps } from './SkipButton.types';
-import {
-  getDomainName,
-  useCheckIsFullscreen,
-  useCheckIsMobile,
-} from '../../utils';
+import { getDomainName, useCheckIsFullscreen } from '../../utils';
 import { DefaultButton } from '../DefaultButton';
 import { SKIP_TYPE_NAMES } from '../../api';
 
@@ -15,7 +12,6 @@ export function SkipButton({
   ...props
 }: SkipButtonProps): JSX.Element {
   const { isFullscreen } = useCheckIsFullscreen();
-  const { isMobile } = useCheckIsMobile();
 
   const domainName = getDomainName(window.location.hostname);
 
