@@ -11,18 +11,24 @@ $streamtape-player-buttons-background-colour: rgba(101, 87, 255, 0.5);
   &-menu-button {
     &--plyr {
       border-radius: 3px;
+
+      &:hover {
+        background-color: $plyr-player-buttons-background-colour;
+      }
+
+      &.active {
+        background-color: $plyr-player-buttons-background-colour;
+      }
     }
 
-    &--plyr:hover {
-      background-color: $plyr-player-buttons-background-colour;
-    }
+    &--#{$animepahe-player} {
+      &.active {
+        background-color: $animepahe-player-buttons-background-colour;
+      }
 
-    &--plyr.active {
-      background-color: $plyr-player-buttons-background-colour;
-    }
-
-    &--#{$animepahe-player}:hover {
-      background-color: $animepahe-player-buttons-background-colour;
+      &:hover {
+        background-color: $animepahe-player-buttons-background-colour;
+      }
     }
 
     &--streamtape,
@@ -41,18 +47,13 @@ $streamtape-player-buttons-background-colour: rgba(101, 87, 255, 0.5);
       &:hover > * {
         transform: scale(1.25);
       }
-    }
 
-    &--#{$animepahe-player}.active {
-      background-color: $animepahe-player-buttons-background-colour;
-    }
+      &.active {
+        background-color: $streamtape-player-buttons-background-colour;
 
-    &--streamtape.active,
-    &--stape.active {
-      background-color: $streamtape-player-buttons-background-colour;
-
-      & > * {
-        transform: scale(1.25);
+        & > * {
+          transform: scale(1.25);
+        }
       }
     }
   }

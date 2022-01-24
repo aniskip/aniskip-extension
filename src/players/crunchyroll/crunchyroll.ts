@@ -1,4 +1,4 @@
-import { isMobileCheck } from '../../utils';
+import { isMobile } from 'react-device-detect';
 import { BasePlayer } from '../base-player';
 import { Metadata } from '../base-player.types';
 import metadata from './metadata.json';
@@ -13,7 +13,7 @@ export class Crunchyroll extends BasePlayer {
   }
 
   getSeekBarContainer(): HTMLElement | null {
-    if (isMobileCheck()) {
+    if (isMobile) {
       return super.getContainerHelper(
         this.metadata.selectorStrings.default!
           .seekBarContainerSelectorStringMobile!
@@ -27,7 +27,7 @@ export class Crunchyroll extends BasePlayer {
   }
 
   getVideoControlsContainer(): HTMLElement | null {
-    if (isMobileCheck() && this.isReady) {
+    if (isMobile && this.isReady) {
       return document.getElementById(
         this.metadata.selectorStrings.default!
           .videoControlsContainerSelectorStringMobile!
@@ -55,7 +55,7 @@ export class Crunchyroll extends BasePlayer {
   }
 
   isControlsVisible(): boolean {
-    if (isMobileCheck()) {
+    if (isMobile) {
       return super.isControlsVisible();
     }
 

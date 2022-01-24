@@ -12804,6 +12804,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-device-detect@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "react-device-detect@npm:2.1.2"
+  dependencies:
+    ua-parser-js: ^0.7.30
+  peerDependencies:
+    react: ">= 0.14.0 < 18.0.0"
+    react-dom: ">= 0.14.0 < 18.0.0"
+  checksum: 3cc16b41324194cb812c2a6214107a2d75d8d4c44f3457b547040e24c24774e3b062d28be6dfa1775608d05a83dbc0dc226ed6e52077e27c1fc957e11dd553dc
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-dom@npm:17.0.2"
@@ -15351,6 +15363,7 @@ resolve@^2.0.0-next.3:
     prettier: ^2.5.1
     react: ^17.0.2
     react-color: ^2.19.3
+    react-device-detect: ^2.1.2
     react-dom: ^17.0.2
     react-icons: ^4.3.1
     react-redux: ^7.2.6
@@ -15397,6 +15410,13 @@ resolve@^2.0.0-next.3:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: c05c318d79c690f101d7ffb34cd6c7d6bbd884d3af9cefe7749ad0cd6be43c7082f098280982ca945dcba23fde34a08fed9602bb26540936baf8c0520727d3ba
+  languageName: node
+  linkType: hard
+
+"ua-parser-js@npm:^0.7.30":
+  version: 0.7.31
+  resolution: "ua-parser-js@npm:0.7.31"
+  checksum: e2f8324a83d1715601576af85b2b6c03890699aaa7272950fc77ea925c70c5e4f75060ae147dc92124e49f7f0e3d6dd2b0a91e7f40d267e92df8894be967ba8b
   languageName: node
   linkType: hard
 

@@ -13,12 +13,14 @@ $mp4upload-player-buttons-background-colour: #00b3ff;
       height: $button-size;
     }
 
-    &--mp4upload:hover {
-      background-color: $mp4upload-player-buttons-background-colour;
-    }
+    &--mp4upload {
+      &:hover {
+        background-color: $mp4upload-player-buttons-background-colour;
+      }
 
-    &--mp4upload.active {
-      background-color: $mp4upload-player-buttons-background-colour;
+      &.active {
+        background-color: $mp4upload-player-buttons-background-colour;
+      }
     }
 
     &--mixdrop {
@@ -59,10 +61,10 @@ $mp4upload-player-buttons-background-colour: #00b3ff;
     @media (min-width: common.$md) {
       bottom: 9em;
     }
-  }
 
-  &--mixdrop.mobile {
-    bottom: 5em;
+    &.mobile {
+      bottom: 5em;
+    }
   }
 
   &--dood {
@@ -72,9 +74,9 @@ $mp4upload-player-buttons-background-colour: #00b3ff;
     @media (min-width: common.$md) {
       bottom: 12em;
     }
-  }
 
-  &--dood.mobile {
-    bottom: 8em;
+    &.mobile {
+      bottom: 8em;
+    }
   }
 }
