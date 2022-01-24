@@ -2854,13 +2854,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chrome@npm:^0.0.176":
-  version: 0.0.176
-  resolution: "@types/chrome@npm:0.0.176"
+"@types/chrome@npm:^0.0.177":
+  version: 0.0.177
+  resolution: "@types/chrome@npm:0.0.177"
   dependencies:
     "@types/filesystem": "*"
     "@types/har-format": "*"
-  checksum: a3bc96e623f7745a8a8c6436817f6a745ea0d32fa202da2b0c7932d18609f00561d5e946c57f184054836086292fe71d38991136c6a51dd40d7757e780c36493
+  checksum: 02c070e07572439cad918c76ef760eaf43358ef110b49f76a6eecea76e40b272b48048e2a335a19a2591ae7adb2a87548a40e38fcc2dca66b130bc4a0775724f
   languageName: node
   linkType: hard
 
@@ -15316,7 +15316,7 @@ resolve@^2.0.0-next.3:
     "@mantiquillal/web-ext-plugin": ^1.5.1
     "@redux-devtools/cli": ^1.0.4
     "@reduxjs/toolkit": ^1.7.1
-    "@types/chrome": ^0.0.176
+    "@types/chrome": ^0.0.177
     "@types/glob-to-regexp": ^0.4.1
     "@types/react": ^17.0.38
     "@types/react-color": ^3.0.6
