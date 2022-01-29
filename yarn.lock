@@ -5803,9 +5803,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"copy-webpack-plugin@npm:^10.2.2":
-  version: 10.2.2
-  resolution: "copy-webpack-plugin@npm:10.2.2"
+"copy-webpack-plugin@npm:^10.2.3":
+  version: 10.2.3
+  resolution: "copy-webpack-plugin@npm:10.2.3"
   dependencies:
     fast-glob: ^3.2.7
     glob-parent: ^6.0.1
@@ -5815,7 +5815,7 @@ __metadata:
     serialize-javascript: ^6.0.0
   peerDependencies:
     webpack: ^5.1.0
-  checksum: 4550a75754e0337fb6d807a446c16eca56e24eac64673269f3e6ac4a4bc608f64cd3d77022fb714838afe4d60fa3b210a9896fc4f35699c08c7fe0c433889fdf
+  checksum: 74abbe300307a6e2d7ce21c88d737762861de06bede814567bf001c7b0506d0b04ffae41b16eb6b8120c5bc1ff0a4bcfc0d4b5ddd14efc2bd37504b36ca706c3
   languageName: node
   linkType: hard
 
@@ -15352,7 +15352,7 @@ resolve@^2.0.0-next.3:
     chrome-webstore-upload-cli: ^2.0.1
     clean-webpack-plugin: ^4.0.0
     concurrently: ^7.0.0
-    copy-webpack-plugin: ^10.2.2
+    copy-webpack-plugin: ^10.2.3
     cross-env: ^7.0.3
     css-loader: ^6.5.1
     css-minimizer-webpack-plugin: ^3.4.1
