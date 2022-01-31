@@ -55,7 +55,7 @@
     "chrome-webstore-upload-cli": "^2.0.1",
     "clean-webpack-plugin": "^4.0.0",
     "concurrently": "^7.0.0",
-    "copy-webpack-plugin": "^10.2.3",
+    "copy-webpack-plugin": "^10.2.4",
     "cross-env": "^7.0.3",
     "css-loader": "^6.5.1",
     "css-minimizer-webpack-plugin": "^3.4.1",
