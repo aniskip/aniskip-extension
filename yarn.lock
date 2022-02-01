@@ -13686,16 +13686,16 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.49.4":
-  version: 1.49.4
-  resolution: "sass@npm:1.49.4"
+"sass@npm:^1.49.5":
+  version: 1.49.5
+  resolution: "sass@npm:1.49.5"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: b4ddfcff93df823e5369fd10664938437945655956d8cd7800faeda3d6ee0bc26f7324098e259105f1a2cdd70c49d1f89e80a9deaa532e04c2cb849bd2c34b1b
+  checksum: 91c0dd589f0f766a6ba7c58afd504122e79e7e4bbe736cd069700633b64a80eb176cd312f5f2ffa67b5b0eba44ddfa5223e55a751b1e0be665fffe6009ddaff6
   languageName: node
   linkType: hard
 
@@ -15402,7 +15402,7 @@ resolve@^2.0.0-next.3:
     redux: ^4.1.2
     remote-redux-devtools: ^0.5.16
     rimraf: ^3.0.2
-    sass: ^1.49.4
+    sass: ^1.49.5
     sass-loader: ^12.4.0
     schema-utils: ^4.0.0
     sprintf-js: ^1.1.2
