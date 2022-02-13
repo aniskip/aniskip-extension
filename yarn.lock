@@ -2797,12 +2797,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sideway/address@npm:^4.1.0":
-  version: 4.1.2
-  resolution: "@sideway/address@npm:4.1.2"
+"@sideway/address@npm:^4.1.3":
+  version: 4.1.3
+  resolution: "@sideway/address@npm:4.1.3"
   dependencies:
     "@hapi/hoek": ^9.0.0
-  checksum: 1e4910f7b3205347f78e698923dd7e0bb400c9e9e9bdd4a059edb6d2e32a540b426aba4652d095ea299fb75019d87883251dd9b96b350c00a35454bcdfa5f9f5
+  checksum: 3c1faf6ef37a0b59b62ce42b59c012c00ef1fc4194ad6776c65c2f9a6dd6c1710c6f6362b3ca3fa582fdb93984f0cb64ca44f9f5e02940634805f5e561279c22
   languageName: node
   linkType: hard
 
@@ -4719,15 +4719,6 @@ __metadata:
   version: 4.3.5
   resolution: "axe-core@npm:4.3.5"
   checksum: 973c6a80f0aaa663820b209d4202de7a0c240a2dea2f3cff168b09c0f221b27179b1f0988f00ad11ed63cbc50535920f8ca779de1c60dc82090ab2d275f71fdd
-  languageName: node
-  linkType: hard
-
-"axios@npm:^0.21.1":
-  version: 0.21.1
-  resolution: "axios@npm:0.21.1"
-  dependencies:
-    follow-redirects: ^1.10.0
-  checksum: c87915fa0b18c15c63350112b6b3563a3e2ae524d7707de0a73d2e065e0d30c5d3da8563037bc29d4cc1b7424b5a350cb7274fa52525c6c04a615fe561c6ab11
   languageName: node
   linkType: hard
 
@@ -7954,16 +7945,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.10.0":
-  version: 1.14.0
-  resolution: "follow-redirects@npm:1.14.0"
-  peerDependenciesMeta:
-    debug:
-      optional: true
-  checksum: a6568930fb97f6f4c12eac52acc109e8677d4b26fcae463bab7de50c43e44886b94784be6608dd8f2ab4b015328377fb4be2e83abd2c8d6bc39ffe1cf11f7b5a
-  languageName: node
-  linkType: hard
-
 "follow-redirects@npm:^1.14.7":
   version: 1.14.7
   resolution: "follow-redirects@npm:1.14.7"
@@ -9658,16 +9639,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"joi@npm:^17.4.0":
-  version: 17.4.1
-  resolution: "joi@npm:17.4.1"
+"joi@npm:^17.6.0":
+  version: 17.6.0
+  resolution: "joi@npm:17.6.0"
   dependencies:
     "@hapi/hoek": ^9.0.0
     "@hapi/topo": ^5.0.0
-    "@sideway/address": ^4.1.0
+    "@sideway/address": ^4.1.3
     "@sideway/formula": ^3.0.0
     "@sideway/pinpoint": ^2.0.0
-  checksum: 508f372f3dd7053eae707973f1d93f07e48d01a9d99affd7d722ce812e10547c1fcc9571e62c2f7261ce0dfc5155b64f0ad0dc7ba982586b1efe75f844f215f2
+  checksum: eaf62f6c02f2edb1042f1ab04fc23a5918a2cb8f54bec84c6e1033624d8a462c10ae9518af55a3ba84f1793960450d58094eda308e7ef93c17edd4e3c8ef31d5
   languageName: node
   linkType: hard
 
@@ -13698,12 +13679,12 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.1.0":
-  version: 7.2.0
-  resolution: "rxjs@npm:7.2.0"
+"rxjs@npm:^7.5.4":
+  version: 7.5.4
+  resolution: "rxjs@npm:7.5.4"
   dependencies:
-    tslib: ~2.1.0
-  checksum: 92a3511035b3d51e97018247218183e5ef88d167ef271c1222be1b2d98b4a5daa5c3827e2b536c3f11f91ad435907820e7a91446d92f222430fd00e0b9f7dbba
+    tslib: ^2.1.0
+  checksum: 6f55f835f2543bc8214900f9e28b6320e6adc95875011fbca63e80a66eb18c9ff7cfdccb23b2180cbb6412762b98ed158c89fd51cb020799d127c66ea38c3c0e
   languageName: node
   linkType: hard
 
@@ -15309,13 +15290,6 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"tslib@npm:~2.1.0":
-  version: 2.1.0
-  resolution: "tslib@npm:2.1.0"
-  checksum: aa189c8179de0427b0906da30926fd53c59d96ec239dff87d6e6bc831f608df0cbd6f77c61dabc074408bd0aa0b9ae4ec35cb2c15f729e32f37274db5730cb78
-  languageName: node
-  linkType: hard
-
 "tsutils@npm:^3.21.0":
   version: 3.21.0
   resolution: "tsutils@npm:3.21.0"
@@ -15499,7 +15473,7 @@ resolve@^2.0.0-next.3:
     type-fest: ^2.11.2
     typescript: ^4.5.5
     uuid: ^8.3.2
-    wait-on: ^6.0.0
+    wait-on: ^6.0.1
     web-ext: ^6.6.0
     web-ext-submit: ^6.6.0
     webextension-polyfill-ts: ^0.26.0
@@ -15843,18 +15817,18 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"wait-on@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "wait-on@npm:6.0.0"
+"wait-on@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "wait-on@npm:6.0.1"
   dependencies:
-    axios: ^0.21.1
-    joi: ^17.4.0
+    axios: ^0.25.0
+    joi: ^17.6.0
     lodash: ^4.17.21
     minimist: ^1.2.5
-    rxjs: ^7.1.0
+    rxjs: ^7.5.4
   bin:
     wait-on: bin/wait-on
-  checksum: 6ae7bd2a933715c3b2f1c49f033d97c576b2c6a0257420d4c83964d2846c3967bfce33bc9af9a1a631ef38dfa6185be03cef57d2867c8c30c523278f964ac9e3
+  checksum: e4d62aa4145d99fe34747ccf7506d4b4d6e60dd677c0eb18a51e316d38116ace2d194e4b22a9eb7b767b0282f39878ddcc4ae9440dcb0c005c9150668747cf5b
   languageName: node
   linkType: hard
 
