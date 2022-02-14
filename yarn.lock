@@ -15745,7 +15745,7 @@ resolve@^2.0.0-next.3:
     uuid: ^8.3.2
     wait-on: ^6.0.1
     web-ext: ^6.7.0
-    web-ext-submit: ^6.6.0
+    web-ext-submit: ^6.7.0
     webextension-polyfill-ts: ^0.26.0
     webpack: ^5.68.0
     webpack-bundle-analyzer: ^4.5.0
@@ -16131,18 +16131,18 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"web-ext-submit@npm:^6.6.0":
-  version: 6.6.0
-  resolution: "web-ext-submit@npm:6.6.0"
+"web-ext-submit@npm:^6.7.0":
+  version: 6.7.0
+  resolution: "web-ext-submit@npm:6.7.0"
   dependencies:
-    web-ext: ^6.6.0
+    web-ext: ^6.7.0
   bin:
     web-ext-submit: extender.sh
-  checksum: 4b9d38c4ce360f1740711e9d7e4aabf8e1671c8cf9c764bcb221c20d3a3b71ea955e19dc43d8ee96ed0a8cd88f6cd2507ab5d667629e6da9bda07ba8c547bf92
+  checksum: d30ad7e783d5ab57ce996208d25714b34ab051bdf6ea849a127bd3b9bafe51d305be1b31a89326394ac1a17c0e2a0975f4a9157270796e91e002590b53e13653
   languageName: node
   linkType: hard
 
-"web-ext@npm:^6.5.0, web-ext@npm:^6.6.0":
+"web-ext@npm:^6.5.0":
   version: 6.6.0
   resolution: "web-ext@npm:6.6.0"
   dependencies:
