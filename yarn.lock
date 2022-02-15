@@ -3427,10 +3427,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/tailwindcss@npm:^3.0.7":
-  version: 3.0.7
-  resolution: "@types/tailwindcss@npm:3.0.7"
-  checksum: 240f9ae0f9c7314b453bc55cbbd00e7882234f51dc205296b56f8bc053a08bb7f8530844c5d5cfd05d1daa66a51a5b2965e77a666f9a0268f9b7a9384d0777c6
+"@types/tailwindcss@npm:^3.0.8":
+  version: 3.0.8
+  resolution: "@types/tailwindcss@npm:3.0.8"
+  checksum: 627cf0863178e6ea592d72e388bf7abf110b2e9b0dd611084e9a0d8854ec2ac4cf83f792edf752445b63c0fd3d1db44318dc45a24ed31fdf8c4de14225695c5c
   languageName: node
   linkType: hard
 
@@ -15689,7 +15689,7 @@ resolve@^2.0.0-next.3:
     "@types/remote-redux-devtools": ^0.5.5
     "@types/sprintf-js": ^1.1.2
     "@types/string-similarity": ^4.0.0
-    "@types/tailwindcss": ^3.0.7
+    "@types/tailwindcss": ^3.0.8
     "@types/uuid": ^8.3.4
     "@types/webpack": ^5.28.0
     "@typescript-eslint/eslint-plugin": ^5.12.0
