@@ -2,6 +2,7 @@
   "variant": "plyr",
   "playerUrls": [
     "*://*.vvid.cc/*",
+    "*://adblockstreamtape.site/*",
     "*://akane-shinjou.github.io/*",
     "*://akaneshinjou.github.io/play/*",
     "*://animixplay.to/api/*",
