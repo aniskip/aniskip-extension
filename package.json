@@ -40,7 +40,7 @@
     "@types/glob-to-regexp": "^0.4.1",
     "@types/react": "^17.0.39",
     "@types/react-color": "^3.0.6",
-    "@types/react-dom": "^17.0.12",
+    "@types/react-dom": "^17.0.13",
     "@types/remote-redux-devtools": "^0.5.5",
     "@types/sprintf-js": "^1.1.2",
     "@types/string-similarity": "^4.0.0",
