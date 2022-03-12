@@ -1,0 +1,40 @@
+@use '../common-styles' as common;
+
+$button-size: 44px;
+
+.submit,
+.vote {
+  &-menu-button--aniboom {
+    width: $button-size;
+    height: $button-size;
+
+    &:hover {
+      background-color: rgb(20, 21, 25, 0.7);
+    }
+
+    &:active {
+      background-color: rgb(20, 21, 25);
+    }
+  }
+}
+
+.skip-button--aniboom {
+  bottom: 6vw;
+
+  &.mobile {
+    bottom: 4em;
+  }
+}
+
+.skip-indicators--aniboom {
+  bottom: 0;
+  z-index: 0 !important;
+}
+
+.menus--aniboom {
+  bottom: 7em;
+
+  &.mobile {
+    bottom: 4em;
+  }
+}
