@@ -55,12 +55,13 @@ export function SkipButtonContainer(): JSX.Element | null {
     let closestSkipTime: SkipTime | undefined;
     let minimumDistance = Infinity;
 
-    skipTimes.forEach((skipTime) => {
+    for (let i = 0; i < skipTimes.length; i += 1) {
+      const skipTime = skipTimes[i];
       const { skipType } = skipTime;
       const isAutoSkip = skipOptions[skipType] === 'auto-skip';
 
       if (isAutoSkip) {
-        return;
+        return undefined;
       }
 
       const { interval } = skipTime;
@@ -68,13 +69,16 @@ export function SkipButtonContainer(): JSX.Element | null {
       const distance = Math.abs(interval.endTime - currentTime);
 
       if (
-        distance < minimumDistance ||
         isInInterval(interval.startTime, interval.endTime, currentTime, offset)
       ) {
+        return skipTime;
+      }
+
+      if (distance < minimumDistance) {
         closestSkipTime = skipTime;
         minimumDistance = distance;
       }
-    });
+    }
 
     return closestSkipTime;
   };
