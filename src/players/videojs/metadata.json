@@ -2,6 +2,7 @@
   "variant": "videojs",
   "playerUrls": [
     "*://4anime.to/*",
+    "*://aniboom.one/*",
     "*://dood.la/*",
     "*://dood.to/*",
     "*://dood.ws/*",
@@ -22,6 +23,12 @@
       "videoControlsContainerSelectorString": "vjs-control-bar",
       "injectMenusButtonsReferenceNodeSelectorString": "vjs-fullscreen-control vjs-control vjs-button",
       "seekBarContainerSelectorString": "vjs-progress-holder vjs-slider vjs-slider-horizontal"
+    },
+    "aniboom": {
+      "videoContainerSelectorString": "vjs_video_3",
+      "videoControlsContainerSelectorString": "vjs-control-bar",
+      "injectMenusButtonsReferenceNodeSelectorString": "vjs-quality-selector",
+      "seekBarContainerSelectorString": "vjs-progress-holder"
     }
   }
 }

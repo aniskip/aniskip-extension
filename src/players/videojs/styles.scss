@@ -35,10 +35,17 @@ $mp4upload-player-buttons-background-colour: #00b3ff;
 }
 
 .skip {
-  &-indicators--mp4upload {
-    top: 50%;
-    margin-top: -4px;
-    height: 8px;
+  &-indicators {
+    &--mp4upload {
+      top: 50%;
+      margin-top: -4px;
+      height: 8px;
+    }
+
+    &--aniboom {
+      bottom: 0;
+      z-index: 0 !important;
+    }
   }
 
   &-button {
@@ -50,6 +57,17 @@ $mp4upload-player-buttons-background-colour: #00b3ff;
       right: 3.9em;
       bottom: 8em;
       cursor: pointer;
+    }
+
+    &--aniboom {
+      bottom: 5.5em;
+
+      &.fullscreen {
+        @media (min-width: common.$xl) {
+          right: 4.5em;
+          bottom: 8.5em;
+        }
+      }
     }
   }
 }
@@ -77,6 +95,25 @@ $mp4upload-player-buttons-background-colour: #00b3ff;
 
     &.mobile {
       bottom: 8em;
+    }
+  }
+
+  &--aniboom {
+    bottom: 6em;
+
+    @media (min-width: common.$md) {
+      bottom: 10em;
+    }
+
+    &.fullscreen {
+      @media (min-width: common.$xl) {
+        right: 3em;
+        bottom: 13em;
+      }
+    }
+
+    &.mobile {
+      bottom: 6em;
     }
   }
 }
