@@ -21,6 +21,7 @@ module.exports = {
       { props: true, ignorePropertyModificationsFor: ['state'] },
     ],
     'class-methods-use-this': 'off',
+    'no-continue': 'off',
   },
   overrides: [
     {

@@ -1,0 +1,32 @@
+@use '../common-styles' as common;
+
+$button-size: 30px;
+
+.submit,
+.vote {
+  &-menu-button--flowplayer {
+    width: $button-size;
+    height: $button-size;
+  }
+}
+
+.skip {
+  &-indicators--flowplayer {
+    opacity: 0.5;
+  }
+
+  &-button--flowplayer {
+    right: 3.9em;
+    bottom: 5.5em;
+    cursor: pointer;
+  }
+}
+
+.menus--flowplayer {
+  right: 2.5em;
+  bottom: 8em;
+
+  @media (min-width: common.$md) {
+    bottom: 10em;
+  }
+}

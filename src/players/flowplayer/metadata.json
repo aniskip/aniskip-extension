@@ -1,0 +1,12 @@
+{
+  "variant": "flowplayer",
+  "playerUrls": ["*://kodik.info/*"],
+  "selectorStrings": {
+    "default": {
+      "videoContainerSelectorString": "fp-ui",
+      "videoControlsContainerSelectorString": "fp-controls",
+      "seekBarContainerSelectorString": "fp-timeline",
+      "injectMenusButtonsReferenceNodeSelectorString": "fp-controls-main"
+    }
+  }
+}

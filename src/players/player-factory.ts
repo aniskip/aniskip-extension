@@ -4,10 +4,11 @@ import { Jw } from './jw';
 import { Plyr } from './plyr';
 import { Twistmoe } from './twistmoe';
 import { Crunchyroll } from './crunchyroll';
+import { Flowplayer } from './flowplayer';
 import { Player } from './base-player.types';
 
 export class PlayerFactory {
-  static players = [Crunchyroll, Jw, Plyr, Twistmoe, Videojs];
+  static players = [Crunchyroll, Jw, Plyr, Twistmoe, Videojs, Flowplayer];
 
   /**
    * Obtains the player object from the domain.
