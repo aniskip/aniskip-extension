@@ -1,5 +1,5 @@
 {
-  "variant": "kodik",
+  "variant": "flowplayer",
   "playerUrls": ["*://kodik.info/*"],
   "selectorStrings": {
     "default": {

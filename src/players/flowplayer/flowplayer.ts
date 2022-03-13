@@ -3,7 +3,7 @@ import { BasePlayer } from '../base-player';
 import { Metadata } from '../base-player.types';
 import metadata from './metadata.json';
 
-export class Kodik extends BasePlayer {
+export class Flowplayer extends BasePlayer {
   constructor() {
     super(metadata);
   }
