@@ -38,4 +38,27 @@ export class Flowplayer extends BasePlayer {
         selectorStrings.default!.injectMenusButtonsReferenceNodeSelectorString
     );
   }
+
+  injectSubmitMenuButton(): void {
+    const settingsButtonElement = this.getSettingsButtonElement();
+
+    if (
+      !settingsButtonElement ||
+      document.getElementById(this.playerButtonsRenderer.id)
+    ) {
+      return;
+    }
+
+    settingsButtonElement.insertAdjacentElement(
+      'afterend',
+      this.playerButtonsRenderer.shadowRootContainer
+    );
+    this.playerButtonsRenderer.render();
+
+    // Hack to ensure that player buttons are not offscreen.
+    const videoControlsContainer = this.getVideoControlsContainer();
+    if (videoControlsContainer) {
+      videoControlsContainer.style.display = 'flex';
+    }
+  }
 }

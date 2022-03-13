@@ -1,6 +1,6 @@
 @use '../common-styles' as common;
 
-$button-size: 36px;
+$button-size: 30px;
 
 .submit,
 .vote {
@@ -29,10 +29,4 @@ $button-size: 36px;
   @media (min-width: common.$md) {
     bottom: 10em;
   }
-}
-
-.player-buttons--flowplayer {
-  position: absolute !important;
-  bottom: 30px;
-  right: -32px;
 }
