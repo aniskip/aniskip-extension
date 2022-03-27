@@ -1,3 +1,7 @@
 {
-  "pageUrls": ["*://animepahe.com/play/*/*"]
+  "pageUrls": [
+    "*://animepahe.com/play/*/*",
+    "*://animepahe.org/play/*/*",
+    "*://animepahe.ru/play/*/*"
+  ]
 }
