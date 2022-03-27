@@ -21,8 +21,7 @@ export class Crunchyroll extends BasePlayer {
     }
 
     return super.getContainerHelper(
-      this.metadata.selectorStrings.default!.seekBarContainerSelectorString,
-      1
+      this.metadata.selectorStrings.default!.seekBarContainerSelectorString
     );
   }
 
