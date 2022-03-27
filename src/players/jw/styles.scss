@@ -40,7 +40,8 @@ $vidstream-hover-button-colour: #e50914;
 
     &--vidstream,
     &--vidstreamz,
-    &--vizcloud2 {
+    &--vizcloud2,
+    &--vizcloud {
       &:hover > * {
         color: $vidstream-hover-button-colour;
         border-color: $vidstream-hover-button-colour;
@@ -65,7 +66,7 @@ $vidstream-hover-button-colour: #e50914;
   }
 
   &-button {
-    &--jw:not(&--vidstream, &--vidstreamz, &--vizcloud2, &--mcloud) {
+    &--jw:not(&--vidstream, &--vidstreamz, &--vizcloud2, &--vizcloud, &--mcloud) {
       bottom: 5.5em;
     }
 
@@ -79,6 +80,7 @@ $vidstream-hover-button-colour: #e50914;
     &--jw#{&}--vidstream.fullscreen,
     &--jw#{&}--vidstreamz.fullscreen,
     &--jw#{&}--vizcloud2.fullscreen,
+    &--jw#{&}--vizcloud.fullscreen,
     &--jw#{&}--mcloud.fullscreen {
       @media (min-width: common.$xl) {
         bottom: 6em;
@@ -92,7 +94,7 @@ $vidstream-hover-button-colour: #e50914;
 }
 
 .menus {
-  &--jw:not(&--vidstream, &--vidstreamz, &--vizcloud2, &--mcloud) {
+  &--jw:not(&--vidstream, &--vidstreamz, &--vizcloud2, &--vizcloud, &--mcloud) {
     bottom: 6em;
 
     @media (min-width: common.$md) {
@@ -114,6 +116,7 @@ $vidstream-hover-button-colour: #e50914;
   &--jw#{&}--vidstream.fullscreen,
   &--jw#{&}--vidstreamz.fullscreen,
   &--jw#{&}--vizcloud2.fullscreen,
+  &--jw#{&}--vizcloud.fullscreen,
   &--jw#{&}--mcloud.fullscreen {
     @media (min-width: common.$xl) {
       bottom: 10em;
