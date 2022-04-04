@@ -8252,9 +8252,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fork-ts-checker-webpack-plugin@npm:^7.2.2":
-  version: 7.2.2
-  resolution: "fork-ts-checker-webpack-plugin@npm:7.2.2"
+"fork-ts-checker-webpack-plugin@npm:^7.2.3":
+  version: 7.2.3
+  resolution: "fork-ts-checker-webpack-plugin@npm:7.2.3"
   dependencies:
     "@babel/code-frame": ^7.16.7
     chalk: ^4.1.2
@@ -8274,7 +8274,7 @@ __metadata:
   peerDependenciesMeta:
     vue-template-compiler:
       optional: true
-  checksum: 2a38887944f5415cb453c9c255504bcafee4bbb41c3b3b2796a11a55951da408beb81aedcb8fb3aa8ac3412d3b8d7740224c62526d4b7eab24ce966978aafd77
+  checksum: aaf00d911a4561f4f7c72ef79723dd87bd970fbee9e2f7d245af04c5d647ccd432550024dc94dcbd0ceb448b849e9236dcc51145e65dbd62a79fa65036a88c11
   languageName: node
   linkType: hard
 
@@ -15891,7 +15891,7 @@ resolve@^2.0.0-next.3:
     eslint-plugin-prettier: ^4.0.0
     eslint-plugin-react: ^7.29.4
     eslint-plugin-react-hooks: ^4.4.0
-    fork-ts-checker-webpack-plugin: ^7.2.2
+    fork-ts-checker-webpack-plugin: ^7.2.3
     glob-to-regexp: ^0.4.1
     html-webpack-plugin: ^5.5.0
     lodash: ^4.17.21
