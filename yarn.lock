@@ -3424,7 +3424,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^17":
+"@types/react@npm:^17, @types/react@npm:^17.0.44":
   version: 17.0.44
   resolution: "@types/react@npm:17.0.44"
   dependencies:
@@ -15975,7 +15975,7 @@ resolve@^2.0.0-next.3:
     "@reduxjs/toolkit": ^1.8.1
     "@types/chrome": ^0.0.180
     "@types/glob-to-regexp": ^0.4.1
-    "@types/react": ^17.0.43
+    "@types/react": ^17.0.44
     "@types/react-color": ^3.0.6
     "@types/react-dom": ^17.0.15
     "@types/remote-redux-devtools": ^0.5.5
