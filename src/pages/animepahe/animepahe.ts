@@ -25,12 +25,13 @@ export class Animepahe extends BasePage {
   }
 
   getIdentifier(): string {
-    const meta: HTMLMetaElement | null = document.querySelector('meta[name=id]');
+    const meta: HTMLMetaElement | null =
+      document.querySelector('meta[name=id]');
 
     if (!meta) {
       return '';
     }
-    
+
     return meta.content;
   }
 
