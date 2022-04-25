@@ -25,21 +25,13 @@ export class Animepahe extends BasePage {
   }
 
   getIdentifier(): string {
-    const [identifierScript] = Array.from(
-      document.getElementsByTagName('script')
-    ).filter((script) => script.textContent?.includes('getUrls'));
+    const content = document.querySelector('meta[name=id]').content;
 
-    if (!identifierScript) {
+    if (!content) {
       return '';
     }
 
-    const matches = identifierScript.textContent?.match(/getUrls\((\d+)/);
-
-    if (!matches) {
-      return '';
-    }
-
-    return matches[1];
+    return content;
   }
 
   getRawEpisodeNumber(): number {
