@@ -97,7 +97,7 @@
     "@babel/runtime": "^7.17.9",
     "@headlessui/react": "^1.6.0",
     "@reduxjs/toolkit": "^1.8.1",
-    "axios": "^0.27.1",
+    "axios": "^0.27.2",
     "entities": "^3.0.1",
     "glob-to-regexp": "^0.4.1",
     "lodash": "^4.17.21",
