@@ -36,7 +36,7 @@
     "@babel/preset-typescript": "^7.16.7",
     "@mantiquillal/web-ext-plugin": "^1.5.1",
     "@redux-devtools/cli": "^1.0.7",
-    "@types/chrome": "^0.0.183",
+    "@types/chrome": "^0.0.184",
     "@types/glob-to-regexp": "^0.4.1",
     "@types/react": "^17.0.44",
     "@types/react-color": "^3.0.6",
