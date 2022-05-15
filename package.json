@@ -98,7 +98,7 @@
     "@headlessui/react": "^1.6.1",
     "@reduxjs/toolkit": "^1.8.1",
     "axios": "^0.27.2",
-    "entities": "^3.0.1",
+    "entities": "^4.3.0",
     "glob-to-regexp": "^0.4.1",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
