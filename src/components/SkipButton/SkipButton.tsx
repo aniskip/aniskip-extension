@@ -23,7 +23,7 @@ export function SkipButton({
     >
       <DefaultButton
         className={`transition-opacity font-sans whitespace-nowrap text-white bg-neutral-800 bg-opacity-80 py-3 border border-gray-300 font-bold uppercase hover:bg-opacity-100 backdrop-blur-md ${
-          hidden ? 'opacity-0 pointer-events-none' : 'pointer-events-auto '
+          hidden ? 'opacity-0 pointer-events-none' : 'pointer-events-auto'
         }`}
         {...props}
       >

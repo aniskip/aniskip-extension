@@ -123,6 +123,7 @@ export type Cms = {
 
 export type GetResponseFromIndexV2 = {
   cms: Cms;
+  cms_beta: Cms;
   service_available: boolean;
   default_marketing_opt_in: boolean;
 };
