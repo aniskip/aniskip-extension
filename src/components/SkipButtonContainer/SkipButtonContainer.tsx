@@ -52,8 +52,8 @@ export function SkipButtonContainer(): JSX.Element | null {
   /**
    * Toggle hover state.
    */
-  const onMouseEnter = () => setIsHovered(true);
-  const onMouseLeave = () => setIsHovered(false);
+  const onMouseEnter = (): void => setIsHovered(true);
+  const onMouseLeave = (): void => setIsHovered(false);
 
   /**
    * Returns the skip time closest to the current time.
