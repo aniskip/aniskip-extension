@@ -14,6 +14,7 @@ import { SkipTime } from '../../api';
 export function SkipButtonContainer(): JSX.Element | null {
   const [skipOptions, setSkipOptions] =
     useState<SkipOptions>(DEFAULT_SKIP_OPTIONS);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
   const skipTimes = useSelector(selectSkipTimes);
   const variant = useVariantRef();
   const player = usePlayerRef();
@@ -47,6 +48,12 @@ export function SkipButtonContainer(): JSX.Element | null {
     player?.setCurrentTime(skipToTime);
     player?.play();
   };
+
+  /**
+   * Toggle hover state.
+   */
+  const onMouseEnter = () => setIsHovered(true);
+  const onMouseLeave = () => setIsHovered(false);
 
   /**
    * Returns the skip time closest to the current time.
@@ -103,13 +110,16 @@ export function SkipButtonContainer(): JSX.Element | null {
   const isPlayerControlsVisible = player?.isControlsVisible() ?? false;
 
   const isVisible =
-    isInStartingInterval || (inInterval && isPlayerControlsVisible);
+    isInStartingInterval ||
+    (inInterval && (isPlayerControlsVisible || isHovered));
 
   return (
     <SkipButton
       skipType={closestSkipTime.skipType}
       variant={variant}
       hidden={!isVisible}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       onClick={onClick(endTime + offset)}
     />
   );
