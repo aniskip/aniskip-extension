@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BaseRenderer } from '../base-renderer';
 import { SkipTimeIndicatorContainer } from '../../components';
@@ -29,15 +28,14 @@ export class SkipTimeIndicatorsRenderer extends BaseRenderer {
   }
 
   render(): void {
-    ReactDOM.render(
+    this.reactRoot.render(
       <Provider store={this.store}>
         <PlayerProvider value={this.player}>
           <VariantProvider value={this.variant}>
             <SkipTimeIndicatorContainer />
           </VariantProvider>
         </PlayerProvider>
-      </Provider>,
-      this.shadowRoot.getElementById(this.reactRootId)
+      </Provider>
     );
   }
 }

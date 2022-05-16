@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BaseRenderer } from '../base-renderer';
 import { PlayerButtons } from '../../components';
@@ -19,13 +18,12 @@ export class PlayerButtonsRenderer extends BaseRenderer {
   }
 
   render(): void {
-    ReactDOM.render(
+    this.reactRoot.render(
       <Provider store={this.store}>
         <VariantProvider value={this.variant}>
           <PlayerButtons />
         </VariantProvider>
-      </Provider>,
-      this.shadowRoot.getElementById(this.reactRootId)
+      </Provider>
     );
   }
 }

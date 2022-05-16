@@ -36,6 +36,7 @@ export function ColourPicker({
             leaveTo="transform scale-95 opacity-0"
           >
             <Popover.Panel className="absolute z-10 mt-2 -right-[8px]" static>
+              {/* @ts-ignore: Outdated library types */}
               <TwitterPicker
                 triangle="top-right"
                 color={colour}
