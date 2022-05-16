@@ -20,19 +20,28 @@ export class MalsyncHttpClient extends BaseHttpClient {
     const route = `/page/${providerName}/${identifier}`;
     const response = await this.request({ route, method: 'GET' });
 
+    if (response.ok) {
+      return response.data;
+    }
+
     switch (response.status) {
-      case 400:
-        throw new MalsyncHttpClientError(response.data, 'page/not-found');
+      case 422:
+        throw new MalsyncHttpClientError(
+          response.data.message,
+          'page/validation-error'
+        );
       case 429:
         throw new MalsyncHttpClientError(
           'Too many requests, please try again later',
           'page/rate-limited'
         );
+      case 500:
       default:
-      // no default
+        throw new MalsyncHttpClientError(
+          response.data,
+          'page/internal-server-error'
+        );
     }
-
-    return response.data;
   }
 
   /**

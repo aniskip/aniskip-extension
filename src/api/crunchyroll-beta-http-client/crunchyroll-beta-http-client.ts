@@ -71,12 +71,12 @@ export class CrunchyrollBetaHttpClient extends BaseHttpClient {
       GetResponseFromIndexV2
     >({ route, headers }, false);
 
-    const { cms } = authV2Response.data;
+    const { cms_beta: cmsBeta } = authV2Response.data;
 
-    this.bucket = cms.bucket;
-    this.signature = cms.signature;
-    this.keyPairId = cms.key_pair_id;
-    this.policy = cms.policy;
+    this.bucket = cmsBeta.bucket;
+    this.signature = cmsBeta.signature;
+    this.keyPairId = cmsBeta.key_pair_id;
+    this.policy = cmsBeta.policy;
     this.isAuthenticated = true;
   }
 

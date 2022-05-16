@@ -192,7 +192,7 @@ export abstract class BasePage implements Page {
   /**
    * Search MAL and find the closest MAL id to the identifier.
    *
-   * @param titleVariant Title from the provider.
+   * @param title Title from the provider.
    */
   static async findClosestMalId(title: string): Promise<number> {
     const anilistHttpClient = new AnilistHttpClient();
