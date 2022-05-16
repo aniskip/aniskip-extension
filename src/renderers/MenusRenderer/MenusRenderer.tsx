@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BaseRenderer } from '../base-renderer';
 import { Menus } from '../../components';
@@ -30,15 +29,14 @@ export class MenusRenderer extends BaseRenderer {
   }
 
   render(): void {
-    ReactDOM.render(
+    this.reactRoot.render(
       <Provider store={this.store}>
         <PlayerProvider value={this.player}>
           <VariantProvider value={this.variant}>
             <Menus />
           </VariantProvider>
         </PlayerProvider>
-      </Provider>,
-      this.shadowRoot.getElementById(this.reactRootId)
+      </Provider>
     );
   }
 }

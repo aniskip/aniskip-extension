@@ -1,3 +1,4 @@
+import { createRoot, Root } from 'react-dom/client';
 import { Renderer } from './base-renderer.types';
 
 export abstract class BaseRenderer implements Renderer {
@@ -9,6 +10,8 @@ export abstract class BaseRenderer implements Renderer {
 
   shadowRootContainer: HTMLDivElement;
 
+  reactRoot: Root;
+
   constructor(id: string, stopPropagationEvents: string[] = []) {
     this.id = id;
     this.reactRootId = `${id}-root`;
@@ -18,6 +21,8 @@ export abstract class BaseRenderer implements Renderer {
       this.shadowRootContainer,
       stopPropagationEvents
     );
+    const container = this.shadowRoot.getElementById(this.reactRootId);
+    this.reactRoot = createRoot(container!);
   }
 
   abstract render(): void;

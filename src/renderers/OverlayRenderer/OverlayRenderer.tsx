@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Overlay } from '../../components';
 import { Store } from '../../data';
@@ -20,15 +19,14 @@ export class OverlayRenderer extends BaseRenderer {
   }
 
   render(): void {
-    ReactDOM.render(
+    this.reactRoot.render(
       <Provider store={this.store}>
         <PageProvider value={this.page}>
           <ShadowRootProvider value={this.shadowRoot}>
             <Overlay />
           </ShadowRootProvider>
         </PageProvider>
-      </Provider>,
-      this.shadowRoot.getElementById(this.reactRootId)
+      </Provider>
     );
   }
 }
