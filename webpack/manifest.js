@@ -1,14 +1,16 @@
+const { merge } = require('lodash');
 const fs = require('fs');
 const path = require('path');
 const packageJson = require('../package.json');
 
-const manifest = {
+const manifestTemplate = {
   manifest_version: 2,
   name: packageJson.extensionName,
   version: packageJson.version,
   description: packageJson.description,
   options_ui: {
     page: 'options.html',
+    open_in_tab: true,
   },
   browser_action: {
     default_popup: 'popup.html',
@@ -30,6 +32,8 @@ const manifest = {
     128: 'icon_128.png',
   },
 };
+
+const browser = process.env.BROWSER;
 
 const getPageUrls = () => {
   const pagesPath = path.join(__dirname, '..', 'src', 'pages');
@@ -72,7 +76,7 @@ const getPlayerUrls = () => {
 module.exports = () => {
   const pageUrls = getPageUrls();
   const playerUrls = getPlayerUrls();
-  manifest.content_scripts = [
+  manifestTemplate.content_scripts = [
     {
       matches: pageUrls,
       js: ['content-script.js'],
@@ -86,28 +90,35 @@ module.exports = () => {
     },
   ];
 
-  switch (process.env.BROWSER) {
-    case 'chromium':
-      manifest.options_ui.chrome_style = false;
-      manifest.options_ui.open_in_tab = true;
-      manifest.browser_action.chrome_style = false;
-      break;
-    case 'firefox':
-      manifest.options_ui.browser_style = false;
-      manifest.options_ui.open_in_tab = true;
-      manifest.browser_action.browser_style = false;
-      manifest.browser_specific_settings = {
-        gecko: {
-          id: '{c67645fa-ad86-4b2f-ab7a-67fc5f3e9f5a}',
-        },
-      };
-      break;
-    default:
-    // no default
+  if (process.env.NODE_ENV === 'development') {
+    manifestTemplate.permissions.push('*://localhost/*');
   }
 
-  if (process.env.NODE_ENV === 'development') {
-    manifest.permissions.push('*://localhost/*');
+  switch (browser) {
+    case 'chromium':
+      return merge(manifestTemplate, {
+        options_ui: {
+          chrome_style: false,
+        },
+        browser_action: {
+          chrome_style: false,
+        },
+      });
+    case 'firefox':
+      return merge(manifestTemplate, {
+        options_ui: {
+          browser_style: false,
+        },
+        browser_action: {
+          browser_style: false,
+        },
+        browser_specific_settings: {
+          gecko: {
+            id: '{c67645fa-ad86-4b2f-ab7a-67fc5f3e9f5a}',
+          },
+        },
+      });
+    default:
+      throw new Error(`Invalid browser type '${browser}'`);
   }
-  return manifest;
 };
