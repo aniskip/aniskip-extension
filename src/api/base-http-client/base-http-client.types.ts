@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios';
+import { Options } from 'ky';
 
 export type Response<D = any> = {
   data: D;
@@ -15,10 +15,10 @@ export type HttpClient = {
    * @param config Axios config.
    * @param isCallingBackgroundScript Proxy the HTTP request using the background script.
    */
-  request<T = any, D = any>(
-    config: Config<T>,
+  request<D = any>(
+    config: Config,
     isCallingBackgroundScript?: boolean
   ): Promise<Response<D>>;
 };
 
-export type Config<T = any> = AxiosRequestConfig<T> & { route: string };
+export type Config = Options & { route: string; params?: any };

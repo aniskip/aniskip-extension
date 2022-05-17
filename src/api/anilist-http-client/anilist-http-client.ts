@@ -29,7 +29,7 @@ export class AnilistHttpClient extends BaseHttpClient {
       variables,
     };
 
-    const response = await this.request({ route, method: 'POST', data });
+    const response = await this.request({ route, method: 'POST', json: data });
 
     return response.data;
   }

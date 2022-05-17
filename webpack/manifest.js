@@ -1,10 +1,10 @@
-const { merge } = require('lodash');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { default: merge } = require('webpack-merge');
 const fs = require('fs');
 const path = require('path');
 const packageJson = require('../package.json');
 
 const manifestTemplate = {
-  manifest_version: 2,
   name: packageJson.extensionName,
   version: packageJson.version,
   description: packageJson.description,
@@ -12,26 +12,23 @@ const manifestTemplate = {
     page: 'options.html',
     open_in_tab: true,
   },
-  browser_action: {
-    default_popup: 'popup.html',
-  },
-  background: {
-    scripts: ['background-script.js'],
-  },
-  web_accessible_resources: ['window-proxy-script.js'],
-  permissions: [
-    'storage',
-    '*://api.aniskip.com/*',
-    '*://api.malsync.moe/*',
-    '*://graphql.anilist.co/*',
-    '*://beta-api.crunchyroll.com/*',
-  ],
+  permissions: ['storage'],
   icons: {
     16: 'icon_16.png',
     48: 'icon_48.png',
     128: 'icon_128.png',
   },
 };
+
+const apiPermissions = [
+  '*://api.aniskip.com/*',
+  '*://api.malsync.moe/*',
+  '*://graphql.anilist.co/*',
+  '*://beta-api.crunchyroll.com/*',
+];
+
+const backgroundScript = 'background-script.js';
+const windowProxyScript = 'window-proxy-script.js';
 
 const browser = process.env.BROWSER;
 
@@ -97,19 +94,33 @@ module.exports = () => {
   switch (browser) {
     case 'chromium':
       return merge(manifestTemplate, {
-        options_ui: {
+        manifest_version: 3,
+        background: {
+          service_worker: backgroundScript,
+        },
+        action: {
+          default_popup: 'popup.html',
           chrome_style: false,
         },
-        browser_action: {
-          chrome_style: false,
-        },
+        host_permissions: apiPermissions,
+        web_accessible_resources: [
+          {
+            resources: [windowProxyScript],
+            matches: ['https://beta.crunchyroll.com/*'],
+          },
+        ],
       });
     case 'firefox':
       return merge(manifestTemplate, {
+        manifest_version: 2,
+        background: {
+          scripts: [backgroundScript],
+        },
         options_ui: {
           browser_style: false,
         },
         browser_action: {
+          default_popup: 'popup.html',
           browser_style: false,
         },
         browser_specific_settings: {
@@ -117,6 +128,8 @@ module.exports = () => {
             id: '{c67645fa-ad86-4b2f-ab7a-67fc5f3e9f5a}',
           },
         },
+        permissions: apiPermissions,
+        web_accessible_resources: [windowProxyScript],
       });
     default:
       throw new Error(`Invalid browser type '${browser}'`);
