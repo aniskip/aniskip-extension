@@ -33,7 +33,7 @@ export class WindowProxy {
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
 
-      script.src = browser.runtime.getURL('window-proxy-script.js');
+      script.src = browser.runtime.getURL('scripts/window-proxy/script.js');
       script.dataset.property = property;
 
       (document.head || document.documentElement).appendChild(script);

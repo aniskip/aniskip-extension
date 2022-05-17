@@ -1,5 +1,9 @@
 import { createRoot, Root } from 'react-dom/client';
+// @ts-ignore: Tailwind CSS inline styles.
+import tailwindStyleString from 'tailwindcss/tailwind.css?inline';
 import { Renderer } from './base-renderer.types';
+// @ts-ignore: Player inline styles.
+import playerStyleString from '../players/styles.scss?inline';
 
 export abstract class BaseRenderer implements Renderer {
   id: string;
@@ -49,13 +53,11 @@ export abstract class BaseRenderer implements Renderer {
 
     // Inject styles using inline webpack loaders.
     const tailwindcssStyle = document.createElement('style');
-    // eslint-disable-next-line import/no-webpack-loader-syntax, global-require
-    tailwindcssStyle.textContent = require(`!to-string-loader!css-loader?{"esModule":false,"sourceMap":false}!postcss-loader?{"postcssOptions":{"plugins":["postcss-import","tailwindcss","autoprefixer"]},"sourceMap":false}!tailwindcss/tailwind.css`);
+    tailwindcssStyle.textContent = tailwindStyleString;
     shadowRoot.appendChild(tailwindcssStyle);
 
     const playerScriptStyle = document.createElement('style');
-    // eslint-disable-next-line import/no-webpack-loader-syntax, global-require
-    playerScriptStyle.textContent = require(`!to-string-loader!css-loader?{"esModule":false,"sourceMap":false}!sass-loader!../players/styles.scss`);
+    playerScriptStyle.textContent = playerStyleString;
     shadowRoot.appendChild(playerScriptStyle);
 
     const reactRoot = document.createElement('div');

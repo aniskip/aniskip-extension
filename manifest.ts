@@ -1,22 +1,23 @@
-const fs = require('fs');
-const path = require('path');
-const packageJson = require('../package.json');
+import fs from 'fs';
+import path from 'path';
+import { Manifest } from 'webextension-polyfill-ts';
+import packageJson from './package.json';
 
-const manifest = {
+const manifest: Manifest.WebExtensionManifest = {
   manifest_version: 2,
   name: packageJson.extensionName,
   version: packageJson.version,
   description: packageJson.description,
   options_ui: {
-    page: 'options.html',
+    page: 'options/options.html',
   },
   browser_action: {
-    default_popup: 'popup.html',
+    default_popup: 'options/popup.html',
   },
   background: {
-    scripts: ['background-script.js'],
+    scripts: ['scripts/background/script.ts'],
   },
-  web_accessible_resources: ['window-proxy-script.js'],
+  web_accessible_resources: ['scripts/window-proxy/script.js'],
   permissions: [
     'storage',
     '*://api.aniskip.com/*',
@@ -25,14 +26,14 @@ const manifest = {
     '*://beta-api.crunchyroll.com/*',
   ],
   icons: {
-    16: 'icon_16.png',
-    48: 'icon_48.png',
-    128: 'icon_128.png',
+    16: 'assets/icon_16.png',
+    48: 'assets/icon_48.png',
+    128: 'assets/icon_128.png',
   },
 };
 
-const getPageUrls = () => {
-  const pagesPath = path.join(__dirname, '..', 'src', 'pages');
+const getPageUrls = (): string[] => {
+  const pagesPath = path.join(__dirname, 'src', 'pages');
   const pageNames = fs
     .readdirSync(pagesPath, { withFileTypes: true })
     .filter((file) => file.isDirectory())
@@ -42,7 +43,9 @@ const getPageUrls = () => {
     .map(
       (pageName) =>
         JSON.parse(
-          fs.readFileSync(path.join(pagesPath, pageName, 'metadata.json'))
+          fs
+            .readFileSync(path.join(pagesPath, pageName, 'metadata.json'))
+            .toString()
         ).pageUrls
     )
     .flat();
@@ -50,8 +53,8 @@ const getPageUrls = () => {
   return pageUrls;
 };
 
-const getPlayerUrls = () => {
-  const playersPath = path.join(__dirname, '..', 'src', 'players');
+const getPlayerUrls = (): string[] => {
+  const playersPath = path.join(__dirname, 'src', 'players');
   const playerNames = fs
     .readdirSync(playersPath, { withFileTypes: true })
     .filter((file) => file.isDirectory())
@@ -61,7 +64,9 @@ const getPlayerUrls = () => {
     .map(
       (playerName) =>
         JSON.parse(
-          fs.readFileSync(path.join(playersPath, playerName, 'metadata.json'))
+          fs
+            .readFileSync(path.join(playersPath, playerName, 'metadata.json'))
+            .toString()
         ).playerUrls
     )
     .flat();
@@ -69,18 +74,19 @@ const getPlayerUrls = () => {
   return playerUrls;
 };
 
-module.exports = () => {
+export default (): Manifest.WebExtensionManifest => {
   const pageUrls = getPageUrls();
   const playerUrls = getPlayerUrls();
+
   manifest.content_scripts = [
     {
       matches: pageUrls,
-      js: ['content-script.js'],
+      js: ['scripts/content/script.ts'],
       run_at: 'document_start',
     },
     {
       matches: playerUrls,
-      js: ['player-script.js'],
+      js: ['scripts/player/script.ts'],
       all_frames: true,
       run_at: 'document_start',
     },
@@ -88,14 +94,15 @@ module.exports = () => {
 
   switch (process.env.BROWSER) {
     case 'chromium':
-      manifest.options_ui.chrome_style = false;
-      manifest.options_ui.open_in_tab = true;
-      manifest.browser_action.chrome_style = false;
+      manifest.options_ui!.chrome_style = false;
+      manifest.options_ui!.open_in_tab = true;
+      // @ts-ignore: Exists on chrome extensions.
+      manifest.browser_action!.chrome_style = false;
       break;
     case 'firefox':
-      manifest.options_ui.browser_style = false;
-      manifest.options_ui.open_in_tab = true;
-      manifest.browser_action.browser_style = false;
+      manifest.options_ui!.browser_style = false;
+      manifest.options_ui!.open_in_tab = true;
+      manifest.browser_action!.browser_style = false;
       manifest.browser_specific_settings = {
         gecko: {
           id: '{c67645fa-ad86-4b2f-ab7a-67fc5f3e9f5a}',
@@ -107,7 +114,7 @@ module.exports = () => {
   }
 
   if (process.env.NODE_ENV === 'development') {
-    manifest.permissions.push('*://localhost/*');
+    manifest.permissions!.push('*://localhost/*');
   }
   return manifest;
 };

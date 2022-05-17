@@ -48,3 +48,5 @@
 
   window.addEventListener('load', listener);
 })();
+
+export {};
