@@ -9,7 +9,8 @@
     "Dabreadman <tany3@tcd.ie>"
   ],
   "scripts": {
-    "dev": "cross-env BROWSER=chromium NODE_ENV=development vite build --watch"
+    "dev:chrome": "cross-env BROWSER=chrome vite dev --mode development",
+    "dev:firefox": "cross-env BROWSER=firefox vite dev --mode development"
   },
   "license": "MIT",
   "devDependencies": {

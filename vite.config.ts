@@ -1,25 +1,24 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { defineConfig } from 'vite';
 import webExtension from 'vite-plugin-web-extension';
-import path from 'path';
-import generateManifest from './manifest';
+import { Browser, generateManifest, getRootPath, Mode } from './vite';
 
-const getRootPath = (...string: string[]): string =>
-  path.resolve(__dirname, ...string);
+const browser = (process.env.BROWSER as Browser | undefined) ?? 'chrome';
+const mode = (process.env.NODE_ENV as Mode | undefined) ?? 'development';
 
 export default defineConfig({
-  root: 'src',
-  mode: 'development',
+  root: getRootPath('src'),
   build: {
     outDir: getRootPath('dist'),
     emptyOutDir: true,
-    sourcemap: 'inline',
+    sourcemap: mode === 'development' ? 'inline' : undefined,
   },
   plugins: [
     webExtension({
-      manifest: generateManifest,
+      manifest: () => generateManifest(mode),
       assets: 'assets',
       additionalInputs: ['scripts/window-proxy/script.ts'],
+      browser,
     }),
   ],
 });
