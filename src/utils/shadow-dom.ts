@@ -41,29 +41,12 @@ export const useShadowRootEvent = (
  * @param shadowRootContainer The HTML element that is the shadowRoot's parent.
  * @param portalRoot The HTML element that you want Modals to be teleported to.
  */
-export const patch = (
+export const patchShadowRoot = (
   shadowRootContainer: HTMLElement,
   portalRoot?: HTMLElement
 ): void => {
-  Document.prototype.getElementById = (id): HTMLElement | null =>
-    shadowRootContainer.shadowRoot!.getElementById(id);
-
-  const elementById = Document.prototype.getElementById;
-
   const element = portalRoot ?? shadowRootContainer.shadowRoot?.children[0];
   if (!element) return;
-
-  Document.prototype.getElementById = (
-    elementId: string
-  ): HTMLElement | null => {
-    if (elementId === 'headlessui-portal-root') {
-      const d = document.createElement('div');
-      d.id = 'headlessui-portal-root';
-      element.appendChild(d);
-      return d;
-    }
-    return elementById.call(this, elementId);
-  };
 
   const activeElementDescriptorGetter = Object.getOwnPropertyDescriptor(
     Document.prototype,
@@ -77,7 +60,7 @@ export const patch = (
         return shadowRootContainer.shadowRoot?.activeElement;
       }
 
-      return undefined;
+      return activeElement;
     },
   });
 

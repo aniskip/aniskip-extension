@@ -4,7 +4,7 @@ import { BaseRenderer } from '../base-renderer';
 import { Menus } from '../../components';
 import { Store } from '../../data';
 import { Player } from '../../players/base-player.types';
-import { patch, PlayerProvider, VariantProvider } from '../../utils';
+import { patchShadowRoot, PlayerProvider, VariantProvider } from '../../utils';
 
 export class MenusRenderer extends BaseRenderer {
   variant: string;
@@ -25,7 +25,7 @@ export class MenusRenderer extends BaseRenderer {
     this.player = player;
 
     // Fix dropdown inconsistency.
-    patch(this.shadowRootContainer);
+    patchShadowRoot(this.shadowRootContainer);
   }
 
   render(): void {
