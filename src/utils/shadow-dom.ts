@@ -32,3 +32,67 @@ export const useShadowRootEvent = (
     return (): void => shadowRoot.removeEventListener(type, listener, options);
   }, [listener, options]);
 };
+
+/**
+ * Adapted from https://github.com/tailwindlabs/headlessui/discussions/874#discussioncomment-1894010
+ *
+ * Fixes headless UI modal issues.
+ *
+ * @param shadowRootContainer The HTML element that is the shadowRoot's parent.
+ * @param portalRoot The HTML element that you want Modals to be teleported to.
+ */
+export const patch = (
+  shadowRootContainer: HTMLElement,
+  portalRoot?: HTMLElement
+): void => {
+  Document.prototype.getElementById = (id): HTMLElement | null =>
+    shadowRootContainer.shadowRoot!.getElementById(id);
+
+  const elementById = Document.prototype.getElementById;
+
+  const element = portalRoot ?? shadowRootContainer.shadowRoot?.children[0];
+  if (!element) return;
+
+  Document.prototype.getElementById = (
+    elementId: string
+  ): HTMLElement | null => {
+    if (elementId === 'headlessui-portal-root') {
+      const d = document.createElement('div');
+      d.id = 'headlessui-portal-root';
+      element.appendChild(d);
+      return d;
+    }
+    return elementById.call(this, elementId);
+  };
+
+  const activeElementDescriptorGetter = Object.getOwnPropertyDescriptor(
+    Document.prototype,
+    'activeElement'
+  )?.get;
+
+  Object.defineProperty(Document.prototype, 'activeElement', {
+    get() {
+      const activeElement = activeElementDescriptorGetter?.call(this);
+      if (activeElement === shadowRootContainer) {
+        return shadowRootContainer.shadowRoot?.activeElement;
+      }
+
+      return undefined;
+    },
+  });
+
+  const targetGetter = Object.getOwnPropertyDescriptor(
+    Event.prototype,
+    'target'
+  )?.get;
+
+  Object.defineProperty(Event.prototype, 'target', {
+    get(): any {
+      const target = targetGetter?.call(this);
+      if (target === shadowRootContainer) {
+        return this.path[0];
+      }
+      return target;
+    },
+  });
+};
