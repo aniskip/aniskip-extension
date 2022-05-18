@@ -27,8 +27,6 @@ export class AniMixPlay extends BasePage {
   getIdentifier(): string {
     const identifierElement = document.getElementById('animebtn');
 
-    console.log({ identifierElement });
-
     return identifierElement?.getAttribute('href')?.split('/')[2] ?? '';
   }
 
