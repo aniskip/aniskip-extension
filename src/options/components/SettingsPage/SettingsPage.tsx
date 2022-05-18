@@ -29,15 +29,15 @@ import {
 } from '../../../scripts/background';
 import {
   animeTitleLanguageUpdated,
-  changeCurrentTimeLargeLengthUpdated,
-  changeCurrentTimeLengthUpdated,
+  changeCurrentTimeFramesLargeUpdated,
+  changeCurrentTimeFramesUpdated,
   isPreviewButtonEmulatingAutoSkipUpdated,
   isUserEditingKeybindUpdated,
   keybindUpdated,
   keybindsUpdated,
   selectAnimeTitleLanguage,
-  selectChangeCurrentTimeLargeLength,
-  selectChangeCurrentTimeLength,
+  selectChangeCurrentTimeFramesLarge,
+  selectChangeCurrentTimeFrames,
   selectIsPreviewButtonEmulatingAutoSkip,
   selectIsUserEditingKeybind,
   selectKeybinds,
@@ -60,9 +60,9 @@ export function SettingsPage(): JSX.Element {
   const skipTimeIndicatorColours = useSelector(selectSkipTimeIndicatorColours);
   const keybinds = useSelector(selectKeybinds);
   const skipTimeLength = useSelector(selectSkipTimeLength);
-  const changeCurrentTimeLength = useSelector(selectChangeCurrentTimeLength);
-  const changeCurrentTimeLargeLength = useSelector(
-    selectChangeCurrentTimeLargeLength
+  const changeCurrentTimeFrames = useSelector(selectChangeCurrentTimeFrames);
+  const changeCurrentTimeFramesLarge = useSelector(
+    selectChangeCurrentTimeFramesLarge
   );
   const animeTitleLanguage = useSelector(selectAnimeTitleLanguage);
   const isUserEditingKeybind = useSelector(selectIsUserEditingKeybind);
@@ -211,10 +211,10 @@ export function SettingsPage(): JSX.Element {
     switch (keybindType) {
       case 'increase-current-time':
       case 'decrease-current-time':
-        return sprintf(KEYBIND_INFO[keybindType], changeCurrentTimeLength);
+        return sprintf(KEYBIND_INFO[keybindType], changeCurrentTimeFrames);
       case 'increase-current-time-large':
       case 'decrease-current-time-large':
-        return sprintf(KEYBIND_INFO[keybindType], changeCurrentTimeLargeLength);
+        return sprintf(KEYBIND_INFO[keybindType], changeCurrentTimeFramesLarge);
       case 'skip-backward':
       case 'skip-forward':
         return sprintf(KEYBIND_INFO[keybindType], skipTimeLength);
@@ -231,9 +231,16 @@ export function SettingsPage(): JSX.Element {
    * @param action Action used to update state.
    */
   const onChangeNumericInput =
-    (action: ActionCreatorWithPayload<number, string>) =>
+    (
+      action: ActionCreatorWithPayload<number, string>,
+      round: boolean = false
+    ) =>
     (event: React.ChangeEvent<HTMLInputElement>): void => {
       let number = parseFloat(event.target.value) || 0;
+
+      if (round) {
+        number = Math.round(number);
+      }
 
       if (number < 0) {
         number = 0;
@@ -351,11 +358,11 @@ export function SettingsPage(): JSX.Element {
       dispatch(keybindsUpdated(syncOptions.keybinds));
       dispatch(skipTimeLengthUpdated(syncOptions.skipTimeLength));
       dispatch(
-        changeCurrentTimeLengthUpdated(syncOptions.changeCurrentTimeLength)
+        changeCurrentTimeFramesUpdated(syncOptions.changeCurrentTimeFrames)
       );
       dispatch(
-        changeCurrentTimeLargeLengthUpdated(
-          syncOptions.changeCurrentTimeLargeLength
+        changeCurrentTimeFramesLargeUpdated(
+          syncOptions.changeCurrentTimeFramesLarge
         )
       );
       dispatch(animeTitleLanguageUpdated(syncOptions.animeTitleLanguage));
@@ -378,8 +385,8 @@ export function SettingsPage(): JSX.Element {
         skipTimeIndicatorColours,
         keybinds,
         skipTimeLength,
-        changeCurrentTimeLength,
-        changeCurrentTimeLargeLength,
+        changeCurrentTimeFrames,
+        changeCurrentTimeFramesLarge,
         animeTitleLanguage,
         isPreviewButtonEmulatingAutoSkip,
       });
@@ -389,8 +396,8 @@ export function SettingsPage(): JSX.Element {
     skipTimeIndicatorColours,
     keybinds,
     skipTimeLength,
-    changeCurrentTimeLength,
-    changeCurrentTimeLargeLength,
+    changeCurrentTimeFrames,
+    changeCurrentTimeFramesLarge,
     animeTitleLanguage,
     isSettingsLoaded,
     isPreviewButtonEmulatingAutoSkip,
@@ -441,7 +448,7 @@ export function SettingsPage(): JSX.Element {
         <div className="space-y-3 divide-y">
           <Setting
             name="Skip time length"
-            description="Time in seconds used when calculating the end time when the skip menu is opened. It is also used when using the skip forward or backward keybind."
+            description="Time in frames used when calculating the end time when the skip menu is opened. It is also used when using the skip forward or backward keybind."
           >
             <div className="flex items-end">
               <Input
@@ -457,35 +464,45 @@ export function SettingsPage(): JSX.Element {
           <Setting
             className="pt-3"
             name="Change current time"
-            description="Time in seconds used when increasing or decreasing the start or end time used for fine-tuning."
+            description="Time in frames used when increasing or decreasing the start or end time used for fine-tuning."
           >
             <div className="flex items-end">
               <Input
                 className="text-xs select-none uppercase focus:ring-1 w-24 focus:ring-primary focus:border-primary"
                 type="number"
-                value={changeCurrentTimeLength}
+                min={1}
+                step={1}
+                pattern="\d+"
+                value={changeCurrentTimeFrames}
                 spellCheck="false"
-                onChange={onChangeNumericInput(changeCurrentTimeLengthUpdated)}
+                onChange={onChangeNumericInput(
+                  changeCurrentTimeFramesUpdated,
+                  true
+                )}
               />
-              <span className="pl-1">s</span>
+              <span className="pl-1">frame(s)</span>
             </div>
           </Setting>
           <Setting
             className="pt-3"
             name="Change current time (large)"
-            description="Time in seconds used when increasing or decreasing the start or end time used for fine-tuning."
+            description="Time in frames used when increasing or decreasing the start or end time used for fine-tuning."
           >
             <div className="flex items-end">
               <Input
                 className="text-xs select-none uppercase focus:ring-1 w-24 focus:ring-primary focus:border-primary"
                 type="number"
-                value={changeCurrentTimeLargeLength}
+                min={1}
+                step={1}
+                pattern="\d+"
+                value={changeCurrentTimeFramesLarge}
                 spellCheck="false"
                 onChange={onChangeNumericInput(
-                  changeCurrentTimeLargeLengthUpdated
+                  changeCurrentTimeFramesLargeUpdated,
+                  true
                 )}
               />
-              <span className="pl-1">s</span>
+              <span className="pl-1">frame(s)</span>
             </div>
           </Setting>
           <Setting

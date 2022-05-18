@@ -31,13 +31,13 @@ import {
 } from '../../utils';
 import {
   submitMenuVisibilityUpdated,
-  selectChangeCurrentTimeLargeLength,
-  selectChangeCurrentTimeLength,
+  selectChangeCurrentTimeFramesLarge,
+  selectChangeCurrentTimeFrames,
   selectIsSubmitMenuVisible,
   selectKeybinds,
   selectSkipTimeLength,
-  changeCurrentTimeLargeLengthUpdated,
-  changeCurrentTimeLengthUpdated,
+  changeCurrentTimeFramesLargeUpdated,
+  changeCurrentTimeFramesUpdated,
   keybindsUpdated,
   skipTimeLengthUpdated,
   previewSkipTimeAdded,
@@ -69,9 +69,9 @@ export function SubmitMenu(): JSX.Element {
   const visible = useSelector(selectIsSubmitMenuVisible);
   const keybinds = useSelector(selectKeybinds);
   const skipTimeLength = useSelector(selectSkipTimeLength);
-  const changeCurrentTimeLength = useSelector(selectChangeCurrentTimeLength);
-  const changeCurrentTimeLargeLength = useSelector(
-    selectChangeCurrentTimeLargeLength
+  const changeCurrentTimeFrames = useSelector(selectChangeCurrentTimeFrames);
+  const changeCurrentTimeFramesLarge = useSelector(
+    selectChangeCurrentTimeFramesLarge
   );
   const playerControlsEventListenerType = useSelector(
     selectPlayerControlsListenerType
@@ -212,24 +212,24 @@ export function SubmitMenu(): JSX.Element {
     (event: React.KeyboardEvent<HTMLInputElement>): void => {
       const timeString = event.currentTarget.value;
       const timeSeconds = timeStringToSeconds(timeString);
-      let modifier = changeCurrentTimeLength;
+      let modifier = changeCurrentTimeFrames;
       let updatedTime = timeSeconds;
 
       switch (serialiseKeybind(event)) {
         case keybinds['decrease-current-time-large']: {
-          modifier = changeCurrentTimeLargeLength;
+          modifier = changeCurrentTimeFramesLarge;
         }
         /* falls through */
         case keybinds['decrease-current-time']: {
-          updatedTime -= modifier;
+          updatedTime -= modifier * FRAME_RATE;
           break;
         }
         case keybinds['increase-current-time-large']: {
-          modifier = changeCurrentTimeLargeLength;
+          modifier = changeCurrentTimeFramesLarge;
         }
         /* falls through */
         case keybinds['increase-current-time']: {
-          updatedTime += modifier;
+          updatedTime += modifier * FRAME_RATE;
           break;
         }
         default:
@@ -240,7 +240,9 @@ export function SubmitMenu(): JSX.Element {
         return;
       }
 
-      updatedTime = errorCorrectTime(updatedTime);
+      updatedTime = errorCorrectTime(
+        roundToClosestMultiple(updatedTime, FRAME_RATE)
+      );
 
       player?.setCurrentTime(updatedTime);
 
@@ -275,7 +277,10 @@ export function SubmitMenu(): JSX.Element {
       }
 
       const updatedTime = errorCorrectTime(
-        timeStringToSeconds(currentTime) + seekOffset
+        roundToClosestMultiple(
+          timeStringToSeconds(currentTime) + seekOffset * FRAME_RATE,
+          FRAME_RATE
+        )
       );
 
       setTimeFunction(secondsToTimeString(updatedTime));
@@ -496,11 +501,11 @@ export function SubmitMenu(): JSX.Element {
       dispatch(keybindsUpdated(syncOptions.keybinds));
       dispatch(skipTimeLengthUpdated(syncOptions.skipTimeLength));
       dispatch(
-        changeCurrentTimeLengthUpdated(syncOptions.changeCurrentTimeLength)
+        changeCurrentTimeFramesUpdated(syncOptions.changeCurrentTimeFrames)
       );
       dispatch(
-        changeCurrentTimeLargeLengthUpdated(
-          syncOptions.changeCurrentTimeLargeLength
+        changeCurrentTimeFramesLargeUpdated(
+          syncOptions.changeCurrentTimeFramesLarge
         )
       );
       dispatch(
@@ -642,9 +647,9 @@ export function SubmitMenu(): JSX.Element {
             </DefaultButton>
             <div className="flex justify-between bg-primary bg-opacity-80 border border-gray-300 rounded hover:bg-amber-600">
               <DefaultButton
-                title={`Seek -${changeCurrentTimeLargeLength}s`}
+                title={`Seek -${changeCurrentTimeFramesLarge} frame(s)`}
                 className="group px-3"
-                onClick={onClickSeekTime(-changeCurrentTimeLargeLength)}
+                onClick={onClickSeekTime(-changeCurrentTimeFramesLarge)}
               >
                 <FaBackward
                   className="transition-transform duration-150 transform group-hover:scale-125 group-active:scale-100"
@@ -658,9 +663,9 @@ export function SubmitMenu(): JSX.Element {
                 Now
               </DefaultButton>
               <DefaultButton
-                title={`Seek +${changeCurrentTimeLargeLength}s`}
+                title={`Seek +${changeCurrentTimeFramesLarge} frame(s)`}
                 className="group px-3"
-                onClick={onClickSeekTime(changeCurrentTimeLargeLength)}
+                onClick={onClickSeekTime(changeCurrentTimeFramesLarge)}
               >
                 <FaForward
                   className="transition-transform duration-150 transform group-hover:scale-125 group-active:scale-100"
