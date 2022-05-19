@@ -54,8 +54,8 @@ export class CrunchyrollBetaHttpClient extends BaseHttpClient {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
 
-    const authV1Response = await super.request<string, PostResponseFromAuthV1>(
-      { route, method: 'POST', data, headers, withCredentials: true },
+    const authV1Response = await super.request<PostResponseFromAuthV1>(
+      { route, method: 'POST', body: data, headers, credentials: 'include' },
       false
     );
 
@@ -66,10 +66,10 @@ export class CrunchyrollBetaHttpClient extends BaseHttpClient {
       Authorization: `Bearer ${authV1Response.data.access_token}`,
     };
 
-    const authV2Response = await super.request<
-      undefined,
-      GetResponseFromIndexV2
-    >({ route, headers }, false);
+    const authV2Response = await super.request<GetResponseFromIndexV2>(
+      { route, headers },
+      false
+    );
 
     const { cms_beta: cmsBeta } = authV2Response.data;
 
@@ -80,11 +80,11 @@ export class CrunchyrollBetaHttpClient extends BaseHttpClient {
     this.isAuthenticated = true;
   }
 
-  async request<T = any, D = any>({
+  async request<D = any>({
     route,
     params,
     ...rest
-  }: Config<T>): Promise<Response<D>> {
+  }: Config): Promise<Response<D>> {
     await this.authenticate();
 
     const authenticatedRoute = `/cms/v2${this.bucket}${route}`;

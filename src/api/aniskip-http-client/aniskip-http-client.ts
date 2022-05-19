@@ -91,9 +91,11 @@ export class AniskipHttpClient extends BaseHttpClient {
       submitterId,
     };
 
-    const response = await this.request<typeof data, PostResponseFromSkipTimes>(
-      { route, method: 'POST', data }
-    );
+    const response = await this.request<PostResponseFromSkipTimes>({
+      route,
+      method: 'POST',
+      json: data,
+    });
     const json = response.data;
 
     if (response.ok) {
@@ -118,7 +120,7 @@ export class AniskipHttpClient extends BaseHttpClient {
       voteType: type,
     };
 
-    const response = await this.request({ route, method: 'POST', data });
+    const response = await this.request({ route, method: 'POST', json: data });
 
     if (response.status === 429) {
       throw new AniskipHttpClientError('Rate limited', 'vote/rate-limited');

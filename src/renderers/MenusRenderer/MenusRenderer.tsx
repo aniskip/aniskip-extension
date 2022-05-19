@@ -4,7 +4,7 @@ import { BaseRenderer } from '../base-renderer';
 import { Menus } from '../../components';
 import { Store } from '../../data';
 import { Player } from '../../players/base-player.types';
-import { PlayerProvider, VariantProvider } from '../../utils';
+import { patchShadowRoot, PlayerProvider, VariantProvider } from '../../utils';
 
 export class MenusRenderer extends BaseRenderer {
   variant: string;
@@ -14,18 +14,18 @@ export class MenusRenderer extends BaseRenderer {
   player: Player;
 
   constructor(id: string, variant: string, store: Store, player: Player) {
-    super(id, [
-      'keydown',
-      'keyup',
-      'mousedown',
-      'mouseup',
-      'click',
-      'dblclick',
-    ]);
+    super(
+      id,
+      ['keydown', 'keyup', 'mousedown', 'mouseup', 'click', 'dblclick'],
+      { mode: 'open' }
+    );
 
     this.variant = variant;
     this.store = store;
     this.player = player;
+
+    // Fix dropdown inconsistency.
+    patchShadowRoot(this.shadowRootContainer);
   }
 
   render(): void {

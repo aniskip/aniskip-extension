@@ -12,14 +12,19 @@ export abstract class BaseRenderer implements Renderer {
 
   reactRoot: Root;
 
-  constructor(id: string, stopPropagationEvents: string[] = []) {
+  constructor(
+    id: string,
+    stopPropagationEvents: string[] = [],
+    shadowRootInit?: ShadowRootInit
+  ) {
     this.id = id;
     this.reactRootId = `${id}-root`;
     this.shadowRootContainer = document.createElement('div');
     this.shadowRootContainer.setAttribute('id', this.id);
     this.shadowRoot = this.createShadowRoot(
       this.shadowRootContainer,
-      stopPropagationEvents
+      stopPropagationEvents,
+      shadowRootInit
     );
     const container = this.shadowRoot.getElementById(this.reactRootId);
     this.reactRoot = createRoot(container!);
@@ -35,10 +40,12 @@ export abstract class BaseRenderer implements Renderer {
    */
   createShadowRoot(
     container: HTMLDivElement,
-    stopPropagationEvents: string[] = []
+    stopPropagationEvents: string[] = [],
+    shadowRootInit?: ShadowRootInit
   ): ShadowRoot {
     const shadowRoot = container.attachShadow({
       mode: 'closed',
+      ...shadowRootInit,
     });
 
     stopPropagationEvents.forEach((eventName) => {

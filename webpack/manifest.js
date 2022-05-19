@@ -1,35 +1,36 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { default: merge } = require('webpack-merge');
 const fs = require('fs');
 const path = require('path');
 const packageJson = require('../package.json');
 
-const manifest = {
-  manifest_version: 2,
+const manifestTemplate = {
   name: packageJson.extensionName,
   version: packageJson.version,
   description: packageJson.description,
   options_ui: {
     page: 'options.html',
+    open_in_tab: true,
   },
-  browser_action: {
-    default_popup: 'popup.html',
-  },
-  background: {
-    scripts: ['background-script.js'],
-  },
-  web_accessible_resources: ['window-proxy-script.js'],
-  permissions: [
-    'storage',
-    '*://api.aniskip.com/*',
-    '*://api.malsync.moe/*',
-    '*://graphql.anilist.co/*',
-    '*://beta-api.crunchyroll.com/*',
-  ],
+  permissions: ['storage'],
   icons: {
     16: 'icon_16.png',
     48: 'icon_48.png',
     128: 'icon_128.png',
   },
 };
+
+const apiPermissions = [
+  '*://api.aniskip.com/*',
+  '*://api.malsync.moe/*',
+  '*://graphql.anilist.co/*',
+  '*://beta-api.crunchyroll.com/*',
+];
+
+const backgroundScript = 'background-script.js';
+const windowProxyScript = 'window-proxy-script.js';
+
+const browser = process.env.BROWSER;
 
 const getPageUrls = () => {
   const pagesPath = path.join(__dirname, '..', 'src', 'pages');
@@ -72,7 +73,7 @@ const getPlayerUrls = () => {
 module.exports = () => {
   const pageUrls = getPageUrls();
   const playerUrls = getPlayerUrls();
-  manifest.content_scripts = [
+  manifestTemplate.content_scripts = [
     {
       matches: pageUrls,
       js: ['content-script.js'],
@@ -86,28 +87,51 @@ module.exports = () => {
     },
   ];
 
-  switch (process.env.BROWSER) {
-    case 'chromium':
-      manifest.options_ui.chrome_style = false;
-      manifest.options_ui.open_in_tab = true;
-      manifest.browser_action.chrome_style = false;
-      break;
-    case 'firefox':
-      manifest.options_ui.browser_style = false;
-      manifest.options_ui.open_in_tab = true;
-      manifest.browser_action.browser_style = false;
-      manifest.browser_specific_settings = {
-        gecko: {
-          id: '{c67645fa-ad86-4b2f-ab7a-67fc5f3e9f5a}',
-        },
-      };
-      break;
-    default:
-    // no default
+  if (process.env.NODE_ENV === 'development') {
+    manifestTemplate.permissions.push('*://localhost/*');
   }
 
-  if (process.env.NODE_ENV === 'development') {
-    manifest.permissions.push('*://localhost/*');
+  switch (browser) {
+    case 'chromium':
+      return merge(manifestTemplate, {
+        manifest_version: 3,
+        background: {
+          service_worker: backgroundScript,
+        },
+        action: {
+          default_popup: 'popup.html',
+          chrome_style: false,
+        },
+        host_permissions: apiPermissions,
+        web_accessible_resources: [
+          {
+            resources: [windowProxyScript],
+            matches: ['https://beta.crunchyroll.com/*'],
+          },
+        ],
+      });
+    case 'firefox':
+      return merge(manifestTemplate, {
+        manifest_version: 2,
+        background: {
+          scripts: [backgroundScript],
+        },
+        options_ui: {
+          browser_style: false,
+        },
+        browser_action: {
+          default_popup: 'popup.html',
+          browser_style: false,
+        },
+        browser_specific_settings: {
+          gecko: {
+            id: '{c67645fa-ad86-4b2f-ab7a-67fc5f3e9f5a}',
+          },
+        },
+        permissions: apiPermissions,
+        web_accessible_resources: [windowProxyScript],
+      });
+    default:
+      throw new Error(`Invalid browser type '${browser}'`);
   }
-  return manifest;
 };

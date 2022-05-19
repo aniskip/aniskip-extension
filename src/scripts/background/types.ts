@@ -97,10 +97,14 @@ export const KEYBIND_NAMES: Record<KeybindType, string> = {
 export const KEYBIND_INFO: Record<KeybindType, string> = {
   'open-anime-search-overlay':
     'Used when auto-detection does not work or to manually override incorrect anime detection.',
-  'increase-current-time': 'Increases the start time or end time by %ss.',
-  'increase-current-time-large': 'Increases the start time or end time by %ss.',
-  'decrease-current-time': 'Decreases the start time or end time by %ss.',
-  'decrease-current-time-large': 'Decreases the start time or end time by %ss.',
+  'increase-current-time':
+    'Increases the start time or end time by %s frame(s).',
+  'increase-current-time-large':
+    'Increases the start time or end time by %s frame(s).',
+  'decrease-current-time':
+    'Decreases the start time or end time by %s frame(s).',
+  'decrease-current-time-large':
+    'Decreases the start time or end time by %s frame(s).',
   'seek-forward-one-frame': 'Increases the current time forward by one frame.',
   'seek-backward-one-frame': 'Decreases the current time forward by one frame.',
   'skip-forward': 'Increases the current time forward by %ss.',
@@ -115,8 +119,8 @@ export type SyncOptions = {
   skipTimeIndicatorColours: SkipTimeIndicatorColours;
   keybinds: Keybinds;
   skipTimeLength: number;
-  changeCurrentTimeLength: number;
-  changeCurrentTimeLargeLength: number;
+  changeCurrentTimeFrames: number;
+  changeCurrentTimeFramesLarge: number;
   animeTitleLanguage: AnimeTitleLanguageType;
   isChangelogNotificationVisible: boolean;
   isPreviewButtonEmulatingAutoSkip: boolean;
@@ -128,8 +132,8 @@ export const DEFAULT_SYNC_OPTIONS: SyncOptions = {
   skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
   keybinds: DEFAULT_KEYBINDS,
   skipTimeLength: 90,
-  changeCurrentTimeLength: 0.1,
-  changeCurrentTimeLargeLength: 0.25,
+  changeCurrentTimeFrames: 5,
+  changeCurrentTimeFramesLarge: 15,
   animeTitleLanguage: 'english',
   isChangelogNotificationVisible: false,
   isPreviewButtonEmulatingAutoSkip: true,

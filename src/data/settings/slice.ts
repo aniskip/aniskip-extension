@@ -28,9 +28,9 @@ const initialSettingsState: SettingsState = {
   skipTimeIndicatorColours: DEFAULT_SKIP_TIME_INDICATOR_COLOURS,
   keybinds: DEFAULT_KEYBINDS,
   skipTimeLength: DEFAULT_SYNC_OPTIONS.skipTimeLength,
-  changeCurrentTimeLength: DEFAULT_SYNC_OPTIONS.changeCurrentTimeLength,
-  changeCurrentTimeLargeLength:
-    DEFAULT_SYNC_OPTIONS.changeCurrentTimeLargeLength,
+  changeCurrentTimeFrames: DEFAULT_SYNC_OPTIONS.changeCurrentTimeFrames,
+  changeCurrentTimeFramesLarge:
+    DEFAULT_SYNC_OPTIONS.changeCurrentTimeFramesLarge,
   animeTitleLanguage: DEFAULT_SYNC_OPTIONS.animeTitleLanguage,
   isChangelogNotificationVisible:
     DEFAULT_SYNC_OPTIONS.isChangelogNotificationVisible,
@@ -70,15 +70,15 @@ export const selectSkipTimeLength: Selector<
   number
 > = (state) => state.settings.skipTimeLength;
 
-export const selectChangeCurrentTimeLength: Selector<
+export const selectChangeCurrentTimeFrames: Selector<
   StateSlice<SettingsState, 'settings'>,
   number
-> = (state) => state.settings.changeCurrentTimeLength;
+> = (state) => state.settings.changeCurrentTimeFrames;
 
-export const selectChangeCurrentTimeLargeLength: Selector<
+export const selectChangeCurrentTimeFramesLarge: Selector<
   StateSlice<SettingsState, 'settings'>,
   number
-> = (state) => state.settings.changeCurrentTimeLargeLength;
+> = (state) => state.settings.changeCurrentTimeFramesLarge;
 
 export const selectAnimeTitleLanguage: Selector<
   StateSlice<SettingsState, 'settings'>,
@@ -133,14 +133,14 @@ const settingsStateSlice = createSlice({
     skipTimeLengthUpdated: (state, action: PayloadAction<number>) => {
       state.skipTimeLength = action.payload;
     },
-    changeCurrentTimeLengthUpdated: (state, action: PayloadAction<number>) => {
-      state.changeCurrentTimeLength = action.payload;
+    changeCurrentTimeFramesUpdated: (state, action: PayloadAction<number>) => {
+      state.changeCurrentTimeFrames = action.payload;
     },
-    changeCurrentTimeLargeLengthUpdated: (
+    changeCurrentTimeFramesLargeUpdated: (
       state,
       action: PayloadAction<number>
     ) => {
-      state.changeCurrentTimeLargeLength = action.payload;
+      state.changeCurrentTimeFramesLarge = action.payload;
     },
     animeTitleLanguageUpdated: (
       state,
@@ -178,8 +178,8 @@ export const {
   keybindUpdated,
   keybindsUpdated,
   skipTimeLengthUpdated,
-  changeCurrentTimeLengthUpdated,
-  changeCurrentTimeLargeLengthUpdated,
+  changeCurrentTimeFramesUpdated,
+  changeCurrentTimeFramesLargeUpdated,
   animeTitleLanguageUpdated,
   isUserEditingKeybindUpdated,
   changelogNotificationUpdated,

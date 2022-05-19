@@ -1,6 +1,6 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
 import { v4 as uuidv4 } from 'uuid';
-import axios from 'axios';
+import ky from 'ky';
 import {
   LocalOptions,
   Message,
@@ -8,7 +8,7 @@ import {
   DEFAULT_SYNC_OPTIONS,
   SyncOptions,
 } from './types';
-import { waitForMessage } from '../../utils';
+import { parseResponse, waitForMessage } from '../../utils';
 
 /**
  * Relay messages between content scripts.
@@ -30,18 +30,19 @@ const messageHandler = (
     case 'fetch': {
       return (async (): Promise<any> => {
         try {
-          const response = await axios(message.payload);
+          const { url, config } = message.payload;
+          const response = await ky(url, config);
 
           return {
-            data: response.data,
+            data: await parseResponse(response),
             status: response.status,
-            ok: true,
+            ok: response.ok,
           };
         } catch (err: any) {
           return {
-            data: err.response.data,
+            data: await parseResponse(err.response),
             status: err.response.status,
-            ok: false,
+            ok: err.response.ok,
           };
         }
       })();
