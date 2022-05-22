@@ -1,6 +1,5 @@
 export * from './http';
 export * from './keybinds';
-export * from './message';
 export * from './page';
 export * from './player';
 export * from './redux';

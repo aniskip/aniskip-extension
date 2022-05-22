@@ -24,32 +24,29 @@ document.addEventListener('DOMContentLoaded', injectOverlayListener);
 const messageHandler = (message: Message): any => {
   switch (message.type) {
     case 'get-episode-information': {
-      (async (): Promise<void> => {
+      return (async (): Promise<any> => {
         await page.applyRules();
         const malId = await page.getMalId();
         const providerName = page.getProviderName();
         const episodeNumber = page.getEpisodeNumber();
 
         if (malId === 0) {
-          browser.runtime.sendMessage({
-            payload: { error: 'MAL id not found' },
-            uuid: message.uuid,
-          } as Message);
-
           page.openOverlay();
 
-          return;
+          return {
+            error: 'MAL id not found',
+          };
         }
 
-        browser.runtime.sendMessage({
-          payload: { malId, providerName, episodeNumber },
-          uuid: message.uuid,
-        } as Message);
+        return {
+          malId,
+          providerName,
+          episodeNumber,
+        };
       })();
-      break;
     }
     default:
-    // no default
+      return undefined;
   }
 };
 

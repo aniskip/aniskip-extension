@@ -1,5 +1,4 @@
 import { browser, Runtime } from 'webextension-polyfill-ts';
-import { v4 as uuidv4 } from 'uuid';
 import ky from 'ky';
 import {
   LocalOptions,
@@ -8,7 +7,7 @@ import {
   DEFAULT_SYNC_OPTIONS,
   SyncOptions,
 } from './types';
-import { parseResponse, waitForMessage } from '../../utils';
+import { parseResponse } from '../../utils';
 
 /**
  * Relay messages between content scripts.
@@ -48,13 +47,7 @@ const messageHandler = (
       })();
     }
     default: {
-      return (async (): Promise<any> => {
-        const uuid = uuidv4();
-        browser.tabs.sendMessage(tabId, { ...message, uuid } as Message);
-        const response = await waitForMessage(uuid);
-
-        return response?.payload;
-      })();
+      return browser.tabs.sendMessage(tabId, message);
     }
   }
 };
