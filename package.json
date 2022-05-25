@@ -94,7 +94,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.2",
+    "@babel/runtime": "^7.18.3",
     "@headlessui/react": "^1.6.3",
     "@reduxjs/toolkit": "^1.8.2",
     "entities": "^4.3.0",
