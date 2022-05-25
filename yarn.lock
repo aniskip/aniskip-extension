@@ -2455,13 +2455,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@headlessui/react@npm:^1.6.2":
-  version: 1.6.2
-  resolution: "@headlessui/react@npm:1.6.2"
+"@headlessui/react@npm:^1.6.3":
+  version: 1.6.3
+  resolution: "@headlessui/react@npm:1.6.3"
   peerDependencies:
     react: ^16 || ^17 || ^18
     react-dom: ^16 || ^17 || ^18
-  checksum: 2d2437488d93d7ba77e43eb1041680fe377298b8c0ba1c749a12d8aea3edb4e04ab5782c8ce738f3e3b5b12cdac5543b5aacb203e33dbd708d280ded7311e92f
+  checksum: be809e713697047b62e5cc3765e8dea957367d3a8cbaac390ff0f2f389c498c98a0855eff607d354db4f21126fd6c0d8f2d8cee069caf89de6611166c63245d0
   languageName: node
   linkType: hard
 
@@ -16337,7 +16337,7 @@ resolve@^2.0.0-next.3:
     "@babel/preset-react": ^7.17.12
     "@babel/preset-typescript": ^7.17.12
     "@babel/runtime": ^7.18.2
-    "@headlessui/react": ^1.6.2
+    "@headlessui/react": ^1.6.3
     "@mantiquillal/web-ext-plugin": ^1.5.1
     "@redux-devtools/cli": ^1.0.7
     "@reduxjs/toolkit": ^1.8.2
