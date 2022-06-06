@@ -13473,7 +13473,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qs@npm:6.10.3, qs@npm:^6.10.3":
+"qs@npm:6.10.3":
   version: 6.10.3
   resolution: "qs@npm:6.10.3"
   dependencies:
@@ -13493,6 +13493,15 @@ __metadata:
   version: 6.9.7
   resolution: "qs@npm:6.9.7"
   checksum: 5bbd263332ccf320a1f36d04a2019a5834dc20bcb736431eaccde2a39dcba03fb26d2fd00174f5d7bc26aaad1cad86124b18440883ac042ea2a0fca6170c1bf1
+  languageName: node
+  linkType: hard
+
+"qs@npm:^6.10.4":
+  version: 6.10.4
+  resolution: "qs@npm:6.10.4"
+  dependencies:
+    side-channel: ^1.0.4
+  checksum: 31e4fedd759d01eae52dde6692abab175f9af3e639993c5caaa513a2a3607b34d8058d3ae52ceeccf37c3025f22ed5e90e9ddd6c2537e19c0562ddd10dc5b1eb
   languageName: node
   linkType: hard
 
@@ -16395,7 +16404,7 @@ resolve@^2.0.0-next.3:
     postcss-import: ^14.1.0
     postcss-loader: ^7.0.0
     prettier: ^2.6.2
-    qs: ^6.10.3
+    qs: ^6.10.4
     react: ^18.1.0
     react-color: ^2.19.3
     react-device-detect: ^2.2.2
