@@ -29,8 +29,8 @@
     "start:prod:firefox": "cross-env NODE_ENV=production BROWSER=firefox webpack --config ./webpack/webpack.prod.config.js --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.2",
-    "@babel/plugin-transform-runtime": "^7.18.2",
+    "@babel/core": "^7.18.5",
+    "@babel/plugin-transform-runtime": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-react": "^7.17.12",
     "@babel/preset-typescript": "^7.17.12",
