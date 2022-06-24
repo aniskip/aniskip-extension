@@ -14902,9 +14902,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"sass-loader@npm:^13.0.0":
-  version: 13.0.0
-  resolution: "sass-loader@npm:13.0.0"
+"sass-loader@npm:^13.0.1":
+  version: 13.0.1
+  resolution: "sass-loader@npm:13.0.1"
   dependencies:
     klona: ^2.0.4
     neo-async: ^2.6.2
@@ -14923,7 +14923,7 @@ resolve@^2.0.0-next.3:
       optional: true
     sass-embedded:
       optional: true
-  checksum: f7af03813dccf0405eb02917cd10c97571ab81f42e9ea1f3da6d9e96991e076521809a452ad319d57c1a63273ce07c23ddfdbda5cd071a56d261dc28913afdaa
+  checksum: 21a4e59947c4a0dd851a7f3e5079ca4cdb0af17cc603862318585f5f72683a0c72926ef73e65a249b5210347894e47df38bfa5fee91132c9f2d29393c7d82b57
   languageName: node
   linkType: hard
 
@@ -16758,7 +16758,7 @@ resolve@^2.0.0-next.3:
     remote-redux-devtools: ^0.5.16
     rimraf: ^3.0.2
     sass: ^1.53.0
-    sass-loader: ^13.0.0
+    sass-loader: ^13.0.1
     schema-utils: ^4.0.0
     sprintf-js: ^1.1.2
     string-similarity: ^4.0.4
