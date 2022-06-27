@@ -29,11 +29,11 @@
     "start:prod:firefox": "cross-env NODE_ENV=production BROWSER=firefox webpack --config ./webpack/webpack.prod.config.js --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.5",
-    "@babel/plugin-transform-runtime": "^7.18.5",
-    "@babel/preset-env": "^7.18.2",
-    "@babel/preset-react": "^7.17.12",
-    "@babel/preset-typescript": "^7.17.12",
+    "@babel/core": "^7.18.6",
+    "@babel/plugin-transform-runtime": "^7.18.6",
+    "@babel/preset-env": "^7.18.6",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.18.6",
     "@mantiquillal/web-ext-plugin": "^1.5.1",
     "@redux-devtools/cli": "^1.0.7",
     "@types/chrome": "^0.0.191",
@@ -94,7 +94,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.3",
+    "@babel/runtime": "^7.18.6",
     "@headlessui/react": "^1.6.5",
     "@reduxjs/toolkit": "^1.8.2",
     "entities": "^4.3.0",
