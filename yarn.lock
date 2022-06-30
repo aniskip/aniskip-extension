@@ -16401,10 +16401,10 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^2.15.0":
-  version: 2.15.0
-  resolution: "type-fest@npm:2.15.0"
-  checksum: 1f420cdae74388818f7abbaa12fab7bda5d6c83d359a4dfab9a049ca5da63a9ff1c0ae3a6fc188c7b9410faf1815085f35f9dbfd5db31aa4c49eedb093d7ca06
+"type-fest@npm:^2.15.1":
+  version: 2.15.1
+  resolution: "type-fest@npm:2.15.1"
+  checksum: 4eb7d717aae49ca654a6926f99bef8112f76f71c7a685df8e0431e6ae8049bae6c526076f30ee5ccddc535d4b3b3869bcc5e8c4b7f0264b1007f810b898dd33c
   languageName: node
   linkType: hard
 
@@ -16511,7 +16511,7 @@ resolve@^2.0.0-next.3:
     style-loader: ^3.3.1
     tailwindcss: ^3.1.4
     to-string-loader: ^1.2.0
-    type-fest: ^2.15.0
+    type-fest: ^2.15.1
     typescript: ^4.7.4
     uuid: ^8.3.2
     wait-on: ^6.0.1
