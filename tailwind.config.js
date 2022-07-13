@@ -1,5 +1,6 @@
 const colours = require('tailwindcss/colors');
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     './src/**/*.html',
@@ -99,5 +100,6 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  // eslint-disable-next-line global-require
+  plugins: [require('@tailwindcss/forms')],
 };
