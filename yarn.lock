@@ -13786,6 +13786,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prettier-plugin-tailwindcss@npm:^0.1.12":
+  version: 0.1.12
+  resolution: "prettier-plugin-tailwindcss@npm:0.1.12"
+  peerDependencies:
+    prettier: ">=2.2.0"
+  checksum: 9dd6ad6b4902ebf57de6421f09395cfb6a5db1108869516142f72ff469875542308e148becf2de1c6b88af0e2aa11cbcec41640eb9e3df04bdb001d4834f4a5e
+  languageName: node
+  linkType: hard
+
 "prettier@npm:^2.7.1":
   version: 2.7.1
   resolution: "prettier@npm:2.7.1"
@@ -16987,6 +16996,7 @@ resolve@^2.0.0-next.3:
     postcss-import: ^14.1.0
     postcss-loader: ^7.0.1
     prettier: ^2.7.1
+    prettier-plugin-tailwindcss: ^0.1.12
     qs: ^6.11.0
     react: ^18.2.0
     react-color: ^2.19.3

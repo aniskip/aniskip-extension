@@ -57,9 +57,9 @@ export function ChangelogNotification(): JSX.Element {
       leaveFrom="translate-y-0"
       leaveTo="translate-y-full"
     >
-      <div className="flex sticky bottom-0 border-t border-gray-300 w-full bg-white">
-        <div className="flex items-center justify-center w-full">
-          <span className="pl-4 py-2 text-sm font-medium text-gray-500">
+      <div className="sticky bottom-0 flex w-full border-t border-gray-300 bg-white">
+        <div className="flex w-full items-center justify-center">
+          <span className="py-2 pl-4 text-sm font-medium text-gray-500">
             You are now using the latest version of Aniskip! View the changelog
             here{' '}
             <LinkButton className="text-blue-500" onClick={onDismiss}>
@@ -75,11 +75,11 @@ export function ChangelogNotification(): JSX.Element {
           </span>
         </div>
         <button
-          className="p-3 relative bottom-0 right-0"
+          className="relative bottom-0 right-0 p-3"
           type="button"
           onClick={onDismiss}
         >
-          <FaTimes className="w-3 h-3 hover:text-primary" />
+          <FaTimes className="h-3 w-3 hover:text-primary" />
         </button>
       </div>
     </Transition>

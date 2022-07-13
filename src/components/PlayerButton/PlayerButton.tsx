@@ -93,14 +93,14 @@ export function PlayerButton({
   );
 
   return (
-    <div className="flex flex-col relative items-center font-sans">
+    <div className="relative flex flex-col items-center font-sans">
       {title && (
         <Tooltip isVisible={isHovered && !isActivatedOnce && !isMouseMoved}>
           {title}
         </Tooltip>
       )}
       <button
-        className={`w-8 h-8 cursor-pointer select-none outline-none flex items-center justify-center transition-colors ${className}`}
+        className={`flex h-8 w-8 cursor-pointer select-none items-center justify-center outline-none transition-colors ${className}`}
         type="button"
         onClick={onClick}
         onMouseEnter={onMouseEnter}

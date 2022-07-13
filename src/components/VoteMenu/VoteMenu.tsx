@@ -138,31 +138,31 @@ export function VoteMenu(): JSX.Element {
 
   return (
     <div
-      className={`text-sm md:text-base font-sans w-60 px-5 py-2 z-10 bg-neutral-800 bg-opacity-80 border border-gray-300 select-none rounded-md transition-opacity text-white opacity-0 pointer-events-none backdrop-blur-md ${
-        visible ? 'sm:opacity-100 sm:pointer-events-auto' : ''
+      className={`pointer-events-none z-10 w-60 select-none rounded-md border border-gray-300 bg-neutral-800 bg-opacity-80 px-5 py-2 font-sans text-sm text-white opacity-0 backdrop-blur-md transition-opacity md:text-base ${
+        visible ? 'sm:pointer-events-auto sm:opacity-100' : ''
       }`}
     >
-      <div className="flex justify-between items-center w-full h-auto mb-2">
+      <div className="mb-2 flex h-auto w-full items-center justify-between">
         <div className="flex items-center space-x-1 outline-none">
           <FaPlay className="text-primary" size={12} />
-          <span className="font-bold text-sm uppercase">Vote skip times</span>
+          <span className="text-sm font-bold uppercase">Vote skip times</span>
         </div>
         <button
           type="button"
-          className="flex justify-center items-center focus:outline-none"
+          className="flex items-center justify-center focus:outline-none"
           onClick={onClickCloseButton}
         >
-          <FaTimes className="w-4 h-4 active:text-primary" />
+          <FaTimes className="h-4 w-4 active:text-primary" />
         </button>
       </div>
       <div className="divide-y divide-gray-300">
         {sortedSkipTimes.length === 0 && (
-          <div className="text-xs space-y-1 mt-4">
-            <div className="text-gray-200 uppercase font-semibold">
+          <div className="mt-4 space-y-1 text-xs">
+            <div className="font-semibold uppercase text-gray-200">
               No skip times found
             </div>
             <LinkButton
-              className="text-blue-500 uppercase font-bold hover:no-underline"
+              className="font-bold uppercase text-blue-500 hover:no-underline"
               onClick={onClickSubmitLink}
             >
               Submit here
@@ -190,7 +190,7 @@ export function VoteMenu(): JSX.Element {
                 key={`vote-menu-skip-time-${skipId}`}
               >
                 <div className="flex flex-col justify-between">
-                  <span className="font-bold uppercase text-xs">
+                  <span className="text-xs font-bold uppercase">
                     {SKIP_TYPE_NAMES[skipType]}
                   </span>
                   <span className="text-sm text-blue-500">
@@ -212,7 +212,7 @@ export function VoteMenu(): JSX.Element {
                 </div>
                 <div className="flex flex-col justify-between">
                   <button
-                    className={`focus:outline-none hover:text-primary active:opacity-80 ${
+                    className={`hover:text-primary focus:outline-none active:opacity-80 ${
                       isUpvoted && 'text-primary'
                     }`}
                     type="button"
@@ -222,7 +222,7 @@ export function VoteMenu(): JSX.Element {
                     <FaChevronUp />
                   </button>
                   <button
-                    className={`focus:outline-none hover:text-blue-500 active:opacity-80 ${
+                    className={`hover:text-blue-500 focus:outline-none active:opacity-80 ${
                       isDownvoted && 'text-blue-500'
                     }`}
                     type="button"

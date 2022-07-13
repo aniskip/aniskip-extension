@@ -14,7 +14,7 @@ export function MenuContainer({ children }: MenuContainerProps): JSX.Element {
 
   return (
     <div
-      className={`absolute text-base z-10 left-5 bottom-16 md:left-auto md:right-5 md:bottom-32 pointer-events-none menus menus--${variant} menus--${domainName} ${
+      className={`menus pointer-events-none absolute left-5 bottom-16 z-10 text-base md:left-auto md:right-5 md:bottom-32 menus--${variant} menus--${domainName} ${
         isFullscreen ? 'fullscreen' : ''
       } ${isMobile ? 'mobile' : ''}`}
     >

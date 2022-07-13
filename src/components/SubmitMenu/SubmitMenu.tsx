@@ -566,32 +566,32 @@ export function SubmitMenu(): JSX.Element {
 
   return (
     <div
-      className={`text-sm md:text-base font-sans w-[26em] px-5 pt-2 pb-4 bg-neutral-800 bg-opacity-80 border border-gray-300 select-none rounded-md transition-opacity text-white opacity-0 pointer-events-none backdrop-blur-md ${
-        visible ? 'sm:opacity-100 sm:pointer-events-auto' : ''
+      className={`pointer-events-none w-[26em] select-none rounded-md border border-gray-300 bg-neutral-800 bg-opacity-80 px-5 pt-2 pb-4 font-sans text-sm text-white opacity-0 backdrop-blur-md transition-opacity md:text-base ${
+        visible ? 'sm:pointer-events-auto sm:opacity-100' : ''
       }`}
       role="menu"
     >
-      <div className="flex justify-between items-center w-full h-auto mb-4">
+      <div className="mb-4 flex h-auto w-full items-center justify-between">
         <div className="flex items-center space-x-1 outline-none">
           <FaPlay className="text-primary" size={12} />
-          <span className="font-bold text-sm uppercase">Submit skip times</span>
+          <span className="text-sm font-bold uppercase">Submit skip times</span>
         </div>
         <button
           type="button"
-          className="flex justify-center items-center focus:outline-none"
+          className="flex items-center justify-center focus:outline-none"
           onClick={onClickCloseButton}
         >
-          <FaTimes className="w-4 h-4 active:text-primary" />
+          <FaTimes className="h-4 w-4 active:text-primary" />
         </button>
       </div>
       <form className="space-y-2" onSubmit={onSkipTimeSubmit}>
         <div className="flex space-x-2">
           <div className="flex-1">
-            <div className="font-bold text-xs uppercase mb-1">Start time</div>
+            <div className="mb-1 text-xs font-bold uppercase">Start time</div>
             <Input
-              className={`shadow-sm w-full text-black text-sm focus:border-primary focus:ring-primary focus:ring-1 ${
+              className={`w-full text-sm text-black shadow-sm focus:border-primary focus:ring-1 focus:ring-primary ${
                 currentInputFocus === 'start-time'
-                  ? 'border-primary ring-primary ring-1'
+                  ? 'border-primary ring-1 ring-primary'
                   : ''
               }`}
               id="start-time"
@@ -610,11 +610,11 @@ export function SubmitMenu(): JSX.Element {
             />
           </div>
           <div className="flex-1">
-            <div className="font-bold text-xs uppercase mb-1">End time</div>
+            <div className="mb-1 text-xs font-bold uppercase">End time</div>
             <Input
-              className={`shadow-sm w-full text-black text-sm focus:border-primary focus:ring-primary focus:ring-1 ${
+              className={`w-full text-sm text-black shadow-sm focus:border-primary focus:ring-1 focus:ring-primary ${
                 currentInputFocus === 'end-time'
-                  ? 'border-primary ring-primary ring-1'
+                  ? 'border-primary ring-1 ring-primary'
                   : ''
               }`}
               id="end-time"
@@ -633,26 +633,26 @@ export function SubmitMenu(): JSX.Element {
             />
           </div>
         </div>
-        <div className="text-xs uppercase font-bold text-red-500">
+        <div className="text-xs font-bold uppercase text-red-500">
           {formError}
         </div>
         <div>
-          <div className="font-bold text-xs uppercase mb-1">Time controls</div>
+          <div className="mb-1 text-xs font-bold uppercase">Time controls</div>
           <div className="flex space-x-2">
             <DefaultButton
-              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 font-medium hover:bg-amber-600"
+              className="flex-1 border border-gray-300 bg-primary bg-opacity-80 font-medium shadow-sm hover:bg-amber-600"
               onClick={onClickPreviewButton}
             >
               Preview
             </DefaultButton>
-            <div className="flex justify-between bg-primary bg-opacity-80 border border-gray-300 rounded hover:bg-amber-600">
+            <div className="flex justify-between rounded border border-gray-300 bg-primary bg-opacity-80 hover:bg-amber-600">
               <DefaultButton
                 title={`Seek -${changeCurrentTimeFramesLarge} frame(s)`}
                 className="group px-3"
                 onClick={onClickSeekTime(-changeCurrentTimeFramesLarge)}
               >
                 <FaBackward
-                  className="transition-transform duration-150 transform group-hover:scale-125 group-active:scale-100"
+                  className="transform transition-transform duration-150 group-hover:scale-125 group-active:scale-100"
                   size={16}
                 />
               </DefaultButton>
@@ -668,13 +668,13 @@ export function SubmitMenu(): JSX.Element {
                 onClick={onClickSeekTime(changeCurrentTimeFramesLarge)}
               >
                 <FaForward
-                  className="transition-transform duration-150 transform group-hover:scale-125 group-active:scale-100"
+                  className="transform transition-transform duration-150 group-hover:scale-125 group-active:scale-100"
                   size={16}
                 />
               </DefaultButton>
             </div>
             <DefaultButton
-              className="shadow-sm flex-1 bg-primary bg-opacity-80 border border-gray-300 font-medium hover:bg-amber-600"
+              className="flex-1 border border-gray-300 bg-primary bg-opacity-80 font-medium shadow-sm hover:bg-amber-600"
               onClick={onClickEndButton}
             >
               End
@@ -682,7 +682,7 @@ export function SubmitMenu(): JSX.Element {
           </div>
         </div>
         <div>
-          <div className="font-bold text-xs uppercase mb-1">Skip type</div>
+          <div className="mb-1 text-xs font-bold uppercase">Skip type</div>
           <div className="flex space-x-2">
             <Dropdown
               className="flex-1 text-sm"
@@ -691,20 +691,20 @@ export function SubmitMenu(): JSX.Element {
               options={skipTypeDropdownOptions}
               dropdownOptionsProps={skipTypeDropdownOptionsProps}
             />
-            <div className="flex-1 group">
+            <div className="group flex-1">
               <DefaultButton
-                className="w-full h-full shadow-sm border-2 boder-opacity-100 border-primary group-hover:border-amber-600"
+                className="boder-opacity-100 h-full w-full border-2 border-primary shadow-sm group-hover:border-amber-600"
                 submit
                 disabled={isSubmitting}
               >
-                <span className="text-opacity-100 font-medium text-primary group-hover:text-amber-600">
+                <span className="font-medium text-primary text-opacity-100 group-hover:text-amber-600">
                   {isSubmitting ? 'Submitting...' : 'Submit'}
                 </span>
               </DefaultButton>
             </div>
           </div>
         </div>
-        <div className="text-xs uppercase font-bold text-red-500">
+        <div className="text-xs font-bold uppercase text-red-500">
           {serverError}
         </div>
       </form>

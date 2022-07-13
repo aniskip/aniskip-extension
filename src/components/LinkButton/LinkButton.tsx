@@ -8,7 +8,7 @@ export function LinkButton({
 }: LinkButtonProps): JSX.Element {
   return (
     <button
-      className={`hover:underline focus:outline-none font-semibold ${className}`}
+      className={`font-semibold hover:underline focus:outline-none ${className}`}
       type="button"
       {...props}
     >

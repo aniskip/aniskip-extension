@@ -30,7 +30,7 @@ export function PlayerButtons(): JSX.Element {
 
   return (
     <div
-      className={`hidden sm:flex items-center justify-center player-buttons--${variant} player-buttons--${domainName} ${
+      className={`hidden items-center justify-center sm:flex player-buttons--${variant} player-buttons--${domainName} ${
         isFullscreen ? 'flex' : ''
       }`}
       onMouseEnter={onMouseEvent(true)}

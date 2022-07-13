@@ -159,14 +159,14 @@ export function AnimeSearchModal({
 
   return (
     <div
-      className="flex flex-col bg-neutral-50 rounded-md font-sans shadow-md max-w-2xl max-h-full sm:mx-auto"
+      className="flex max-h-full max-w-2xl flex-col rounded-md bg-neutral-50 font-sans shadow-md sm:mx-auto"
       ref={animeSearchModalRef}
       role="dialog"
     >
       <Searchbox value={undefined} onChange={onSelectAnimeOption}>
         <div className="flex items-center px-4">
-          <BiSearch className="w-5 h-5" />
-          <div className="px-4 flex-auto">
+          <BiSearch className="h-5 w-5" />
+          <div className="flex-auto px-4">
             <Searchbox.Input
               ref={searchBarRef}
               className="h-14 w-full bg-inherit focus:outline-none"
@@ -176,7 +176,7 @@ export function AnimeSearchModal({
           </div>
           <Keyboard
             as="button"
-            className="hover:shadow-md hover:border-gray-300 active:border-gray-400 "
+            className="hover:border-gray-300 hover:shadow-md active:border-gray-400 "
             type="button"
             onClick={onClose}
           >
@@ -188,17 +188,17 @@ export function AnimeSearchModal({
           (animeDetected ? (
             <div className="flex flex-col space-y-4 overflow-y-auto px-4 py-6">
               <span className="font-semibold">Anime detected</span>
-              <div className="flex space-x-2 bg-gray-100 rounded-md p-4">
+              <div className="flex space-x-2 rounded-md bg-gray-100 p-4">
                 <img
-                  className="object-cover rounded-md w-16"
+                  className="w-16 rounded-md object-cover"
                   src={animeDetected.coverImage}
                   alt={`${animeDetected.title} cover`}
                 />
                 <div className="flex flex-col justify-center overflow-auto">
-                  <span className="font-bold truncate">
+                  <span className="truncate font-bold">
                     {animeDetected.title}
                   </span>
-                  <span className="font-semibold text-sm text-gray-500">
+                  <span className="text-sm font-semibold text-gray-500">
                     {animeDetected.seasonYear}{' '}
                     {MEDIA_FORMAT_NAMES[animeDetected.format]}
                   </span>
@@ -216,7 +216,7 @@ export function AnimeSearchModal({
               <span className="text-lg text-gray-400">No search results</span>
             </div>
           ) : (
-            <div className="px-4 py-6 overflow-y-auto">
+            <div className="overflow-y-auto px-4 py-6">
               <div className="pb-4">
                 <span className="font-semibold">Search results</span>
               </div>
@@ -224,7 +224,7 @@ export function AnimeSearchModal({
                 {searchResults.map((searchResult) => (
                   <Searchbox.Option
                     className={({ active }): string =>
-                      `flex space-x-2 bg-gray-100 rounded-md p-4 ${
+                      `flex space-x-2 rounded-md bg-gray-100 p-4 ${
                         active ? 'bg-amber-100' : ''
                       }`
                     }
@@ -234,20 +234,20 @@ export function AnimeSearchModal({
                     {({ active }): JSX.Element => (
                       <>
                         <img
-                          className="object-cover rounded-md w-16"
+                          className="w-16 rounded-md object-cover"
                           src={searchResult.coverImage}
                           alt={`${searchResult.title} cover`}
                         />
                         <div className="flex flex-col justify-center overflow-auto">
                           <span
-                            className={`font-bold truncate ${
+                            className={`truncate font-bold ${
                               active ? 'text-amber-900' : ''
                             }`}
                           >
                             {searchResult.title}
                           </span>
                           <span
-                            className={`font-semibold text-sm text-gray-500 ${
+                            className={`text-sm font-semibold text-gray-500 ${
                               active ? 'text-amber-900' : ''
                             }`}
                           >

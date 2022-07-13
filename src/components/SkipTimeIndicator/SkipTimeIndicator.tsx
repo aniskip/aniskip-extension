@@ -24,7 +24,7 @@ export function SkipTimeIndicator({
 
   return (
     <div
-      className={`absolute h-full z-10 pointer-events-none skip-indicators--${variant} skip-indicators--${domainName} ${className}`}
+      className={`pointer-events-none absolute z-10 h-full skip-indicators--${variant} skip-indicators--${domainName} ${className}`}
       style={{
         left: `${calculateTranslation() * 100}%`,
         width: `${calculateWidth() * 100}%`,

@@ -31,7 +31,7 @@ export function SubmitMenuButton({ variant }: SubmitMenuProps): JSX.Element {
       title="Submit skip times"
       onClick={onClick}
     >
-      <FaPlayCircle className="text-slate-100 w-1/2 h-full" />
+      <FaPlayCircle className="h-full w-1/2 text-slate-100" />
     </PlayerButton>
   );
 }

@@ -9,12 +9,12 @@ export function Setting({
 }: SettingProps): JSX.Element {
   return (
     <div className={`space-y-2 ${className}`}>
-      <div className="flex justify-between items-center space-x-3 w-full focus:outline-none">
-        <span className="text-gray-700 font-semibold text-left">{name}</span>
+      <div className="flex w-full items-center justify-between space-x-3 focus:outline-none">
+        <span className="text-left font-semibold text-gray-700">{name}</span>
         {children}
       </div>
       {description && (
-        <span className="text-sm text-gray-500 block">{description}</span>
+        <span className="block text-sm text-gray-500">{description}</span>
       )}
     </div>
   );

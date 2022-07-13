@@ -18,10 +18,10 @@ export function ColourPicker({
       {({ open }): JSX.Element => (
         <>
           <div className="flex items-center">
-            <div className="w-7 h-7 rounded-full border border-gray-300 flex items-center">
+            <div className="flex h-7 w-7 items-center rounded-full border border-gray-300">
               <Popover.Button
                 style={{ backgroundColor: colour as string }}
-                className="w-full h-full rounded-full border-2 border-white focus:outline-none"
+                className="h-full w-full rounded-full border-2 border-white focus:outline-none"
               />
             </div>
           </div>
@@ -35,7 +35,7 @@ export function ColourPicker({
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="absolute z-10 mt-2 -right-[8px]" static>
+            <Popover.Panel className="absolute -right-[8px] z-10 mt-2" static>
               {/* @ts-ignore: Outdated library types */}
               <TwitterPicker
                 triangle="top-right"

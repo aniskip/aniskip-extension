@@ -279,7 +279,7 @@ export function SettingsPage(): JSX.Element {
   const renderKeybind = (keybind: string, type?: KeybindType): JSX.Element => {
     if (!keybind) {
       return (
-        <div className="px-4 py-2 border-transparent rounded text-sm bg-primary border border-gray-300 text-white font-medium focus:outline-none">
+        <div className="rounded border border-transparent border-gray-300 bg-primary px-4 py-2 text-sm font-medium text-white focus:outline-none">
           Add keybind
         </div>
       );
@@ -328,7 +328,7 @@ export function SettingsPage(): JSX.Element {
         ) : (
           <Input
             ref={keybindInputRef}
-            className="text-xs select-none uppercase focus:ring-1 w-36 focus:ring-primary focus:border-primary"
+            className="w-36 select-none text-xs uppercase focus:border-primary focus:ring-1 focus:ring-primary"
             type="text"
             spellCheck="false"
             onKeyDown={onChangeCompleteKeybind(type as KeybindType)}
@@ -404,17 +404,17 @@ export function SettingsPage(): JSX.Element {
   ]);
 
   return (
-    <div className="sm:border sm:rounded-md border-gray-300 px-8 py-8 sm:bg-white">
-      <h2 className="text-xl text-gray-900 font-semibold">Skip options</h2>
-      <div className="space-y-3 mt-1">
+    <div className="border-gray-300 px-8 py-8 sm:rounded-md sm:border sm:bg-white">
+      <h2 className="text-xl font-semibold text-gray-900">Skip options</h2>
+      <div className="mt-1 space-y-3">
         {SKIP_TYPES.map((skipType) => (
           <div className="space-y-1" key={skipType}>
-            <span className="text-xs text-gray-700 uppercase font-semibold">
+            <span className="text-xs font-semibold uppercase text-gray-700">
               {SKIP_TYPE_NAMES[skipType]}
             </span>
-            <div className="flex justify-between items-center space-x-3">
+            <div className="flex items-center justify-between space-x-3">
               <Dropdown
-                className="text-sm grow"
+                className="grow text-sm"
                 value={skipOptions[skipType]!}
                 onChange={onChangeSkipOption(skipType)}
                 options={skipOptionDropdownOptions}
@@ -441,8 +441,8 @@ export function SettingsPage(): JSX.Element {
         />
       </Setting>
       <hr className="mt-3" />
-      <div className="space-y-1 mt-3">
-        <span className="text-xs text-gray-700 uppercase font-semibold">
+      <div className="mt-3 space-y-1">
+        <span className="text-xs font-semibold uppercase text-gray-700">
           Skip menu behavior
         </span>
         <div className="space-y-3 divide-y">
@@ -452,7 +452,7 @@ export function SettingsPage(): JSX.Element {
           >
             <div className="flex items-end">
               <Input
-                className="text-xs select-none uppercase focus:ring-1 w-24 focus:ring-primary focus:border-primary"
+                className="w-24 select-none text-xs uppercase focus:border-primary focus:ring-1 focus:ring-primary"
                 type="number"
                 value={skipTimeLength}
                 spellCheck="false"
@@ -468,7 +468,7 @@ export function SettingsPage(): JSX.Element {
           >
             <div className="flex items-end">
               <Input
-                className="text-xs select-none uppercase focus:ring-1 w-24 focus:ring-primary focus:border-primary"
+                className="w-24 select-none text-xs uppercase focus:border-primary focus:ring-1 focus:ring-primary"
                 type="number"
                 min={1}
                 step={1}
@@ -490,7 +490,7 @@ export function SettingsPage(): JSX.Element {
           >
             <div className="flex items-end">
               <Input
-                className="text-xs select-none uppercase focus:ring-1 w-24 focus:ring-primary focus:border-primary"
+                className="w-24 select-none text-xs uppercase focus:border-primary focus:ring-1 focus:ring-primary"
                 type="number"
                 min={1}
                 step={1}
@@ -521,23 +521,23 @@ export function SettingsPage(): JSX.Element {
           </Setting>
         </div>
       </div>
-      <h2 className="text-xl text-gray-900 font-semibold mt-8">
+      <h2 className="mt-8 text-xl font-semibold text-gray-900">
         Anime search overlay options
       </h2>
-      <span className="text-xs text-gray-700 uppercase font-semibold block mt-3">
+      <span className="mt-3 block text-xs font-semibold uppercase text-gray-700">
         Title language
       </span>
       <Dropdown
-        className="text-sm grow mt-2"
+        className="mt-2 grow text-sm"
         value={animeTitleLanguage}
         onChange={onChangeAnimeTitleLanguage}
         options={animeTitleLanguageDropdownOptions}
       />
-      <div className="text-sm text-gray-500 mt-2">
+      <div className="mt-2 text-sm text-gray-500">
         Language used to display titles when searching for anime.
       </div>
-      <h2 className="text-xl text-gray-900 font-semibold mt-8">Keybinds</h2>
-      <span className="text-xs text-gray-700 uppercase font-semibold mt-1">
+      <h2 className="mt-8 text-xl font-semibold text-gray-900">Keybinds</h2>
+      <span className="mt-1 text-xs font-semibold uppercase text-gray-700">
         Anime search overlay
       </span>
       <div className="space-y-3 divide-y">
@@ -546,7 +546,7 @@ export function SettingsPage(): JSX.Element {
         )}
       </div>
       <hr className="my-3" />
-      <span className="text-xs text-gray-700 uppercase font-semibold">
+      <span className="text-xs font-semibold uppercase text-gray-700">
         Submit menu
       </span>
       <div className="space-y-3 divide-y">
@@ -555,7 +555,7 @@ export function SettingsPage(): JSX.Element {
         )}
       </div>
       <hr className="my-3" />
-      <span className="text-xs text-gray-700 uppercase font-semibold">
+      <span className="text-xs font-semibold uppercase text-gray-700">
         Player controls
       </span>
       <div className="space-y-3 divide-y">
@@ -563,12 +563,12 @@ export function SettingsPage(): JSX.Element {
           (type): JSX.Element => renderKeybindSetting(keybinds[type], type)
         )}
       </div>
-      <h2 className="text-xl text-gray-900 font-semibold mt-8">
+      <h2 className="mt-8 text-xl font-semibold text-gray-900">
         Miscellaneous options
       </h2>
-      <div className="space-y-2 mt-1">
+      <div className="mt-1 space-y-2">
         <div className="flex items-center justify-between">
-          <div className="text-xs text-gray-700 uppercase font-semibold">
+          <div className="text-xs font-semibold uppercase text-gray-700">
             Cache
           </div>
         </div>
@@ -578,7 +578,7 @@ export function SettingsPage(): JSX.Element {
         </div>
       </div>
       <DefaultButton
-        className="sm:w-auto w-full border-2 border-primary text-primary hover:border-amber-600 hover:text-amber-600 font-medium mt-4"
+        className="mt-4 w-full border-2 border-primary font-medium text-primary hover:border-amber-600 hover:text-amber-600 sm:w-auto"
         onClick={onClickClearCache}
       >
         Clear cache

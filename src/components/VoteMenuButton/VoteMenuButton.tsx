@@ -33,7 +33,7 @@ export function VoteMenuButton({
       title="Vote skip times"
       onClick={onClick}
     >
-      <FaListAlt className="text-slate-100 w-1/2 h-full" />
+      <FaListAlt className="h-full w-1/2 text-slate-100" />
     </PlayerButton>
   );
 }

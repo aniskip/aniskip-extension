@@ -17,13 +17,13 @@ export function SkipButton({
 
   return (
     <div
-      className={`absolute right-5 bottom-16 z-10 pointer-events-none md:right-11 skip-button skip-button--${variant} skip-button--${domainName} ${
+      className={`skip-button pointer-events-none absolute right-5 bottom-16 z-10 md:right-11 skip-button--${variant} skip-button--${domainName} ${
         isFullscreen ? 'fullscreen' : ''
       } ${isMobile ? 'mobile' : ''}`}
     >
       <DefaultButton
-        className={`transition-opacity font-sans whitespace-nowrap text-white bg-neutral-800 bg-opacity-80 py-3 border border-gray-300 font-bold uppercase hover:bg-opacity-100 backdrop-blur-md ${
-          hidden ? 'opacity-0 pointer-events-none' : 'pointer-events-auto'
+        className={`whitespace-nowrap border border-gray-300 bg-neutral-800 bg-opacity-80 py-3 font-sans font-bold uppercase text-white backdrop-blur-md transition-opacity hover:bg-opacity-100 ${
+          hidden ? 'pointer-events-none opacity-0' : 'pointer-events-auto'
         }`}
         {...props}
       >
