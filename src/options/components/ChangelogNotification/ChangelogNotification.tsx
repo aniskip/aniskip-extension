@@ -1,5 +1,5 @@
 import { Transition } from '@headlessui/react';
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { browser } from 'webextension-polyfill-ts';
 import { LinkButton } from '../../../components';
@@ -48,7 +48,7 @@ export function ChangelogNotification(): JSX.Element {
 
   return (
     <Transition
-      as={React.Fragment}
+      as={Fragment}
       show={isChangelogNotificationVisible}
       enter="transition-translate translate"
       enterFrom="translate-y-full"

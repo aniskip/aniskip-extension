@@ -1,4 +1,4 @@
-export * from './AnimeSearchModal';
+export * from './AnimeCorrectionOverlay';
 export * from './DefaultButton';
 export * from './Dropdown';
 export * from './Input';
@@ -6,10 +6,8 @@ export * from './Keyboard';
 export * from './LinkButton';
 export * from './MenuContainer';
 export * from './Menus';
-export * from './Overlay';
 export * from './PlayerButton';
 export * from './PlayerButtons';
-export * from './Searchbox';
 export * from './SkipButton';
 export * from './SkipButtonContainer';
 export * from './SkipTimeIndicator';

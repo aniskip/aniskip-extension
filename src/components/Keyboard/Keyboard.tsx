@@ -27,7 +27,7 @@ export function Keyboard<
   return React.createElement(
     as,
     {
-      className: `font-semibold uppercase text-[0.625em] border border-gray-200 p-2 rounded-md min-w-[2em] text-center ${className}`,
+      className: `flex min-h-[1.5rem] min-w-[1.5rem] items-center justify-center rounded-md border border-gray-200 p-1 text-center text-[0.625rem] font-semibold uppercase ${className}`,
       ...props,
     },
     renderChildren()

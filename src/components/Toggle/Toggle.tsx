@@ -21,8 +21,8 @@ export function Toggle({
       <span
         aria-hidden="true"
         className={`${
-          checked ? 'translate-x-[1.125em]' : 'translate-x-1'
-        } absolute flex h-[1.125em] w-[1.125em] transform items-center justify-center rounded-full bg-white transition`}
+          checked ? 'translate-x-[1.125rem]' : 'translate-x-1'
+        } absolute flex h-[1.125rem] w-[1.125rem] transform items-center justify-center rounded-full bg-white transition`}
       >
         {checked ? (
           <FaCheck className="h-3 w-3 text-green-600" />

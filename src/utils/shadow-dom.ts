@@ -9,8 +9,15 @@ export const ShadowRootProvider = ShadowRootContext.Provider;
 /**
  * Custom hook to return a reference to the shadow root.
  */
-export const useShadowRootRef = (): ShadowRoot | undefined =>
-  useContext(ShadowRootContext);
+export const useShadowRootRef = (): ShadowRoot => {
+  const shadowRoot = useContext(ShadowRootContext);
+
+  if (!shadowRoot) {
+    throw new Error('Cannot retrieve a reference to the shadow root element');
+  }
+
+  return shadowRoot;
+};
 
 /**
  * Adds an event listener to the shadow root.
@@ -46,7 +53,9 @@ export const patchShadowRoot = (
   portalRoot?: HTMLElement
 ): void => {
   const element = portalRoot ?? shadowRootContainer.shadowRoot?.children[0];
-  if (!element) return;
+  if (!element) {
+    return;
+  }
 
   const activeElementDescriptorGetter = Object.getOwnPropertyDescriptor(
     Document.prototype,
@@ -55,7 +64,9 @@ export const patchShadowRoot = (
 
   Object.defineProperty(Document.prototype, 'activeElement', {
     get() {
-      const activeElement = activeElementDescriptorGetter?.call(this);
+      const activeElement = activeElementDescriptorGetter?.call(
+        this
+      ) as unknown;
       if (activeElement === shadowRootContainer) {
         return shadowRootContainer.shadowRoot?.activeElement;
       }

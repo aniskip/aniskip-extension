@@ -88,7 +88,7 @@ export function SubmitMenu(): JSX.Element {
   }));
 
   const skipTypeDropdownOptionsProps: DropdownOptionsProps = {
-    className: 'max-h-[5.5em]',
+    className: 'max-h-[5.5rem]',
   };
 
   /**

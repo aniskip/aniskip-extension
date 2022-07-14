@@ -10,4 +10,12 @@ export const PageProvider = PageContext.Provider;
 /**
  * Custom hook to return a reference to the page.
  */
-export const usePageRef = (): Page | undefined => useContext(PageContext);
+export const usePageRef = (): Page => {
+  const page = useContext(PageContext);
+
+  if (!page) {
+    throw new Error('Cannot retrieve a reference to the page object');
+  }
+
+  return page;
+};

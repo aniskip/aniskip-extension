@@ -1,5 +1,4 @@
 export type PageState = {
-  isOverlayOpen: boolean;
-  isInitialOverlayOpen: boolean;
+  isAnimeCorrectionOverlayOpen: boolean;
   malId: number;
 };

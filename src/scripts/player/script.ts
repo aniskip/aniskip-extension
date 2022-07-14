@@ -2,6 +2,10 @@ import { browser } from 'webextension-polyfill-ts';
 import { PlayerFactory } from '../../players/player-factory';
 import { Message } from '../background';
 
+// Override font-size.
+const htmlElement = document.querySelector(':root') as HTMLHtmlElement;
+htmlElement.style.fontSize = '16px';
+
 const player = PlayerFactory.getPlayer(window.location.href);
 
 // Notify content script when video controls are found.

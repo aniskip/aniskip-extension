@@ -2,6 +2,10 @@ import { browser } from 'webextension-polyfill-ts';
 import { Message } from '../background';
 import { PageFactory } from '../../pages/page-factory';
 
+// Override font-size.
+const htmlElement = document.querySelector(':root') as HTMLHtmlElement;
+htmlElement.style.fontSize = '16px';
+
 const page = PageFactory.getPage(window.location.href);
 
 /**

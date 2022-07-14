@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { TwitterPicker } from 'react-color';
 import {
@@ -26,7 +26,7 @@ export function ColourPicker({
             </div>
           </div>
           <Transition
-            as={React.Fragment}
+            as={Fragment}
             show={open}
             enter="transition duration-100 ease-out origin-top-right"
             enterFrom="transform scale-95 opacity-0"
