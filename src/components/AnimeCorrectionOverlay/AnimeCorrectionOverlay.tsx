@@ -241,7 +241,7 @@ export function AnimeCorrectionOverlay(): JSX.Element {
                   searchResults.length === 0 &&
                   (detectedAnime ? (
                     <div className="overflow-y-auto p-3">
-                      <h2 className="mt-4 mb-2 px-2 text-xs font-semibold text-gray-900">
+                      <h2 className="px-3 text-xs font-semibold text-gray-900">
                         Detected anime
                       </h2>
                       <div className="flex cursor-default select-none rounded-xl p-3">
