@@ -162,7 +162,7 @@ export function AnimeCorrectionOverlay(): JSX.Element {
    */
   useEffect(() => {
     (async (): Promise<void> => {
-      if (detectedMalId === 0 || isOpen) {
+      if (detectedMalId === 0) {
         return;
       }
 
