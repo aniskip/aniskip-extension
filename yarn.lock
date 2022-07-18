@@ -8816,9 +8816,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fork-ts-checker-webpack-plugin@npm:^7.2.12":
-  version: 7.2.12
-  resolution: "fork-ts-checker-webpack-plugin@npm:7.2.12"
+"fork-ts-checker-webpack-plugin@npm:^7.2.13":
+  version: 7.2.13
+  resolution: "fork-ts-checker-webpack-plugin@npm:7.2.13"
   dependencies:
     "@babel/code-frame": ^7.16.7
     chalk: ^4.1.2
@@ -8828,6 +8828,7 @@ __metadata:
     fs-extra: ^10.0.0
     memfs: ^3.4.1
     minimatch: ^3.0.4
+    node-abort-controller: ^3.0.1
     schema-utils: ^3.1.1
     semver: ^7.3.5
     tapable: ^2.2.1
@@ -8838,7 +8839,7 @@ __metadata:
   peerDependenciesMeta:
     vue-template-compiler:
       optional: true
-  checksum: 79ccc4e6275c3f3e04e29bfcf13fe3eec1c61e285c1df942c14c92644a5c4f49deb4044cc73bef3becf24fa567a7fb6e37987f1fe2cae69f63fb4eba93bd9caa
+  checksum: 3d4694c6fee4b8b2f213d0d10a3f40da770ca0ed3aa2a3dc8d1e701ad1ecaed3a1507f77a1b0cea6ef80539b04d8e5f5f02560e688d310bcb9e8c81f684d2950
   languageName: node
   linkType: hard
 
@@ -12310,6 +12311,13 @@ __metadata:
     lower-case: ^2.0.2
     tslib: ^2.0.3
   checksum: 0b2ebc113dfcf737d48dde49cfebf3ad2d82a8c3188e7100c6f375e30eafbef9e9124aadc3becef237b042fd5eb0aad2fd78669c20972d045bbe7fea8ba0be5c
+  languageName: node
+  linkType: hard
+
+"node-abort-controller@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "node-abort-controller@npm:3.0.1"
+  checksum: 2b3d75c65249fea99e8ba22da3a8bc553f034f44dd12f5f4b38b520f718b01c88718c978f0c24c2a460fc01de9a80b567028f547b94440cb47adeacfeb82c2ee
   languageName: node
   linkType: hard
 
@@ -17092,7 +17100,7 @@ resolve@^2.0.0-next.3:
     eslint-plugin-prettier: ^4.2.1
     eslint-plugin-react: ^7.30.1
     eslint-plugin-react-hooks: ^4.6.0
-    fork-ts-checker-webpack-plugin: ^7.2.12
+    fork-ts-checker-webpack-plugin: ^7.2.13
     glob-to-regexp: ^0.4.1
     html-webpack-plugin: ^5.5.0
     ky: ^0.31.0
