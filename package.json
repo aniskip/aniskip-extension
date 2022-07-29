@@ -49,7 +49,7 @@
     "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
-    "autoprefixer": "^10.4.7",
+    "autoprefixer": "^10.4.8",
     "babel-loader": "^8.2.5",
     "babel-plugin-lodash": "^3.3.4",
     "chrome-webstore-upload-cli": "^2.1.0",
