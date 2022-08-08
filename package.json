@@ -38,7 +38,7 @@
     "@redux-devtools/cli": "^1.0.7",
     "@types/chrome": "^0.0.193",
     "@types/glob-to-regexp": "^0.4.1",
-    "@types/react": "^18.0.16",
+    "@types/react": "^18.0.17",
     "@types/react-color": "^3.0.6",
     "@types/react-dom": "^18.0.6",
     "@types/remote-redux-devtools": "^0.5.5",
