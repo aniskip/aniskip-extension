@@ -113,7 +113,7 @@
     "sprintf-js": "^1.1.2",
     "string-similarity": "^4.0.4",
     "tailwindcss": "^3.1.8",
-    "type-fest": "^2.18.0",
+    "type-fest": "^2.18.1",
     "uuid": "^8.3.2",
     "webextension-polyfill-ts": "^0.26.0"
   },
