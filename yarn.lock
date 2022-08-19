@@ -17159,7 +17159,7 @@ resolve@^2.0.0-next.3:
     web-ext-submit: ^7.2.0
     webextension-polyfill-ts: ^0.26.0
     webpack: ^5.74.0
-    webpack-bundle-analyzer: ^4.5.0
+    webpack-bundle-analyzer: ^4.6.0
     webpack-cli: ^4.10.0
     webpack-copy-plugin: ^0.0.4
     webpack-merge: ^5.8.0
@@ -17722,9 +17722,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"webpack-bundle-analyzer@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "webpack-bundle-analyzer@npm:4.5.0"
+"webpack-bundle-analyzer@npm:^4.6.0":
+  version: 4.6.0
+  resolution: "webpack-bundle-analyzer@npm:4.6.0"
   dependencies:
     acorn: ^8.0.4
     acorn-walk: ^8.0.0
@@ -17737,7 +17737,7 @@ resolve@^2.0.0-next.3:
     ws: ^7.3.1
   bin:
     webpack-bundle-analyzer: lib/bin/analyzer.js
-  checksum: 158e96810ec213d5665ca1c0b257097db44e1f11c4befefab8352b9e5b10890fcb3e3fc1f7bb400dd58762a8edce5621c92afeca86eb4687d2eb64e93186bfcb
+  checksum: f2921b08cb6a7e58e5b94d2324e98039666ef5c4ce46dc29d5c13f122f12b9b5e9036336283196b70f696be793aec900f87b352712f2fc28d1beec4b7080a097
   languageName: node
   linkType: hard
 
