@@ -95,7 +95,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.19.0",
-    "@headlessui/react": "^1.7.1",
+    "@headlessui/react": "^1.7.2",
     "@reduxjs/toolkit": "^1.8.5",
     "entities": "^4.4.0",
     "glob-to-regexp": "^0.4.1",
