@@ -31,7 +31,7 @@
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/plugin-transform-runtime": "^7.19.1",
-    "@babel/preset-env": "^7.19.3",
+    "@babel/preset-env": "^7.19.4",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
     "@mantiquillal/web-ext-plugin": "^1.5.1",
@@ -94,7 +94,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.19.0",
+    "@babel/runtime": "^7.19.4",
     "@headlessui/react": "^1.7.3",
     "@reduxjs/toolkit": "^1.8.6",
     "entities": "^4.4.0",
