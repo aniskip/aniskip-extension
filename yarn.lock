@@ -17623,7 +17623,7 @@ resolve@^2.0.0-next.3:
     uuid: ^8.3.2
     wait-on: ^6.0.1
     web-ext: ^7.2.0
-    web-ext-submit: ^7.3.0
+    web-ext-submit: ^7.3.1
     webextension-polyfill-ts: ^0.26.0
     webpack: ^5.74.0
     webpack-bundle-analyzer: ^4.6.1
@@ -18075,14 +18075,14 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"web-ext-submit@npm:^7.3.0":
-  version: 7.3.0
-  resolution: "web-ext-submit@npm:7.3.0"
+"web-ext-submit@npm:^7.3.1":
+  version: 7.3.1
+  resolution: "web-ext-submit@npm:7.3.1"
   dependencies:
-    web-ext: ^7.3.0
+    web-ext: ^7.3.1
   bin:
     web-ext-submit: extender.sh
-  checksum: c946201023cbcf4b55a728aee57ded73f60b5c74077d88e6ff3cb6b725ada7aa4f2dbebc61c5125a7d8245c9ec9e01a3541c115c710010f6d73abc87b7faaf9f
+  checksum: f8f0038c16fa7c80a4d85d3c64a9824a1dad666e8fb855c00cfab2bb6e925ed588649865c3a60c56a7ada4285af78730ea5c6a6a5e198dff50c4615394b7234d
   languageName: node
   linkType: hard
 
@@ -18166,9 +18166,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"web-ext@npm:^7.3.0":
-  version: 7.3.0
-  resolution: "web-ext@npm:7.3.0"
+"web-ext@npm:^7.3.1":
+  version: 7.3.1
+  resolution: "web-ext@npm:7.3.1"
   dependencies:
     "@babel/runtime": 7.19.4
     "@devicefarmer/adbkit": 3.2.3
@@ -18204,7 +18204,7 @@ resolve@^2.0.0-next.3:
     zip-dir: 2.0.0
   bin:
     web-ext: bin/web-ext.js
-  checksum: da40f76b62e25f634626928cc187f3b5e5ecae062b148587612454dbe6d83c825551c628f39799abe7cc6b3ffe398f1dbfcb6364d5c9daf4b4c13330c283e8ec
+  checksum: dc0c70a5569777736d40f202a73853749ec24be622aaf271e986295958e189d373c04cc267daec081a67b30d5a31c81f060fbc195d7d0487883a6ba3a6f8f00c
   languageName: node
   linkType: hard
 
