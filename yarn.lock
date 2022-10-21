@@ -5758,7 +5758,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"braces@npm:^3.0.1, braces@npm:~3.0.2":
+"braces@npm:^3.0.1, braces@npm:^3.0.2, braces@npm:~3.0.2":
   version: 3.0.2
   resolution: "braces@npm:3.0.2"
   dependencies:
@@ -12235,6 +12235,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"micromatch@npm:^4.0.5":
+  version: 4.0.5
+  resolution: "micromatch@npm:4.0.5"
+  dependencies:
+    braces: ^3.0.2
+    picomatch: ^2.3.1
+  checksum: 02a17b671c06e8fefeeb6ef996119c1e597c942e632a21ef589154f23898c9c6a9858526246abb14f8bca6e77734aa9dcf65476fca47cedfb80d9577d52843fc
+  languageName: node
+  linkType: hard
+
 "mime-db@npm:1.47.0":
   version: 1.47.0
   resolution: "mime-db@npm:1.47.0"
@@ -13696,6 +13706,13 @@ __metadata:
   version: 2.2.3
   resolution: "picomatch@npm:2.2.3"
   checksum: 45e2b882b5265d3a322c6b7b854c1fdc33d5083011b9730296e9ad26332824ac356529f1ce1b0c1111f08a84c02e8525ea121d17c4bbe2970ca6665e587921fa
+  languageName: node
+  linkType: hard
+
+"picomatch@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "picomatch@npm:2.3.1"
+  checksum: 050c865ce81119c4822c45d3c84f1ced46f93a0126febae20737bd05ca20589c564d6e9226977df859ed5e03dc73f02584a2b0faad36e896936238238b0446cf
   languageName: node
   linkType: hard
 
@@ -17056,9 +17073,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.2.0":
-  version: 3.2.0
-  resolution: "tailwindcss@npm:3.2.0"
+"tailwindcss@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "tailwindcss@npm:3.2.1"
   dependencies:
     arg: ^5.0.2
     chokidar: ^3.5.3
@@ -17070,6 +17087,7 @@ resolve@^2.0.0-next.3:
     glob-parent: ^6.0.2
     is-glob: ^4.0.3
     lilconfig: ^2.0.6
+    micromatch: ^4.0.5
     normalize-path: ^3.0.0
     object-hash: ^3.0.0
     picocolors: ^1.0.0
@@ -17087,7 +17105,7 @@ resolve@^2.0.0-next.3:
   bin:
     tailwind: lib/cli.js
     tailwindcss: lib/cli.js
-  checksum: a5b48bba217bbc0bf3e8e644cbb4c0f91b9da048234f0b5a7bc1d9a296bc8ece7c70f7108ab9689c31539fdd716e20a39a05c5aaf11529298750ac2f1708bfe1
+  checksum: 8479f6e469b3ac3146fec5bf4b5ec411f24f481087d9db9a9e16bd5169cfe5f6af082b8fe656bbb8829faa8805765104843f549b08b4ba34e972d0743d0c7e94
   languageName: node
   linkType: hard
 
@@ -17643,7 +17661,7 @@ resolve@^2.0.0-next.3:
     sprintf-js: ^1.1.2
     string-similarity: ^4.0.4
     style-loader: ^3.3.1
-    tailwindcss: ^3.2.0
+    tailwindcss: ^3.2.1
     to-string-loader: ^1.2.0
     type-fest: ^2.19.0
     typescript: ^4.8.4
