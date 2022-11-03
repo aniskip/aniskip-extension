@@ -118,7 +118,7 @@
     "webextension-polyfill-ts": "^0.26.0"
   },
   "resolutions": {
-    "@types/remote-redux-devtools/redux": "^4.1.2"
+    "@types/remote-redux-devtools/redux": "^4.2.0"
   },
   "packageManager": "yarn@3.2.4"
 }
