@@ -114,7 +114,7 @@ export function AnimeCorrectionOverlay(): JSX.Element {
       setSearchResults(results);
       setResultsLoaded(true);
     },
-    500
+    250
   );
 
   /**
