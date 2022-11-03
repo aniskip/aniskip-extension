@@ -9,7 +9,7 @@ export function DefaultButton({
 }: DefaultButtonProps): JSX.Element {
   return (
     <button
-      className={`px-4 py-2 border-transparent rounded text-sm font-semibold focus:outline-none ${className}`}
+      className={`px-4 py-2 border-transparent rounded select-none text-sm font-semibold focus:outline-none ${className}`}
       type={submit ? 'submit' : 'button'}
       {...props}
     >
