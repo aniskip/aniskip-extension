@@ -89,7 +89,7 @@
     "web-ext-submit": "^7.3.1",
     "webpack": "^5.75.0",
     "webpack-bundle-analyzer": "^4.7.0",
-    "webpack-cli": "^4.10.0",
+    "webpack-cli": "^5.0.0",
     "webpack-copy-plugin": "^0.0.4",
     "webpack-merge": "^5.8.0"
   },
