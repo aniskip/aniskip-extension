@@ -14443,7 +14443,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:8.4.19, postcss@npm:^8.4.19":
+"postcss@npm:8.4.19":
   version: 8.4.19
   resolution: "postcss@npm:8.4.19"
   dependencies:
@@ -14462,6 +14462,17 @@ __metadata:
     picocolors: ^1.0.0
     source-map-js: ^1.0.2
   checksum: 9349fd99849b2e3d2e134ff949b7770ecb12375f352723ce2bcc06167eba3850ea7844c1b191a85cd915d6a396b4e8ee9a5267e6cc5d8d003d0cbc7a97555d39
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^8.4.20":
+  version: 8.4.20
+  resolution: "postcss@npm:8.4.20"
+  dependencies:
+    nanoid: ^3.3.4
+    picocolors: ^1.0.0
+    source-map-js: ^1.0.2
+  checksum: 1a5609ea1c1b204f9c2974a0019ae9eef2d99bf645c2c9aac675166c4cb1005be7b5e2ba196160bc771f5d9ac896ed883f236f888c891e835e59d28fff6651aa
   languageName: node
   linkType: hard
 
@@ -17724,7 +17735,7 @@ resolve@^2.0.0-next.3:
     lodash: ^4.17.21
     lodash-webpack-plugin: ^0.11.6
     mini-css-extract-plugin: ^2.7.2
-    postcss: ^8.4.19
+    postcss: ^8.4.20
     postcss-import: ^15.1.0
     postcss-loader: ^7.0.2
     prettier: ^2.8.1
