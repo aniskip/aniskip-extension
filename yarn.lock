@@ -11741,10 +11741,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ky@npm:^0.32.2":
-  version: 0.32.2
-  resolution: "ky@npm:0.32.2"
-  checksum: 0ca78c4fe7b143ad527c6f79e3f77b529a55d5efe7c4a400e5937ddce641f4b672d77fd18e59b59573c77df48ba71095823a0da4c7701515d4333376f06a62d9
+"ky@npm:^0.33.0":
+  version: 0.33.0
+  resolution: "ky@npm:0.33.0"
+  checksum: 9354833866c723f607ae4b16fb6c5edc018360a7500d35e023bb895d19f0724d5d6c97d42525990bca056ecb439d7ec1b08a0afa0f6596e4e53b386ac359f15a
   languageName: node
   linkType: hard
 
@@ -17731,7 +17731,7 @@ resolve@^2.0.0-next.3:
     fork-ts-checker-webpack-plugin: ^7.2.13
     glob-to-regexp: ^0.4.1
     html-webpack-plugin: ^5.5.0
-    ky: ^0.32.2
+    ky: ^0.33.0
     lodash: ^4.17.21
     lodash-webpack-plugin: ^0.11.6
     mini-css-extract-plugin: ^2.7.2
