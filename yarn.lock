@@ -15603,12 +15603,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rimraf@npm:^4.0.6":
-  version: 4.0.6
-  resolution: "rimraf@npm:4.0.6"
+"rimraf@npm:^4.0.7":
+  version: 4.0.7
+  resolution: "rimraf@npm:4.0.7"
   bin:
     rimraf: dist/cjs/src/bin.js
-  checksum: 5352c855295f6b45a9ee40f72bb68dd19d974ca858defd6dc2409720391b74f0fd50b7aeb3d524ba820b1b5b3e07215d2098e838c2ed9ca00fc83a433427168f
+  checksum: 294ae526198eadac7b57e7b43782aaa0be5d5c2a606ee65c26d9cd2fdddc320d80cc43c3c1c0b9562e88aa265f67c4c00f70af2b4d065e76ce03d9d7a2a5c901
   languageName: node
   linkType: hard
 
@@ -17489,7 +17489,7 @@ __metadata:
     react-redux: ^8.0.5
     redux: ^4.2.0
     remote-redux-devtools: ^0.5.16
-    rimraf: ^4.0.6
+    rimraf: ^4.0.7
     sass: ^1.57.1
     sass-loader: ^13.2.0
     schema-utils: ^4.0.0
