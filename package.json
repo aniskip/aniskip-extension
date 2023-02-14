@@ -78,7 +78,7 @@
     "postcss-loader": "^7.0.2",
     "prettier": "^2.8.1",
     "rimraf": "^4.1.2",
-    "sass": "^1.58.0",
+    "sass": "^1.58.1",
     "sass-loader": "^13.2.0",
     "schema-utils": "^4.0.0",
     "style-loader": "^3.3.1",
