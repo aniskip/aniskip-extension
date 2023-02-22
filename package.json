@@ -45,7 +45,7 @@
     "@types/sprintf-js": "^1.1.2",
     "@types/string-similarity": "^4.0.0",
     "@types/tailwindcss": "^3.0.11",
-    "@types/uuid": "^9.0.0",
+    "@types/uuid": "^9.0.1",
     "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
