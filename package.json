@@ -52,7 +52,7 @@
     "autoprefixer": "^10.4.13",
     "babel-loader": "^9.1.2",
     "babel-plugin-lodash": "^3.3.4",
-    "chrome-webstore-upload-cli": "^2.1.0",
+    "chrome-webstore-upload-cli": "^2.2.0",
     "clean-webpack-plugin": "^4.0.0",
     "concurrently": "^7.6.0",
     "copy-webpack-plugin": "^11.0.0",
