@@ -101,7 +101,7 @@
     "glob-to-regexp": "^0.4.1",
     "ky": "^0.33.3",
     "lodash": "^4.17.21",
-    "qs": "^6.11.1",
+    "qs": "^6.11.2",
     "react": "^18.2.0",
     "react-color": "^2.19.3",
     "react-device-detect": "^2.2.3",
