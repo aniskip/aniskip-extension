@@ -17875,7 +17875,7 @@ __metadata:
     web-ext: ^7.6.2
     web-ext-submit: ^7.6.2
     webextension-polyfill-ts: ^0.26.0
-    webpack: ^5.83.0
+    webpack: ^5.83.1
     webpack-bundle-analyzer: ^4.8.0
     webpack-cli: ^5.1.1
     webpack-copy-plugin: ^0.0.4
@@ -18575,9 +18575,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.83.0":
-  version: 5.83.0
-  resolution: "webpack@npm:5.83.0"
+"webpack@npm:^5.83.1":
+  version: 5.83.1
+  resolution: "webpack@npm:5.83.1"
   dependencies:
     "@types/eslint-scope": ^3.7.3
     "@types/estree": ^1.0.0
@@ -18608,7 +18608,7 @@ __metadata:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: cc611ab2db1fa60ec3f9b1aeb62998aafb8def4d3dd9b78d1314e01483d7e2dfafa66e1ba0aabc684164837713041c68a127994ae38eda42db933796fbb43067
+  checksum: 219d5ef50380bc0fd3702ed17feddf13819d8173b78f7a5b857dc74ac177e63d1f79c050792754411cc088bbc02e0971b989efddadbb8e393cf27d64c0ad9ff8
   languageName: node
   linkType: hard
 
