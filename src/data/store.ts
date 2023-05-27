@@ -1,5 +1,5 @@
 import { configureStore as configureReduxStore } from '@reduxjs/toolkit';
-import devToolsEnhancer from 'remote-redux-devtools';
+import { devToolsEnhancer } from '@redux-devtools/remote';
 import page from './page';
 import player from './player';
 import settings from './settings';

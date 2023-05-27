@@ -14,7 +14,7 @@ export const SKIP_TYPES = [
   'recap',
 ] as const;
 
-export type SkipType = typeof SKIP_TYPES[number];
+export type SkipType = (typeof SKIP_TYPES)[number];
 
 export type SkipTime = {
   interval: {

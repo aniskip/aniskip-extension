@@ -46,7 +46,7 @@ export const KEYBIND_TYPES = [
   'seek-backward-one-frame',
 ] as const;
 
-export type KeybindType = typeof KEYBIND_TYPES[number];
+export type KeybindType = (typeof KEYBIND_TYPES)[number];
 
 export const ANIME_SEARCH_OVERLAY_KEYBIND_TYPES = [
   'open-anime-search-overlay',
