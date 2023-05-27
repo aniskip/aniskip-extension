@@ -3485,14 +3485,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reduxjs/toolkit@npm:^1.8.6":
-  version: 1.8.6
-  resolution: "@reduxjs/toolkit@npm:1.8.6"
+"@reduxjs/toolkit@npm:^1.9.5":
+  version: 1.9.5
+  resolution: "@reduxjs/toolkit@npm:1.9.5"
   dependencies:
-    immer: ^9.0.7
-    redux: ^4.1.2
-    redux-thunk: ^2.4.1
-    reselect: ^4.1.5
+    immer: ^9.0.21
+    redux: ^4.2.1
+    redux-thunk: ^2.4.2
+    reselect: ^4.1.8
   peerDependencies:
     react: ^16.9.0 || ^17.0.0 || ^18
     react-redux: ^7.2.1 || ^8.0.2
@@ -3501,7 +3501,7 @@ __metadata:
       optional: true
     react-redux:
       optional: true
-  checksum: f2a5f20f638a981eacd6becb040b923a825013064ece9b1555a658cab1e9f6c46a14d8c50aa095cda49ff0b89518b855ae88c774d95bcc9692e9297d3bc3b2d6
+  checksum: 54672c5593d05208af577e948a338f23128d3aa01ef056ab0d40bcfa14400cf6566be99e11715388f12c1d7655cdf7c5c6b63cb92eb0fecf996c454a46a3914c
   languageName: node
   linkType: hard
 
@@ -10576,6 +10576,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"immer@npm:^9.0.21":
+  version: 9.0.21
+  resolution: "immer@npm:9.0.21"
+  checksum: 70e3c274165995352f6936695f0ef4723c52c92c92dd0e9afdfe008175af39fa28e76aafb3a2ca9d57d1fb8f796efc4dd1e1cc36f18d33fa5b74f3dfb0375432
+  languageName: node
+  linkType: hard
+
 "immer@npm:^9.0.7":
   version: 9.0.7
   resolution: "immer@npm:9.0.7"
@@ -15419,6 +15426,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"redux-thunk@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "redux-thunk@npm:2.4.2"
+  peerDependencies:
+    redux: ^4
+  checksum: c7f757f6c383b8ec26152c113e20087818d18ed3edf438aaad43539e9a6b77b427ade755c9595c4a163b6ad3063adf3497e5fe6a36c68884eb1f1cfb6f049a5c
+  languageName: node
+  linkType: hard
+
 "redux@npm:^4.0.0":
   version: 4.1.1
   resolution: "redux@npm:4.1.1"
@@ -15443,6 +15459,15 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.9.2
   checksum: 75f3955c89b3f18edf5411e5fb482aa2e4f41a416183e8802a6bf6472c4fc3d47675b8b321d147f8af8e0f616436ac507bf5a25f1c4d6180e797b549c7db2c1d
+  languageName: node
+  linkType: hard
+
+"redux@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "redux@npm:4.2.1"
+  dependencies:
+    "@babel/runtime": ^7.9.2
+  checksum: f63b9060c3a1d930ae775252bb6e579b42415aee7a23c4114e21a0b4ba7ec12f0ec76936c00f546893f06e139819f0e2855e0d55ebfce34ca9c026241a6950dd
   languageName: node
   linkType: hard
 
@@ -15764,6 +15789,13 @@ __metadata:
   version: 4.1.5
   resolution: "reselect@npm:4.1.5"
   checksum: 54c13c1e795b2ea70cba8384138aebe78adda00cbea303cc94b64da0a70d74c896cc9a03115ae38b8bff990e7a60dcd6452ab68cbec01b0b38c1afda70714cf0
+  languageName: node
+  linkType: hard
+
+"reselect@npm:^4.1.8":
+  version: 4.1.8
+  resolution: "reselect@npm:4.1.8"
+  checksum: a4ac87cedab198769a29be92bc221c32da76cfdad6911eda67b4d3e7136dca86208c3b210e31632eae31ebd2cded18596f0dd230d3ccc9e978df22f233b5583e
   languageName: node
   linkType: hard
 
@@ -17872,7 +17904,7 @@ __metadata:
     "@headlessui/react": ^1.7.14
     "@mantiquillal/web-ext-plugin": ^1.5.1
     "@redux-devtools/cli": ^2.0.0
-    "@reduxjs/toolkit": ^1.8.6
+    "@reduxjs/toolkit": ^1.9.5
     "@types/chrome": ^0.0.237
     "@types/glob-to-regexp": ^0.4.1
     "@types/react": ^18.2.7
