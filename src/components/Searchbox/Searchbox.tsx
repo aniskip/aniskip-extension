@@ -30,6 +30,7 @@ export function Searchbox<
   TTag extends React.ElementType = typeof DEFAULT_SEARCHBOX_TAG,
   TValue = any
 >({
+  // @ts-ignore: This component is replaced with native combobox in a future PR
   as = DEFAULT_SEARCHBOX_TAG,
   children,
   value,
