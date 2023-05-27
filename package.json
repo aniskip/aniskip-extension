@@ -41,7 +41,6 @@
     "@types/react": "^18.2.7",
     "@types/react-color": "^3.0.6",
     "@types/react-dom": "^18.2.4",
-    "@types/remote-redux-devtools": "^0.5.5",
     "@types/sprintf-js": "^1.1.2",
     "@types/string-similarity": "^4.0.0",
     "@types/tailwindcss": "^3.0.11",
@@ -96,7 +95,8 @@
   "dependencies": {
     "@babel/runtime": "^7.22.3",
     "@headlessui/react": "^1.7.14",
-    "@reduxjs/toolkit": "^1.8.6",
+    "@redux-devtools/remote": "^0.8.0",
+    "@reduxjs/toolkit": "^1.9.5",
     "entities": "^4.5.0",
     "glob-to-regexp": "^0.4.1",
     "ky": "^0.33.3",
@@ -109,16 +109,12 @@
     "react-icons": "^4.8.0",
     "react-redux": "^8.0.5",
     "redux": "^4.2.1",
-    "remote-redux-devtools": "^0.5.16",
     "sprintf-js": "^1.1.2",
     "string-similarity": "^4.0.4",
     "tailwindcss": "^3.3.2",
     "type-fest": "^3.11.0",
     "uuid": "^9.0.0",
     "webextension-polyfill-ts": "^0.26.0"
-  },
-  "resolutions": {
-    "@types/remote-redux-devtools/redux": "^4.2.1"
   },
   "packageManager": "yarn@3.5.1"
 }
