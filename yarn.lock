@@ -6504,9 +6504,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chrome-webstore-upload-cli@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "chrome-webstore-upload-cli@npm:2.2.0"
+"chrome-webstore-upload-cli@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "chrome-webstore-upload-cli@npm:2.2.1"
   dependencies:
     chrome-webstore-upload: ^1.0.0
     junk: ^4.0.0
@@ -6516,7 +6516,7 @@ __metadata:
     yazl: ^2.5.1
   bin:
     chrome-webstore-upload: cli.js
-  checksum: 088139bc4a75e1fc3d2d45413e1107234aa710c4a0a2b37df4f988de09fae4c0e8e421ed77c1530810e1d20981b1a214e837b14f55ef956c60bd50348c8f8a8a
+  checksum: f28d38103b98259c253b9e0d7be4b4e6b892c2357c0306aaea969bb3b22cac1c8b5188d909151e3a77641d18ca415ad8f244fd4072e2894c6423b7d1df28cdf5
   languageName: node
   linkType: hard
 
@@ -17985,7 +17985,7 @@ __metadata:
     autoprefixer: ^10.4.14
     babel-loader: ^9.1.2
     babel-plugin-lodash: ^3.3.4
-    chrome-webstore-upload-cli: ^2.2.0
+    chrome-webstore-upload-cli: ^2.2.1
     clean-webpack-plugin: ^4.0.0
     concurrently: ^8.0.1
     copy-webpack-plugin: ^11.0.0
