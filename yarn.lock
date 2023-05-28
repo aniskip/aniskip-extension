@@ -7195,9 +7195,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-loader@npm:^6.8.0":
-  version: 6.8.0
-  resolution: "css-loader@npm:6.8.0"
+"css-loader@npm:^6.8.1":
+  version: 6.8.1
+  resolution: "css-loader@npm:6.8.1"
   dependencies:
     icss-utils: ^5.1.0
     postcss: ^8.4.21
@@ -7209,7 +7209,7 @@ __metadata:
     semver: ^7.3.8
   peerDependencies:
     webpack: ^5.0.0
-  checksum: cb065aff3062b2efc0e49d361f7668ccf1e80c2e42e10be256ca43a3146476a6fea4311892bbf559245eaae23303eec21eb87ee8be80fcd319890767ac97c5f6
+  checksum: 7c1784247bdbe76dc5c55fb1ac84f1d4177a74c47259942c9cfdb7a8e6baef11967a0bc85ac285f26bd26d5059decb848af8154a03fdb4f4894f41212f45eef3
   languageName: node
   linkType: hard
 
@@ -17990,7 +17990,7 @@ __metadata:
     concurrently: ^8.0.1
     copy-webpack-plugin: ^11.0.0
     cross-env: ^7.0.3
-    css-loader: ^6.8.0
+    css-loader: ^6.8.1
     css-minimizer-webpack-plugin: ^5.0.0
     entities: ^4.5.0
     eslint: ^8.41.0
