@@ -321,21 +321,23 @@ export function AnimeCorrectionOverlay(): JSX.Element {
                     ))}
                   </Combobox.Options>
                 )}
-                {query !== '' && isResultsLoaded && searchResults.length === 0 && (
-                  <div className="py-14 px-6 text-center text-sm sm:px-14">
-                    <HiOutlineExclamationCircle
-                      type="outline"
-                      name="exclamation-circle"
-                      className="mx-auto h-6 w-6 text-gray-400"
-                    />
-                    <p className="mt-4 font-semibold text-gray-900">
-                      No anime found
-                    </p>
-                    <p className="mt-2 text-gray-500">
-                      No anime found for this search term. Please try again.
-                    </p>
-                  </div>
-                )}
+                {query !== '' &&
+                  isResultsLoaded &&
+                  searchResults.length === 0 && (
+                    <div className="py-14 px-6 text-center text-sm sm:px-14">
+                      <HiOutlineExclamationCircle
+                        type="outline"
+                        name="exclamation-circle"
+                        className="mx-auto h-6 w-6 text-gray-400"
+                      />
+                      <p className="mt-4 font-semibold text-gray-900">
+                        No anime found
+                      </p>
+                      <p className="mt-2 text-gray-500">
+                        No anime found for this search term. Please try again.
+                      </p>
+                    </div>
+                  )}
               </Combobox>
             </div>
           </Transition.Child>
