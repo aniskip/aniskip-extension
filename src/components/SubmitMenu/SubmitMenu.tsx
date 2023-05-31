@@ -566,7 +566,7 @@ export function SubmitMenu(): JSX.Element {
 
   return (
     <div
-      className={`pointer-events-none w-[26em] select-none rounded-md border border-gray-300 bg-neutral-800 bg-opacity-80 px-5 pt-2 pb-4 font-sans text-sm text-white opacity-0 backdrop-blur-md transition-opacity md:text-base ${
+      className={`pointer-events-none w-[26em] select-none rounded-md border border-gray-300 bg-neutral-800 bg-opacity-80 px-5 pb-4 pt-2 font-sans text-sm text-white opacity-0 backdrop-blur-md transition-opacity md:text-base ${
         visible ? 'sm:pointer-events-auto sm:opacity-100' : ''
       }`}
       role="menu"
@@ -693,7 +693,7 @@ export function SubmitMenu(): JSX.Element {
             />
             <div className="group flex-1">
               <DefaultButton
-                className="boder-opacity-100 h-full w-full border-2 border-primary shadow-sm group-hover:border-amber-600"
+                className="h-full w-full border-2 border-primary border-opacity-100 shadow-sm group-hover:border-amber-600"
                 submit
                 disabled={isSubmitting}
               >
