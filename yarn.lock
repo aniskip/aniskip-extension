@@ -16005,7 +16005,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"schema-utils@npm:^4.0.1, schema-utils@npm:^4.1.0":
+"schema-utils@npm:^4.0.1":
   version: 4.1.0
   resolution: "schema-utils@npm:4.1.0"
   dependencies:
@@ -16014,6 +16014,18 @@ __metadata:
     ajv-formats: ^2.1.1
     ajv-keywords: ^5.1.0
   checksum: f88af7cc0739ee29501ac40e135a4ff7e667a6e7a4c3814086d24b17377bfe0c8ea260c36a89ccbeefbb30f4508d67f336fd0df1a16966e1ba00c8d58a6323b1
+  languageName: node
+  linkType: hard
+
+"schema-utils@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "schema-utils@npm:4.2.0"
+  dependencies:
+    "@types/json-schema": ^7.0.9
+    ajv: ^8.9.0
+    ajv-formats: ^2.1.1
+    ajv-keywords: ^5.1.0
+  checksum: 26a0463d47683258106e6652e9aeb0823bf0b85843039e068b57da1892f7ae6b6b1094d48e9ed5ba5cbe9f7166469d880858b9d91abe8bd249421eb813850cde
   languageName: node
   linkType: hard
 
@@ -17762,7 +17774,7 @@ __metadata:
     rimraf: ^5.0.1
     sass: ^1.63.4
     sass-loader: ^13.3.2
-    schema-utils: ^4.1.0
+    schema-utils: ^4.2.0
     sprintf-js: ^1.1.2
     string-similarity: ^4.0.4
     style-loader: ^3.3.3
