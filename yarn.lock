@@ -14884,12 +14884,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-icons@npm:^4.10.0":
-  version: 4.10.0
-  resolution: "react-icons@npm:4.10.0"
+"react-icons@npm:^4.10.1":
+  version: 4.10.1
+  resolution: "react-icons@npm:4.10.1"
   peerDependencies:
     react: "*"
-  checksum: 9168db5e2db86b7472498f1e2215f782975c3430dc0676eae504b19d6747dc8c726e113db015fed036ab6dc4838133bde65ac24c4f4df749e85fee78c3bd0085
+  checksum: b6c8d4fe482b112e1041515d93ef7670a0af128855c926052a076b64d0b991cdd4391394b26467100f8da3859db1ebd8f9c6b7614fa5969fde83de45c71031a3
   languageName: node
   linkType: hard
 
@@ -17765,7 +17765,7 @@ __metadata:
     react-color: ^2.19.3
     react-device-detect: ^2.2.3
     react-dom: ^18.2.0
-    react-icons: ^4.10.0
+    react-icons: ^4.10.1
     react-redux: ^8.1.1
     redux: ^4.2.1
     rimraf: ^5.0.1
