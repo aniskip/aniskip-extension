@@ -116,5 +116,5 @@
     "uuid": "^9.0.0",
     "webextension-polyfill-ts": "^0.26.0"
   },
-  "packageManager": "yarn@3.6.0"
+  "packageManager": "yarn@3.6.1"
 }
