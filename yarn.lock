@@ -290,9 +290,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.22.7":
-  version: 7.22.7
-  resolution: "@babel/core@npm:7.22.7"
+"@babel/core@npm:^7.22.8":
+  version: 7.22.8
+  resolution: "@babel/core@npm:7.22.8"
   dependencies:
     "@ampproject/remapping": ^2.2.0
     "@babel/code-frame": ^7.22.5
@@ -302,14 +302,14 @@ __metadata:
     "@babel/helpers": ^7.22.6
     "@babel/parser": ^7.22.7
     "@babel/template": ^7.22.5
-    "@babel/traverse": ^7.22.7
+    "@babel/traverse": ^7.22.8
     "@babel/types": ^7.22.5
     "@nicolo-ribaudo/semver-v6": ^6.3.3
     convert-source-map: ^1.7.0
     debug: ^4.1.0
     gensync: ^1.0.0-beta.2
     json5: ^2.2.2
-  checksum: 158008baafadc4c0b8eadcc3ee62a103ca52d7b84c0f8f7573a0d28d655bcafe1b04f37a020bfa2fb2c38dabb2d2a90f0ec637171a7fb54c180a857a2b9c33ab
+  checksum: 75ed701c14ad17070382ae1dd166f7534b31f2c71e00995a5f261ee2398ee96335b0736573b8ff24ab6e3e6f5814ee2a48fa11ab90fabcd3dfc70ea87c5f30a6
   languageName: node
   linkType: hard
 
@@ -2124,9 +2124,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/traverse@npm:^7.22.7":
-  version: 7.22.7
-  resolution: "@babel/traverse@npm:7.22.7"
+"@babel/traverse@npm:^7.22.8":
+  version: 7.22.8
+  resolution: "@babel/traverse@npm:7.22.8"
   dependencies:
     "@babel/code-frame": ^7.22.5
     "@babel/generator": ^7.22.7
@@ -2138,7 +2138,7 @@ __metadata:
     "@babel/types": ^7.22.5
     debug: ^4.1.0
     globals: ^11.1.0
-  checksum: 006942fece99acca13a046f3f91c055314d27831b72c5a03c685248dd94dca41ca2ef77f335cc20c0cecbdc8ff49166a451a20e4b72d0b7a1aad6c58f341f5fa
+  checksum: a381369bc3eedfd13ed5fef7b884657f1c29024ea7388198149f0edc34bd69ce3966e9f40188d15f56490a5e12ba250ccc485f2882b53d41b054fccefb233e33
   languageName: node
   linkType: hard
 
@@ -17826,7 +17826,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "typescript-aniskip-extension@workspace:."
   dependencies:
-    "@babel/core": ^7.22.7
+    "@babel/core": ^7.22.8
     "@babel/plugin-transform-runtime": ^7.22.7
     "@babel/preset-env": ^7.22.7
     "@babel/preset-react": ^7.22.5
