@@ -111,7 +111,7 @@
     "redux": "^4.2.1",
     "sprintf-js": "^1.1.2",
     "string-similarity": "^4.0.4",
-    "tailwindcss": "^3.3.2",
+    "tailwindcss": "^3.3.3",
     "type-fest": "^3.13.0",
     "uuid": "^9.0.0",
     "webextension-polyfill-ts": "^0.26.0"
