@@ -45,7 +45,7 @@
     "@types/string-similarity": "^4.0.0",
     "@types/tailwindcss": "^3.0.11",
     "@types/uuid": "^9.0.2",
-    "@types/webpack": "^5.28.1",
+    "@types/webpack": "^5.28.2",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
     "autoprefixer": "^10.4.15",
