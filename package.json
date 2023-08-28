@@ -46,7 +46,7 @@
     "@types/tailwindcss": "^3.0.11",
     "@types/uuid": "^9.0.2",
     "@types/webpack": "^5.28.2",
-    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
     "autoprefixer": "^10.4.15",
     "babel-loader": "^9.1.3",
