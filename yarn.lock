@@ -75,9 +75,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo/server@npm:^4.9.1":
-  version: 4.9.1
-  resolution: "@apollo/server@npm:4.9.1"
+"@apollo/server@npm:^4.9.3":
+  version: 4.9.3
+  resolution: "@apollo/server@npm:4.9.3"
   dependencies:
     "@apollo/cache-control-types": ^1.0.3
     "@apollo/server-gateway-interface": ^1.1.1
@@ -107,7 +107,7 @@ __metadata:
     whatwg-mimetype: ^3.0.0
   peerDependencies:
     graphql: ^16.6.0
-  checksum: d5299acfc8f0519adb5aed59e067880bdfd2528353711be07c935d0038ef95e06eecfc58af473011d215c92659f1858ae06c26fe9f70f865383d8e5457e17be5
+  checksum: 28537d7646669a5dc1302cfd75d8a9bf473459ee585c6b778d174628a2cfb3f89a5ac742eca7de2a779b6c9e3f30da509a8787a71227520d009ac190aa7a9207
   languageName: node
   linkType: hard
 
@@ -2261,7 +2261,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.22.15":
+"@babel/runtime@npm:^7.22.11, @babel/runtime@npm:^7.22.15":
   version: 7.22.15
   resolution: "@babel/runtime@npm:7.22.15"
   dependencies:
@@ -3467,11 +3467,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redux-devtools/app@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@redux-devtools/app@npm:3.0.0"
+"@redux-devtools/app@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@redux-devtools/app@npm:4.0.0"
   dependencies:
-    "@babel/runtime": ^7.22.10
+    "@babel/runtime": ^7.22.11
     "@redux-devtools/chart-monitor": ^4.0.0
     "@redux-devtools/core": ^3.13.0
     "@redux-devtools/inspector-monitor": ^4.0.0
@@ -3502,7 +3502,7 @@ __metadata:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     styled-components: ^5.3.11
-  checksum: 70693aa96c6d3fb1bf48e42f7e375199dffdcc27892ce7572dca6311de5617343002be822608357013a1fb355743608e1614a97e6d4e2a6b2dab19f308d1f023
+  checksum: 0fa69accf9e9d54dd6d91e9bd6c28a0c25d6ea1af1abc03f61ecf6d3061992cd9b12828d7c594439b0bda7017a4669e83c0f2a15cfd9bb50095dd6925672abd0
   languageName: node
   linkType: hard
 
@@ -3524,18 +3524,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redux-devtools/cli@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "@redux-devtools/cli@npm:3.0.1"
+"@redux-devtools/cli@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@redux-devtools/cli@npm:3.0.2"
   dependencies:
-    "@apollo/server": ^4.9.1
-    "@redux-devtools/app": ^3.0.0
-    "@types/react": ^18.2.20
+    "@apollo/server": ^4.9.3
+    "@redux-devtools/app": ^4.0.0
+    "@types/react": ^18.2.21
     body-parser: ^1.20.2
     chalk: ^5.3.0
     cors: ^2.8.5
     cross-spawn: ^7.0.3
-    electron: ^25.6.0
+    electron: ^26.1.0
     express: ^4.18.2
     get-port: ^7.0.0
     graphql: ^16.8.0
@@ -3554,7 +3554,7 @@ __metadata:
     uuid: ^9.0.0
   bin:
     redux-devtools: bin/redux-devtools.js
-  checksum: 27192ae86b7e3e59c337b9d7d20e849da0922723d2eb4ea85cb92e66383c4719cc560f38ecf43f62027f9050d20f0ae4cbe50e07bed42e39a261ddacb2c2c7d9
+  checksum: c641fb56cf372783b03903f7e6192a25f711c43b85c11141378f87d5d21c1da19cdfbf16f011b4acaec4c94ca2352f8fa6b5e9698c582f4d1094cba80e82fd0f
   languageName: node
   linkType: hard
 
@@ -4699,7 +4699,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.2.20":
+"@types/react@npm:^18.2.21":
   version: 18.2.21
   resolution: "@types/react@npm:18.2.21"
   dependencies:
@@ -9205,16 +9205,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:^25.6.0":
-  version: 25.7.0
-  resolution: "electron@npm:25.7.0"
+"electron@npm:^26.1.0":
+  version: 26.2.1
+  resolution: "electron@npm:26.2.1"
   dependencies:
     "@electron/get": ^2.0.0
     "@types/node": ^18.11.18
     extract-zip: ^2.0.1
   bin:
     electron: cli.js
-  checksum: d3f5ff47357ecf9d6b6909d4a751b72df6fb09e2ea00cb621b6348ed3c6acb97e06ce886a0b6743f82565cda0f9a3ef6d4cbde825c01482e977823dab092a4bb
+  checksum: 1790c8f96e08437c563e60f469553f9cdce514418f3df74a5a31c9839d74540d0ee91a9af0a5a25f125459bce5308a166bfcb4c496459ae21c8b9bd4e427b58c
   languageName: node
   linkType: hard
 
@@ -19797,7 +19797,7 @@ __metadata:
     "@babel/runtime": ^7.22.15
     "@headlessui/react": ^1.7.17
     "@mantiquillal/web-ext-plugin": ^1.5.1
-    "@redux-devtools/cli": ^3.0.1
+    "@redux-devtools/cli": ^3.0.2
     "@redux-devtools/remote": ^0.8.0
     "@reduxjs/toolkit": ^1.9.5
     "@types/chrome": ^0.0.246
