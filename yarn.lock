@@ -3690,20 +3690,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redux-devtools/remote@npm:^0.8.0":
-  version: 0.8.0
-  resolution: "@redux-devtools/remote@npm:0.8.0"
+"@redux-devtools/remote@npm:^0.8.1":
+  version: 0.8.1
+  resolution: "@redux-devtools/remote@npm:0.8.1"
   dependencies:
-    "@babel/runtime": ^7.20.7
+    "@babel/runtime": ^7.22.11
     "@redux-devtools/instrument": ^2.1.0
     "@redux-devtools/utils": ^2.0.0
     jsan: ^3.1.14
     querystring: ^0.2.1
     rn-host-detect: ^1.2.0
-    socketcluster-client: ^17.1.0
+    socketcluster-client: ^17.2.2
   peerDependencies:
     redux: ^3.5.2 || ^4.0.0
-  checksum: 53000fb715bad12a70a24295f9b0cd27fe99b3ad5237dd359e3a1cb791ad64a9274e96f5c0a38c206762ecf6c80de1ac207ce40dbe36faddd65a8088f0502fa9
+  checksum: 5b07241992b2bd1eac6eb54ad404dc8e6cccedb8ae39bfd1737f19d1cd57b3e1ca7f125a12ad27e5c56acd33fc42dbb8d712132c32264e0f827ad2701334e396
   languageName: node
   linkType: hard
 
@@ -17898,13 +17898,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sc-formatter@npm:^3.0.2":
-  version: 3.0.3
-  resolution: "sc-formatter@npm:3.0.3"
-  checksum: 8bc5974dd837ffa8b835b78a117468ad9c72e00a088ecda93e8c4bca8bbadc83772df89282fd3ecac9f54cda6bbe3c0b31f46014c13558682661d2be596d3957
-  languageName: node
-  linkType: hard
-
 "sc-formatter@npm:^4.0.0":
   version: 4.0.0
   resolution: "sc-formatter@npm:4.0.0"
@@ -18375,26 +18368,6 @@ __metadata:
   version: 4.2.0
   resolution: "smart-buffer@npm:4.2.0"
   checksum: b5167a7142c1da704c0e3af85c402002b597081dd9575031a90b4f229ca5678e9a36e8a374f1814c8156a725d17008ae3bde63b92f9cfd132526379e580bec8b
-  languageName: node
-  linkType: hard
-
-"socketcluster-client@npm:^17.1.0":
-  version: 17.1.1
-  resolution: "socketcluster-client@npm:17.1.1"
-  dependencies:
-    ag-channel: ^5.0.0
-    ag-request: ^1.0.0
-    async-stream-emitter: ^4.0.0
-    buffer: ^5.2.1
-    clone-deep: ^4.0.1
-    linked-list: ^0.1.0
-    sc-errors: ^2.0.1
-    sc-formatter: ^3.0.2
-    stream-demux: ^8.0.0
-    uuid: ^8.3.2
-    vinyl-buffer: ^1.0.1
-    ws: ^8.9.0
-  checksum: e5be97e4f78d01202de605995dc9057ae48d3b836844ee946bf6ec8b188469542fc1532ba6df0327fbea8686a27050f77879b48661631ac7da887a967f729d0f
   languageName: node
   linkType: hard
 
@@ -19798,7 +19771,7 @@ __metadata:
     "@headlessui/react": ^1.7.17
     "@mantiquillal/web-ext-plugin": ^1.5.1
     "@redux-devtools/cli": ^3.0.2
-    "@redux-devtools/remote": ^0.8.0
+    "@redux-devtools/remote": ^0.8.1
     "@reduxjs/toolkit": ^1.9.5
     "@types/chrome": ^0.0.246
     "@types/glob-to-regexp": ^0.4.1
