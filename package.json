@@ -96,7 +96,7 @@
     "@babel/runtime": "^7.22.15",
     "@headlessui/react": "^1.7.17",
     "@redux-devtools/remote": "^0.8.1",
-    "@reduxjs/toolkit": "^1.9.5",
+    "@reduxjs/toolkit": "^1.9.6",
     "entities": "^4.5.0",
     "glob-to-regexp": "^0.4.1",
     "ky": "^0.33.3",
