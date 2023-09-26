@@ -19434,10 +19434,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^4.3.1":
-  version: 4.3.1
-  resolution: "type-fest@npm:4.3.1"
-  checksum: 04e0f073dcc31c113c1b8856c089b388e7e9f4383a9ed72cc1466a89ec50d9d67678844eeec342b5a1ce71b21e817764d4f067aa148f6bcb5df9005ff3803382
+"type-fest@npm:^4.3.2":
+  version: 4.3.2
+  resolution: "type-fest@npm:4.3.2"
+  checksum: 8ba1b3d43e24888052d8c8859ae9b53124f8200c05808ec9247917ac3441612a7b36bf148a5b14150ef73ce7bad3cdca65ae923d37d2ae466c2b814d369fb975
   languageName: node
   linkType: hard
 
@@ -19590,7 +19590,7 @@ __metadata:
     style-loader: ^3.3.3
     tailwindcss: ^3.3.3
     to-string-loader: ^1.2.0
-    type-fest: ^4.3.1
+    type-fest: ^4.3.2
     typescript: ^5.2.2
     uuid: ^9.0.1
     wait-on: ^7.0.1
