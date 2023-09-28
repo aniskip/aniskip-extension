@@ -19594,7 +19594,7 @@ __metadata:
     typescript: ^5.2.2
     uuid: ^9.0.1
     wait-on: ^7.0.1
-    web-ext: ^7.7.0
+    web-ext: ^7.8.0
     web-ext-submit: ^7.7.0
     webextension-polyfill-ts: ^0.26.0
     webpack: ^5.88.2
@@ -20180,6 +20180,48 @@ __metadata:
   bin:
     web-ext: bin/web-ext.js
   checksum: 523af2769bd69ec4771fb51637bbca29093ff6be7564570179c36ea51c9b7a7456a7c1be87ef8ce1edd6f01f1595cfec5ab301870bd3bf5cc6bab0126e95e7ef
+  languageName: node
+  linkType: hard
+
+"web-ext@npm:^7.8.0":
+  version: 7.8.0
+  resolution: "web-ext@npm:7.8.0"
+  dependencies:
+    "@babel/runtime": 7.21.0
+    "@devicefarmer/adbkit": 3.2.3
+    addons-linter: 6.13.0
+    bunyan: 1.8.15
+    camelcase: 7.0.1
+    chrome-launcher: 0.15.1
+    debounce: 1.2.1
+    decamelize: 6.0.0
+    es6-error: 4.1.1
+    firefox-profile: 4.3.2
+    fs-extra: 11.1.0
+    fx-runner: 1.3.0
+    import-fresh: 3.3.0
+    jose: 4.13.1
+    mkdirp: 1.0.4
+    multimatch: 6.0.0
+    mz: 2.7.0
+    node-fetch: 3.3.1
+    node-notifier: 10.0.1
+    open: 8.4.2
+    parse-json: 6.0.2
+    promise-toolbox: 0.21.0
+    sign-addon: 5.3.0
+    source-map-support: 0.5.21
+    strip-bom: 5.0.0
+    strip-json-comments: 5.0.0
+    tmp: 0.2.1
+    update-notifier: 6.0.2
+    watchpack: 2.4.0
+    ws: 8.13.0
+    yargs: 17.7.1
+    zip-dir: 2.0.0
+  bin:
+    web-ext: bin/web-ext.js
+  checksum: 721cb15859e84f7e67dc1eaed4e77b8d87f11c8d5ff41d8382684eff2599897f0b7a07610e64fd546c853fb7d43ed21a25e45fc8ff04395c080cce82e1d7578e
   languageName: node
   linkType: hard
 
