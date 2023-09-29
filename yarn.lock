@@ -19595,7 +19595,7 @@ __metadata:
     uuid: ^9.0.1
     wait-on: ^7.0.1
     web-ext: ^7.8.0
-    web-ext-submit: ^7.7.0
+    web-ext-submit: ^7.8.0
     webextension-polyfill-ts: ^0.26.0
     webpack: ^5.88.2
     webpack-bundle-analyzer: ^4.9.1
@@ -20090,14 +20090,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-ext-submit@npm:^7.7.0":
-  version: 7.7.0
-  resolution: "web-ext-submit@npm:7.7.0"
+"web-ext-submit@npm:^7.8.0":
+  version: 7.8.0
+  resolution: "web-ext-submit@npm:7.8.0"
   dependencies:
-    web-ext: ^7.7.0
+    web-ext: ^7.8.0
   bin:
     web-ext-submit: extender.sh
-  checksum: 3113c008192d63eb577556d78c1c9ed5258b1c192a1062aba569eeb53b21604e17c72a341bc9acf1ddbaad8269b392cf34933e6ab6225589dd95e12db385a69f
+  checksum: 5958d71d5434f7c214c06d741ed5383c882296fd67e05da143927b86d0aadc59b12e8e05708b60b205752d9dcf37f526d32f518f89eefe58bc9f6272adcb8b64
   languageName: node
   linkType: hard
 
@@ -20138,48 +20138,6 @@ __metadata:
   bin:
     web-ext: bin/web-ext
   checksum: b0a3382a60520da2e9d2dc875865d792d5416bb76b4bc32d6358d453242cdf8f8ffa07bba0cf8f28ae6293b7aafe3ce6e298092555c71239741a83945ec088e5
-  languageName: node
-  linkType: hard
-
-"web-ext@npm:^7.7.0":
-  version: 7.7.0
-  resolution: "web-ext@npm:7.7.0"
-  dependencies:
-    "@babel/runtime": 7.21.0
-    "@devicefarmer/adbkit": 3.2.3
-    addons-linter: 6.13.0
-    bunyan: 1.8.15
-    camelcase: 7.0.1
-    chrome-launcher: 0.15.1
-    debounce: 1.2.1
-    decamelize: 6.0.0
-    es6-error: 4.1.1
-    firefox-profile: 4.3.2
-    fs-extra: 11.1.0
-    fx-runner: 1.3.0
-    import-fresh: 3.3.0
-    jose: 4.13.1
-    mkdirp: 1.0.4
-    multimatch: 6.0.0
-    mz: 2.7.0
-    node-fetch: 3.3.1
-    node-notifier: 10.0.1
-    open: 8.4.2
-    parse-json: 6.0.2
-    promise-toolbox: 0.21.0
-    sign-addon: 5.3.0
-    source-map-support: 0.5.21
-    strip-bom: 5.0.0
-    strip-json-comments: 5.0.0
-    tmp: 0.2.1
-    update-notifier: 6.0.2
-    watchpack: 2.4.0
-    ws: 8.13.0
-    yargs: 17.7.1
-    zip-dir: 2.0.0
-  bin:
-    web-ext: bin/web-ext.js
-  checksum: 523af2769bd69ec4771fb51637bbca29093ff6be7564570179c36ea51c9b7a7456a7c1be87ef8ce1edd6f01f1595cfec5ab301870bd3bf5cc6bab0126e95e7ef
   languageName: node
   linkType: hard
 
