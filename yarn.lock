@@ -4356,10 +4356,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/glob-to-regexp@npm:^0.4.2":
-  version: 0.4.2
-  resolution: "@types/glob-to-regexp@npm:0.4.2"
-  checksum: b991e9cf21ede5f7120a97cf09ede1a7836615131e465af7c3c548a46d9e922ab5d7a4a60a8b1443d5413872a51daeb8b3fc968ca238bcc0044f8ab31f63bd41
+"@types/glob-to-regexp@npm:^0.4.3":
+  version: 0.4.3
+  resolution: "@types/glob-to-regexp@npm:0.4.3"
+  checksum: 100660181e95bb48632d8a8acb3b2359a0c183e817da546b3dadfa1b3409b08cb4028594d7f8f45c5ae07b93165e9c10c59cf4dd976f4703970561e4cc105343
   languageName: node
   linkType: hard
 
@@ -19567,7 +19567,7 @@ __metadata:
     "@redux-devtools/remote": ^0.8.1
     "@reduxjs/toolkit": ^1.9.7
     "@types/chrome": ^0.0.248
-    "@types/glob-to-regexp": ^0.4.2
+    "@types/glob-to-regexp": ^0.4.3
     "@types/react": ^18.2.17
     "@types/react-color": ^3.0.7
     "@types/react-dom": ^18.2.7
