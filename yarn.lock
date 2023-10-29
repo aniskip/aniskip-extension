@@ -10730,9 +10730,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fork-ts-checker-webpack-plugin@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "fork-ts-checker-webpack-plugin@npm:9.0.0"
+"fork-ts-checker-webpack-plugin@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "fork-ts-checker-webpack-plugin@npm:9.0.1"
   dependencies:
     "@babel/code-frame": ^7.16.7
     chalk: ^4.1.2
@@ -10749,7 +10749,7 @@ __metadata:
   peerDependencies:
     typescript: ">3.6.0"
     webpack: ^5.11.0
-  checksum: 268494ac57dfd766f775397f53fb63966331218933d899a23a135755d35ea21cc526ae70284cdac1602d587ffb2168bccc9adf06e7c905a5320d421bd6b1c477
+  checksum: 22d49c99921f1a893c658fc615004c3848beea7a2c7e2dd426ffac9a4378e532cc8c2b1da96617cadd4245ddf00f505c425be5060c3a99b65eca7099297e349a
   languageName: node
   linkType: hard
 
@@ -19852,7 +19852,7 @@ __metadata:
     eslint-plugin-prettier: ^4.2.1
     eslint-plugin-react: ^7.33.2
     eslint-plugin-react-hooks: ^4.6.0
-    fork-ts-checker-webpack-plugin: ^9.0.0
+    fork-ts-checker-webpack-plugin: ^9.0.1
     glob-to-regexp: ^0.4.1
     html-webpack-plugin: ^5.5.3
     ky: ^0.33.3
