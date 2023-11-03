@@ -83,7 +83,7 @@
     "style-loader": "^3.3.3",
     "to-string-loader": "^1.2.0",
     "typescript": "^5.2.2",
-    "wait-on": "^7.0.1",
+    "wait-on": "^7.1.0",
     "web-ext": "^7.8.0",
     "web-ext-submit": "^7.8.0",
     "webpack": "^5.89.0",

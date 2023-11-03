@@ -3832,10 +3832,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sideway/formula@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@sideway/formula@npm:3.0.0"
-  checksum: 8ae26a0ed6bc84f7310be6aae6eb9d81e97f382619fc69025d346871a707eaab0fa38b8c857e3f0c35a19923de129f42d35c50b8010c928d64aab41578580ec4
+"@sideway/formula@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@sideway/formula@npm:3.0.1"
+  checksum: e4beeebc9dbe2ff4ef0def15cec0165e00d1612e3d7cea0bc9ce5175c3263fc2c818b679bd558957f49400ee7be9d4e5ac90487e1625b4932e15c4aa7919c57a
   languageName: node
   linkType: hard
 
@@ -12994,16 +12994,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"joi@npm:^17.7.0":
-  version: 17.7.0
-  resolution: "joi@npm:17.7.0"
+"joi@npm:^17.11.0":
+  version: 17.11.0
+  resolution: "joi@npm:17.11.0"
   dependencies:
     "@hapi/hoek": ^9.0.0
     "@hapi/topo": ^5.0.0
     "@sideway/address": ^4.1.3
-    "@sideway/formula": ^3.0.0
+    "@sideway/formula": ^3.0.1
     "@sideway/pinpoint": ^2.0.0
-  checksum: 767a847936cb66787256c4351ff86e1b9e8d7383cbe81a5c827064032c2a8e8b6e938baef5ad32c4035fe4c56e537bd90aa2a952be8a0658601c920cdeb4fb3c
+  checksum: 3a4e9ecba345cdafe585e7ed8270a44b39718e11dff3749aa27e0001a63d578b75100c062be28e6f48f960b594864034e7a13833f33fbd7ad56d5ce6b617f9bf
   languageName: node
   linkType: hard
 
@@ -14430,13 +14430,6 @@ __metadata:
   version: 1.2.6
   resolution: "minimist@npm:1.2.6"
   checksum: d15428cd1e11eb14e1233bcfb88ae07ed7a147de251441d61158619dfb32c4d7e9061d09cab4825fdee18ecd6fce323228c8c47b5ba7cd20af378ca4048fb3fb
-  languageName: node
-  linkType: hard
-
-"minimist@npm:^1.2.7":
-  version: 1.2.7
-  resolution: "minimist@npm:1.2.7"
-  checksum: 7346574a1038ca23c32e02252f603801f09384dd1d78b69a943a4e8c2c28730b80e96193882d3d3b22a063445f460e48316b29b8a25addca2d7e5e8f75478bec
   languageName: node
   linkType: hard
 
@@ -17736,15 +17729,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.8.0":
-  version: 7.8.0
-  resolution: "rxjs@npm:7.8.0"
-  dependencies:
-    tslib: ^2.1.0
-  checksum: 61b4d4fd323c1043d8d6ceb91f24183b28bcf5def4f01ca111511d5c6b66755bc5578587fe714ef5d67cf4c9f2e26f4490d4e1d8cabf9bd5967687835e9866a2
-  languageName: node
-  linkType: hard
-
 "rxjs@npm:^7.8.1":
   version: 7.8.1
   resolution: "rxjs@npm:7.8.1"
@@ -19870,7 +19854,7 @@ __metadata:
     type-fest: ^4.6.0
     typescript: ^5.2.2
     uuid: ^9.0.1
-    wait-on: ^7.0.1
+    wait-on: ^7.1.0
     web-ext: ^7.8.0
     web-ext-submit: ^7.8.0
     webextension-polyfill-ts: ^0.26.0
@@ -20337,18 +20321,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wait-on@npm:^7.0.1":
-  version: 7.0.1
-  resolution: "wait-on@npm:7.0.1"
+"wait-on@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "wait-on@npm:7.1.0"
   dependencies:
     axios: ^0.27.2
-    joi: ^17.7.0
+    joi: ^17.11.0
     lodash: ^4.17.21
-    minimist: ^1.2.7
-    rxjs: ^7.8.0
+    minimist: ^1.2.8
+    rxjs: ^7.8.1
   bin:
     wait-on: bin/wait-on
-  checksum: 1e8a17d8ee6436f71d3ab82781ce31267481fcd7bbccde49b0f8124871e6e40a1acac3401f04f775ba6203853a5813352fa131620fc139914351f3b2894d573f
+  checksum: f956c79f5c44788f406223dbd8a1a210500aa3d645032a5bedd4db404131c7d5da31cede08950fefefdd9b91479a474b964396fa2890cb4109082d44560a7448
   languageName: node
   linkType: hard
 
