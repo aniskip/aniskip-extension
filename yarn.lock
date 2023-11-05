@@ -3517,7 +3517,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redux-devtools/core@npm:^3.13.0, @redux-devtools/core@npm:^3.13.1":
+"@redux-devtools/core@npm:^3.13.0":
   version: 3.13.1
   resolution: "@redux-devtools/core@npm:3.13.1"
   dependencies:
@@ -3531,6 +3531,23 @@ __metadata:
     react-redux: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
     redux: ^3.5.2 || ^4.0.0
   checksum: 722e8b0769c29c0057cadf49445459b7059c6025084a5dad49fa2a0fb8987e6285fce4763488c372a21ab3ad6f75434686a3d03a60ead61fff6f1e2fca62497a
+  languageName: node
+  linkType: hard
+
+"@redux-devtools/core@npm:^3.13.3":
+  version: 3.13.3
+  resolution: "@redux-devtools/core@npm:3.13.3"
+  dependencies:
+    "@babel/runtime": ^7.23.2
+    "@redux-devtools/instrument": ^2.1.1
+    "@types/prop-types": ^15.7.9
+    lodash: ^4.17.21
+    prop-types: ^15.8.1
+  peerDependencies:
+    react: ^0.14.9 || ^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-redux: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
+    redux: ^3.5.2 || ^4.0.0
+  checksum: 7042a70c6910e6190dafdf1d45051b2cffbce1bebfc7135893c394eeac8c5c0cffb3933f6a0d14f367f8317c9e28d363d1d59509bea7c14b5e63ae002d4beb6c
   languageName: node
   linkType: hard
 
@@ -3628,6 +3645,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@redux-devtools/instrument@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@redux-devtools/instrument@npm:2.1.1"
+  dependencies:
+    "@babel/runtime": ^7.23.2
+    lodash: ^4.17.21
+  peerDependencies:
+    redux: ^3.4.0 || ^4.0.0
+  checksum: 00ebbd73805937d64e5b5665e50a1ac1e5a0fffc24588e4c8fd28204fa2c634ee8449822be3fa45a61f813f1a201f7896f35a80a5fe54afec51140e6c940419b
+  languageName: node
+  linkType: hard
+
 "@redux-devtools/log-monitor@npm:^4.0.2":
   version: 4.0.2
   resolution: "@redux-devtools/log-monitor@npm:4.0.2"
@@ -3649,20 +3678,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redux-devtools/remote@npm:^0.8.1":
-  version: 0.8.1
-  resolution: "@redux-devtools/remote@npm:0.8.1"
+"@redux-devtools/remote@npm:^0.8.2":
+  version: 0.8.2
+  resolution: "@redux-devtools/remote@npm:0.8.2"
   dependencies:
-    "@babel/runtime": ^7.22.11
-    "@redux-devtools/instrument": ^2.1.0
-    "@redux-devtools/utils": ^2.0.0
+    "@babel/runtime": ^7.23.2
+    "@redux-devtools/instrument": ^2.1.1
+    "@redux-devtools/utils": ^2.0.2
     jsan: ^3.1.14
     querystring: ^0.2.1
     rn-host-detect: ^1.2.0
     socketcluster-client: ^17.2.2
   peerDependencies:
     redux: ^3.5.2 || ^4.0.0
-  checksum: 5b07241992b2bd1eac6eb54ad404dc8e6cccedb8ae39bfd1737f19d1cd57b3e1ca7f125a12ad27e5c56acd33fc42dbb8d712132c32264e0f827ad2701334e396
+  checksum: aa30088f9c1a7c2d53c1c4ca6902d5f3918fa01f67244ecff7bcc338bbdd6290eea82b564ce06b177d6917063a9955c59d734ea9a4e1d55fbb50d06c068d4def
   languageName: node
   linkType: hard
 
@@ -3758,25 +3787,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redux-devtools/utils@npm:^2.0.0":
-  version: 2.0.1
-  resolution: "@redux-devtools/utils@npm:2.0.1"
+"@redux-devtools/utils@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@redux-devtools/utils@npm:2.0.2"
   dependencies:
-    "@babel/runtime": ^7.18.3
-    "@redux-devtools/core": ^3.13.1
+    "@babel/runtime": ^7.23.2
+    "@redux-devtools/core": ^3.13.3
     "@redux-devtools/serialize": ^0.4.1
-    "@types/get-params": ^0.1.0
+    "@types/get-params": ^0.1.1
     get-params: ^0.1.2
-    immutable: ^4.1.0
+    immutable: ^4.3.4
     jsan: ^3.1.14
     lodash: ^4.17.21
-    nanoid: ^3.3.4
-    redux: ^4.2.0
+    nanoid: ^4.0.2
+    redux: ^4.2.1
   peerDependencies:
-    "@redux-devtools/core": ^3.13.1
-    immutable: ^4.1.0
-    redux: ^4.2.0
-  checksum: e8d2df87408ce781807e30a8074f788d650847e8c015a50e869dc8982a8ee32bb261996bdb5d741df04a100b0a40ed958fef33e1e6ba1433449e78d2354b8a99
+    "@redux-devtools/core": ^3.13.3
+    immutable: ^4.3.4
+    redux: ^4.2.1
+  checksum: 80caa9b140e7e6bc8baaa8cc6c671d38863eed8c1a8d66b39f91c3cf4f42dc605423fa89b48b8934b4d3e637111fb939cdfd3f65d3344ba3c46264c704620509
   languageName: node
   linkType: hard
 
@@ -4373,10 +4402,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/get-params@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "@types/get-params@npm:0.1.0"
-  checksum: be378a08606c975c05faa1a64e73bfec3e98a924bda282109e4a6fe222cffab087ee47277aadf3dbe77e999b4bb5153553e073f008d6b9518862dc924c85ccff
+"@types/get-params@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "@types/get-params@npm:0.1.1"
+  checksum: 434f7d191352e4fe1fe264c6f374a06a6289fb243e1e2e187dcd201c907f66692d98622acdbc9d7b8c69cf94907621ad0d258a4aa4f65a995f9473b49cc8a0b9
   languageName: node
   linkType: hard
 
@@ -4611,6 +4640,13 @@ __metadata:
   version: 15.7.5
   resolution: "@types/prop-types@npm:15.7.5"
   checksum: 5b43b8b15415e1f298243165f1d44390403bb2bd42e662bca3b5b5633fdd39c938e91b7fce3a9483699db0f7a715d08cef220c121f723a634972fdf596aec980
+  languageName: node
+  linkType: hard
+
+"@types/prop-types@npm:^15.7.9":
+  version: 15.7.9
+  resolution: "@types/prop-types@npm:15.7.9"
+  checksum: c7591d3ff7593e243908a07e1d3e2bb6e8879008af5800d8378115a90d0fdf669a1cae72a6d7f69e59c4fa7bb4c8ed61f6ebc1c520fe110c6f2b03ac02414072
   languageName: node
   linkType: hard
 
@@ -12045,6 +12081,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"immutable@npm:^4.3.4":
+  version: 4.3.4
+  resolution: "immutable@npm:4.3.4"
+  checksum: de3edd964c394bab83432429d3fb0b4816b42f56050f2ca913ba520bd3068ec3e504230d0800332d3abc478616e8f55d3787424a90d0952e6aba864524f1afc3
+  languageName: node
+  linkType: hard
+
 "import-fresh@npm:3.3.0, import-fresh@npm:^3.0.0, import-fresh@npm:^3.2.1":
   version: 3.3.0
   resolution: "import-fresh@npm:3.3.0"
@@ -14703,6 +14746,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nanoid@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "nanoid@npm:4.0.2"
+  bin:
+    nanoid: bin/nanoid.js
+  checksum: 747c399cea4664dd0be1d0ec498ffd1ef8f1f5221676fc8b577e3f46f66d9afcddb9595d63d19a2e78d0bc6cc33984f65e66bf1682c850b9e26288883d96b53f
+  languageName: node
+  linkType: hard
+
 "natural-compare@npm:^1.4.0":
   version: 1.4.0
   resolution: "natural-compare@npm:1.4.0"
@@ -17163,7 +17215,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:^4.2.0, redux@npm:^4.2.1":
+"redux@npm:^4.2.1":
   version: 4.2.1
   resolution: "redux@npm:4.2.1"
   dependencies:
@@ -19805,7 +19857,7 @@ __metadata:
     "@headlessui/react": ^1.7.17
     "@mantiquillal/web-ext-plugin": ^1.5.1
     "@redux-devtools/cli": ^3.0.2
-    "@redux-devtools/remote": ^0.8.1
+    "@redux-devtools/remote": ^0.8.2
     "@reduxjs/toolkit": ^1.9.7
     "@types/chrome": ^0.0.248
     "@types/glob-to-regexp": ^0.4.3
