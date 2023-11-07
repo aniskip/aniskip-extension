@@ -4783,10 +4783,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sprintf-js@npm:^1.1.3":
-  version: 1.1.3
-  resolution: "@types/sprintf-js@npm:1.1.3"
-  checksum: 9469820f6472f09fde25b6abd19cd1eb4cf3b813ef6b1a21aca68eb301765b582df39340dfe45cc5ed52e947ea256c82890a52c6a398e0a7feb22f0bf6e0963b
+"@types/sprintf-js@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "@types/sprintf-js@npm:1.1.4"
+  checksum: ce20dc3e3c570828d9dc31ace655ed842d6aaa68df23d04e9110a48c10d452379f954db02f12404216c3af9947b052fd1af522833305e6b2d94efdf15174279e
   languageName: node
   linkType: hard
 
@@ -19864,7 +19864,7 @@ __metadata:
     "@types/react": ^18.2.17
     "@types/react-color": ^3.0.9
     "@types/react-dom": ^18.2.7
-    "@types/sprintf-js": ^1.1.3
+    "@types/sprintf-js": ^1.1.4
     "@types/string-similarity": ^4.0.1
     "@types/tailwindcss": ^3.0.11
     "@types/uuid": ^9.0.6
