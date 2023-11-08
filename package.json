@@ -42,7 +42,7 @@
     "@types/react-color": "^3.0.10",
     "@types/react-dom": "^18.2.7",
     "@types/sprintf-js": "^1.1.4",
-    "@types/string-similarity": "^4.0.1",
+    "@types/string-similarity": "^4.0.2",
     "@types/tailwindcss": "^3.0.11",
     "@types/uuid": "^9.0.6",
     "@types/webpack": "^5.28.4",
