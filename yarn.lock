@@ -4790,10 +4790,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/string-similarity@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@types/string-similarity@npm:4.0.1"
-  checksum: b7e99f2fc191fe79e60fbafc8caf9648b60f3efcebc694ec1e88b690e9fa9faef2b691cf915dc182dc9de17d5f9ba0daa73139889a0ea568ceb5a30f9932ddcc
+"@types/string-similarity@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@types/string-similarity@npm:4.0.2"
+  checksum: f23b4d176de52ba46b47b85c8895b2dc6e09dedf89efcc231cd03736daf0412fdf080bd7ba515a118a8ac0edff499963c3b5cad9dddbff91237f6f6b171c954c
   languageName: node
   linkType: hard
 
@@ -19865,7 +19865,7 @@ __metadata:
     "@types/react-color": ^3.0.10
     "@types/react-dom": ^18.2.7
     "@types/sprintf-js": ^1.1.4
-    "@types/string-similarity": ^4.0.1
+    "@types/string-similarity": ^4.0.2
     "@types/tailwindcss": ^3.0.11
     "@types/uuid": ^9.0.6
     "@types/webpack": ^5.28.4
