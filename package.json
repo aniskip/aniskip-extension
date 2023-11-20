@@ -82,7 +82,7 @@
     "schema-utils": "^4.2.0",
     "style-loader": "^3.3.3",
     "to-string-loader": "^1.2.0",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.2",
     "wait-on": "^7.2.0",
     "web-ext": "^7.8.0",
     "web-ext-submit": "^7.8.0",
