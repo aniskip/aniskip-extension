@@ -1,6 +1,6 @@
 name: Issue report
 description: Report about an issue with this project
-labels: ["bug"]
+type: "bug"
 
 body:
   - type: textarea
