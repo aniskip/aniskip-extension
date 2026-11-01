@@ -12,6 +12,8 @@ on:
   pull_request:
     branches:
       - main
+  # The CI checks are required, so they must also run in the merge queue.
+  merge_group:
 
   # add manual trigger
   workflow_dispatch:
