@@ -1,0 +1,38 @@
+name: PR title
+
+# PRs are squash merged with the PR title as the commit title, so PR titles
+# must be Conventional Commits.
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+  # The check is required, so it must report in the merge queue too. There's
+  # no PR title there (it was checked on the PR), so the job is skipped,
+  # which counts as passing.
+  merge_group:
+
+permissions:
+  pull-requests: read
+
+jobs:
+  conventional-title:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: amannn/action-semantic-pull-request@v6.1.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            perf
+            refactor
+            build
+            revert
+            ci
+            chore
+            docs
+            test
+            style
